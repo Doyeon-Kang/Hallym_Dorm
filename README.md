@@ -33,11 +33,13 @@
 
 **[개발 플랫폼]**
 - 프론트엔드(front-end)
-  - Vue.js (3버전)
+  - Vue.js-3.v
 - 백엔드(back-end)
-  - Spring Boot (2.7.3) 
+  - Spring Boot-2.7.3 
     - jdk-17.0.2
 - DBMS
-  - MySQL 
+  - MySQL-8.0.22 
+- DB 환경
+  - Docker 이용한 local 환경
 
 

@@ -1,24 +1,15 @@
 <template>
-  <div>
-    <img alt="Vue logo" src="./assets/logo.png"/>
-    <h1>HallymDorm Project!!</h1>
-  </div>
+  <Navbar></Navbar>
+  <router-view />
 </template>
 
 <script>
+import Navbar from "@/components/NavbarCom.vue";
 
 export default {
-  name: 'App'
-}
+  name: "app",
+  components: {
+    Navbar,
+  },
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

@@ -1,6 +1,10 @@
 <template>
-  <Navbar></Navbar>
-  <router-view />
+  <div class="header">
+    <Navbar></Navbar>
+  </div>
+  <div class="container">
+    <router-view />
+  </div>
 </template>
 
 <script>
@@ -13,3 +17,20 @@ export default {
   },
 };
 </script>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  width: 100%;
+  height: 60px;
+}
+
+.container {
+  width: 1440px;
+  margin: 0 auto;
+}
+</style>

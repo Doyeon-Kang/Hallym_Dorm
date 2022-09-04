@@ -18,7 +18,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped lang="less">
+@import "@/style/style.css";
+
 * {
   margin: 0;
   padding: 0;

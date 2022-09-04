@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <Navbar></Navbar>
+    <Navbar v-show="$route.name !== 'login'"></Navbar>
   </div>
   <div class="container">
     <router-view />
@@ -28,7 +28,6 @@ export default {
 
 .header {
   width: 100%;
-  height: 60px;
 }
 
 .container {

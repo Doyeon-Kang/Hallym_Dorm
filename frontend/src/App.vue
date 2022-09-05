@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <Navbar></Navbar>
+    <Navbar v-show="$route.name !== 'login' && $route.name !== 'mypage'"></Navbar>
   </div>
   <div class="container">
     <router-view />
@@ -18,7 +18,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped lang="less">
+@import "@/style/style.css";
+
 * {
   margin: 0;
   padding: 0;
@@ -26,7 +28,6 @@ export default {
 
 .header {
   width: 100%;
-  height: 60px;
 }
 
 .container {

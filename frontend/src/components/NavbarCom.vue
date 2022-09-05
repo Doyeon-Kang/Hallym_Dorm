@@ -114,7 +114,7 @@
 header {
   background-color: white;
   .content_container {
-    width: 1440px;
+    width: 1080px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -168,7 +168,7 @@ header {
       line-height: 50px;
       padding: 6px;
       .title {
-        width: 1440px;
+        width: 1080px;
         margin: 0 auto;
         display: flex;
         justify-content: space-between;

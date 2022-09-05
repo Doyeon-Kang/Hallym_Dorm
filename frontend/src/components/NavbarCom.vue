@@ -19,7 +19,7 @@
     </div>
     <div class="drop_menu" @mouseover="mouseOver" @mouseleave="mouseLeave">
       <div class="blue_container">
-        <div class="blue content_container" >
+        <div class="title" >
           <a href="">생활관소개</a>
           <a href="">입퇴사안내</a>
           <a href="">생활안내</a>
@@ -96,7 +96,7 @@
   export default {
     data() {
       return {
-        active: true
+        active: false
       }
     },
     methods: {
@@ -104,7 +104,7 @@
         this.active = true
       },
       mouseLeave() {
-        this.active = true
+        this.active = false
       }
     }
   }
@@ -161,17 +161,23 @@ header {
   }
   .drop_menu {
     box-shadow: 2px 5px 20px rgba(133, 133, 133, 0.25);
+    transition: all var(--animation-duration) ease-in-out;
     .blue_container {
-      display: flex;
-      //justify-content: space-between;
       background-color: #3675c7;
       height: 50px;
+      line-height: 50px;
       padding: 6px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      .blue.content_container {
+      .title {
+        width: 1440px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
         a {
+          display: inline-block;
+          flex-grow: 1;
+          flex-basis: 0;
+          //width: 50px;
           font-size: 20px;
           font-weight: 600;
           color: white;
@@ -180,6 +186,8 @@ header {
     }
     .drop.content_container {
       ul {
+        flex-grow: 1;
+        flex-basis: 0;
         li {
           display: flex;
           flex-direction: column;
@@ -188,6 +196,9 @@ header {
           padding: 7px 0;
           a {
             color: #222222;
+            &:hover {
+              color: #3675c7;
+            }
           }
         }
       }

@@ -1,14 +1,17 @@
 <template>
   <div class="home">
-    <h1>Home</h1>
+    <div class="banner_container"></div>
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'HomeView',
-  components: {
-  }
-}
+  name: "HomeView",
+  components: {},
+};
 </script>
+
+<style scoped lang="less">
+.home {
+}
+</style>

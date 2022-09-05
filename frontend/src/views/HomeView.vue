@@ -341,6 +341,7 @@ export default {
     .short_box {
       height: 400px;
       background-color: #336eb4;
+      box-shadow: 2px 5px 20px rgba(133, 133, 133, 0.25);
       margin-top: 30px;
       padding: 14px 14px 24px;
       table {

@@ -161,7 +161,7 @@ header {
   }
   .drop_menu {
     box-shadow: 2px 5px 20px rgba(133, 133, 133, 0.25);
-    transition: all var(--animation-duration) ease-in-out;
+    position: relative;
     .blue_container {
       background-color: #3675c7;
       height: 50px;
@@ -185,6 +185,10 @@ header {
       }
     }
     .drop.content_container {
+      position: absolute;
+      background-color: white;
+      left: 50%;
+      transform: translate(-50%);
       ul {
         flex-grow: 1;
         flex-basis: 0;

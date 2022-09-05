@@ -19,9 +19,9 @@
 
 <style scoped lang="less">
 .footer_container {
-  width: 100vw;
+  width: 100%;
   background-color: #323232;
-  position: absolute;
+  margin-top: 30px;
   bottom: 0;
   .description {
     color: #ebecf0;

@@ -17,19 +17,98 @@
         </div>
       </div>
     </div>
-    <div class="blue_container">
-      <div class="content_container">
-        <a href="">생활관소개</a>
-        <a href="">입퇴사소개</a>
-        <a href="">생활안내</a>
-        <a href="">게시판</a>
-        <a href="">신청 및 예약</a>
+    <div class="drop_menu" @mouseover="mouseOver" @mouseleave="mouseLeave">
+      <div class="blue_container">
+        <div class="blue content_container" >
+          <a href="">생활관소개</a>
+          <a href="">입퇴사안내</a>
+          <a href="">생활안내</a>
+          <a href="">게시판</a>
+          <a href="">신청 및 예약</a>
+        </div>
+      </div>
+      <div class="drop content_container" v-show="active">
+        <ul class="intro">
+          <li><a href="">학생생활관 소개</a></li>
+          <li><a href="">인사말/연혁</a></li>
+          <li><a href="">행정실</a></li>
+          <li><a href="">관리실 & 시설운영실</a></li>
+          <li><a href="">사감단</a></li>
+          <li><a href="">건물소개</a></li>
+          <li><a href="">시설현황</a></li>
+          <li><a href="">시설소개</a></li>
+          <li><a href="">건물안내도</a></li>
+          <li><a href="">오시는 길</a></li>
+        </ul>
+        <ul class="inout">
+          <li><a href="">입사안내</a></li>
+          <li><a href="">선발기준</a></li>
+          <li><a href="">퇴사안내</a></li>
+          <li><a href="">환불규정</a></li>
+        </ul>
+        <ul class="life">
+          <li><a href="">생활일정</a></li>
+          <li><a href="">생활수칙</a>
+            <ul>
+              <li><a href="">생활수칙</a></li>
+              <li><a href="">입사필수안전교육</a></li>
+            </ul>
+          </li>
+          <li><a href="">상벌점기준표</a>
+            <ul>
+              <li><a href="">상점기준</a></li>
+              <li><a href="">벌점기준</a></li>
+            </ul>
+          </li>
+          <li><a href="">우편 및 인터넷 안내</a></li>
+          <li><a href="">식당안내</a></li>
+        </ul>
+        <ul class="board">
+          <li><a href="">공지사항</a>
+            <ul>
+              <li><a href="">학생기숙사</a></li>
+              <li><a href="">사생자치회</a></li>
+            </ul>
+          </li>
+          <li><a href="">서식자료실</a></li>
+          <li><a href="">FAQ</a></li>
+          <li><a href="">불편/수리 요청</a></li>
+          <li><a href="">나눔 장터</a></li>
+          <li><a href="">분실물</a></li>
+        </ul>
+        <ul class="reserve">
+          <li><a href="">상담 및 면담 신청</a></li>
+          <li><a href="">스터디룸 예약</a></li>
+          <li><a href="">입사/퇴사 신청</a>
+            <ul>
+              <li><a href="">입사신청</a></li>
+              <li><a href="">퇴사신청</a></li>
+            </ul>
+          </li>
+          <li><a href="">외박신청</a></li>
+        </ul>
       </div>
     </div>
   </header>
 </template>
 
-<script></script>
+<script>
+  export default {
+    data() {
+      return {
+        active: true
+      }
+    },
+    methods: {
+      mouseOver() {
+        this.active = true
+      },
+      mouseLeave() {
+        this.active = true
+      }
+    }
+  }
+</script>
 
 <style scoped lang="less">
 header {
@@ -39,7 +118,9 @@ header {
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    &.blue {
+      margin: 0 60px;
+    }
   }
   .white_container {
     height: 30px;
@@ -78,16 +159,38 @@ header {
       }
     }
   }
-  .blue_container {
-    background-color: #3675c7;
-    height: 50px;
-    padding: 6px;
-    display: flex;
-    align-items: center;
-    a {
-      font-size: 20px;
-      font-weight: 600;
-      color: white;
+  .drop_menu {
+    box-shadow: 2px 5px 20px rgba(133, 133, 133, 0.25);
+    .blue_container {
+      display: flex;
+      //justify-content: space-between;
+      background-color: #3675c7;
+      height: 50px;
+      padding: 6px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      .blue.content_container {
+        a {
+          font-size: 20px;
+          font-weight: 600;
+          color: white;
+        }
+      }
+    }
+    .drop.content_container {
+      ul {
+        li {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: start;
+          padding: 7px 0;
+          a {
+            color: #222222;
+          }
+        }
+      }
     }
   }
 }

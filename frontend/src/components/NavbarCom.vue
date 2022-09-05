@@ -19,73 +19,96 @@
     </div>
     <div class="drop_menu" @mouseover="mouseOver" @mouseleave="mouseLeave">
       <div class="blue_container">
-        <div class="title" >
-          <a href="">생활관소개</a>
-          <a href="">입퇴사안내</a>
-          <a href="">생활안내</a>
-          <a href="">게시판</a>
-          <a href="">신청 및 예약</a>
+        <div class="title">
+          <a href="/intro">생활관소개</a>
+          <a href="/inform">입퇴사안내</a>
+          <a href="/life">생활안내</a>
+          <a href="/community">게시판</a>
+          <a href="/reserve">신청 및 예약</a>
         </div>
       </div>
       <div class="drop content_container" v-show="active">
         <ul class="intro">
-          <li><a href="">학생생활관 소개</a></li>
-          <li><a href="">인사말/연혁</a></li>
-          <li><a href="">행정실</a></li>
-          <li><a href="">관리실 & 시설운영실</a></li>
-          <li><a href="">사감단</a></li>
-          <li><a href="">건물소개</a></li>
-          <li><a href="">시설현황</a></li>
-          <li><a href="">시설소개</a></li>
-          <li><a href="">건물안내도</a></li>
-          <li><a href="">오시는 길</a></li>
+          <li><a href="/intro">학생생활관 소개</a></li>
+          <li><a href="/intro/greeting">인사말/연혁</a></li>
+          <li><a href="/intro/admin">행정실</a></li>
+          <li><a href="/intro/management">관리실 & 시설운영실</a></li>
+          <li><a href="/intro/judge">사감단</a></li>
+          <li><a href="/intro/facility">건물소개</a></li>
+          <li><a href="/intro/status">시설현황</a></li>
+          <li><a href="/intro/detail">시설소개</a></li>
+          <li><a href="/intro/map">건물안내도</a></li>
+          <li><a href="/intro/location">오시는 길</a></li>
         </ul>
         <ul class="inout">
-          <li><a href="">입사안내</a></li>
-          <li><a href="">선발기준</a></li>
-          <li><a href="">퇴사안내</a></li>
-          <li><a href="">환불규정</a></li>
+          <li><a href="/inform">입사안내</a></li>
+          <li><a href="/inform/join">선발기준</a></li>
+          <li><a href="/inform/leave">퇴사안내</a></li>
+          <li><a href="/inform/refund">환불규정</a></li>
         </ul>
         <ul class="life">
-          <li><a href="">생활일정</a></li>
-          <li class="sub_menu"><a href="">생활수칙</a>
+          <li><a href="/life">생활일정</a></li>
+          <li class="sub_menu">
+            <a href="/life/rules"
+              >생활수칙<span class="material-symbols-outlined">
+                expand_more
+              </span></a
+            >
             <ul>
-              <li><a href="">생활수칙</a></li>
-              <li><a href="">입사필수안전교육</a></li>
+              <li><a href="/life/rules">생활수칙</a></li>
+              <li><a href="/life/safe">입사필수안전교육</a></li>
             </ul>
           </li>
-          <li class="sub_menu"><a href="">상벌점기준표</a>
+          <li class="sub_menu">
+            <a href=""
+              >상벌점기준표
+              <span v-show="expand" class="material-symbols-outlined">
+                expand_more
+              </span>
+            </a>
             <ul>
-              <li><a href="">상점기준</a></li>
-              <li><a href="">벌점기준</a></li>
+              <li><a href="/life/prize">상점기준</a></li>
+              <li><a href="/life/penalty">벌점기준</a></li>
             </ul>
           </li>
-          <li><a href="">우편 및 인터넷 안내</a></li>
-          <li><a href="">식당안내</a></li>
+          <li><a href="/life/post">우편 및 인터넷 안내</a></li>
+          <li><a href="/life/cafeteria">식당안내</a></li>
         </ul>
         <ul class="board">
-          <li class="sub_menu"><a href="">공지사항</a>
-            <ul class="pink">
-              <li><a href="">학생기숙사</a></li>
-              <li><a href="">사생자치회</a></li>
+          <li class="sub_menu">
+            <a href=""
+              >공지사항
+              <span v-show="expand" class="material-symbols-outlined">
+                expand_more
+              </span>
+            </a>
+            <ul>
+              <li><a href="/life/community">학생기숙사</a></li>
+              <li><a href="/life/community/notice1">사생자치회</a></li>
             </ul>
           </li>
-          <li><a href="">서식자료실</a></li>
-          <li><a href="">FAQ</a></li>
-          <li><a href="">불편/수리 요청</a></li>
-          <li><a href="">나눔 장터</a></li>
-          <li><a href="">분실물</a></li>
+          <li><a href="/community/data">서식자료실</a></li>
+          <li><a href="/community/faq">FAQ</a></li>
+          <li><a href="/community/repair">불편/수리 요청</a></li>
+          <li><a href="/community/market">나눔 장터</a></li>
+          <li><a href="/community/lost">분실물</a></li>
         </ul>
         <ul class="reserve">
-          <li><a href="">상담 및 면담 신청</a></li>
-          <li><a href="">스터디룸 예약</a></li>
-          <li class="sub_menu"><a href="">입사/퇴사 신청</a>
+          <li><a href="/reserve">상담 및 면담 신청</a></li>
+          <li><a href="/reserve/study">스터디룸 예약</a></li>
+          <li class="sub_menu">
+            <a href="/reserve/in"
+              >입사/퇴사 신청
+              <span v-show="expand" class="material-symbols-outlined">
+                expand_more
+              </span>
+            </a>
             <ul>
-              <li><a href="">입사신청</a></li>
-              <li><a href="">퇴사신청</a></li>
+              <li><a href="/reserve/in">입사신청</a></li>
+              <li><a href="/reserve/out">퇴사신청</a></li>
             </ul>
           </li>
-          <li><a href="">외박신청</a></li>
+          <li><a href="/reserve/sleep">외박신청</a></li>
         </ul>
       </div>
     </div>
@@ -93,21 +116,22 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        active: true
-      }
+export default {
+  data() {
+    return {
+      active: false,
+      expand: true,
+    };
+  },
+  methods: {
+    mouseOver() {
+      this.active = true;
     },
-    methods: {
-      mouseOver() {
-        this.active = true
-      },
-      mouseLeave() {
-        this.active = true
-      }
-    }
-  }
+    mouseLeave() {
+      this.active = false;
+    },
+  },
+};
 </script>
 
 <style scoped lang="less">
@@ -151,7 +175,7 @@ header {
         font-weight: 500;
         font-size: 14px;
         &:hover {
-          color:#3675c7;
+          color: #3675c7;
         }
         &::after {
           margin: 0 8px;
@@ -211,23 +235,28 @@ header {
           justify-content: start;
           padding: 7px 0;
           &.sub_menu {
+            line-height: 20px;
             ul {
               display: none;
               padding: 0px;
-              li a{ 
-                color:#3675c7;
+              li a {
+                color: #3675c7;
                 font-size: 14px;
                 &:hover {
                   font-weight: 600;
                 }
               }
-            } 
+            }
             &:hover ul {
               display: block;
-            }  
+            }
           }
           a {
             color: #222222;
+            position: relative;
+            span {
+              position: absolute;
+            }
             &:hover {
               color: #3675c7;
             }

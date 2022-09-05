@@ -36,6 +36,34 @@
           </div>
         </div>
       </div>
+      <div class="first_info_boxes">
+        <div class="food_plan">
+          <div class="title">학식표</div>
+          <div class="content">
+            <div class="plus"><a href="/">자세히 ></a></div>
+          </div>
+        </div>
+        <div class="shop_box">
+          <div class="title">나눔장터</div>
+          <div class="content">
+            <div class="plus"><a href="/community/market">자세히 ></a></div>
+          </div>
+        </div>
+      </div>
+      <div class="second_info_boxes">
+        <div class="calendar_box">
+          <div class="title">캘린더</div>
+          <div class="content">
+            <div class="plus"><a href="/life">자세히 ></a></div>
+          </div>
+        </div>
+        <div class="lost_box">
+          <div class="title">분실물 게시판</div>
+          <div class="content">
+            <div class="plus"><a href="/community/lost">자세히 ></a></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="right_content">
       <div class="login_box">
@@ -282,6 +310,122 @@ export default {
             }
             .date {
               color: #858585;
+            }
+          }
+        }
+      }
+    }
+    .first_info_boxes {
+      display: flex;
+      justify-content: space-between;
+      height: 240px;
+      margin-top: 20px;
+      .food_plan {
+        background-color: white;
+        width: 48%;
+        box-shadow: 2px 5px 20px 2px rgba(133, 133, 133, 0.25);
+        border-radius: 10px;
+        .title {
+          background-color: rgba(227, 122, 116, 0.5);
+          border-radius: 10px 10px 0 0;
+          padding: 5px;
+          text-align: center;
+          font-size: 16px;
+          color: #222222;
+          font-weight: 600;
+        }
+        .content {
+          padding: 10px;
+          .plus {
+            font-size: 12px;
+            float: right;
+            a {
+              color: #e37a74;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+      .shop_box {
+        background-color: white;
+        width: 48%;
+        box-shadow: 2px 5px 20px 2px rgba(133, 133, 133, 0.25);
+        border-radius: 10px;
+        .title {
+          background-color: rgba(250, 222, 133, 0.5);
+          border-radius: 10px 10px 0 0;
+          padding: 5px;
+          text-align: center;
+          font-size: 16px;
+          color: #222222;
+          font-weight: 600;
+        }
+        .content {
+          padding: 10px;
+          .plus {
+            font-size: 12px;
+            float: right;
+            a {
+              color: #fade85;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+    }
+    .second_info_boxes {
+      display: flex;
+      justify-content: space-between;
+      height: 240px;
+      margin-top: 20px;
+      .calendar_box {
+        background-color: white;
+        width: 48%;
+        box-shadow: 2px 5px 20px 2px rgba(133, 133, 133, 0.25);
+        border-radius: 10px;
+        .title {
+          background-color: rgba(135, 148, 242, 0.5);
+          border-radius: 10px 10px 0 0;
+          padding: 5px;
+          text-align: center;
+          font-size: 16px;
+          color: #222222;
+          font-weight: 600;
+        }
+        .content {
+          padding: 10px;
+          .plus {
+            font-size: 12px;
+            float: right;
+            a {
+              color: #8794f2;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+      .lost_box {
+        background-color: white;
+        width: 48%;
+        box-shadow: 2px 5px 20px 2px rgba(133, 133, 133, 0.25);
+        border-radius: 10px;
+        .title {
+          background-color: rgba(145, 224, 177, 0.5);
+          border-radius: 10px 10px 0 0;
+          padding: 5px;
+          text-align: center;
+          font-size: 16px;
+          color: #222222;
+          font-weight: 600;
+        }
+        .content {
+          padding: 10px;
+          .plus {
+            font-size: 12px;
+            float: right;
+            a {
+              color: #91e0b1;
+              font-weight: 700;
             }
           }
         }

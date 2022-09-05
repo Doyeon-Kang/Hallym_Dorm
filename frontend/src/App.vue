@@ -48,7 +48,7 @@ export default {
   //display: none;
   z-index: 0;
   width: 100vw;
-  height: 60vh;
+  height: 50vh;
   position: relative;
   img {
     width: 100%;

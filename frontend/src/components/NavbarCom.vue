@@ -48,13 +48,13 @@
         </ul>
         <ul class="life">
           <li><a href="">생활일정</a></li>
-          <li><a href="">생활수칙</a>
+          <li class="sub_menu"><a href="">생활수칙</a>
             <ul>
               <li><a href="">생활수칙</a></li>
               <li><a href="">입사필수안전교육</a></li>
             </ul>
           </li>
-          <li><a href="">상벌점기준표</a>
+          <li class="sub_menu"><a href="">상벌점기준표</a>
             <ul>
               <li><a href="">상점기준</a></li>
               <li><a href="">벌점기준</a></li>
@@ -64,8 +64,8 @@
           <li><a href="">식당안내</a></li>
         </ul>
         <ul class="board">
-          <li><a href="">공지사항</a>
-            <ul>
+          <li class="sub_menu"><a href="">공지사항</a>
+            <ul class="pink">
               <li><a href="">학생기숙사</a></li>
               <li><a href="">사생자치회</a></li>
             </ul>
@@ -79,7 +79,7 @@
         <ul class="reserve">
           <li><a href="">상담 및 면담 신청</a></li>
           <li><a href="">스터디룸 예약</a></li>
-          <li><a href="">입사/퇴사 신청</a>
+          <li class="sub_menu"><a href="">입사/퇴사 신청</a>
             <ul>
               <li><a href="">입사신청</a></li>
               <li><a href="">퇴사신청</a></li>
@@ -96,7 +96,7 @@
   export default {
     data() {
       return {
-        active: false
+        active: true
       }
     },
     methods: {
@@ -104,7 +104,7 @@
         this.active = true
       },
       mouseLeave() {
-        this.active = false
+        this.active = true
       }
     }
   }
@@ -144,23 +144,29 @@ header {
       }
     }
     .right {
+      display: flex;
+      align-items: center;
       a {
         color: #222222;
-        font-weight: 700;
-      }
-      a::after {
-        margin: 0 8px;
-        content: "|";
-        color: #858585;
-        font-weight: 400;
-      }
-      a:last-child::after {
-        content: none;
+        font-weight: 500;
+        font-size: 14px;
+        &:hover {
+          color:#3675c7;
+        }
+        &::after {
+          margin: 0 8px;
+          content: "|";
+          color: #858585;
+          font-weight: 400;
+        }
+        &:last-child::after {
+          content: none;
+        }
       }
     }
   }
   .drop_menu {
-    box-shadow: 2px 5px 20px rgba(133, 133, 133, 0.25);
+    //box-shadow: 2px 5px 20px rgba(133, 133, 133, 0.25);
     position: relative;
     .blue_container {
       background-color: #3675c7;
@@ -192,12 +198,34 @@ header {
       ul {
         flex-grow: 1;
         flex-basis: 0;
+        border-right: 1px solid #f0f0f0;
+        margin: 0;
+        padding: 20px 0;
+        &:last-child {
+          border: none;
+        }
         li {
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: start;
           padding: 7px 0;
+          &.sub_menu {
+            ul {
+              display: none;
+              padding: 0px;
+              li a{ 
+                color:#3675c7;
+                font-size: 14px;
+                &:hover {
+                  font-weight: 600;
+                }
+              }
+            } 
+            &:hover ul {
+              display: block;
+            }  
+          }
           a {
             color: #222222;
             &:hover {

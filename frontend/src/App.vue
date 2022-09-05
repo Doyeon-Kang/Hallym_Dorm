@@ -6,7 +6,7 @@
   </div>
   <div class="banner" v-show="$route.name === 'home'">
     <img src="@/assets/banner.jpg" alt="배너이미지" />
-    <div class="container">
+    <div class="banner_container">
       <div class="wrapper">
         <span class="sub">편리한, 안전한, 다양한, 다문화 기숙사</span>
         <h1>한림대학교 학생생활관</h1>
@@ -17,18 +17,18 @@
   <div class="container">
     <router-view />
   </div>
-  <Footer></Footer>
+  <!-- <Footer></Footer> -->
 </template>
 
 <script>
 import Navbar from "@/components/NavbarCom.vue";
-import Footer from "@/components/FooterCom.vue";
+//import Footer from "@/components/FooterCom.vue";
 
 export default {
   name: "app",
   components: {
     Navbar,
-    Footer,
+    // Footer,
   },
 };
 </script>
@@ -41,12 +41,14 @@ export default {
   padding: 0;
 }
 
+// header
 .header {
-  width: 100%;
+  width: 100vw;
   z-index: 100;
   position: relative;
 }
 
+// banner
 .banner {
   //display: none;
   z-index: 0;
@@ -59,11 +61,13 @@ export default {
     object-fit: cover;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
-  .container {
+  .banner_container {
     position: absolute;
     top: 50%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
+    width: 1080px;
+    margin: 0 auto;
     color: white;
     .wrapper {
       .sub {
@@ -87,8 +91,13 @@ export default {
   }
 }
 
+// content
 .container {
   width: 1080px;
   margin: 0 auto;
+  position: relative;
+  height: 50vh;
 }
+
+// footer
 </style>

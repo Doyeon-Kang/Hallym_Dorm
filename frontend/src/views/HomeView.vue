@@ -37,7 +37,20 @@
         </div>
       </div>
     </div>
-    <div class="right_content"></div>
+    <div class="right_content">
+      <div class="login_box">
+        <div class="top">
+          <img src="@/assets/logo.png" alt="" />
+          <img src="@/assets/univ.png" alt="" />
+          <div class="univ">Dormitory</div>
+        </div>
+        <div class="description">
+          더 많은 서비스를 이용하려면 로그인 하세요.
+        </div>
+        <div class="login_btn" @click="this.$router.push('login')">로그인</div>
+        <div class="join"><a href="/login/join">회원가입</a></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -213,9 +226,54 @@ export default {
   }
   .right_content {
     width: 28%;
-    height: 270px;
-    box-shadow: 2px 5px 20px rgba(133, 133, 133, 0.25);
-    border-radius: 10px;
+    .login_box {
+      height: 210px;
+      box-shadow: 2px 5px 20px rgba(133, 133, 133, 0.25);
+      border-radius: 10px;
+      padding: 30px 30px 0px;
+      .top {
+        display: flex;
+        align-items: center;
+        .univ {
+          color: #222222;
+          font-weight: 700;
+
+          // &::before {
+          //   content: "|";
+          //   color: #858585;
+          //   font-weight: 500;
+          // }
+        }
+      }
+      .description {
+        color: #858585;
+        text-align: center;
+        font-size: 12px;
+        margin-top: 10px;
+      }
+      .login_btn {
+        background-color: #54aead;
+        text-align: center;
+        color: white;
+        font-weight: 800;
+        font-size: 24px;
+        padding: 16px;
+        margin-top: 20px;
+        border-radius: 10px;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      .join {
+        text-align: end;
+        margin-top: 5px;
+        a {
+          color: #858585;
+          font-size: 12px;
+          font-weight: 600;
+        }
+      }
+    }
   }
 }
 </style>

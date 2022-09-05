@@ -17,7 +17,7 @@
   <div class="container">
     <router-view />
   </div>
-  <Footer></Footer>
+  <Footer v-show="$route.name !== 'login'"></Footer>
 </template>
 
 <script>

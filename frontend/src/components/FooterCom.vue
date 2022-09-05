@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="footer_container">
     <div class="description">
       <span>한림대학교 HALLYM UNIVERSITY</span>
       <span>(24252)강원도 춘천시 한림대학길1 학생생활관 | 행정실</span>
@@ -18,9 +18,11 @@
 </template>
 
 <style scoped lang="less">
-.container {
-  width: 100vw;
+.footer_container {
+  width: 100%;
   background-color: #323232;
+  margin-top: 30px;
+  bottom: 0;
   .description {
     color: #ebecf0;
     font-size: 12px;

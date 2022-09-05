@@ -1,17 +1,221 @@
 <template>
-  <div class="home">
-    <div class="banner_container"></div>
+  <div class="content_container">
+    <div class="left_content">
+      <div class="notice_box">
+        <div class="first_notice">
+          <div class="top">
+            <div class="board_title">공지사항</div>
+            <a href="/life/community">더보기 ></a>
+          </div>
+
+          <div class="item_list">
+            <div
+              class="item"
+              v-for="(item, index) in notice1_item"
+              :key="index"
+            >
+              <div class="title">{{ item.title }}</div>
+              <div class="date">{{ item.date }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="second_notice">
+          <div class="top">
+            <div class="board_title">사생자치회</div>
+            <a href="/life/community/notice1">더보기 ></a>
+          </div>
+          <div class="item_list">
+            <div
+              class="item"
+              v-for="(item, index) in notice2_item"
+              :key="index"
+            >
+              <div class="title">{{ item.title }}</div>
+              <div class="date">{{ item.date }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="right_content"></div>
   </div>
 </template>
 
 <script>
 export default {
   name: "HomeView",
+  data() {
+    return {
+      notice1_item: [
+        {
+          title: "title1",
+          date: "2022.07.22",
+        },
+        {
+          title: "title2",
+          date: "2022.07.22",
+        },
+        {
+          title: "title3",
+          date: "2022.07.22",
+        },
+        {
+          title: "title4",
+          date: "2022.07.22",
+        },
+        {
+          title: "title5",
+          date: "2022.07.22",
+        },
+      ],
+      notice2_item: [
+        {
+          title: "title1",
+          date: "2022.07.22",
+        },
+        {
+          title: "title2",
+          date: "2022.07.22",
+        },
+        {
+          title: "title3",
+          date: "2022.07.22",
+        },
+        {
+          title: "title4",
+          date: "2022.07.22",
+        },
+        {
+          title: "title5",
+          date: "2022.07.22",
+        },
+      ],
+    };
+  },
   components: {},
 };
 </script>
 
 <style scoped lang="less">
-.home {
+.content_container {
+  width: 1080px;
+  margin: 30px auto;
+  display: flex;
+  .left_content {
+    width: 78%;
+    margin-right: 20px;
+    .notice_box {
+      display: flex;
+      box-shadow: 2px 5px 20px rgba(133, 133, 133, 0.25);
+      border-radius: 10px;
+      height: 300px;
+      padding: 20px 0;
+      .first_notice {
+        width: 50%;
+        border-right: 1px solid #858585;
+        .top {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-right: 20px;
+          .board_title {
+            font-weight: 700;
+            font-size: 24px;
+            color: #336eb4;
+            margin-left: 20px;
+          }
+          a {
+            font-size: 12px;
+            color: #858585;
+            &:hover {
+              cursor: pointer;
+              font-weight: 600;
+            }
+          }
+        }
+        .item_list {
+          padding: 10px 20px;
+          .item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 12px;
+            margin-top: 8px;
+            border: 1px solid #c0c0c0;
+            font-size: 14px;
+            &:first-child {
+              margin-top: 0px;
+            }
+            &:hover {
+              cursor: pointer;
+              & .title {
+                color: #336eb4;
+              }
+            }
+            .title {
+              color: #222222;
+            }
+            .date {
+              color: #858585;
+            }
+          }
+        }
+      }
+      .second_notice {
+        padding-left: 20px;
+        width: 50%;
+        .top {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-right: 20px;
+          .board_title {
+            font-weight: 700;
+            font-size: 24px;
+            color: #00b6ad;
+          }
+          a {
+            font-size: 12px;
+            color: #858585;
+            &:hover {
+              cursor: pointer;
+              font-weight: 600;
+            }
+          }
+        }
+        .item_list {
+          padding: 10px 20px 10px 0;
+          .item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 12px;
+            margin-top: 8px;
+            border: 1px solid #c0c0c0;
+            font-size: 14px;
+            &:first-child {
+              margin-top: 0px;
+            }
+            &:hover {
+              cursor: pointer;
+              & .title {
+                color: #00b6ad;
+              }
+            }
+            .title {
+              color: #222222;
+            }
+            .date {
+              color: #858585;
+            }
+          }
+        }
+      }
+    }
+  }
+  .right_content {
+    width: 28%;
+    height: 270px;
+    box-shadow: 2px 5px 20px rgba(133, 133, 133, 0.25);
+    border-radius: 10px;
+  }
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
   <div class="header">
-    <Navbar v-show="$route.name !== 'login' && $route.name !== 'mypage'"></Navbar>
+    <Navbar
+      v-show="$route.name !== 'login' && $route.name !== 'mypage'"
+    ></Navbar>
   </div>
   <div class="container">
     <router-view />

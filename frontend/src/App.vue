@@ -28,7 +28,7 @@ export default {
   name: "app",
   components: {
     Navbar,
-    // Footer,
+    //Footer,
   },
 };
 </script>
@@ -96,7 +96,7 @@ export default {
   width: 1080px;
   margin: 0 auto;
   position: relative;
-  height: 50vh;
+  z-index: 100;
 }
 
 // footer

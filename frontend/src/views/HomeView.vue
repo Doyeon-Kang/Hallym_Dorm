@@ -50,6 +50,70 @@
         <div class="login_btn" @click="this.$router.push('login')">로그인</div>
         <div class="join"><a href="/login/join">회원가입</a></div>
       </div>
+      <div class="short_box">
+        <table>
+          <thead>
+            <tr>
+              <th>바로가기</th>
+            </tr>
+            <tr>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <a href="/reserve/in">
+                  <img src="@/assets/입사신청.png" alt="입사신청" />
+                  <span>입사신청</span>
+                </a>
+              </td>
+              <td>
+                <a href="/repair">
+                  <img src="@/assets/불편수리.png" alt="불편수리" />
+                  <span>불편/수리</span>
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="/intro">
+                  <img src="@/assets/생활안내.png" alt="생활안내" />
+                  <span>생활관소개</span>
+                </a>
+              </td>
+              <td>
+                <a href="/life">
+                  <img
+                    class="small"
+                    src="@/assets/생활일정.png"
+                    alt="생활일정"
+                  />
+                  <span>생활일정</span>
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="/community/faq">
+                  <img src="@/assets/FAQ.png" alt="FAQ" />
+                  <span>FAQ</span>
+                </a>
+              </td>
+              <td>
+                <a href="/intro/location">
+                  <img
+                    class="small"
+                    src="@/assets/오시는길.png"
+                    alt="오시는길"
+                  />
+                  <span>오시는길</span>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -271,6 +335,47 @@ export default {
           color: #858585;
           font-size: 12px;
           font-weight: 600;
+        }
+      }
+    }
+    .short_box {
+      height: 400px;
+      background-color: #336eb4;
+      margin-top: 30px;
+      padding: 14px 14px 24px;
+      table {
+        font-weight: 600;
+        margin: 0;
+        width: 280px;
+        height: 100%;
+        color: white;
+        thead {
+          float: left;
+          font-size: 20px;
+        }
+        tbody {
+          tr {
+            td {
+              width: 50%;
+              text-align: center;
+              border: 1px solid transparent;
+              img {
+                display: block;
+                width: 70px;
+                margin: auto auto 10px;
+                &.small {
+                  width: 60px;
+                  margin-bottom: 15px;
+                }
+              }
+              span {
+                color: white;
+              }
+              &:hover {
+                border: 1px solid white;
+              }
+            }
+          }
         }
       }
     }

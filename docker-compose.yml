@@ -3,6 +3,7 @@ services:
   local-db:
     image: dy2274/hallym_dorm
     container_name: local-db
+    build: ./backend/
     restart: always
     ports:
       - 13306:3306
@@ -10,6 +11,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       TZ: Asia/Seoul
     volumes:
-      - ./db/mysql/data:/var/lib/mysql
-      - ./db/mysql/init:/docker-entrypoint-initdb.d
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+      # - ./db/mysql/data:/var/lib/mysql
+      # - ./db/mysql/init:/docker-entrypoint-initdb.d
     platform: linux/x86_64

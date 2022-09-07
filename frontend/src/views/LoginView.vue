@@ -23,106 +23,90 @@
   </div>
 </template>
 
-<style>
+<style scoped lang="less">
   .login{
     width: 825px;
     height: 830px;
     margin:0 auto;
     margin-top: 200px;
     box-shadow: 0px 0px 15px #bababa;
-  }
-
-  .loginbox{
-    width: 525px;
-    height: 700px;
-    margin: 0 auto;
-    padding-top: 130px;
-  }
-
-  .logo{
-    width: 280px;
-    margin: 0 auto;
-    margin-bottom: 10px;
-  }
-
-  .univ {
     color: #222222;
-    font-size: 20px;
-    font-weight: bold;
-    float: right;
-  }
-  
-  .logintitle{
-    clear: both;
-    color: #336EB4;
-    text-align: center;
-    font-size: 50px;
-    font-weight: bold;
-    margin-bottom: 70px;
-  }
-
-  .login_id, .login_pw{
-    color: #00B6AD;
-    font-size: 18px; 
-    font-weight: bold;
-  }
-
-  .login_id{
-    margin-bottom: 50px;
-  }
-
-  .login_pw{
-    margin-bottom: 5px;
-  }
-
-  .loginbox .login_text{
-    margin-bottom: 10px;
-  }
-
-  .login_id input, .login_pw input{
-    width: 520px;
-    height: 40px;
-    border: none;
-    border-bottom: 2px solid #00B6AD;
-    font-size: 17px;
-  }
-
-  .loginguide, .findpw{
-    color: #858585;
-    font-weight: bold;
-  }
-
-  .loginguide{
-    float: left;
-  }
-  
-  .findpw{
-    float: right;
-  }
-
-  .loginbtnbox{
-    clear: both;
-    width: 525px;
-    height: 65px;
-    font-size: 26px;
-    font-weight: bold;
-    text-align: center;
-    line-height: 65px;
-  }
-
-  .loginbtnbox:hover{
-    cursor: pointer;
-  }
-
-  .loginbtn{
-    background-color: #00B6AD;
-    color: #FFFFFF;
-    margin-top: 80px;
-  }
-
-  .joinbtn{
-    background-color: #EBECF0;
-    color: #858585;
-    margin-top: 15px;
+    .loginbox{
+      width: 525px;
+      height: 700px;
+      margin: 0 auto;
+      padding-top: 130px;
+      .logo{
+        width: 280px;
+        margin: 0 auto;
+        margin-bottom: 10px;
+        .univ {
+          font-size: 20px;
+          font-weight: bold;
+          float: right;
+        }
+      }
+      .logintitle{
+        clear: both;
+        color: #336EB4;
+        text-align: center;
+        font-size: 50px;
+        font-weight: bold;
+        margin-bottom: 70px;
+      }
+      .login_id, .login_pw{
+        color: #00B6AD;
+        font-size: 18px; 
+        font-weight: bold;
+      }
+      .login_id{
+        margin-bottom: 50px;
+      }
+      .login_pw{
+        margin-bottom: 5px;
+      }
+      .login_text{
+        margin-bottom: 10px;
+      }
+      .login_id input, .login_pw input{
+        width: 520px;
+        height: 40px;
+        border: none;
+        border-bottom: 2px solid #00B6AD;
+        font-size: 17px;
+      }
+      .loginguide, .findpw{
+        color: #858585;
+        font-weight: bold;
+      }
+      .loginguide{
+        float: left;
+      }
+      .findpw{
+        float: right;
+      }
+      .loginbtnbox{
+        clear: both;
+        width: 525px;
+        height: 65px;
+        font-size: 26px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 65px;
+      }
+      .loginbtnbox:hover{
+        cursor: pointer;
+      }
+      .loginbtn{
+        background-color: #00B6AD;
+        color: #FFFFFF;
+        margin-top: 80px;
+      }
+      .joinbtn{
+        background-color: #EBECF0;
+        color: #858585;
+        margin-top: 15px;
+      }
+    }
   }
 </style>

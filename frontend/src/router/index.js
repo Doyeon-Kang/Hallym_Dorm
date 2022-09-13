@@ -18,7 +18,7 @@ const routes = [
     path: "/mypage",
     name: "mypage",
     component: () => import("../views/MyPage.vue"),
-  },
+  }
 ];
 
 const router = createRouter({

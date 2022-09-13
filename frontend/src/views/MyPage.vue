@@ -14,7 +14,7 @@
         <div class="mywrite box">
             <div class="mypage_subtitle">
                 <img src="@/assets/write.png" alt="" />내가 작성한 글
-                <div class="more_details">더보기</div>
+                <div class="more_details" @click="this.$router.push('community')">더보기</div>
             </div>
             <div class="mywrite_box box innerbox"></div>
         </div>
@@ -34,7 +34,7 @@
         <div class="night box">
             <div class="mypage_subtitle">
                 <img src="@/assets/night.png" alt="" />외박 신청 현황
-                <div class="more_details">더보기</div>
+                <div class="more_details" @click="this.$router.push('sleep')">더보기</div>
             </div>
             <div class="night_box box innerbox"></div>
         </div>
@@ -62,6 +62,9 @@
         font-size: 16px;
         line-height: 33px;
         margin-right: 25px;
+    }
+    .more_details:hover {
+        cursor: pointer;
     }
     .mypage_subtitle{
         color: white;

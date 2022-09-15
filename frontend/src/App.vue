@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <Navbar
-      v-show="$route.name !== 'login' && $route.name !== 'mypage'"
+      v-show="$route.name !== 'login' && $route.name !== 'join' && $route.name !== 'findpw'"
     ></Navbar>
   </div>
   <div class="banner" v-show="$route.name === 'home'">
@@ -17,7 +17,7 @@
   <div class="container">
     <router-view />
   </div>
-  <Footer v-show="$route.name !== 'login'"></Footer>
+  <Footer v-show="$route.name !== 'login' && $route.name !== 'join' && $route.name !== 'findpw'"></Footer>
 </template>
 
 <script>

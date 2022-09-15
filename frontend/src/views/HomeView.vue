@@ -76,7 +76,7 @@
           더 많은 서비스를 이용하려면 로그인 하세요.
         </div>
         <div class="login_btn" @click="this.$router.push('login')">로그인</div>
-        <div class="join"><a href="/login/join">회원가입</a></div>
+        <div class="join"><a href="/join">회원가입</a></div>
       </div>
       <div class="short_box">
         <table>

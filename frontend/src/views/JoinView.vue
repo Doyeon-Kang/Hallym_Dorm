@@ -1,7 +1,7 @@
 <template>
     <div class="join">
         <div class="joinbox">
-            <div class="logo">
+            <div class="logo" @click="this.$router.push('/')">
                 <img src="@/assets/logo.png" alt="" />
                 <img src="@/assets/univ.png" alt="" />
                 <div class="univ">| Dormitory</div>
@@ -31,31 +31,37 @@
             </div>
             <div class="joinbtnbox joinbtn">회원가입</div>
             <div class="loginbtn" @click="this.$router.push('login')">◀ 로그인 페이지</div>
+            <div class="homebtn" @click="this.$router.push('/')">홈페이지 ▶</div>
         </div>
     </div>
 </template>
   
 <style scoped lang="less">
 .join {
-    width: 825px;
-    height: 1100px;
-    margin: 130px auto;
-    box-shadow: 0px 0px 15px #bababa;
+    width: 625px;
+    height: 850px;
+    margin: 60px auto;
+    box-shadow: 0px 0px 10px #bababa;
     color: #222222;
 
     .joinbox {
-        width: 525px;
+        width: 400px;
         margin: 0 auto;
-        padding-top: 130px;
+        padding-top: 60px;
 
         .logo {
-            width: 280px;
+            width: 190px;
             margin: 0 auto;
             margin-bottom: 10px;
 
+            img{
+                width:60px;
+            }
+
             .univ {
-                font-size: 20px;
+                font-size: 12px;
                 font-weight: bold;
+                line-height: 40px;
                 float: right;
             }
         }
@@ -64,20 +70,20 @@
             clear: both;
             color: #336EB4;
             text-align: center;
-            font-size: 50px;
+            font-size: 40px;
             font-weight: bold;
-            margin-bottom: 70px;
+            margin-bottom: 50px;
         }
 
         .join_name,.join_id,.join_pw,.join_pw_check,.join_email {
             color: #00B6AD;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: bold;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .join_id, .join_pw {
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .join_text {
@@ -85,29 +91,31 @@
         }
 
         input {
-            width: 520px;
-            height: 40px;
+            width: 396px;
+            height: 30px;
             border: none;
             border-bottom: 2px solid #00B6AD;
-            font-size: 17px;
+            margin-bottom: 3px;
+            font-size: 14px;
         }
 
         .joinguide{
             color: #DD6464;
+            font-size: 13px;
             float: left;
         }
 
         .joinbtnbox {
             clear: both;
-            width: 525px;
-            height: 65px;
-            font-size: 26px;
+            width: 400px;
+            height: 50px;
+            font-size: 18px;
             font-weight: bold;
             text-align: center;
-            line-height: 65px;
+            line-height: 50px;
         }
 
-        .joinbtnbox:hover, .loginbtn:hover{
+        .logo:hover, .joinbtnbox:hover, .loginbtn:hover, .homebtn:hover{
             cursor: pointer;
         }
 
@@ -117,10 +125,19 @@
             margin-top: 50px;
         }
 
-        .loginbtn{
+        .loginbtn, .homebtn{
             color: #858585;
             font-weight: bold;
-            margin-top: 15px;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        .loginbtn{
+            float: left;
+        }
+        
+        .homebtn{
+            float: right;
         }
     }
 }

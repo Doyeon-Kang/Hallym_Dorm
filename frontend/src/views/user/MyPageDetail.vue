@@ -1,7 +1,11 @@
 <template>
-  <div>
-    <PageTitle :title="title"></PageTitle>
-    <SidebarCom :pageName="pageName" :listItem="side"></SidebarCom>
+  <div class="wrapper">
+    <div class="left_container">
+      <SidebarCom :pageName="pageName" :listItem="side"></SidebarCom>
+    </div>
+    <div class="right_container">
+      <PageTitle :title="title"></PageTitle>
+    </div>
   </div>
 </template>
 
@@ -54,3 +58,16 @@ export default {
   },
 };
 </script>
+
+<style lang="less" scoped>
+.wrapper {
+  margin: 100px 0 300px;
+  display: flex;
+  .left_container {
+    width: 18%;
+  }
+  .right_container {
+    width: 82%;
+  }
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="side_container">
     <div class="page_name">
       {{ pageName }}
     </div>
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#container {
+#side_container {
   width: 160px;
   .page_name {
     position: relative;
@@ -64,7 +64,6 @@ export default {
       }
       &:hover {
         background-color: #447ec3;
-        cursor: pointer;
         & a {
           color: #fff;
         }

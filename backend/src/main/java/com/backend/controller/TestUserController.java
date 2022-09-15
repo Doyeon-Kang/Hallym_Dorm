@@ -27,11 +27,11 @@ public class TestUserController {
 
     @GetMapping(path="/add")
     public @ResponseBody String getAllTestUsers() {
-        TestUser testUser1 = new TestUser(1, "first");
-        TestUser testUser2 = new TestUser(2, "Second");
+        TestUser testUser1 = new TestUser("20198011", 1);
+        TestUser testUser2 = new TestUser("20198012", 2);
         testUserRepository.save(testUser1);
         testUserRepository.save(testUser2);
-        return "Success";
+        return "Users added";
     }
 
     @GetMapping(path="/all")

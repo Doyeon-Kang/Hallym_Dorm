@@ -1,7 +1,7 @@
 <template>
   <div>
     <PageTitle :title="title"></PageTitle>
-    <SidebarCom :listItem="side"></SidebarCom>
+    <SidebarCom :pageName="pageName" :listItem="side"></SidebarCom>
   </div>
 </template>
 
@@ -13,12 +13,13 @@ export default {
   data() {
     return {
       title: "String",
+      pageName: "마이페이지",
       side: [
         { title: "내가 작성한 글", path: "/mypage/myassey" },
-        { title: "상담 신청 현황", path: "/mypage/myconsulting" },
-        { title: "스터디룹 예약 현황", path: "/mypage/mystudy" },
-        { title: "외박 신청 현황", path: "/mypage/mysleep" },
-        { title: "상/벌점 내역", path: "/mypage/mypoint" },
+        { title: "상담 신청", path: "/mypage/myconsulting" },
+        { title: "스터디룹 예약", path: "/mypage/mystudy" },
+        { title: "외박 신청", path: "/mypage/mysleep" },
+        { title: "상벌점 내역", path: "/mypage/mypoint" },
       ],
     };
   },

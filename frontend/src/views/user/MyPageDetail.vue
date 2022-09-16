@@ -5,6 +5,7 @@
     </div>
     <div class="right_container">
       <PageTitle :title="title"></PageTitle>
+      <BoardList :listItem="listItem"></BoardList>
     </div>
   </div>
 </template>
@@ -12,6 +13,7 @@
 <script>
 import PageTitle from "@/components/PageTitle.vue";
 import SidebarCom from "../../components/SidebarCom.vue";
+import BoardList from "../../components/BoardList.vue";
 
 export default {
   data() {
@@ -25,12 +27,36 @@ export default {
         { title: "외박 신청", path: "/mypage/mysleep" },
         { title: "상벌점 내역", path: "/mypage/mypoint" },
       ],
+      listItem: [
+        {
+          no: "1",
+          title: "2022-2학기 입퇴사 안내",
+          date: "2022.06.18",
+          writer: "학생생활관",
+          view: "78"
+        },
+        {
+          no: "2",
+          title: "2022-2학기 입퇴사 안내",
+          date: "2022.06.18",
+          writer: "학생생활관",
+          view: "78"
+        },
+        {
+          no: "3",
+          title: "2022-2학기 입퇴사 안내",
+          date: "2022.06.18",
+          writer: "학생생활관",
+          view: "78"
+        },
+      ]
     };
   },
   components: {
     PageTitle,
     SidebarCom,
-  },
+    BoardList
+},
   created() {
     this.routeCheck();
   },

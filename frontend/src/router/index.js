@@ -25,9 +25,34 @@ const routes = [
     component: () => import("../views/preHome/FindpwView.vue"),
   },
   {
-    path: "/mypage",
+    path: "/mypage/",
     name: "mypage",
     component: () => import("../views/user/MyPage.vue"),
+  },
+  {
+    path: "/mypage/myassey",
+    name: "myassey",
+    component: () => import("../views/user/MyPageDetail.vue"),
+  },
+  {
+    path: "/mypage/myconsulting",
+    name: "myconsulting",
+    component: () => import("../views/user/MyPageDetail.vue"),
+  },
+  {
+    path: "/mypage/mystudy",
+    name: "mystudy",
+    component: () => import("../views/user/MyPageDetail.vue"),
+  },
+  {
+    path: "/mypage/mysleep",
+    name: "mysleep",
+    component: () => import("../views/user/MyPageDetail.vue"),
+  },
+  {
+    path: "/mypage/mypoint",
+    name: "mypoint",
+    component: () => import("../views/user/MyPageDetail.vue"),
   },
 ];
 

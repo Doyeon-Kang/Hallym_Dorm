@@ -15,6 +15,7 @@ import PageTitle from "@/components/PageTitle.vue";
 import SidebarCom from "../../components/SidebarCom.vue";
 import BoardList from "../../components/BoardList.vue";
 
+
 export default {
   data() {
     return {
@@ -44,6 +45,27 @@ export default {
         },
         {
           no: "3",
+          title: "2022-2학기 입퇴사 안내",
+          date: "2022.06.18",
+          writer: "학생생활관",
+          view: "78"
+        },
+        {
+          no: "4",
+          title: "2022-2학기 입퇴사 안내",
+          date: "2022.06.18",
+          writer: "학생생활관",
+          view: "78"
+        },
+        {
+          no: "5",
+          title: "2022-2학기 입퇴사 안내",
+          date: "2022.06.18",
+          writer: "학생생활관",
+          view: "78"
+        },
+        {
+          no: "6",
           title: "2022-2학기 입퇴사 안내",
           date: "2022.06.18",
           writer: "학생생활관",

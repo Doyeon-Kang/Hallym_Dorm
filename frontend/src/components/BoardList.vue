@@ -10,7 +10,7 @@
             <th></th>
         </thead>
         <tbody>
-            <tr v-for="(item, index) in listItem" :key="index">
+            <tr v-for="item in paginatedData" :key="item.no">
                 <td>{{item.no}}</td>
                 <td class="title">{{item.title}}</td>
                 <td>{{item.date}}</td>
@@ -20,25 +20,56 @@
             </tr>
         </tbody>
     </table>
+    <div class="btn-cover">
+      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
+        이전
+      </button>
+      <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+      <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
+        다음
+      </button>
+    </div>
 </div>
 </template>
 
 <script>
 export default {
+    data () {
+        return {
+            pageNum: 0
+        }
+    },
     props: {
         listItem: {
             type: Array,
-            default: () =>  {
-                return [
-                    {
-                    no: "no",
-                    title: "title",
-                    date: "date",
-                    writer: "writer",
-                    view: "view"
-                    }
-                ];
-            }
+            required: true
+        },
+        pageSize: {
+            type: Number,
+            required: false,
+            default: 5
+        }
+    },
+    methods: {
+        nextPage () {
+            this.pageNum += 1;
+        },
+        prevPage () {
+            this.pageNum -= 1;
+        }
+    },
+    computed: {
+        pageCount () {
+            let listLeng = this.listItem.length,
+                listSize = this.pageSize,
+                page = Math.floor(listLeng / listSize);
+            if (listLeng % listSize > 0) page += 1;
+            return page;
+        },
+        paginatedData () {
+            const start = this.pageNum * this.pageSize,
+                    end = start + this.pageSize;
+            return this.listItem.slice(start, end);
         }
     }
 }
@@ -67,6 +98,29 @@ export default {
                     }
                 }
             }
+        }
+    }
+    .btn-cover {
+        margin-top: 1.5rem;
+        text-align: center;
+        .page-btn {
+            width: 4rem;
+            height: 2rem;
+            letter-spacing: 0.5px;
+            border: 1px solid #C0C0C0;
+            background-color: #fff;
+            border-radius: 5px;
+            color: #858585;
+            font-weight: 800;
+            &:hover {
+                cursor: pointer;
+            }
+            &[disabled] {
+                
+            }
+        }
+        .page-count {
+            padding: 0 1rem;
         }
     }
 }

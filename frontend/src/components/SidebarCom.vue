@@ -3,9 +3,14 @@
     <div class="page_name">
       {{ pageName }}
     </div>
-    <ul>
-      <li v-for="(item, index) in listItem" :key="index">
+    <ul class="list_title">
+      <li v-for="(item, index) in listItem" :key="index" :class="{active: item.active, semi: item.semi}">
         <router-link :to="item.path">{{ item.title }}</router-link>
+        <ul v-if="item.semi" class="semi_title">
+          <li v-for="(semi, index) in item.semiTitle" :key="index">
+            <router-link :to="item.path">{{ semi }}</router-link>  
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
@@ -52,26 +57,56 @@ export default {
     }
   }
 
-  ul {
+  .list_title {
     margin-top: 24px;
     background-color: #fff;
     li {
-      border-top: 1px solid #447ec3;
-      text-align: center;
-      padding: 20px 0;
-      &:last-child {
-        border-bottom: 1px solid #447ec3;
-      }
-      &:hover {
+      &.active {
         background-color: #447ec3;
         & a {
           color: #fff;
         }
+        .semi_title li {
+          background-color: #fff;
+        }
+      }
+      border-top: 1px solid #447ec3;
+      text-align: center;
+      padding: 20px 0;
+      &.semi {
+        padding-bottom: 0;
+      }
+      &:last-child {
+        border-bottom: 1px solid #447ec3;
+      }
+      &:hover .semi_title li{
+        background-color: #fff;
       }
       a {
         color: #447ec3;
         font-weight: 600;
         font-size: 16px;
+      }
+      .semi_title {
+        margin: 30px 0 20px;
+        li {
+          padding: 0 0 0 20px;
+          text-align: start;
+          border-top: none;
+          list-style: inside;
+          list-style-type: circle;
+          &:last-child  {
+            border: none;
+          }
+        }
+        a {
+          color: #858585;
+          font-weight: 500;
+          &:hover {
+            color: #447ec3;
+            font-weight: 600;
+          }
+        }
       }
     }
   }

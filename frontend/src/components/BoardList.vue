@@ -92,6 +92,7 @@ export default {
                 td {
                     text-align: center;
                     padding: 20px;
+                    color: #222;
                     &.title:hover{
                         color: #336EB4;
                         cursor: pointer;
@@ -114,9 +115,14 @@ export default {
             font-weight: 800;
             &:hover {
                 cursor: pointer;
+                border: 1px solid #336EB4;
             }
             &[disabled] {
-                
+                color: #c0c0c0;
+                &:hover {
+                    cursor: auto;
+                    border: 1px solid #c0c0c0;
+                }
             }
         }
         .page-count {

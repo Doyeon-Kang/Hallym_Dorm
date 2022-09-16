@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="left_container">
-      <SidebarCom :pageName="pageName" :listItem="side"></SidebarCom>
+      <SidebarCom :pageName="pageName" :listItem="side" ></SidebarCom>
     </div>
     <div class="right_container">
       <PageTitle :title="title"></PageTitle>
@@ -22,7 +22,7 @@ export default {
       title: "String",
       pageName: "마이페이지",
       side: [
-        { title: "내가 작성한 글", path: "/mypage/myassey" },
+        { title: "내가 작성한 글", path: "/mypage/myassey"},
         { title: "상담 신청", path: "/mypage/myconsulting" },
         { title: "스터디룹 예약", path: "/mypage/mystudy" },
         { title: "외박 신청", path: "/mypage/mysleep" },
@@ -84,20 +84,32 @@ export default {
   },
   methods: {
     routeCheck() {
+      this.activeReset();
       if (this.$route.name === "myassey") {
         this.title = "마이페이지 > 내가 작성한 글";
+        this.semiTitle = ["학생회", "기숙사"];
+        this.side[0].active = true;
       } else if (this.$route.name === "myconsulting") {
         this.title = "마이페이지 > 상담 신청 현황";
+        this.side[1].active = true;
       } else if (this.$route.name === "mystudy") {
         this.title = "마이페이지 > 스터디룸 예약 현황";
+        this.side[2].active = true;
       } else if (this.$route.name === "mysleep") {
         this.title = "마이페이지 > 외박 신청 현황";
+        this.side[3].active = true;
       } else if (this.$route.name === "mypoint") {
         this.title = "마이페이지 > 상/벌점 내역";
+        this.side[4].active = true;
       } else {
         this.title = "Error Page";
       }
     },
+    activeReset() {
+      for (var i=0; i<this.side.length; i++) {
+        this.side[i].active = false;
+      }
+    }
   },
   watch: {
     $route() {

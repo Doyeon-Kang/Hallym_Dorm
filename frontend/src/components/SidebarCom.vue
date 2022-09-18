@@ -7,6 +7,7 @@
       <li
         v-for="(item, index) in listItem"
         :key="index"
+        class="item"
         :class="{ active: item.active, semi: item.semi }"
       >
         <router-link :to="item.path">{{ item.title }}</router-link>
@@ -69,7 +70,7 @@ export default {
   .list_title {
     margin-top: 24px;
     background-color: #fff;
-    li {
+    li.item {
       &.active {
         background-color: #447ec3;
         & a {

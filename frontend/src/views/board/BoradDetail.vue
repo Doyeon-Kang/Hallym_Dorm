@@ -80,16 +80,19 @@ export default {
   methods: {
     routeCheck() {
       this.activeReset();
+      this.side[0].semi = false;
       if (this.$route.name === "community") {
         this.title = "공시사항 > 학생기숙사";
         this.side[0].active = true;
         this.side[0].semiTitle[0].active = true;
         this.side[0].semiTitle[1].active = false;
+        this.side[0].semi = true;
       } else if (this.$route.name === "notice1") {
         this.title = "공시사항 > 사생자치회";
         this.side[0].active = true;
         this.side[0].semiTitle[0].active = false;
         this.side[0].semiTitle[1].active = true;
+        this.side[0].semi = true;
       } else if (this.$route.name === "data") {
         this.title = "게시판 > 서식자료실";
         this.side[1].active = true;

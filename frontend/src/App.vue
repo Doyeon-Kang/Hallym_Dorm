@@ -21,7 +21,13 @@
     </div>
     <div
       class="small_banner"
-      v-show="$route.name !== 'home' && $route.name !== 'mypage'"
+      v-show="
+        $route.name !== 'home' &&
+        $route.name !== 'mypage' &&
+        $route.name !== 'login' &&
+        $route.name !== 'join' &&
+        $route.name !== 'findpw'
+      "
     ></div>
     <div class="container">
       <router-view />

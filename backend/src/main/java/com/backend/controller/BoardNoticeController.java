@@ -15,28 +15,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import com.backend.model.TestUser;
-import com.backend.repository.TestUserRepository;
+import com.backend.model.Boardnotice;
+import com.backend.repository.BoardNoticeRepository;
 
 @RestController
 @RequestMapping(path="/api")
-public class TestUserController {
+public class BoardNoticeController {
 
     @Autowired
-    TestUserRepository testUserRepository;
+    BoardNoticeRepository BoardNoticeRepository;
 
     @GetMapping(path="/add")
-    public @ResponseBody String getAllTestUsers() {
-        TestUser testUser1 = new TestUser("20198011", 1);
-        TestUser testUser2 = new TestUser("20198012", 2);
-        testUserRepository.save(testUser1);
-        testUserRepository.save(testUser2);
+    public @ResponseBody String getAllBoardnotice() {
+        Boardnotice testUser1 = new Boardnotice("aa", "bb");
+        Boardnotice testUser2 = new Boardnotice("cc", "dd");
+        BoardNoticeRepository.save(testUser1);
+        BoardNoticeRepository.save(testUser2);
         return "Users added";
     }
 
     @GetMapping(path="/all")
     public @ResponseBody String getAllUsers() {
       // This returns a JSON or XML with the users
-      return testUserRepository.findAll().toString();
+      return BoardNoticeRepository.findAll().toString();
     }
 }

@@ -15,10 +15,20 @@ const routes = [
     component: () => import("../views/LoginView.vue"),
   },
   {
+    path: "/join",
+    name: "join",
+    component: () => import("../views/JoinView.vue"),
+  },
+  {
+    path: "/findpw",
+    name: "findpw",
+    component: () => import("../views/FindpwView.vue"),
+  },
+  {
     path: "/mypage",
     name: "mypage",
     component: () => import("../views/MyPage.vue"),
-  },
+  }
 ];
 
 const router = createRouter({

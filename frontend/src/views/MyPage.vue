@@ -4,7 +4,7 @@
             <div class="profile box">
                 <div class="profile_box box innerbox">
                     <div class="profile_title">내 프로필</div><br>
-                    <img src="@/assets/profile.png" alt="" />
+                    <img src="@/assets/profile.png" alt="이미지" />
                     <div class="pro_info">
                         이름 : 홍길동<br>
                         학번 : 20201234<br>
@@ -15,7 +15,7 @@
             <div class="mywrite box">
                 <div class="mypage_subtitle">
                     <div class="subtitle_container">
-                        <img src="@/assets/write.png" alt="" />
+                        <img src="@/assets/write.png" alt="이미지" />
                         내가 작성한 글
                     </div>
                     <a href="#" class="more_details">더보기 ▶</a>
@@ -36,7 +36,7 @@
             <div class="pointbox box">
                 <div class="mypage_subtitle">
                     <div class="subtitle_container">
-                        <img src="@/assets/pointplus.png" alt="" />
+                        <img src="@/assets/pointplus.png" alt="이미지" />
                         상벌점 내역
                     </div>
                     <a href="#" class="more_details">합계 : 5점</a>
@@ -57,7 +57,7 @@
             <div class="reservation box">
                 <div class="mypage_subtitle">
                     <div class="subtitle_container">
-                        <img src="@/assets/reservation.png" alt="" />
+                        <img src="@/assets/reservation.png" alt="이미지" />
                         예약 현황
                     </div>
                 </div>
@@ -107,7 +107,7 @@
             <div class="night box">
                 <div class="mypage_subtitle">
                     <div class="subtitle_container">
-                        <img src="@/assets/night.png" alt="" />
+                        <img src="@/assets/night.png" alt="이미지" />
                         외박 신청 현황
                     </div>
                     <a href="#" class="more_details">더보기 ▶</a>

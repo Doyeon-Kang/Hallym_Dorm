@@ -18,7 +18,7 @@
                         <img src="@/assets/write.png" alt="이미지" />
                         내가 작성한 글
                     </div>
-                    <a href="#" class="more_details">더보기 ▶</a>
+                    <a href="/mypage/myassey" class="more_details">더보기 ▶</a>
                 </div>
                 <div class="mywrite_box box innerbox">
                     <div class="item"
@@ -39,7 +39,7 @@
                         <img src="@/assets/pointplus.png" alt="이미지" />
                         상벌점 내역
                     </div>
-                    <a href="#" class="more_details">합계 : 5점</a>
+                    <a href="/mypage/mypoint" class="more_details">합계 : 5점</a>
                 </div>
                 <div class="point_box box innerbox">
                     <div class="item"
@@ -67,7 +67,7 @@
                             <div class="subtitle_container">
                                 8관 스터디룸 예약 현황
                             </div>
-                            <a href="#" class="more_details">더보기 ▶</a>
+                            <a href="/mypage/mystudy" class="more_details">더보기 ▶</a>
                         </div>
                         <div class="studyroom">
                             <div class="item"
@@ -87,7 +87,7 @@
                             <div class="subtitle_container">
                                 상담 신청
                             </div>
-                            <a href="#" class="more_details">더보기 ▶</a>
+                            <a href="/mypage/myconsulting" class="more_details">더보기 ▶</a>
                         </div>
                         <div class="counseling">
                             <div class="item"
@@ -110,7 +110,7 @@
                         <img src="@/assets/night.png" alt="이미지" />
                         외박 신청 현황
                     </div>
-                    <a href="#" class="more_details">더보기 ▶</a>
+                    <a href="/mypage/mysleep" class="more_details">더보기 ▶</a>
                 </div>
                 <div class="night_box box innerbox">
                     <div class="subtitle_container">

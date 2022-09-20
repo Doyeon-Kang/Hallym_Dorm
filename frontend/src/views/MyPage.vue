@@ -95,8 +95,8 @@
                                 :key="index">
                                 
                                 <div class="catetitle">
-                                    <div class="date">{{ item.date }}</div>
                                     <div class="title">{{ item.title }}</div>
+                                    <div class="date">{{ item.date }}</div>
                                 </div>
                                 <div class="res">{{ item.res }}</div>
                             </div>
@@ -113,14 +113,17 @@
                     <a href="#" class="more_details">더보기 ▶</a>
                 </div>
                 <div class="night_box box innerbox">
+                    <div class="subtitle_container">
+                        <div class="inout">들어올날</div>
+                        <div class="inout">나가는날</div>
+                        <div class="inout">진행상태</div>
+                    </div>
                     <div class="item"
                         v-for="(item, index) in night_item"
                         :key="index">
                             
-                        <div class="catetitle">
-                            <div class="indate">{{ item.indate }}</div>
-                            <div class="outdate">{{ item.outdate }}</div>
-                        </div>
+                        <div class="indate">{{ item.indate }}</div>
+                        <div class="outdate">{{ item.outdate }}</div>
                         <div class="status">{{ item.status }}</div>
                     </div>
                 </div>
@@ -209,14 +212,44 @@
                     {
                         res: "예약 대기 중",
                         title: "심리 상담",
-                        date: "2022.07.22",
+                        date: "22/12/02 15:00",
+                    },
+                    {
+                        res: "예약 완료",
+                        title: "심리 상담",
+                        date: "22/08/14 14:00",
+                    },
+                    {
+                        res: "예약 완료",
+                        title: "심리 상담",
+                        date: "22/07/08 15:00",
                     },
                 ],
                 night_item: [
                     {
-                        indate: "2022.07.21",
-                        outdate: "2022.07.19",
-                        status: "수락 대기 중",
+                        indate: "22/07/21",
+                        outdate: "22/07/19",
+                        status: "승인 대기 중",
+                    },
+                    {
+                        indate: "22/07/05",
+                        outdate: "22/07/04",
+                        status: "승인 완료",
+                    },
+                    {
+                        indate: "22/07/05",
+                        outdate: "22/07/04",
+                        status: "승인 완료",
+                    },
+                    {
+                        indate: "22/07/05",
+                        outdate: "22/07/04",
+                        status: "승인 완료",
+                    },
+                    {
+                        indate: "22/07/05",
+                        outdate: "22/07/04",
+                        status: "승인 완료",
                     },
                 ],
             };
@@ -291,7 +324,7 @@
             margin-bottom: 1%;
             .mywrite_box{
                 width: 95%;
-                height: 69%;
+                height: 73%;
                 padding: 10px 20px 10px 0;
                 .item {
                     display: flex;
@@ -321,12 +354,12 @@
         .pointbox{
             background-color: #648DDD;
             width: 31%;
-            height: 60%;
+            height: 55%;
             float: left;
             margin-right: 2%;
             .point_box{
                 width: 95%;
-                height: 76%;
+                height: 78%;
                 .item {
                     display: flex;
                     justify-content: space-between;
@@ -341,10 +374,11 @@
                             background-color: #648DDD;
                             border-radius: 10px;
                         }
-                        .title{
-                            width: 200%;
+                        .point {
+                            color: white;
+                            margin-left: 5px;
                         }
-                        .point, .title {
+                        .title {
                             color: #222222;
                             margin-left: 5px;
                         }
@@ -359,12 +393,12 @@
         .reservation{
             background-color: #00B6AD;
             width: 33%;
-            height: 60%;
+            height: 55%;
             float: left;
             margin-right: 1%;
             .reservation_box{
                 width: 95%;
-                height: 76%;
+                height: 78%;
                 .reservation_minibox{
                     padding-top: 5px;
                     margin: 0 15px;
@@ -387,16 +421,10 @@
                         .item {
                             display: flex;
                             justify-content: space-between;
-                            padding: 5px 5px;
+                            padding: 8px 5px;
                             font-size: 16px;
                             .catetitle{
                                 display: flex;
-                                &:hover {
-                                    cursor: pointer;
-                                    & .number {
-                                        color: #54AEAD;
-                                    }
-                                }
                                 .number, .use {
                                     color: #222222;
                                     margin-left: 50px;
@@ -412,19 +440,13 @@
                         .item {
                             display: flex;
                             justify-content: space-between;
-                            padding: 5px 5px;
-                            font-size: 16px;
+                            padding: 8px 5px;
+                            font-size: 15px;
                             .catetitle{
                                 display: flex;
-                                &:hover {
-                                    cursor: pointer;
-                                    & .res {
-                                        color: #54AEAD;
-                                    }
-                                }
-                                .category, .title {
+                                .res, .date {
                                     color: #222222;
-                                    margin-left: 5px;
+                                    margin-left: 25px;
                                 }
                             }
                             .date {
@@ -438,11 +460,28 @@
         .night{
             background-color: #66C6C4;
             width: 33%;
-            height: 60%;
-            float: right;
+            height: 55%;
+            float: left;
             .night_box{
                 width: 95%;
-                height: 76%;
+                height: 78%;
+                .subtitle_container{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 8px 25px;
+                    color:#00B6AD;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+                .item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 8px 20px;
+                    font-size: 15px;
+                    color: #222222;
+                }
             }
         }
     }

@@ -1,234 +1,449 @@
 <template>
-    <div class="mypage">
-        <div class="profile box">
-            <div class="profile_box box innerbox">
-                <div class="profile_title">내 프로필</div><br>
-                <img src="@/assets/profile.png" alt="" />
-                <div class="pro_info">
-                    이름 : 홍길동<br>
-                    학번 : 20201234<br>
-                    거주관 : X관 XXX호<br>
-                </div>
-            </div>
-        </div>
-        <div class="mywrite box">
-            <div class="mypage_subtitle">
-                <img src="@/assets/write.png" alt="" />내가 작성한 글
-                <div class="more_details" @click="this.$router.push('community')">더보기 ▶</div>
-            </div>
-            <div class="mywrite_box box innerbox">
-                <ul>
-                    <li>[분실물] 공책 잃어 버리신 분</li>
-                    <li>[나눔장터] 샴푸 필요하신 분</li>
-                    <li>[나눔장터] 필기구 남는 거 나눔합니다</li>
-                    <li>[분실물] 식당에서 보조 배터리 잃어 버리신 분</li>
-                    <li>[나눔장터] 쿠키 드실 분 있나요?</li>
-                    <li>[분실물] 가방 두고 가신 분</li>
-                </ul>
-            </div>
-        </div>
-        <div class="point box">
-            <div class="mypage_subtitle">
-                <img src="@/assets/pointplus.png" alt="" />상벌점 내역
-                <div class="more_details">합계 : 5점</div>
-            </div>
-            <div class="point_box box innerbox">
-                <ul>
-                    <li><div class="pointbox point_plus">+3점</div>프로그램 참가 (2022.08.18)</li>
-                    <li><div class="pointbox point_minus">-3점</div>무단 외박 (2022.07.01)</li>
-                    <li><div class="pointbox point_plus">+3점</div>프로그램 참가 (2022.05.21)</li>
-                    <li><div class="pointbox point_plus">+3점</div>프로그램 참가 (2022.05.10)</li>
-                </ul>
-            </div>
-        </div>
-        <div class="reservation box">
-            <div class="mypage_subtitle">
-                <img src="@/assets/reservation.png" alt="" />예약 현황
-            </div>
-            <div class="reservation_box box innerbox">
-                <div class="reservation_minibox">
-                    <div class="reservationtitle">
-                        8관 스터디룸 예약 현황
-                        <div class="more_details" @click="this.$router.push('')">더보기 ▶</div>
-                    </div>
-                    <div class="studyroom">
-                        <ul>
-                            <li><div class="usebox">이용 중</div></li>
-                            <li><div class="usebox">이용 완료</div></li>
-                            <li><div class="usebox">이용 완료</div></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="reservation_minibox">
-                    <div class="reservationtitle">
-                        상담 신청
-                        <div class="more_details" @click="this.$router.push('')">더보기 ▶</div>
-                    </div>
-                    <div class="counseling">
-                        <ul>
-                            <li><div class="usebox">이용 중</div></li>
-                            <li><div class="usebox">이용 완료</div></li>
-                            <li><div class="usebox">이용 완료</div></li>
-                        </ul>
+    <div class="mypage_container">
+        <div class="mypage">
+            <div class="profile box">
+                <div class="profile_box box innerbox">
+                    <div class="profile_title">내 프로필</div><br>
+                    <img src="@/assets/profile.png" alt="" />
+                    <div class="pro_info">
+                        이름 : 홍길동<br>
+                        학번 : 20201234<br>
+                        거주관 : X관 XXX호<br>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="night box">
-            <div class="mypage_subtitle">
-                <img src="@/assets/night.png" alt="" />외박 신청 현황
-                <div class="more_details" @click="this.$router.push('sleep')">더보기 ▶</div>
+            <div class="mywrite box">
+                <div class="mypage_subtitle">
+                    <div class="subtitle_container">
+                        <img src="@/assets/write.png" alt="" />
+                        내가 작성한 글
+                    </div>
+                    <a href="#" class="more_details">더보기 ▶</a>
+                </div>
+                <div class="mywrite_box box innerbox">
+                    <div class="item"
+                        v-for="(item, index) in mywrite_item"
+                        :key="index">
+                        
+                        <div class="catetitle">
+                            <div class="category">{{ item.category }}</div>
+                            <div class="title">{{ item.title }}</div>
+                        </div>
+                        <div class="date">{{ item.date }}</div>
+                    </div>
+                </div>
             </div>
-            <div class="night_box box innerbox"></div>
+            <div class="pointbox box">
+                <div class="mypage_subtitle">
+                    <div class="subtitle_container">
+                        <img src="@/assets/pointplus.png" alt="" />
+                        상벌점 내역
+                    </div>
+                    <a href="#" class="more_details">합계 : 5점</a>
+                </div>
+                <div class="point_box box innerbox">
+                    <div class="item"
+                        v-for="(item, index) in point_item"
+                        :key="index">
+                        
+                        <div class="catetitle">
+                            <div class="point">{{ item.point }}</div>
+                            <div class="title">{{ item.title }}</div>
+                        </div>
+                        <div class="date">{{ item.date }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="reservation box">
+                <div class="mypage_subtitle">
+                    <div class="subtitle_container">
+                        <img src="@/assets/reservation.png" alt="" />
+                        예약 현황
+                    </div>
+                </div>
+                <div class="reservation_box box innerbox">
+                    <div class="reservation_minibox">
+                        <div class="reservationtitle">
+                            <div class="subtitle_container">
+                                8관 스터디룸 예약 현황
+                            </div>
+                            <a href="#" class="more_details">더보기 ▶</a>
+                        </div>
+                        <div class="studyroom">
+                            <div class="item"
+                                v-for="(item, index) in studyroom_item"
+                                :key="index">
+                                
+                                <div class="catetitle">
+                                    <div class="date">{{ item.date }}</div>
+                                    <div class="number">{{ item.number }}</div>
+                                </div>
+                                <div class="use">{{ item.use }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reservation_minibox">
+                        <div class="reservationtitle">
+                            <div class="subtitle_container">
+                                상담 신청
+                            </div>
+                            <a href="#" class="more_details">더보기 ▶</a>
+                        </div>
+                        <div class="counseling">
+                            <div class="item"
+                                v-for="(item, index) in counseling_item"
+                                :key="index">
+                                
+                                <div class="catetitle">
+                                    <div class="date">{{ item.date }}</div>
+                                    <div class="title">{{ item.title }}</div>
+                                </div>
+                                <div class="res">{{ item.res }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="night box">
+                <div class="mypage_subtitle">
+                    <div class="subtitle_container">
+                        <img src="@/assets/night.png" alt="" />
+                        외박 신청 현황
+                    </div>
+                    <a href="#" class="more_details">더보기 ▶</a>
+                </div>
+                <div class="night_box box innerbox">
+                    <div class="item"
+                        v-for="(item, index) in night_item"
+                        :key="index">
+                            
+                        <div class="catetitle">
+                            <div class="indate">{{ item.indate }}</div>
+                            <div class="outdate">{{ item.outdate }}</div>
+                        </div>
+                        <div class="status">{{ item.status }}</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
   </template>
 
+<script>
+    export default {
+        name: "MyPageView",
+        data() {
+            return {
+                mywrite_item: [
+                    {
+                        category: "[분실물]",
+                        title: "공책 잃어 버리신 분",
+                        date: "2022.07.22",
+                    },
+                    {
+                        category: "[나눔장터]",
+                        title: "샴푸 필요하신 분",
+                        date: "2022.07.03",
+                    },
+                    {
+                        category: "[나눔장터]",
+                        title: "필기구 남는 거 나눔합니다",
+                        date: "2022.07.01",
+                    },
+                    {
+                        category: "[분실물]",
+                        title: "식당에서 보조 배터리 잃어 버리신 분",
+                        date: "2022.06.28",
+                    },
+                    {
+                        category: "[나눔장터]",
+                        title: "쿠키 드실 분 있나요?",
+                        date: "2022.06.05",
+                    },
+                    {
+                        category: "[분실물]",
+                        title: "가방 두고 가신 분",
+                        date: "2022.05.15",
+                    },
+                ],
+                point_item: [
+                    {
+                        point: "+3",
+                        title: "프로그램 참가",
+                        date: "2022.07.21",
+                    },
+                    {
+                        point: "-2",
+                        title: "무단 외박",
+                        date: "2022.07.01",
+                    },
+                    {
+                        point: "+2",
+                        title: "프로그램 참가",
+                        date: "2022.05.21",
+                    },
+                    {
+                        point: "+3",
+                        title: "프로그램 참가",
+                        date: "2022.05.10",
+                    },
+                ],
+                studyroom_item: [
+                    {
+                        use: "이용 중",
+                        number: "78",
+                        date: "2022.07.22",
+                    },
+                    {
+                        use: "이용 완료",
+                        number: "78",
+                        date: "2022.07.22",
+                    },
+                    {
+                        use: "이용 완료",
+                        number: "78",
+                        date: "2022.07.22",
+                    },
+                ],
+                counseling_item: [
+                    {
+                        res: "예약 대기 중",
+                        title: "심리 상담",
+                        date: "2022.07.22",
+                    },
+                ],
+                night_item: [
+                    {
+                        indate: "2022.07.21",
+                        outdate: "2022.07.19",
+                        status: "수락 대기 중",
+                    },
+                ],
+            };
+        },
+        components: {},
+    };
+    </script>
+
 <style scoped lang="less">
-.mypage{
-    margin: 100px auto;
-    width: 100%;
-    height: 700px;
-    img{
-        margin-right: 10px;
-        height: 20px;
-    }
-    .box{
-        border-radius: 10px;
-        background-color: white;
-        .innerbox{
-            margin: 0 auto;
+.mypage_container{
+    width: 1080px;
+    display: flex;
+    .mypage{
+        margin: 80px auto;
+        width: 100%;
+        img{
+            margin-right: 10px;
+            height: 20px;
         }
-    }
-    .more_details{
-        float: right;
-        font-size: 16px;
-        line-height: 33px;
-        margin-right: 25px;
-    }
-    .more_details:hover {
-        cursor: pointer;
-    }
-    .mypage_subtitle{
-        color: white;
-        font-weight: bold;
-        font-size: 23px;
-        margin: 20px 0px 20px 20px;
-    }
-    .profile{
-        background-color: white;
-        width: 330px;
-        height: 340px;
-        float: left;
-        margin-bottom: 20px;
-        box-shadow: 0px 0px 10px #bababa;
-        text-align: center;
-        .profile_box{
-            margin-top: 40px;
-            .profile_title{
-                font-weight: bold;
-                font-size: 20px;
-                margin-bottom: -15px;
-            }
-            img{
-                width: 150px;
-                height: 160px;
+        .box{
+            border-radius: 10px;
+            background-color: white;
+            .innerbox{
+                margin: 0 auto;
             }
         }
-    }
-    .mywrite{
-        background-color: #54AEAD;
-        width: 730px;
-        height: 340px;
-        float: right;
-        margin-bottom: 20px;
-        .mywrite_box{
-            width: 715px;
-            height: 260px;
-            ul{
-                padding-top: 5px;
-                list-style: none;
-                li{
-                    margin-left: 15px;
-                    margin-top: 15px;
-                    font-size: 18px;
-                }
+        .more_details{
+            font-size: 16px;
+            margin-right: 25px;
+        }
+        .more_details:hover {
+            cursor: pointer;
+        }
+        .mypage_subtitle{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 23px;
+            margin: 20px 0px 20px 20px;
+            a{
+                color: white;
             }
         }
-    }
-    .point{
-        background-color: #648DDD;
-        width: 330px;
-        height: 340px;
-        float: left;
-        margin-right: 20px;
-        .point_box{
-            width: 315px;
-            height: 260px;
-            ul{
-                padding-top: 10px;
-                list-style: none;
-                li{
-                    margin-top: 10px;
-                    margin-left: 10px;
-                    line-height: 25px;
-                    div{
-                        display: inline-block;
-                        text-align: center;
-                        color: white;
-                        width: 50px;
-                        height: 25px;
-                        margin-right: 10px;
-                        border-radius: 8px;
-                    }
-                    .point_plus{
-                        background-color: #648DDD;
-                    }
-                    .point_minus{
-                        background-color: #DD6464;
-                    }
-                }
-            }
-        }
-        
-    }
-    .reservation{
-        background-color: #00B6AD;
-        width: 355px;
-        height: 340px;
-        float: left;
-        margin-right: 20px;
-        .reservation_box{
-            width: 340px;
-            height: 260px;
-            .reservation_minibox{
-                padding-top: 10px;
-                margin: 0 15px;
-                .reservationtitle{
-                    width: 100%;
-                    height: 40px;
-                    color: #00B6AD;
-                    font-size: 19px;
+        .profile{
+            background-color: white;
+            width: 31%;
+            height: 55%;
+            float: left;
+            margin-bottom: 1%;
+            box-shadow: 0px 0px 10px #bababa;
+            text-align: center;
+            .profile_box{
+                margin-top: 40px;
+                .profile_title{
                     font-weight: bold;
-                    line-height: 30px;
-                    float: left;
-                    .more_details{
-                        font-size: 14px;
-                        margin: 0;
-                        float: right;
+                    font-size: 20px;
+                    margin-bottom: -15px;
+                }
+                img{
+                    width: 150px;
+                    height: 160px;
+                }
+            }
+        }
+        .mywrite{
+            background-color: #54AEAD;
+            width: 67%;
+            height: 55%;
+            float: right;
+            margin-bottom: 1%;
+            .mywrite_box{
+                width: 95%;
+                height: 69%;
+                padding: 10px 20px 10px 0;
+                .item {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 5px 5px;
+                    margin-top: 5px;
+                    font-size: 16px;
+                    .catetitle{
+                        display: flex;
+                        &:hover {
+                            cursor: pointer;
+                            & .category, .title {
+                                color: #54AEAD;
+                            }
+                        }
+                        .category, .title {
+                            color: #222222;
+                            margin-left: 5px;
+                        }
+                    }
+                    .date {
+                        color: #858585;
                     }
                 }
             }
         }
-    }
-    .night{
-        background-color: #66C6C4;
-        width: 355px;
-        height: 340px;
-        float: left;
-        .night_box{
-            width: 340px;
-            height: 260px;
+        .pointbox{
+            background-color: #648DDD;
+            width: 31%;
+            height: 60%;
+            float: left;
+            margin-right: 2%;
+            .point_box{
+                width: 95%;
+                height: 76%;
+                .item {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 8px 10px;
+                    margin-top: 5px;
+                    font-size: 15px;
+                    .catetitle{
+                        display: flex;
+                        .point{
+                            padding: 2px 10px;
+                            color: white;
+                            background-color: #648DDD;
+                            border-radius: 10px;
+                        }
+                        .title{
+                            width: 200%;
+                        }
+                        .point, .title {
+                            color: #222222;
+                            margin-left: 5px;
+                        }
+                    }
+                    .date {
+                        color: #858585;
+                    }
+                }
+            }
+            
+        }
+        .reservation{
+            background-color: #00B6AD;
+            width: 33%;
+            height: 60%;
+            float: left;
+            margin-right: 1%;
+            .reservation_box{
+                width: 95%;
+                height: 76%;
+                .reservation_minibox{
+                    padding-top: 5px;
+                    margin: 0 15px;
+                    .reservationtitle{
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        width: 100%;
+                        color: #00B6AD;
+                        font-size: 19px;
+                        font-weight: bold;
+                        float: left;
+                        .more_details{
+                            color: #00B6AD;
+                            font-size: 14px;
+                            margin: 0;
+                        }
+                    }
+                    .studyroom{
+                        .item {
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 5px 5px;
+                            font-size: 16px;
+                            .catetitle{
+                                display: flex;
+                                &:hover {
+                                    cursor: pointer;
+                                    & .number {
+                                        color: #54AEAD;
+                                    }
+                                }
+                                .number, .use {
+                                    color: #222222;
+                                    margin-left: 50px;
+                                }
+                            }
+                            .date {
+                                color: #858585;
+                            }
+                        }
+                    }
+
+                    .counseling{
+                        .item {
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 5px 5px;
+                            font-size: 16px;
+                            .catetitle{
+                                display: flex;
+                                &:hover {
+                                    cursor: pointer;
+                                    & .res {
+                                        color: #54AEAD;
+                                    }
+                                }
+                                .category, .title {
+                                    color: #222222;
+                                    margin-left: 5px;
+                                }
+                            }
+                            .date {
+                                color: #858585;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .night{
+            background-color: #66C6C4;
+            width: 33%;
+            height: 60%;
+            float: right;
+            .night_box{
+                width: 95%;
+                height: 76%;
+            }
         }
     }
 }

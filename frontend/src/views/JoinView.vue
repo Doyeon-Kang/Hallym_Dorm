@@ -41,26 +41,26 @@
 <style scoped lang="less">
 .join_container {
     width: 1080px;
+    display: flex;
 
     .join {
-        width: 625px;
-        height: 850px;
-        margin: 60px auto;
+        width: 58%;
+        margin: 30px auto;
         box-shadow: 0px 0px 10px #bababa;
         color: #222222;
 
         .joinbox {
-            width: 400px;
+            width: 64%;
             margin: 0 auto;
-            padding-top: 60px;
+            padding: 80px 0;
 
             .logo {
-                width: 190px;
+                width: 47%;
                 margin: 0 auto;
                 margin-bottom: 10px;
 
                 img {
-                    width: 60px;
+                    width: 32%;
                 }
 
                 .univ {
@@ -101,11 +101,11 @@
             }
 
             input {
-                width: 396px;
-                height: 30px;
+                width: 100%;
                 border: none;
                 border-bottom: 2px solid #00B6AD;
                 margin-bottom: 3px;
+                padding: 10px 0;
                 font-size: 14px;
             }
 
@@ -117,8 +117,7 @@
 
             .joinbtnbox {
                 clear: both;
-                width: 400px;
-                height: 50px;
+                width: 100%;
                 font-size: 18px;
                 font-weight: bold;
                 text-align: center;

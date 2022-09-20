@@ -298,7 +298,7 @@
         .profile{
             background-color: white;
             width: 31%;
-            height: 55%;
+            height: 52%;
             float: left;
             margin-bottom: 1%;
             box-shadow: 0px 0px 10px #bababa;
@@ -319,12 +319,12 @@
         .mywrite{
             background-color: #54AEAD;
             width: 67%;
-            height: 55%;
+            height: 52%;
             float: right;
             margin-bottom: 1%;
             .mywrite_box{
                 width: 95%;
-                height: 73%;
+                height: 72%;
                 padding: 10px 20px 10px 0;
                 .item {
                     display: flex;

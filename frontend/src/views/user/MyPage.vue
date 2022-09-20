@@ -85,7 +85,7 @@
                     <div class="reservation_minibox">
                         <div class="reservationtitle">
                             <div class="subtitle_container">
-                                상담 신청
+                                상담 신청 현황
                             </div>
                             <a href="/mypage/myconsulting" class="more_details">더보기 ▶</a>
                         </div>

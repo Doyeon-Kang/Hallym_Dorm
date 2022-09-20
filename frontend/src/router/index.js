@@ -7,28 +7,53 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: () => import("../views/HomeView.vue"),
+    component: () => import("../views/user/HomeView.vue"),
   },
   {
     path: "/login",
     name: "login",
-    component: () => import("../views/LoginView.vue"),
+    component: () => import("../views/preHome/LoginView.vue"),
   },
   {
     path: "/join",
     name: "join",
-    component: () => import("../views/JoinView.vue"),
+    component: () => import("../views/preHome/JoinView.vue"),
   },
   {
     path: "/findpw",
     name: "findpw",
-    component: () => import("../views/FindpwView.vue"),
+    component: () => import("../views/preHome/FindpwView.vue"),
   },
   {
-    path: "/mypage",
+    path: "/mypage/",
     name: "mypage",
-    component: () => import("../views/MyPage.vue"),
-  }
+    component: () => import("../views/user/MyPage.vue"),
+  },
+  {
+    path: "/mypage/myassey",
+    name: "myassey",
+    component: () => import("../views/user/MyPageDetail.vue"),
+  },
+  {
+    path: "/mypage/myconsulting",
+    name: "myconsulting",
+    component: () => import("../views/user/MyPageDetail.vue"),
+  },
+  {
+    path: "/mypage/mystudy",
+    name: "mystudy",
+    component: () => import("../views/user/MyPageDetail.vue"),
+  },
+  {
+    path: "/mypage/mysleep",
+    name: "mysleep",
+    component: () => import("../views/user/MyPageDetail.vue"),
+  },
+  {
+    path: "/mypage/mypoint",
+    name: "mypoint",
+    component: () => import("../views/user/MyPageDetail.vue"),
+  },
 ];
 
 const router = createRouter({

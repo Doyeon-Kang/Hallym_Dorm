@@ -1,23 +1,35 @@
 <template>
-  <div class="header">
-    <Navbar
-      v-show="$route.name !== 'login' && $route.name !== 'join' && $route.name !== 'findpw'"
-    ></Navbar>
-  </div>
-  <div class="banner" v-show="$route.name === 'home'">
-    <img src="@/assets/banner.jpg" alt="배너이미지" />
-    <div class="banner_container">
-      <div class="wrapper">
-        <span class="sub">편리한, 안전한, 다양한, 다문화 기숙사</span>
-        <h1>한림대학교 학생생활관</h1>
-        <a href="/intro" class="btn">생활관소개 바로가기</a>
+  <div>
+    <div class="header">
+      <Navbar
+        v-show="
+          $route.name !== 'login' &&
+          $route.name !== 'join' &&
+          $route.name !== 'findpw'
+        "
+      ></Navbar>
+    </div>
+    <div class="banner" v-show="$route.name === 'home'">
+      <img src="@/assets/banner.jpg" alt="배너이미지" />
+      <div class="banner_container">
+        <div class="wrapper">
+          <span class="sub">편리한, 안전한, 다양한, 다문화 기숙사</span>
+          <h1>한림대학교 학생생활관</h1>
+          <a href="/intro" class="btn">생활관소개 바로가기</a>
+        </div>
       </div>
     </div>
+    <div class="container">
+      <router-view />
+    </div>
+    <Footer
+      v-show="
+        $route.name !== 'login' &&
+        $route.name !== 'join' &&
+        $route.name !== 'findpw'
+      "
+    ></Footer>
   </div>
-  <div class="container">
-    <router-view />
-  </div>
-  <Footer v-show="$route.name !== 'login' && $route.name !== 'join' && $route.name !== 'findpw'"></Footer>
 </template>
 
 <script>
@@ -96,7 +108,7 @@ export default {
   width: 1080px;
   margin: 0 auto;
   position: relative;
-  z-index: 100;
+  z-index: 1;
 }
 
 // footer

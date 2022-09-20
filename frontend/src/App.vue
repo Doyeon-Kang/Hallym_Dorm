@@ -108,7 +108,7 @@ export default {
   width: 1080px;
   margin: 0 auto;
   position: relative;
-  z-index: 100;
+  z-index: 1;
 }
 
 // footer

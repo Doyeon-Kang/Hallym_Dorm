@@ -34,7 +34,15 @@
         $route.name !== 'mypage' &&
         $route.name !== 'login' &&
         $route.name !== 'join' &&
-        $route.name !== 'findpw'
+        $route.name !== 'findpw' &&
+        $route.name !== 'adminuser' &&
+        $route.name !== 'adminpoint' &&
+        $route.name !== 'adminstudy' &&
+        $route.name !== 'adminsleep' &&
+        $route.name !== 'admininout' &&
+        $route.name !== 'adminconsulting' &&
+        $route.name !== 'adminlife' &&
+        $route.name !== 'adminlogout'
       "
     ></div>
     <div class="container">

@@ -77,15 +77,15 @@
         </ul>
         <ul class="board">
           <li class="sub_menu">
-            <a href=""
+            <a href="/community"
               >공지사항
               <span v-show="expand" class="material-symbols-outlined">
                 expand_more
               </span>
             </a>
             <ul>
-              <li><a href="/life/community">학생기숙사</a></li>
-              <li><a href="/life/community/notice1">사생자치회</a></li>
+              <li><a href="/community">학생기숙사</a></li>
+              <li><a href="/community/notice1">사생자치회</a></li>
             </ul>
           </li>
           <li><a href="/community/data">서식자료실</a></li>

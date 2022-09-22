@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="position: relative">
     <div class="header">
       <Navbar
         v-show="
@@ -27,6 +27,16 @@
         </div>
       </div>
     </div>
+    <div
+      class="small_banner"
+      v-show="
+        $route.name !== 'home' &&
+        $route.name !== 'mypage' &&
+        $route.name !== 'login' &&
+        $route.name !== 'join' &&
+        $route.name !== 'findpw'
+      "
+    ></div>
     <div class="container">
       <router-view />
     </div>
@@ -109,6 +119,15 @@ export default {
       }
     }
   }
+}
+
+.small_banner {
+  background: url("@/assets/banner_small.png") no-repeat;
+  width: 100%;
+  height: 25%;
+  position: absolute;
+  top: 0;
+  z-index: -1;
 }
 
 // content

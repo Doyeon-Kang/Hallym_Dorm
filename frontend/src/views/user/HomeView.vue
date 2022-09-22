@@ -5,7 +5,7 @@
         <div class="first_notice">
           <div class="top">
             <div class="board_title">공지사항</div>
-            <a href="/life/community">더보기 ></a>
+            <a href="/community">더보기 ></a>
           </div>
 
           <div class="item_list">
@@ -22,7 +22,7 @@
         <div class="second_notice">
           <div class="top">
             <div class="board_title">사생자치회</div>
-            <a href="/life/community/notice1">더보기 ></a>
+            <a href="/community/notice1">더보기 ></a>
           </div>
           <div class="item_list">
             <div
@@ -515,9 +515,6 @@ export default {
               }
               span {
                 color: white;
-              }
-              &:hover {
-                border: 1px solid white;
               }
             }
           }

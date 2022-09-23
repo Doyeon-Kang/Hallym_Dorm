@@ -9,9 +9,7 @@
           <td :class="{ active: id === 2 }" @click="idChange(2)">
             기숙사 생활 관련
           </td>
-          <td :class="{ active: id === 3 }" @click="idChange(3)">
-            비용 관련 비용 관련
-          </td>
+          <td :class="{ active: id === 3 }" @click="idChange(3)">비용 관련</td>
         </tr>
         <tr>
           <td :class="{ active: id === 4 }" @click="idChange(4)">

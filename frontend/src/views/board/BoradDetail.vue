@@ -20,14 +20,20 @@
         :listItem="dataList"
         :listTitle="dataTitle"
       ></BoardList>
-      <FaqQuestion 
-        v-else-if="$route.name === 'faq'">
-      </FaqQuestion>
+      <FaqQuestion v-else-if="$route.name === 'faq'"> </FaqQuestion>
       <BoardList
         v-else-if="$route.name === 'repair'"
         :listItem="repairList"
         :listTitle="repairTitle"
       ></BoardList>
+      <PhotoBoard
+        v-else-if="$route.name === 'market'"
+        :photoList="marketList"
+      ></PhotoBoard>
+      <PhotoBoard
+        v-else-if="$route.name === 'lost'"
+        :photoList="lostList"
+      ></PhotoBoard>
     </div>
   </div>
 </template>
@@ -37,7 +43,7 @@ import PageTitle from "@/components/PageTitle.vue";
 import SidebarCom from "../../components/SidebarCom.vue";
 import BoardList from "../../components/BoardList.vue";
 import FaqQuestion from "../../components/FaqQuestion.vue";
-
+import PhotoBoard from "@/components/PhotoBoard.vue";
 
 export default {
   data() {
@@ -63,9 +69,7 @@ export default {
       ],
       // 게시판 정보
       communityTitle: ["번호", "글제목", "작성일", "작성자", "조회수"],
-      communityList: [{
-        
-      }],
+      communityList: [{}],
       noticeTitle: ["번호", "글제목", "작성일", "작성자", "조회수", ""],
       noticeList: [{}],
       dataTitle: ["번호", "글제목", "작성일자", "작성자", "조회수", ""],
@@ -74,14 +78,110 @@ export default {
       faqList: [{}],
       repairTitle: ["번호", "분야", "글제목", "작성일자", "작성자", "진행상태"],
       repairList: [{}],
+      marketList: [
+        {
+          photo: "샴푸린스.jpg",
+          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
+          writer: "홍길동",
+          date: "2022.07.18",
+          comment_cnt: 3,
+        },
+        {
+          photo: "banner.jpg",
+          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
+          writer: "홍길동",
+          date: "2022.07.18",
+          comment_cnt: 3,
+        },
+        {
+          photo: "샴푸린스.jpg",
+          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
+          writer: "홍길동",
+          date: "2022.07.18",
+          comment_cnt: 3,
+        },
+        {
+          photo: "샴푸린스.jpg",
+          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
+          writer: "홍길동",
+          date: "2022.07.18",
+          comment_cnt: 3,
+        },
+        {
+          photo: "샴푸린스.jpg",
+          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
+          writer: "홍길동",
+          date: "2022.07.18",
+          comment_cnt: 3,
+        },
+        {
+          photo: "샴푸린스.jpg",
+          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
+          writer: "홍길동",
+          date: "2022.07.18",
+          comment_cnt: 3,
+        },
+      ],
+      lostList: [
+        {
+          photo: "지갑.jpg",
+          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
+          writer: "김땡땡",
+          date: "2022.07.18",
+          comment_cnt: 5,
+        },
+        {
+          photo: "지갑.jpg",
+          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
+          writer: "김땡땡",
+          date: "2022.07.18",
+          comment_cnt: 5,
+        },
+        {
+          photo: "지갑.jpg",
+          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
+          writer: "김땡땡",
+          date: "2022.07.18",
+          comment_cnt: 5,
+        },
+        {
+          photo: "지갑.jpg",
+          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
+          writer: "김땡땡",
+          date: "2022.07.18",
+          comment_cnt: 5,
+        },
+        {
+          photo: "지갑.jpg",
+          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
+          writer: "김땡땡",
+          date: "2022.07.18",
+          comment_cnt: 5,
+        },
+        {
+          photo: "지갑.jpg",
+          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
+          writer: "김땡땡",
+          date: "2022.07.18",
+          comment_cnt: 5,
+        },
+        {
+          photo: "지갑.jpg",
+          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
+          writer: "김땡땡",
+          date: "2022.07.18",
+          comment_cnt: 5,
+        },
+      ],
     };
   },
   components: {
     PageTitle,
     SidebarCom,
     BoardList,
-    FaqQuestion
-},
+    FaqQuestion,
+    PhotoBoard,
+  },
   created() {
     this.routeCheck();
   },

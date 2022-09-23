@@ -42,7 +42,7 @@
         $route.name !== 'admininout' &&
         $route.name !== 'adminconsulting' &&
         $route.name !== 'adminlife' &&
-        $route.name !== 'adminlogout'
+        $route.name !== 'logout'
       "
     ></div>
     <div class="container">
@@ -128,7 +128,6 @@ export default {
     }
   }
 }
-
 .small_banner {
   background: url("@/assets/banner_small.png") no-repeat;
   width: 100%;
@@ -136,6 +135,7 @@ export default {
   position: absolute;
   top: 0;
   z-index: -1;
+  background-size: 100%;
 }
 
 // content

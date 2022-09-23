@@ -1,11 +1,19 @@
 <template>
-  <div>
+  <div style="position: relative">
     <div class="header">
       <Navbar
         v-show="
           $route.name !== 'login' &&
           $route.name !== 'join' &&
-          $route.name !== 'findpw'
+          $route.name !== 'findpw' &&
+          $route.name !== 'adminuser' &&
+          $route.name !== 'adminpoint' &&
+          $route.name !== 'adminstudy' &&
+          $route.name !== 'adminsleep' &&
+          $route.name !== 'admininout' &&
+          $route.name !== 'adminconsulting' &&
+          $route.name !== 'adminlife' &&
+          $route.name !== 'adminlogout'
         "
       ></Navbar>
     </div>
@@ -19,6 +27,24 @@
         </div>
       </div>
     </div>
+    <div
+      class="small_banner"
+      v-show="
+        $route.name !== 'home' &&
+        $route.name !== 'mypage' &&
+        $route.name !== 'login' &&
+        $route.name !== 'join' &&
+        $route.name !== 'findpw' &&
+        $route.name !== 'adminuser' &&
+        $route.name !== 'adminpoint' &&
+        $route.name !== 'adminstudy' &&
+        $route.name !== 'adminsleep' &&
+        $route.name !== 'admininout' &&
+        $route.name !== 'adminconsulting' &&
+        $route.name !== 'adminlife' &&
+        $route.name !== 'adminlogout'
+      "
+    ></div>
     <div class="container">
       <router-view />
     </div>
@@ -103,12 +129,21 @@ export default {
   }
 }
 
+.small_banner {
+  background: url("@/assets/banner_small.png") no-repeat;
+  width: 100%;
+  height: 25%;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+
 // content
 .container {
   width: 1080px;
   margin: 0 auto;
   position: relative;
-  z-index: 100;
+  z-index: 1;
 }
 
 // footer

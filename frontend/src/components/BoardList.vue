@@ -1,133 +1,143 @@
 <template>
-<div class="wrapper_list">
+  <div class="wrapper_list">
     <table>
-        <thead>
-            <th>번호</th>
-            <th>글내용</th>
-            <th>작성일</th>
-            <th>작성자</th>
-            <th>조회수</th>
-            <th></th>
-        </thead>
-        <tbody>
-            <tr v-for="item in paginatedData" :key="item.no">
-                <td>{{item.no}}</td>
-                <td class="title">{{item.title}}</td>
-                <td>{{item.date}}</td>
-                <td>{{item.writer}}</td>
-                <td>{{item.view}}</td>
-                <td></td>
-            </tr>
-        </tbody>
+      <thead>
+        <th v-for="(title, index) in listTitle" :key="index">{{ title }}</th>
+      </thead>
+      <tbody>
+        <tr
+          v-for="item in paginatedData"
+          :key="item.no"
+          @click="this.$router.push(item.url)"
+        >
+          <td v-for="(text, index) in objectKey(item)" :key="index">
+            {{ text }}
+          </td>
+        </tr>
+      </tbody>
     </table>
     <div class="btn-cover">
       <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
         이전
       </button>
       <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-      <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
+      <button
+        :disabled="pageNum >= pageCount - 1"
+        @click="nextPage"
+        class="page-btn"
+      >
         다음
       </button>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
 export default {
-    data () {
-        return {
-            pageNum: 0
-        }
+  data() {
+    return {
+      pageNum: 0,
+    };
+  },
+  props: {
+    listTitle: {
+      type: Array,
+      required: true,
     },
-    props: {
-        listItem: {
-            type: Array,
-            required: true
-        },
-        pageSize: {
-            type: Number,
-            required: false,
-            default: 5
-        }
+    listItem: {
+      type: Array,
+      required: true,
     },
-    methods: {
-        nextPage () {
-            this.pageNum += 1;
-        },
-        prevPage () {
-            this.pageNum -= 1;
-        }
+    pageSize: {
+      type: Number,
+      required: false,
+      default: 5,
     },
-    computed: {
-        pageCount () {
-            let listLeng = this.listItem.length,
-                listSize = this.pageSize,
-                page = Math.floor(listLeng / listSize);
-            if (listLeng % listSize > 0) page += 1;
-            return page;
-        },
-        paginatedData () {
-            const start = this.pageNum * this.pageSize,
-                    end = start + this.pageSize;
-            return this.listItem.slice(start, end);
-        }
-    }
-}
+  },
+  methods: {
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    },
+    objectKey(ob) {
+      let array = [];
+      for (let key in ob) {
+        if (key !== "url") array.push(ob[key]);
+      }
+      return array;
+    },
+  },
+  computed: {
+    pageCount() {
+      let listLeng = this.listItem.length,
+        listSize = this.pageSize,
+        page = Math.floor(listLeng / listSize);
+      if (listLeng % listSize > 0) page += 1;
+      return page;
+    },
+    paginatedData() {
+      const start = this.pageNum * this.pageSize,
+        end = start + this.pageSize;
+      return this.listItem.slice(start, end);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
 .wrapper_list {
-    table {
-        width: 100%;
-        thead {
-            background-color: #336EB4;
-            th {
-                color: #fff;
-                padding: 12px;
-            }
-        }
-        tbody {
-            tr {
-                border-bottom: 1px solid #858585;
-                td {
-                    text-align: center;
-                    padding: 20px;
-                    color: #222;
-                    &.title:hover{
-                        color: #336EB4;
-                        cursor: pointer;
-                    }
-                }
-            }
-        }
+  table {
+    width: 100%;
+    thead {
+      background-color: #336eb4;
+      th {
+        color: #fff;
+        padding: 12px;
+      }
     }
-    .btn-cover {
-        margin-top: 1.5rem;
-        text-align: center;
-        .page-btn {
-            width: 4rem;
-            height: 2rem;
-            letter-spacing: 0.5px;
-            border: 1px solid #C0C0C0;
-            background-color: #fff;
-            border-radius: 5px;
-            color: #858585;
-            font-weight: 800;
-            &:hover {
-                cursor: pointer;
-                border: 1px solid #336EB4;
-            }
-            &[disabled] {
-                color: #c0c0c0;
-                &:hover {
-                    cursor: auto;
-                    border: 1px solid #c0c0c0;
-                }
-            }
+    tbody {
+      tr {
+        border-bottom: 1px solid #858585;
+        &:hover {
+          cursor: pointer;
         }
-        .page-count {
-            padding: 0 1rem;
+        td {
+          text-align: center;
+          padding: 20px;
+          color: #222;
         }
+      }
     }
+  }
+  .btn-cover {
+    margin-top: 1.5rem;
+    text-align: center;
+    .page-btn {
+      width: 4rem;
+      height: 2rem;
+      letter-spacing: 0.5px;
+      border: 1px solid #c0c0c0;
+      background-color: #fff;
+      border-radius: 5px;
+      color: #858585;
+      font-weight: 800;
+      &:hover {
+        cursor: pointer;
+        border: 1px solid #336eb4;
+      }
+      &[disabled] {
+        color: #c0c0c0;
+        &:hover {
+          cursor: auto;
+          border: 1px solid #c0c0c0;
+        }
+      }
+    }
+    .page-count {
+      padding: 0 1rem;
+    }
+  }
 }
 </style>

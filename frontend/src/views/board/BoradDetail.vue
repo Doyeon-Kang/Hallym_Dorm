@@ -20,6 +20,9 @@
         :listItem="dataList"
         :listTitle="dataTitle"
       ></BoardList>
+      <FaqQuestion 
+        v-else-if="$route.name === 'faq'">
+      </FaqQuestion>
       <BoardList
         v-else-if="$route.name === 'repair'"
         :listItem="repairList"
@@ -33,6 +36,8 @@
 import PageTitle from "@/components/PageTitle.vue";
 import SidebarCom from "../../components/SidebarCom.vue";
 import BoardList from "../../components/BoardList.vue";
+import FaqQuestion from "../../components/FaqQuestion.vue";
+
 
 export default {
   data() {
@@ -58,7 +63,9 @@ export default {
       ],
       // 게시판 정보
       communityTitle: ["번호", "글제목", "작성일", "작성자", "조회수"],
-      communityList: [{}],
+      communityList: [{
+        
+      }],
       noticeTitle: ["번호", "글제목", "작성일", "작성자", "조회수", ""],
       noticeList: [{}],
       dataTitle: ["번호", "글제목", "작성일자", "작성자", "조회수", ""],
@@ -73,7 +80,8 @@ export default {
     PageTitle,
     SidebarCom,
     BoardList,
-  },
+    FaqQuestion
+},
   created() {
     this.routeCheck();
   },

@@ -1,37 +1,37 @@
 <template>
-  <div class="login">
-    <div class="loginbox">
+  <div class="findpw">
+    <div class="findpwbox">
       <div class="logo" @click="this.$router.push('/')">
         <img src="@/assets/logo.png" alt="" />
         <img src="@/assets/univ.png" alt="" />
         <div class="univ">| Dormitory</div>
       </div>
-      <div class="logintitle">학생생활관 로그인</div>
-      <div class="login_id">
-        <div class="login_text">아이디</div>
+      <div class="findpwtitle">비밀번호 찾기</div>
+      <div class="findpw_id">
+        <div class="findpw_text">아이디</div>
         <input type="text" v-model="id" placeholder="아이디를 입력해주세요.">
       </div>
-      <div class="login_pw">
-        <div class="login_text">비밀번호</div>
-        <input type="password" v-model="pwd" placeholder="비밀번호를 입력해주세요.">
+      <div class="findpw_email">
+        <div class="findpw_text">본인 확인 이메일</div>
+        <input type="text" v-model="email" placeholder="이메일을 입력해주세요.">
       </div>
-      <div class="loginguide">※아이디는 한림대학교 학번과 동일함.</div>
-      <a href="/findpw" class="findpw">비밀번호 찾기</a>
-      <div class="loginbtnbox loginbtn">로그인</div>
-      <div class="loginbtnbox joinbtn" @click="this.$router.push('join')">회원가입</div>
+      <div class="findpwguide">※가입하신 이메일로 임시 비밀번호를 전송합니다.</div>
+      <div class="findpwbtnbox findpwbtn">확인</div>
+      <div class="loginbtn" @click="this.$router.push('login')">◀ 로그인 페이지</div>
+      <div class="homebtn" @click="this.$router.push('/')">홈페이지 ▶</div>
     </div>
   </div>
 </template>
-
+  
 <style scoped lang="less">
-.login {
+.findpw {
   width: 625px;
-  height: 680px;
+  height: 630px;
   margin: 100px auto;
   box-shadow: 0px 0px 10px #bababa;
   color: #222222;
 
-  .loginbox {
+  .findpwbox {
     width: 400px;
     margin: 0 auto;
     padding-top: 80px;
@@ -41,8 +41,8 @@
       margin: 0 auto;
       margin-bottom: 10px;
 
-      img{
-        width:60px;
+      img {
+        width: 60px;
       }
 
       .univ {
@@ -53,7 +53,7 @@
       }
     }
 
-    .logintitle {
+    .findpwtitle {
       clear: both;
       color: #336EB4;
       text-align: center;
@@ -62,44 +62,41 @@
       margin-bottom: 60px;
     }
 
-    .login_id,.login_pw {
+    .findpw_id,
+    .findpw_email {
       color: #00B6AD;
       font-size: 17px;
       font-weight: bold;
     }
 
-    .login_id {
+    .findpw_id {
       margin-bottom: 30px;
     }
 
-    .login_pw {
+    .findpw_email {
       margin-bottom: 5px;
     }
 
-    .login_id input,.login_pw input {
+    .findpw_text {
+      margin-bottom: 5px;
+    }
+
+    input {
       width: 396px;
       height: 30px;
       border: none;
       border-bottom: 2px solid #00B6AD;
-      margin-top: 10px;
       font-size: 14px;
     }
 
-    .loginguide,.findpw {
+    .findpwguide {
       color: #858585;
       font-weight: bold;
       font-size: 13px;
-    }
-
-    .loginguide {
       float: left;
     }
 
-    .findpw {
-      float: right;
-    }
-
-    .loginbtnbox {
+    .findpwbtnbox {
       clear: both;
       width: 400px;
       height: 50px;
@@ -109,20 +106,36 @@
       line-height: 50px;
     }
 
-    .logo:hover, .loginbtnbox:hover {
+    .logo:hover,
+    .findpwbtnbox:hover {
       cursor: pointer;
     }
 
-    .loginbtn {
+    .findpwbtn {
       background-color: #00B6AD;
       color: #FFFFFF;
-      margin-top: 80px;
+      margin-top: 70px;
     }
 
-    .joinbtn {
-      background-color: #EBECF0;
+    .loginbtn,
+    .homebtn {
       color: #858585;
-      margin-top: 15px;
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .loginbtn {
+      float: left;
+    }
+
+    .homebtn {
+      float: right;
+    }
+
+    .homebtn:hover,
+    .loginbtn:hover {
+      cursor: pointer;
     }
   }
 }

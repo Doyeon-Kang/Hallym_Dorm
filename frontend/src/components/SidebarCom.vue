@@ -4,11 +4,20 @@
       {{ pageName }}
     </div>
     <ul class="list_title">
-      <li v-for="(item, index) in listItem" :key="index" :class="{active: item.active, semi: item.semi}">
+      <li
+        v-for="(item, index) in listItem"
+        :key="index"
+        class="item"
+        :class="{ active: item.active, semi: item.semi }"
+      >
         <router-link :to="item.path">{{ item.title }}</router-link>
         <ul v-if="item.semi" class="semi_title">
-          <li v-for="(semi, index) in item.semiTitle" :key="index">
-            <router-link :to="item.path">{{ semi }}</router-link>  
+          <li
+            v-for="(semi, index) in item.semiTitle"
+            :key="index"
+            :class="{ active: semi.active }"
+          >
+            <router-link :to="semi.path">{{ semi.title }}</router-link>
           </li>
         </ul>
       </li>
@@ -37,6 +46,7 @@ export default {
 #side_container {
   width: 160px;
   .page_name {
+    text-align: center;
     position: relative;
     font-size: 20px;
     font-weight: 600;
@@ -60,7 +70,7 @@ export default {
   .list_title {
     margin-top: 24px;
     background-color: #fff;
-    li {
+    li.item {
       &.active {
         background-color: #447ec3;
         & a {
@@ -79,7 +89,7 @@ export default {
       &:last-child {
         border-bottom: 1px solid #447ec3;
       }
-      &:hover .semi_title li{
+      &:hover .semi_title li {
         background-color: #fff;
       }
       a {
@@ -95,7 +105,13 @@ export default {
           border-top: none;
           list-style: inside;
           list-style-type: circle;
-          &:last-child  {
+          &.active {
+            a {
+              color: #447ec3;
+              font-weight: 800;
+            }
+          }
+          &:last-child {
             border: none;
           }
         }

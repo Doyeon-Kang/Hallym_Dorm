@@ -72,108 +72,113 @@
 </script>
 
 <style scoped lang="less">
-  .login_container{
-    width: 1080px;
-    display: flex;
-    .login {
-      width: 58%;
-      margin: 30px auto;
-      box-shadow: 0px 0px 10px #bababa;
-      color: #222222;
+.login_container {
+  width: 1080px;
+  display: flex;
 
-      .loginbox {
-        width: 64%;
+  .login {
+    width: 58%;
+    margin: 30px auto;
+    box-shadow: 0px 0px 10px #bababa;
+    color: #222222;
+
+    .loginbox {
+      width: 64%;
+      margin: 0 auto;
+      padding: 80px 0;
+
+      .logo {
+        width: 47%;
         margin: 0 auto;
-        padding: 80px 0;
+        margin-bottom: 10px;
 
-        .logo {
-          width: 47%;
-          margin: 0 auto;
-          margin-bottom: 10px;
-
-          img{
-            width: 32%;
-          }
-
-          .univ {
-            font-size: 12px;
-            font-weight: bold;
-            line-height: 38px;
-            float: right;
-          }
+        img {
+          width: 32%;
         }
 
-        .logintitle {
-          clear: both;
-          color: #336EB4;
-          text-align: center;
-          font-size: 40px;
+        .univ {
+          font-size: 12px;
           font-weight: bold;
-          margin-bottom: 60px;
-        }
-
-        .login_id,.login_pw {
-          color: #00B6AD;
-          font-size: 17px;
-          font-weight: bold;
-        }
-
-        .login_id {
-          margin-bottom: 30px;
-        }
-
-        .login_pw {
-          margin-bottom: 5px;
-        }
-
-        .login_id input,.login_pw input {
-          width: 99%;
-          border: none;
-          border-bottom: 2px solid #00B6AD;
-          padding: 10px 0;
-          margin-top: 10px;
-          font-size: 14px;
-        }
-
-        .loginguide,.findpw {
-          color: #858585;
-          font-weight: bold;
-          font-size: 13px;
-        }
-
-        .loginguide {
-          float: left;
-        }
-
-        .findpw {
+          line-height: 38px;
           float: right;
         }
+      }
 
-        .loginbtnbox {
-          clear: both;
-          width: 100%;
-          font-size: 18px;
-          font-weight: bold;
-          text-align: center;
-          line-height: 50px;
-        }
+      .logintitle {
+        clear: both;
+        color: #336EB4;
+        text-align: center;
+        font-size: 40px;
+        font-weight: bold;
+        margin-bottom: 60px;
+      }
 
-        .logo:hover, .loginbtnbox:hover {
-          cursor: pointer;
-        }
+      .login_id,
+      .login_pw {
+        color: #00B6AD;
+        font-size: 17px;
+        font-weight: bold;
+      }
 
-        .loginbtn {
-          background-color: #00B6AD;
-          color: #FFFFFF;
-          margin-top: 80px;
-        }
+      .login_id {
+        margin-bottom: 30px;
+      }
 
-        .joinbtn {
-          background-color: #EBECF0;
-          color: #858585;
-          margin-top: 15px;
-        }
+      .login_pw {
+        margin-bottom: 5px;
+      }
+
+      .login_id input,
+      .login_pw input {
+        width: 99%;
+        border: none;
+        border-bottom: 2px solid #00B6AD;
+        padding: 10px 0;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+
+      .loginguide,
+      .findpw {
+        color: #858585;
+        font-weight: bold;
+        font-size: 13px;
+      }
+
+      .loginguide {
+        float: left;
+      }
+
+      .findpw {
+        float: right;
+      }
+
+      .loginbtnbox {
+        clear: both;
+        width: 100%;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 50px;
+      }
+
+      .logo:hover,
+      .loginbtnbox:hover {
+        cursor: pointer;
+      }
+
+      .loginbtn {
+        background-color: #00B6AD;
+        color: #FFFFFF;
+        margin-top: 80px;
+      }
+
+      .joinbtn {
+        background-color: #EBECF0;
+        color: #858585;
+        margin-top: 15px;
       }
     }
   }
+}
 </style>

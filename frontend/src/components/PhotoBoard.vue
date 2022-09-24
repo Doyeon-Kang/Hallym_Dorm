@@ -1,21 +1,18 @@
 <template>
-  <div class="wrapper_list">
-    <table>
-      <thead>
-        <th v-for="(title, index) in listTitle" :key="index">{{ title }}</th>
-      </thead>
-      <tbody>
-        <tr
-          v-for="item in paginatedData"
-          :key="item.no"
-          @click="this.$router.push(item.url)"
-        >
-          <td v-for="(text, index) in objectKey(item)" :key="index">
-            {{ text }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="photo_list">
+    <div v-for="(item, index) in paginatedData" :key="index" class="photo_item">
+      <div class="photo">
+        <img :src="require(`@/assets/${item.photo}`)" alt="미리보기" />
+      </div>
+      <div class="first_line">
+        <div class="title">{{ item.title }}</div>
+        <div class="comment_cnt">[{{ item.comment_cnt }}]</div>
+      </div>
+      <div class="second_line">
+        <div class="writer">{{ item.writer }}</div>
+        <div class="date">{{ item.date }}</div>
+      </div>
+    </div>
     <div class="btn-cover">
       <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
         이전
@@ -40,18 +37,22 @@ export default {
     };
   },
   props: {
-    listTitle: {
+    photoList: {
       type: Array,
-      required: true,
-    },
-    listItem: {
-      type: Array,
-      required: true,
+      default: () => [
+        {
+          photo: "",
+          title: "",
+          writer: "",
+          date: "",
+          comment_cnt: "",
+        },
+      ],
     },
     pageSize: {
       type: Number,
       required: false,
-      default: 5,
+      default: 6,
     },
   },
   methods: {
@@ -61,17 +62,10 @@ export default {
     prevPage() {
       this.pageNum -= 1;
     },
-    objectKey(ob) {
-      let array = [];
-      for (let key in ob) {
-        if (key !== "url") array.push(ob[key]);
-      }
-      return array;
-    },
   },
   computed: {
     pageCount() {
-      let listLeng = this.listItem.length,
+      let listLeng = this.photoList.length,
         listSize = this.pageSize,
         page = Math.floor(listLeng / listSize);
       if (listLeng % listSize > 0) page += 1;
@@ -80,35 +74,42 @@ export default {
     paginatedData() {
       const start = this.pageNum * this.pageSize,
         end = start + this.pageSize;
-      return this.listItem.slice(start, end);
+      return this.photoList.slice(start, end);
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-.wrapper_list {
-  table {
-    width: 100%;
-    thead {
-      background-color: #336eb4;
-      th {
-        color: #fff;
-        padding: 12px;
+.photo_list {
+  .photo_item {
+    display: inline-block;
+    width: 25%;
+    margin-top: 20px;
+    margin-right: 4.5em;
+    color: #858585;
+    &:hover {
+      cursor: pointer;
+    }
+    .photo {
+      img {
+        width: 100%;
+        height: 200px;
       }
     }
-    tbody {
-      tr {
-        border-bottom: 1px solid #858585;
-        &:hover {
-          cursor: pointer;
-        }
-        td {
-          text-align: center;
-          padding: 20px;
-          color: #222;
-        }
+    .first_line {
+      display: flex;
+      justify-content: space-between;
+      .title {
+        width: 92%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
+    }
+    .second_line {
+      display: flex;
+      justify-content: space-between;
     }
   }
   .btn-cover {

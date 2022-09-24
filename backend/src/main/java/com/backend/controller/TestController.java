@@ -1,7 +1,5 @@
 package com.backend.controller;
 
-import java.util.List;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +20,12 @@ public class TestController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public String userAccess() {
         return "User Content.";
+    }
+
+    @GetMapping("/user-member")
+    @PreAuthorize("hasRole('ROLE_USER_MEMBER')")
+    public String userMemberAccess() {
+        return "User Member Content.";
     }
 
     @GetMapping("/admin")

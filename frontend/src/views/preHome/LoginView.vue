@@ -10,20 +10,66 @@
         <div class="logintitle">학생생활관 로그인</div>
         <div class="login_id">
           <div class="login_text">아이디</div>
-          <input type="text" v-model="id" placeholder="아이디를 입력해주세요.">
+          <input type="text" v-model="user.username" placeholder="아이디를 입력해주세요.">
         </div>
         <div class="login_pw">
           <div class="login_text">비밀번호</div>
-          <input type="password" v-model="pwd" placeholder="비밀번호를 입력해주세요.">
+          <input type="password" v-model="user.password" placeholder="비밀번호를 입력해주세요.">
         </div>
         <div class="loginguide">※아이디는 한림대학교 학번과 동일함.</div>
         <a href="/findpw" class="findpw">비밀번호 찾기</a>
-        <div class="loginbtnbox loginbtn">로그인</div>
+        <div class="loginbtnbox loginbtn" @click="handleLogin(user)">로그인</div>
         <div class="loginbtnbox joinbtn" @click="this.$router.push('join')">회원가입</div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    name: 'LoginView',
+    data() {
+      return {
+        loading: false,
+        message: '',
+        user: {
+          username: '',
+          password: ''
+        }
+      }
+    },
+    computed: {
+      loggedIn() {
+        return this.$store.state.auth.status.loggedIn
+      },
+    },
+    created() {
+      if (this.loggedIn) {
+        this.$router.push('/mypage')
+      }
+    },
+    methods: {
+      handleLogin(user) {
+        this.loading = true
+        this.$store.dispatch('auth/login', user).then(
+          () => {
+            this.$router.push('/mypage');
+          },
+          (error) => {
+            this.loading = false;
+            this.message = 
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+              error.message ||
+              error.toString();
+          }
+        )
+        console.log(this.message)
+      }
+    }
+  }
+</script>
 
 <style scoped lang="less">
   .login_container{

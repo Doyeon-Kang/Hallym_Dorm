@@ -1,5 +1,6 @@
 <template>
     <div class="mypage_container">
+        <button @click="logOut()">Logout</button>
         <div class="mypage">
             <div class="profile box">
                 <div class="profile_box box innerbox">
@@ -255,6 +256,12 @@
             };
         },
         components: {},
+        methods: {
+            logOut() {
+                this.$store.dispatch('auth/logout');
+                this.$router.push('/login');
+            }
+        }
     };
     </script>
 

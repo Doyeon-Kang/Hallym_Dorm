@@ -1,6 +1,6 @@
 <template>
     <div id="side_container">
-        <div class="page_name">
+        <div class="page_name" @click="this.$router.push('/')">
             <img class="hallym_mark" src="@/assets/logo.png" alt="" />
             <img class="hallym_name" src="@/assets/univ.png" alt="" />
             <div class="univ">| Dormitory</div>
@@ -70,17 +70,23 @@ export default {
         }
     }
 
+    .page_name:hover {
+        cursor: pointer;
+    }
+
     .list_title {
+        margin-top: 0px;
         background-color: #fff;
 
-        .item_img{
+        .item_img {
             height: 16px;
         }
 
         li {
             &.active {
                 background-color: #447ec3;
-                .item_img{
+
+                .item_img {
                     filter: drop-shadow(0 0 0 white);
                 }
 
@@ -92,6 +98,7 @@ export default {
                     background-color: #fff;
                 }
             }
+
             text-align: left;
             padding: 20px 20px;
 

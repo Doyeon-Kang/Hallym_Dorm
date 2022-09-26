@@ -6,12 +6,12 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
 -- -----------------------------------------------------
 -- Schema dormitory
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `dormitory` DEFAULT CHARACTER SET utf8 ;
 USE `dormitory` ;
+SET GLOBAL time_zone = 'Asia/Seoul';
 
 CREATE TABLE IF NOT EXISTS `dormitory`.`test_user` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -199,6 +199,9 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`role` (
     PRIMARY KEY (`id`)
 )
 ENGINE = InnoDB;
+INSERT INTO role(name) VALUES('ROLE_USER');
+INSERT INTO role(name) VALUES('ROLE_USER_MEMBER');
+INSERT INTO role(name) VALUES('ROLE_ADMIN');
 
 -- -----------------------------------------------------
 -- Table `dormitory`.`board_notice`
@@ -210,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`board_notice` (
   `title` VARCHAR(200) NULL COMMENT '제목',
   `contents` VARCHAR(1000) NULL COMMENT '내용',
   `views` INT NULL COMMENT '조회수',
-  `date` DATE COMMENT '작성일자',
+  `date` DATETIME COMMENT '작성일자',
   `user_member_id` VARCHAR(200) NULL,
   `user_member_no` INT NULL,
   PRIMARY KEY (`id`),

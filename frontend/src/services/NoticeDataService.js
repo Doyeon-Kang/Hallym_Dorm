@@ -25,9 +25,6 @@ class NoticeDataService {
     return http.delete(`/notices`);
   }
 
-  findByTitle(title) {
-    return http.get(`/notices?title=${title}`);
-  }
 }
 
 export default new NoticeDataService();

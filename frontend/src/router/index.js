@@ -100,47 +100,47 @@ const routes = [
   {
     path: "/community",
     name: "community",
-    component: () => import("../views/board/BoradDetail.vue"),
+    component: () => import("../views/board/BoardDetail.vue"),
   },
   {
     path: "/community/notice1",
     name: "notice1",
-    component: () => import("../views/board/BoradDetail.vue"),
+    component: () => import("../views/board/BoardDetail.vue"),
   },
   {
     path: "/community/data",
     name: "data",
-    component: () => import("../views/board/BoradDetail.vue"),
+    component: () => import("../views/board/BoardDetail.vue"),
   },
   {
     path: "/community/faq",
     name: "faq",
-    component: () => import("../views/board/BoradDetail.vue"),
+    component: () => import("../views/board/BoardDetail.vue"),
   },
   {
     path: "/community/repair",
     name: "repair",
-    component: () => import("../views/board/BoradDetail.vue"),
+    component: () => import("../views/board/BoardDetail.vue"),
   },
   {
     path: "/community/market",
     name: "market",
-    component: () => import("../views/board/BoradDetail.vue"),
+    component: () => import("../views/board/BoardDetail.vue"),
   },
   {
     path: "/community/lost",
     name: "lost",
-    component: () => import("../views/board/BoradDetail.vue"),
+    component: () => import("../views/board/BoardDetail.vue"),
   },
   {
     path: "/community/create-article",
     name: "article",
-    component: () => import("../views/board/BoradDetail.vue"),
+    component: () => import("../views/board/BoardDetail.vue"),
   },
   {
     path: "/community/article/no", // 글넘버
     name: "articleNo",
-    component: () => import("../views/board/BoradDetail.vue"),
+    component: () => import("../views/board/BoardDetail.vue"),
   },
 ];
 

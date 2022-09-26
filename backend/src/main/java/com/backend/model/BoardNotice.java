@@ -92,19 +92,14 @@ public class BoardNotice {
     public void setViews(int views) {
         this.views = views;
     }
-
-    // @Basic(optional=false)
-    // @Column(name="date", updatable = false)
-    // @Temporal(TemporalType.TIMESTAMP)
-    // @JsonFormat(pattern="yyyy-MM-dd")
-    // private Date date;
-
-    @Column(name = "date")
+    @Basic(optional=false)
+    @Column(name="date", updatable = false)
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime date;
 
     @PrePersist
-    public void creatdAt(){
-        this.date=LocalDateTime.now();
+    private void onCreate() {   
+        this.date = LocalDateTime.now();
     }
     // @PrePersist
     // private void onCreate() {   

@@ -68,6 +68,9 @@ export default {
     Navbar,
     Footer,
   },
+  created() {
+    
+  }
 };
 </script>
 

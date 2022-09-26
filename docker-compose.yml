@@ -12,6 +12,6 @@ services:
       TZ: Asia/Seoul
     volumes:
       - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
-      # - ./db/mysql/data:/var/lib/mysql
+      - ./backend/data:/var/lib/mysql
       # - ./db/mysql/init:/docker-entrypoint-initdb.d
     platform: linux/x86_64

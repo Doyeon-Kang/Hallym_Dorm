@@ -1,5 +1,6 @@
 package com.backend.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -94,21 +95,20 @@ public class BoardNotice {
 
     @Basic(optional=false)
     @Column(name="date", updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern="yyyy-MM-dd")
-    private Date date;
+    private LocalDateTime date;
 
     @PrePersist
     private void onCreate() {   
-        this.date = new Date();
+        this.date = LocalDateTime.now();
     }
 
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

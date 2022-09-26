@@ -1,6 +1,6 @@
 <template>
     <div class="mypage_container">
-        <button @click="logOut()">Logout</button>
+        <!-- <button @click="logOut()">Logout</button> -->
         <div class="mypage">
             <div class="profile box">
                 <div class="profile_box box innerbox">

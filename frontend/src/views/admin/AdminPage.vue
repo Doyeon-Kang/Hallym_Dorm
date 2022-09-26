@@ -4,9 +4,31 @@
       <SidebarCom :pageName="pageName" :listItem="side"></SidebarCom>
     </div>
     <div class="right_container">
-      <PageTitle :title="title" :add="add"></PageTitle>
+      <PageTitle v-if="this.$route.name === 'adminuser'" :title="title" :add="userManagement">
+      </PageTitle>
+      <PageTitle v-else-if="this.$route.name === 'adminuseradd'" :title="title" :add="useradd">
+      </PageTitle>
+      <PageTitle v-else-if="this.$route.name === 'adminpoint'" :title="title" :add="pointManagement">
+      </PageTitle>
+      <PageTitle v-else-if="this.$route.name === 'adminpointadd'" :title="title" :add="pointadd">
+      </PageTitle>
+      <PageTitle v-else-if="this.$route.name === 'adminstudy' ||
+      this.$route.name === 'adminsleep' ||
+      this.$route.name === 'admininout' ||
+      this.$route.name === 'adminconsulting' ||
+      this.$route.name === 'adminlife'" :title="title">
+      </PageTitle>
+
+      <Addbox v-if="this.$route.name === 'adminpointadd'" :con_title="point_con_title" :listTitle="pointTitle"></Addbox>
+      <Addbox v-else-if="this.$route.name === 'adminlife'" :con_title="life_con_title" :listTitle="lifeTitle"></Addbox>
+
       <Search></Search>
-      <BoardList v-if="this.$route.name === 'adminuser' || this.$route.name === 'adminpoint'" :listItem="userList" :listTitle="userTitle" :total="total">
+
+      <BoardList v-if="this.$route.name === 'adminuser' || this.$route.name === 'adminuseradd'" :listItem="userList"
+        :listTitle="userTitle" :total="total">
+      </BoardList>
+      <BoardList v-else-if="this.$route.name === 'adminpoint' || this.$route.name === 'adminpointadd'"
+        :listItem="pointList" :listTitle="pointTitle" :total="total">
       </BoardList>
       <BoardList v-else-if="$route.name === 'adminstudy'" :listItem="studyList" :listTitle="studyTitle" :total="total">
       </BoardList>
@@ -15,8 +37,9 @@
       <BoardList v-else-if="$route.name === 'admininout'" :listItem="inoutList" :listTitle="inoutTitle" :total="total">
       </BoardList>
       <BoardList v-else-if="$route.name === 'adminconsulting'" :listItem="consultingList" :listTitle="consultingTitle"
-        :total="total"></BoardList>
-      <BoardList v-else-if="$route.name === 'adminlife'" :con_title="life_con_title" :listItem="lifeList" :listTitle="lifeTitle" :total="total">
+        :total="total">
+      </BoardList>
+      <BoardList v-else-if="$route.name === 'adminlife'" :listItem="lifeList" :listTitle="lifeTitle" :total="total">
       </BoardList>
     </div>
   </div>
@@ -25,6 +48,7 @@
 <script>
 import PageTitle from "@/components/AdminPageTitle.vue";
 import SidebarCom from "../../components/AdminSidebarCom.vue";
+import Addbox from "../../components/AdminAddBoxCom.vue";
 import Search from "../../components/AdminSearch.vue";
 import BoardList from "../../components/AdminBoardList.vue";
 
@@ -44,13 +68,28 @@ export default {
         { img: require("@/assets/admin_schedule.png"), title: "생활 일정 관리", path: "/admin/life" },
         { img: require("@/assets/admin_logout.png"), title: "로그아웃", path: "/logout" },
       ],
-      add: "사용자 추가",
+      userManagement: "사용자 관리",
+      useradd: "사용자 추가",
+      pointManagement: "점수 관리",
+      pointadd: "점수 부여",
       searchtotal: "전체 사용자 검색",
       searchtitle: "제목 검색",
       total: 521,
 
-      userTitle: ["학번", "이름", "소속학과", "상벌점", "상벌점 추가내역", "거주 기숙사"],
+      userTitle: ["학번", "이름", "소속학과", "상벌점", "새로운 요청글", "거주 기숙사"],
       userList: [
+        {
+          no: "20201234",
+          name: "홍길동",
+          dep: "인문학부",
+          point: "+5",
+          newwrite: "-",
+          live: "2관",
+        },
+      ],
+
+      pointTitle: ["학번", "이름", "소속학과", "상벌점", "상벌점 추가내역", "거주 기숙사"],
+      pointList: [
         {
           no: "20201234",
           name: "홍길동",
@@ -126,6 +165,7 @@ export default {
   components: {
     PageTitle,
     SidebarCom,
+    Addbox,
     BoardList,
     Search
   },
@@ -136,10 +176,16 @@ export default {
     routeCheck() {
       this.activeReset();
       if (this.$route.name === "adminuser") {
-        this.title = "관리자페이지 > 사용자 관리";
+        this.title = "관리자페이지 > 입사자 현황";
+        this.side[0].active = true;
+      } else if (this.$route.name === "adminuseradd") {
+        this.title = "관리자페이지 > 입사자 현황  > 사용자 관리";
         this.side[0].active = true;
       } else if (this.$route.name === "adminpoint") {
         this.title = "관리자페이지 > 상벌점 관리";
+        this.side[1].active = true;
+      } else if (this.$route.name === "adminpointadd") {
+        this.title = "관리자페이지 > 상벌점 관리 > 상벌점 부여";
         this.side[1].active = true;
       } else if (this.$route.name === "adminstudy") {
         this.title = "관리자페이지 > 스터디룸 예약 관리";
@@ -192,4 +238,3 @@ export default {
   }
 }
 </style>
-  

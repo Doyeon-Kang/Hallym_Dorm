@@ -62,8 +62,18 @@ const routes = [
     component: () => import("../views/admin/AdminPage.vue"),
   },
   {
+    path: "/admin/user/add",
+    name: "adminuseradd",
+    component: () => import("../views/admin/AdminPage.vue"),
+  },
+  {
     path: "/admin/point",
     name: "adminpoint",
+    component: () => import("../views/admin/AdminPage.vue"),
+  },
+  {
+    path: "/admin/point/add",
+    name: "adminpointadd",
     component: () => import("../views/admin/AdminPage.vue"),
   },
   {

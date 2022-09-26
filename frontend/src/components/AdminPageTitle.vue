@@ -2,8 +2,14 @@
   <div class="titlebox">
     <h1>{{ title }}</h1>
     <div class="btn">
-      <button class="add">{{add}}</button>
-      <button  class="del">삭제</button>
+      <button class="add" v-if="this.$route.name === 'adminuser'"
+        @click="this.$router.push('/admin/user/add')">{{add}}</button>
+      <button class="add" v-else-if="this.$route.name === 'adminpoint'"
+        @click="this.$router.push('/admin/point/add')">{{add}}</button>
+      <button class="add" v-else @click="this.$router.push('/admin/user')" v-show="
+      $route.name !== 'adminstudy' &&
+      $route.name !== 'adminlife'">{{add}}</button>
+      <button class="del">삭제</button>
     </div>
   </div>
 </template>
@@ -17,7 +23,7 @@ export default {
     },
     add: {
       type: String,
-      default: "추가",
+      default: "승인",
     },
   },
 };
@@ -50,14 +56,21 @@ export default {
 
     .add {
       background-color: #00B6AD;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .del {
       margin-left: 10px;
       background-color: #DD6464;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 
 }
 </style>
-  

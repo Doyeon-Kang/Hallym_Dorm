@@ -1,25 +1,18 @@
 <template>
     <div class="wrapper_list">
-        <div class="con_box" v-show="$route.name === 'adminlife'" >
-            <div class="con_title">{{con_title}}</div>
-            <table>
-                <tr v-for="(title, index) in listTitle" :key="index">
-                    <td>{{ title }}</td>
-                    <td></td>
-                </tr>
-            </table>
-        </div>
         <div class="top">
             <span>전체 사용자 {{total}}명</span>
             <span>정렬
-                <select name="item">
-                    <option value="학번" selected>학번순</option>
-                    <option value="이름">이름순</option>
-                    <option value="소속학과">소속학과순</option>
-                    <option value="상벌점">상벌점순</option>
-                    <option value="상벌점 추가내역">상벌점 추가내역순</option>
-                    <option value="거주 기숙사">거주 기숙사순</option>
-                </select>
+                <form>
+                    <select name="item">
+                        <option value="학번" selected>학번순</option>
+                        <option value="이름">이름순</option>
+                        <option value="소속학과">소속학과순</option>
+                        <option value="상벌점">상벌점순</option>
+                        <option value="상벌점 추가내역">상벌점 추가내역순</option>
+                        <option value="거주 기숙사">거주 기숙사순</option>
+                    </select>
+                </form>
             </span>
         </div>
         <table>
@@ -36,10 +29,11 @@
                     <td v-for="(text, index) in objectKey(item)" :key="index">
                         {{ text }}
                     </td>
-                    <td><input type="button" value="자세히"
-                        v-show="$route.name === 'adminuser' || 
-                            $route.name === 'adminpoint' || 
-                            $route.name === 'admininout'" /></td>
+                    <td><input type="button" value="자세히" v-show="$route.name === 'adminuser' ||
+                    $route.name === 'adminuseradd' ||
+                    $route.name === 'adminpoint' ||
+                    $route.name === 'adminpointadd' ||
+                    $route.name === 'admininout'" /></td>
                 </tr>
             </tbody>
         </table>
@@ -80,17 +74,8 @@ export default {
 <style lang="less" scoped>
 .wrapper_list {
     margin-left: 10px;
-
-    .con_box{
-        width: 100%;
-        margin: 10px 0;
-        box-shadow: 0px 0px 8px 3px #cecece;
-
-        .con_title{
-            background-color: #447EC3;
-            color: #fff;
-        }
-    }
+    background-color: #ededed;
+    height: 700px;
 
     .top {
         display: flex;
@@ -100,15 +85,18 @@ export default {
         background-color: #336EB4;
 
         span {
+            display: flex;
             padding: 13px 0px 13px 40px;
+
+            select {
+                width: 120px;
+                color: #858585;
+                font-size: 10px;
+                margin-left: 5px;
+                padding: 2px;
+            }
         }
 
-        select {
-            width: 120px;
-            color: #858585;
-            font-size: 10px;
-            padding: 2px;
-        }
     }
 
     table {
@@ -129,7 +117,6 @@ export default {
                 border-bottom: 1px solid #858585;
 
                 td {
-                    background-color: #ededed;
                     text-align: center;
                     padding: 15px;
                     color: #222;

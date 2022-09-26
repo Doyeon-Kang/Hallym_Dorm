@@ -11,7 +11,7 @@
           <div class="item_list">
             <div
               class="item"
-              v-for="(item, index) in notice1_item"
+              v-for="(item, index) in notices"
               :key="index"
             >
               <div class="title">{{ item.title }}</div>
@@ -147,32 +147,13 @@
 </template>
 
 <script>
+import NoticeDataService from '@/services/NoticeDataService';
+
 export default {
   name: "HomeView",
   data() {
     return {
-      notice1_item: [
-        {
-          title: "title1",
-          date: "2022.07.22",
-        },
-        {
-          title: "title2",
-          date: "2022.07.22",
-        },
-        {
-          title: "title3",
-          date: "2022.07.22",
-        },
-        {
-          title: "title4",
-          date: "2022.07.22",
-        },
-        {
-          title: "title5",
-          date: "2022.07.22",
-        },
-      ],
+      notices: [],
       notice2_item: [
         {
           title: "title1",
@@ -198,6 +179,21 @@ export default {
     };
   },
   components: {},
+  created() {
+    this.init();
+  },
+  methods: {
+    init() {
+      NoticeDataService.getAll()
+        .then(response => {
+          this.notices = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  }
 };
 </script>
 

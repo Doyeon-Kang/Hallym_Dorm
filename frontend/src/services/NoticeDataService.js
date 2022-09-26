@@ -24,7 +24,6 @@ class NoticeDataService {
   deleteAll() {
     return http.delete(`/notices`);
   }
-
 }
 
 export default new NoticeDataService();

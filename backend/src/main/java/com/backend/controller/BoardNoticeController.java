@@ -62,7 +62,7 @@ public class BoardNoticeController {
     public ResponseEntity<BoardNotice> createBoardNotice(@RequestBody BoardNotice boardNotice) {
       try {
         BoardNotice _boardNotice = boardNoticeRepository
-                    .save(new BoardNotice(boardNotice.getWriter_id(), boardNotice.getTitle(), boardNotice.getContents()));
+                    .save(new BoardNotice(boardNotice.getWriter_username(), boardNotice.getWriter_name(), boardNotice.getTitle(), boardNotice.getContents()));
         return new ResponseEntity<>(_boardNotice, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -74,7 +74,8 @@ public class BoardNoticeController {
 
       if (noticeData.isPresent()) {
         BoardNotice _boardNotice = noticeData.get();
-        _boardNotice.setWriter_id(boardNotice.getWriter_id());
+        _boardNotice.setWriter_username(boardNotice.getWriter_username());
+        _boardNotice.setWriter_name(boardNotice.getWriter_name());
         _boardNotice.setTitle(boardNotice.getTitle());
         _boardNotice.setContents(boardNotice.getContents());
         return new ResponseEntity<>(boardNoticeRepository.save(_boardNotice), HttpStatus.OK);

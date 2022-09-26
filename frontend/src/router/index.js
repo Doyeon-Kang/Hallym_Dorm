@@ -135,7 +135,7 @@ const routes = [
   {
     path: "/community/create-article",
     name: "article",
-    component: () => import("../views/board/BoradDetail.vue"),
+    component: () => import("../views/board/CreateArticle.vue"),
   },
   {
     path: "/community/article/no", // 글넘버

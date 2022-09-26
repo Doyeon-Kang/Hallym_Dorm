@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.backend.model.BoardNotice;
 import com.backend.repository.BoardNoticeRepository;
@@ -57,7 +59,7 @@ public class BoardNoticeController {
     }
 
     @PostMapping("/notices")
-    public ResponseEntity<BoardNotice> createTutorial(@RequestBody BoardNotice boardNotice) {
+    public ResponseEntity<BoardNotice> createBoardNotice(@RequestBody BoardNotice boardNotice) {
       try {
         BoardNotice _boardNotice = boardNoticeRepository
                     .save(new BoardNotice(boardNotice.getWriter_id(), boardNotice.getTitle(), boardNotice.getContents()));
@@ -66,4 +68,41 @@ public class BoardNoticeController {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
+    @PutMapping("/notices/{id}")
+    public ResponseEntity<BoardNotice> updateBoardNotice(@PathVariable("id") long id, @RequestBody BoardNotice boardNotice) {
+      Optional<BoardNotice> noticeData = boardNoticeRepository.findById(id);
+
+      if (noticeData.isPresent()) {
+        BoardNotice _boardNotice = noticeData.get();
+        _boardNotice.setWriter_id(boardNotice.getWriter_id());
+        _boardNotice.setTitle(boardNotice.getTitle());
+        _boardNotice.setContents(boardNotice.getContents());
+        return new ResponseEntity<>(boardNoticeRepository.save(_boardNotice), HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
+    }
+
+    @DeleteMapping("/notices/{id}")
+    public ResponseEntity<HttpStatus> deleteBoardNotice(@PathVariable("id") long id) {
+      try {
+        boardNoticeRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+      } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
+
+    @DeleteMapping("/notices")
+    public ResponseEntity<HttpStatus> deleteAllBoardNotices() {
+      try {
+        boardNoticeRepository.deleteAll();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+      } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+
+    }
+
+
 }

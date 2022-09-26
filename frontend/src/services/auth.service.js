@@ -13,14 +13,12 @@ class AuthService {
         if (response.data.accessToken) {
           localStorage.setItem('user', JSON.stringify(response.data));
         }
-        console.log('login!');
         return response.data;
       });
   }
 
   logout() {
     localStorage.removeItem('user');
-    console.log('logout!');
   }
 
   register(user) {

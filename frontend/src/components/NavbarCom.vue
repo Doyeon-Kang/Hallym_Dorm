@@ -12,9 +12,9 @@
         </a>
         <div class="right">
           <a href="https://www.hallym.ac.kr/">한림대학교</a>
-          <a v-if="loginBtn" href="/login">로그인</a>
+          <a v-if="!loggedIn" href="/login">로그인</a>
           <a v-else @click="logout()">로그아웃</a>
-          <a href="/mypage">마이페이지</a>
+          <a v-if="loggedIn" href="/mypage">마이페이지</a>
           <a href="/admin/user">최고관리자</a>
         </div>
       </div>
@@ -112,7 +112,6 @@ export default {
     return {
       active: false,
       expand: true,
-      loginBtn: '',
     };
   },
   methods: {
@@ -131,15 +130,11 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn
-    },
+    }
   },
   watch: {
     loggedIn() {
-      if (this.loggedIn) {
-        this.loginBtn = false;
-      } else {
-        this.loginBtn = true;
-      }
+      return this.loggedIn;
     }
   }
 };
@@ -187,6 +182,7 @@ header {
         font-size: 14px;
         &:hover {
           color: #3675c7;
+          cursor: pointer;
         }
         &::after {
           margin: 0 8px;

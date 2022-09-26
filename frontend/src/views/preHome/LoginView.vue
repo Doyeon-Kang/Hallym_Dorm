@@ -118,6 +118,9 @@
         color: #00B6AD;
         font-size: 17px;
         font-weight: bold;
+        input:focus {
+          
+        }
       }
 
       .login_id {

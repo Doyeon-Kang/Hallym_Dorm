@@ -204,7 +204,6 @@ export default {
   components: {},
   created() {
     this.init();
-    console.log(this.user)
   },
   computed: {
     loggedIn() {

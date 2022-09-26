@@ -37,6 +37,6 @@ test/
 db/
 static/
 
-backend/data
+backend/data/*
 
 # End of https://www.toptal.com/developers/gitignore/api/java,vue

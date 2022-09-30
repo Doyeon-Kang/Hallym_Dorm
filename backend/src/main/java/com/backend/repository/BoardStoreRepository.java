@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.backend.model.BoardNotice;
+import com.backend.model.BoardStore;
 
 
-public interface BoardStoreRepository extends JpaRepository<BoardNotice, Long>  {
-    List<BoardNotice> findByTitleContaining(String title);
+public interface BoardStoreRepository extends JpaRepository<BoardStore, Long>  {
+    List<BoardStore> findByTitleContaining(String title);
 }

@@ -16,73 +16,73 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.backend.model.BoardNotice;
-import com.backend.repository.BoardNoticeRepository;
+import com.backend.model.BoardStore;
+import com.backend.repository.BoardStoreRepository;
 
 @RestController
 @RequestMapping(path="/api")
 public class BoardStoreController {
     @Autowired
-    BoardNoticeRepository boardNoticeRepository;
+    BoardStoreRepository boardStoreRepository;
 
     @GetMapping(path="/stores")
-    public ResponseEntity<List<BoardNotice>> getAllBoardNotice() {
+    public ResponseEntity<List<BoardStore>> getAllBoardStore() {
         try {
-          List<BoardNotice> boardNotices = new ArrayList<BoardNotice>();
+          List<BoardStore> boardStores = new ArrayList<BoardStore>();
 
-          boardNoticeRepository.findAll().forEach(boardNotices::add);
+          boardStoreRepository.findAll().forEach(boardStores::add);
 
-          if(boardNotices.isEmpty()) {
+          if(boardStores.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           }
 
-          return new ResponseEntity<>(boardNotices, HttpStatus.OK);
+          return new ResponseEntity<>(boardStores, HttpStatus.OK);
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/stores/{id}")
-    public ResponseEntity<BoardNotice> getBoardNoticeById(@PathVariable("id") long id) {
-      Optional<BoardNotice> noticeData = boardNoticeRepository.findById(id);
+    public ResponseEntity<BoardStore> getBoardStoreById(@PathVariable("id") long id) {
+      Optional<BoardStore> boardData = boardStoreRepository.findById(id);
 
-      if(noticeData.isPresent()) {
-        return new ResponseEntity<>(noticeData.get(), HttpStatus.OK);
+      if(boardData.isPresent()) {
+        return new ResponseEntity<>(boardData.get(), HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
     @PostMapping("/stores")
-    public ResponseEntity<BoardNotice> createBoardNotice(@RequestBody BoardNotice boardNotice) {
+    public ResponseEntity<BoardStore> createBoardStore(@RequestBody BoardStore boardStore) {
       try {
-        BoardNotice _boardNotice = boardNoticeRepository
-                    .save(new BoardNotice(boardNotice.getWriter_username(), boardNotice.getWriter_name(), boardNotice.getTitle(), boardNotice.getContents()));
-        return new ResponseEntity<>(_boardNotice, HttpStatus.CREATED);
+        BoardStore _boardStore = boardStoreRepository
+                    .save(new BoardStore(boardStore.getWriter_username(), boardStore.getWriter_name(), boardStore.getTitle(), boardStore.getContents()));
+        return new ResponseEntity<>(_boardStore, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
     @PutMapping("/stores/{id}")
-    public ResponseEntity<BoardNotice> updateBoardNotice(@PathVariable("id") long id, @RequestBody BoardNotice boardNotice) {
-      Optional<BoardNotice> noticeData = boardNoticeRepository.findById(id);
+    public ResponseEntity<BoardStore> updateBoardStore(@PathVariable("id") long id, @RequestBody BoardStore boardStore) {
+      Optional<BoardStore> storeData = boardStoreRepository.findById(id);
 
-      if (noticeData.isPresent()) {
-        BoardNotice _boardNotice = noticeData.get();
-        _boardNotice.setWriter_username(boardNotice.getWriter_username());
-        _boardNotice.setWriter_name(boardNotice.getWriter_name());
-        _boardNotice.setTitle(boardNotice.getTitle());
-        _boardNotice.setContents(boardNotice.getContents());
-        return new ResponseEntity<>(boardNoticeRepository.save(_boardNotice), HttpStatus.OK);
+      if (storeData.isPresent()) {
+        BoardStore _boardStore = storeData.get();
+        _boardStore.setWriter_username(boardStore.getWriter_username());
+        _boardStore.setWriter_name(boardStore.getWriter_name());
+        _boardStore.setTitle(boardStore.getTitle());
+        _boardStore.setContents(boardStore.getContents());
+        return new ResponseEntity<>(boardStoreRepository.save(_boardStore), HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
     @DeleteMapping("/stores/{id}")
-    public ResponseEntity<HttpStatus> deleteBoardNotice(@PathVariable("id") long id) {
+    public ResponseEntity<HttpStatus> deleteBoardStore(@PathVariable("id") long id) {
       try {
-        boardNoticeRepository.deleteById(id);
+        boardStoreRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       } catch (Exception e) {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -90,9 +90,9 @@ public class BoardStoreController {
     }
 
     @DeleteMapping("/stores")
-    public ResponseEntity<HttpStatus> deleteAllBoardNotices() {
+    public ResponseEntity<HttpStatus> deleteAllBoardStores() {
       try {
-        boardNoticeRepository.deleteAll();
+        boardStoreRepository.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       } catch (Exception e) {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

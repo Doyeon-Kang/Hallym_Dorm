@@ -18,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "board_notice")
+@Table(name = "board_store")
 public class BoardStore {
 
     @Id

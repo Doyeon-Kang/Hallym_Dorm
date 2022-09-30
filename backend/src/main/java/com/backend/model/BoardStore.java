@@ -1,6 +1,7 @@
 package com.backend.model;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -10,21 +11,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "board_notice")
-public class BoardNotice {
-//     `id` INT NOT NULL AUTO_INCREMENT COMMENT '게시글  아이디',
-//   `writer_id` VARCHAR(200) NOT NULL COMMENT '작성자 아이디',
-//   `title` VARCHAR(200) NULL COMMENT '제목',
-//   `contents` VARCHAR(1000) NULL COMMENT '내용',
-//   `views` INT NULL COMMENT '조회수',
-//   `date` DATE NULL COMMENT '작성일자',
-//   `user_member_id` VARCHAR(200) NULL,
-//   `user_member_no` INT NULL,
+@Table(name = "board_store")
+public class BoardStore {
+
     @Id
     @NotBlank
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -112,11 +108,11 @@ public class BoardNotice {
         this.date = date;
     }
 
-    public BoardNotice() {
+    public BoardStore() {
 
     }
 
-    public BoardNotice(String writer_username, String writer_name, String title, String contents) {
+    public BoardStore(String writer_username, String writer_name, String title, String contents) {
         this.writer_username = writer_username;
         this.writer_name = writer_name;
         this.title = title;

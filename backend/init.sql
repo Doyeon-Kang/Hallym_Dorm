@@ -270,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`board_store` (
   `title` VARCHAR(200) NULL COMMENT '제목',
   `contents` VARCHAR(1000) NULL COMMENT '내용',
   `views` INT NULL COMMENT '조회수',
-  `date` DATE COMMENT '작성일자',
+  `date` DATETIME COMMENT '작성일자',
   `user_member_id` VARCHAR(200) NULL,
   `user_member_no` INT NULL,
   PRIMARY KEY (`id`),

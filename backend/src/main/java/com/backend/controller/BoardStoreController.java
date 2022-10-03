@@ -44,10 +44,13 @@ public class BoardStoreController {
 
     @GetMapping("/stores/{id}")
     public ResponseEntity<BoardStore> getBoardStoreById(@PathVariable("id") long id) {
-      Optional<BoardStore> boardData = boardStoreRepository.findById(id);
+      Optional<BoardStore> storeData = boardStoreRepository.findById(id);
 
-      if(boardData.isPresent()) {
-        return new ResponseEntity<>(boardData.get(), HttpStatus.OK);
+      if(storeData.isPresent()) {
+        BoardStore _boardStore = storeData.get();
+        int views = _boardStore.getViews() + 1;
+        _boardStore.setViews(views);
+        return new ResponseEntity<>(boardStoreRepository.save(_boardStore), HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }

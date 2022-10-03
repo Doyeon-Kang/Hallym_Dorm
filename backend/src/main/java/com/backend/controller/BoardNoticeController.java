@@ -47,7 +47,10 @@ public class BoardNoticeController {
       Optional<BoardNotice> noticeData = boardNoticeRepository.findById(id);
 
       if(noticeData.isPresent()) {
-        return new ResponseEntity<>(noticeData.get(), HttpStatus.OK);
+        BoardNotice _boardNotice = noticeData.get();
+        int views = _boardNotice.getViews() + 1;
+        _boardNotice.setViews(views);
+        return new ResponseEntity<>(boardNoticeRepository.save(_boardNotice), HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }

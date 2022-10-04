@@ -11,3 +11,7 @@ li {
 table {
   border-collapse:collapse
 }
+
+input:focus {
+  outline:none;
+}

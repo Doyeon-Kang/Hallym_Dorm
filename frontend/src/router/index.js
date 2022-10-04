@@ -56,6 +56,46 @@ const routes = [
     name: "mypoint",
     component: () => import("../views/user/MyPageDetail.vue"),
   },
+  {
+    path: "/admin/user",
+    name: "adminuser",
+    component: () => import("../views/admin/AdminPage.vue"),
+  },
+  {
+    path: "/admin/point",
+    name: "adminpoint",
+    component: () => import("../views/admin/AdminPage.vue"),
+  },
+  {
+    path: "/admin/study",
+    name: "adminstudy",
+    component: () => import("../views/admin/AdminPage.vue"),
+  },
+  {
+    path: "/admin/sleep",
+    name: "adminsleep",
+    component: () => import("../views/admin/AdminPage.vue"),
+  },
+  {
+    path: "/admin/inout",
+    name: "admininout",
+    component: () => import("../views/admin/AdminPage.vue"),
+  },
+  {
+    path: "/admin/consulting",
+    name: "adminconsulting",
+    component: () => import("../views/admin/AdminPage.vue"),
+  },
+  {
+    path: "/admin/life",
+    name: "adminlife",
+    component: () => import("../views/admin/AdminPage.vue"),
+  },
+  {
+    path: "/admin/logout",
+    name: "adminlogout",
+    component: () => import("../views/admin/AdminPage.vue"),
+  },
   // 게시판
   {
     path: "/community",

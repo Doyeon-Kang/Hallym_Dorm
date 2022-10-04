@@ -14,6 +14,7 @@
           <a href="https://www.hallym.ac.kr/">한림대학교</a>
           <a href="/login">로그인</a>
           <a href="/mypage">마이페이지</a>
+          <a href="/admin/user">최고관리자</a>
         </div>
       </div>
     </div>
@@ -219,6 +220,7 @@ header {
       background-color: white;
       left: 50%;
       transform: translate(-50%);
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
       ul {
         flex-grow: 1;
         flex-basis: 0;

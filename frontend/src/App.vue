@@ -5,7 +5,15 @@
         v-show="
           $route.name !== 'login' &&
           $route.name !== 'join' &&
-          $route.name !== 'findpw'
+          $route.name !== 'findpw' &&
+          $route.name !== 'adminuser' &&
+          $route.name !== 'adminpoint' &&
+          $route.name !== 'adminstudy' &&
+          $route.name !== 'adminsleep' &&
+          $route.name !== 'admininout' &&
+          $route.name !== 'adminconsulting' &&
+          $route.name !== 'adminlife' &&
+          $route.name !== 'adminlogout'
         "
       ></Navbar>
     </div>
@@ -26,7 +34,15 @@
         $route.name !== 'mypage' &&
         $route.name !== 'login' &&
         $route.name !== 'join' &&
-        $route.name !== 'findpw'
+        $route.name !== 'findpw' &&
+        $route.name !== 'adminuser' &&
+        $route.name !== 'adminpoint' &&
+        $route.name !== 'adminstudy' &&
+        $route.name !== 'adminsleep' &&
+        $route.name !== 'admininout' &&
+        $route.name !== 'adminconsulting' &&
+        $route.name !== 'adminlife' &&
+        $route.name !== 'logout'
       "
     ></div>
     <div class="container">
@@ -112,7 +128,6 @@ export default {
     }
   }
 }
-
 .small_banner {
   background: url("@/assets/banner_small.png") no-repeat;
   width: 100%;
@@ -120,6 +135,7 @@ export default {
   position: absolute;
   top: 0;
   z-index: -1;
+  background-size: 100%;
 }
 
 // content

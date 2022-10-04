@@ -44,7 +44,21 @@
       $route.name !== 'adminlife' &&
       $route.name !== 'adminlogout'
     "></div>
-    <div class="container">
+    
+    <div class="admincontainer" v-if="
+    this.$route.name === 'adminuser' ||
+    this.$route.name === 'adminuseradd' ||
+    this.$route.name === 'adminpoint' ||
+    this.$route.name === 'adminpointadd' ||
+    this.$route.name === 'adminstudy' ||
+    this.$route.name === 'adminsleep' ||
+    this.$route.name === 'admininout' ||
+    this.$route.name === 'adminconsulting' ||
+    this.$route.name === 'adminlife'">
+      <router-view />
+    </div>
+
+    <div class="container" v-else>
       <router-view />
     </div>
     <Footer v-show="
@@ -144,6 +158,14 @@ export default {
 // content
 .container {
   width: 1080px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+// admincontent
+.admincontainer {
+  width: 100%;
   margin: 0 auto;
   position: relative;
   z-index: 1;

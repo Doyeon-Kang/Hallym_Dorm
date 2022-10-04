@@ -1,27 +1,16 @@
 <template>
     <div class="wrapper_list">
         <div class="top">
-            <span v-show="$route.name !== 'adminlife' && $route.name !== 'admininout'">전체 사용자 {{totaluser}}명</span>
+            <span v-show="$route.name !== 'adminlife'">전체 사용자 {{totaluser}}명</span>
             <span v-show="$route.name === 'adminlife'">선택한 일정 {{totallife}}개</span>
-            <span v-show="$route.name === 'admininout'">{{title_in}}</span>
             <span>정렬
                 <form>
                     <select name="item">
-                        <option v-for="(title, index) in listTitle" :key="index" :value="title">{{title}}</option>
+                        <option v-for="(title, index) in listTitle"
+                        :key="index" :value="title">{{title}}</option>
                     </select>
                 </form>
             </span>
-            <div class="searchbar" v-show="$route.name === 'admininout'">
-                <div class="search_input">
-                    <input v-if="this.$route.name !== 'adminlife'" type="text" v-model="name" placeholder="전체 사용자 검색" />
-                    <input v-if="this.$route.name === 'adminlife'" type="text" v-model="name" placeholder="일정 제목 검색" />
-                </div>
-                <div class="search_button">
-                    <button @click="show">
-                        검색
-                    </button>
-                </div>
-            </div>
         </div>
         <table>
             <thead>
@@ -33,8 +22,8 @@
             </thead>
             <tbody>
                 <tr v-for="item in listItem" :key="item.no" @click="this.$router.push(item.url)">
-                    <td><input type="checkbox" class="check" :value="item.no" v-model="selectList" /></td>
-
+                    <td><input type="checkbox" class="check" :value="item.no" v-model="selectList"/></td>
+                    
                     <td v-for="(text, index) in objectKey(item)" :key="index">
                         {{ text }}
                     </td>
@@ -52,7 +41,7 @@
 <script>
 export default {
     data() {
-        return {
+        return{
             checkList: [],
             selectList: [],
         };
@@ -77,12 +66,6 @@ export default {
             type: Number,
             default: 0
         },
-        title_in: {
-            type: String,
-        },
-        title_out: {
-            type: String,
-        },
     },
     mounted() {
         if (this.listItem) this.checkList = this.listItem.map(item => item.no);
@@ -98,10 +81,10 @@ export default {
     },
     computed: {
         checkAll: {
-            get: function () {
+            get: function(){
                 return this.checkList.length === this.selectList.length;
             },
-            set: function (e) {
+            set: function(e){
                 this.selectList = e ? this.checkList : [];
             }
         }
@@ -112,9 +95,9 @@ export default {
 <style lang="less" scoped>
 .wrapper_list {
     width: 100%;
-    margin: 10px 0 0 10px;
+    margin-left: 10px;
     background-color: #ededed;
-    height: 830px;
+    height: 400px;
 
     .top {
         display: flex;
@@ -136,45 +119,6 @@ export default {
             }
         }
 
-        .searchbar {
-            height: 20px;
-            width: 10%;
-            display: flex;
-
-            .search_input {
-                display: flex;
-                width: 90%;
-                margin-right: 10px;
-                border: 1px solid #336EB4;
-
-                img {
-                    width: 15px;
-                    padding: 12px;
-                }
-
-                input {
-                    width: 100%;
-                    border: none;
-                    padding: 10px 10px;
-                    font-size: 14px;
-                }
-            }
-
-            .search_button {
-                width: 50%;
-
-                button {
-                    border-radius: 0;
-                    width: 100%;
-                    border: 0px;
-                    height: 100%;
-                    font-size: 16px;
-                    font-weight: bold;
-                    background-color: #3675C7;
-                    color: #FFFFFF;
-                }
-            }
-        }
     }
 
     table {

@@ -8,6 +8,7 @@
         @click="this.$router.push('/admin/point/add')">{{add}}</button>
       <button class="add" v-else @click="this.$router.push('/admin/user')" v-show="
       $route.name !== 'adminstudy' &&
+      $route.name !== 'admininout' &&
       $route.name !== 'adminlife'">{{add}}</button>
       <button class="del">삭제</button>
     </div>
@@ -31,10 +32,8 @@ export default {
   
 <style lang="less" scoped>
 .titlebox {
-
   justify-content: space-between;
   display: flex;
-  width: 100%;
   border-bottom: solid 2px #e2e2e2;
 
   h1 {
@@ -63,7 +62,7 @@ export default {
     }
 
     .del {
-      margin-left: 10px;
+      margin: 0 10px;
       background-color: #DD6464;
 
       &:hover {

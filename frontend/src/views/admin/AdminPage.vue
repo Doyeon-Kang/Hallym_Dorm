@@ -22,25 +22,32 @@
       <Addbox v-if="this.$route.name === 'adminpointadd'" :con_title="point_con_title" :listTitle="pointTitle"></Addbox>
       <Addbox v-else-if="this.$route.name === 'adminlife'" :con_title="life_con_title" :listTitle="lifeTitle"></Addbox>
 
-      <Search></Search>
+      <Search v-show="$route.name !== 'admininout'"></Search>
 
       <BoardList v-if="this.$route.name === 'adminuser' || this.$route.name === 'adminuseradd'" :listItem="userList"
-        :listTitle="userTitle" :total="total">
+        :listTitle="userTitle" :totaluser="totaluser">
       </BoardList>
-      <BoardList v-else-if="this.$route.name === 'adminpoint' || this.$route.name === 'adminpointadd'"
-        :listItem="pointList" :listTitle="pointTitle" :total="total">
+      <BoardList v-else-if="this.$route.name === 'adminpoint'" :listItem="pointList" :listTitle="pointTitle"
+        :totaluser="totaluser">
       </BoardList>
-      <BoardList v-else-if="$route.name === 'adminstudy'" :listItem="studyList" :listTitle="studyTitle" :total="total">
+      <MiniBoardList v-if="this.$route.name === 'adminpointadd'" :listItem="pointList" :listTitle="pointTitle"
+        :totaluser="totaluser">
+      </MiniBoardList>
+      <BoardList v-else-if="$route.name === 'adminstudy'" :listItem="studyList" :listTitle="studyTitle"
+        :totaluser="totaluser">
       </BoardList>
-      <BoardList v-else-if="$route.name === 'adminsleep'" :listItem="sleepList" :listTitle="sleepTitle" :total="total">
+      <BoardList v-else-if="$route.name === 'adminsleep'" :listItem="sleepList" :listTitle="sleepTitle"
+        :totaluser="totaluser">
       </BoardList>
-      <BoardList v-else-if="$route.name === 'admininout'" :listItem="inoutList" :listTitle="inoutTitle" :total="total">
+      <BoardList v-else-if="$route.name === 'admininout'" :listItem="inoutList" :listTitle="inoutTitle"
+        :totaluser="totaluser" :title_in="title_in" :title_out="title_out">
       </BoardList>
       <BoardList v-else-if="$route.name === 'adminconsulting'" :listItem="consultingList" :listTitle="consultingTitle"
-        :total="total">
+        :totaluser="totaluser">
       </BoardList>
-      <BoardList v-else-if="$route.name === 'adminlife'" :listItem="lifeList" :listTitle="lifeTitle" :total="total">
-      </BoardList>
+      <MiniBoardList v-else-if="$route.name === 'adminlife'" :listItem="lifeList" :listTitle="lifeTitle"
+        :totallife="totallife">
+      </MiniBoardList>
     </div>
   </div>
 </template>
@@ -51,6 +58,7 @@ import SidebarCom from "../../components/AdminSidebarCom.vue";
 import Addbox from "../../components/AdminAddBoxCom.vue";
 import Search from "../../components/AdminSearch.vue";
 import BoardList from "../../components/AdminBoardList.vue";
+import MiniBoardList from "../../components/AdminMiniBoardList.vue";
 
 
 export default {
@@ -74,7 +82,10 @@ export default {
       pointadd: "점수 부여",
       searchtotal: "전체 사용자 검색",
       searchtitle: "제목 검색",
-      total: 521,
+      title_in: "입사 관리",
+      title_out: "퇴사 관리",
+      totaluser: 521,
+      totallife: 5,
 
       userTitle: ["학번", "이름", "소속학과", "상벌점", "새로운 요청글", "거주 기숙사"],
       userList: [
@@ -86,6 +97,30 @@ export default {
           newwrite: "-",
           live: "2관",
         },
+        {
+          no: "20201235",
+          name: "김땡땡",
+          dep: "인문학부",
+          point: "+2",
+          newwrite: "-",
+          live: "4관",
+        },
+        {
+          no: "20201236",
+          name: "박모씨",
+          dep: "인문학부",
+          point: "+3",
+          newwrite: "-",
+          live: "4관",
+        },
+        {
+          no: "20201237",
+          name: "최빵빵",
+          dep: "인문학부",
+          point: "+3",
+          newwrite: "-",
+          live: "3관",
+        },
       ],
 
       pointTitle: ["학번", "이름", "소속학과", "상벌점", "상벌점 추가내역", "거주 기숙사"],
@@ -95,6 +130,38 @@ export default {
           name: "홍길동",
           dep: "인문학부",
           point: "+5",
+          addpoint: "-",
+          live: "2관",
+        },
+        {
+          no: "20201235",
+          name: "김땡땡",
+          dep: "인문학부",
+          point: "+2",
+          addpoint: "-",
+          live: "2관",
+        },
+        {
+          no: "20201236",
+          name: "박모씨",
+          dep: "인문학부",
+          point: "+3",
+          addpoint: "-",
+          live: "2관",
+        },
+        {
+          no: "20201237",
+          name: "최빵빵",
+          dep: "인문학부",
+          point: "+3",
+          addpoint: "-",
+          live: "2관",
+        },
+        {
+          no: "20201237",
+          name: "최빵빵",
+          dep: "인문학부",
+          point: "+3",
           addpoint: "-",
           live: "2관",
         },
@@ -167,6 +234,7 @@ export default {
     SidebarCom,
     Addbox,
     BoardList,
+    MiniBoardList,
     Search
   },
   created() {
@@ -177,30 +245,93 @@ export default {
       this.activeReset();
       if (this.$route.name === "adminuser") {
         this.title = "관리자페이지 > 입사자 현황";
+        this.side[0].img = require("@/assets/admin_user_white.png");
+        this.side[1].img = require("@/assets/admin_point.png");
+        this.side[2].img = require("@/assets/admin_calendar.png");
+        this.side[3].img = require("@/assets/admin_night.png");
+        this.side[4].img = require("@/assets/admin_inout.png");
+        this.side[5].img = require("@/assets/admin_counseling.png");
+        this.side[6].img = require("@/assets/admin_schedule.png");
         this.side[0].active = true;
       } else if (this.$route.name === "adminuseradd") {
         this.title = "관리자페이지 > 입사자 현황  > 사용자 관리";
+        this.side[0].img = require("@/assets/admin_user_white.png");
+        this.side[1].img = require("@/assets/admin_point.png");
+        this.side[2].img = require("@/assets/admin_calendar.png");
+        this.side[3].img = require("@/assets/admin_night.png");
+        this.side[4].img = require("@/assets/admin_inout.png");
+        this.side[5].img = require("@/assets/admin_counseling.png");
+        this.side[6].img = require("@/assets/admin_schedule.png");
         this.side[0].active = true;
       } else if (this.$route.name === "adminpoint") {
         this.title = "관리자페이지 > 상벌점 관리";
+        this.side[0].img = require("@/assets/admin_user.png");
+        this.side[1].img = require("@/assets/admin_point_white.png");
+        this.side[2].img = require("@/assets/admin_calendar.png");
+        this.side[3].img = require("@/assets/admin_night.png");
+        this.side[4].img = require("@/assets/admin_inout.png");
+        this.side[5].img = require("@/assets/admin_counseling.png");
+        this.side[6].img = require("@/assets/admin_schedule.png");
         this.side[1].active = true;
       } else if (this.$route.name === "adminpointadd") {
         this.title = "관리자페이지 > 상벌점 관리 > 상벌점 부여";
+        this.side[0].img = require("@/assets/admin_user.png");
+        this.side[1].img = require("@/assets/admin_point_white.png");
+        this.side[2].img = require("@/assets/admin_calendar.png");
+        this.side[3].img = require("@/assets/admin_night.png");
+        this.side[4].img = require("@/assets/admin_inout.png");
+        this.side[5].img = require("@/assets/admin_counseling.png");
+        this.side[6].img = require("@/assets/admin_schedule.png");
         this.side[1].active = true;
       } else if (this.$route.name === "adminstudy") {
         this.title = "관리자페이지 > 스터디룸 예약 관리";
+        this.side[0].img = require("@/assets/admin_user.png");
+        this.side[1].img = require("@/assets/admin_point.png");
+        this.side[2].img = require("@/assets/admin_calendar_white.png");
+        this.side[3].img = require("@/assets/admin_night.png");
+        this.side[4].img = require("@/assets/admin_inout.png");
+        this.side[5].img = require("@/assets/admin_counseling.png");
+        this.side[6].img = require("@/assets/admin_schedule.png");
         this.side[2].active = true;
       } else if (this.$route.name === "adminsleep") {
         this.title = "관리자페이지 > 외박 신청 현황";
+        this.side[0].img = require("@/assets/admin_user.png");
+        this.side[1].img = require("@/assets/admin_point.png");
+        this.side[2].img = require("@/assets/admin_calendar.png");
+        this.side[3].img = require("@/assets/admin_night_white.png");
+        this.side[4].img = require("@/assets/admin_inout.png");
+        this.side[5].img = require("@/assets/admin_counseling.png");
+        this.side[6].img = require("@/assets/admin_schedule.png");
         this.side[3].active = true;
       } else if (this.$route.name === "admininout") {
         this.title = "관리자페이지 > 입사/퇴사 관리";
+        this.side[0].img = require("@/assets/admin_user.png");
+        this.side[1].img = require("@/assets/admin_point.png");
+        this.side[2].img = require("@/assets/admin_calendar.png");
+        this.side[3].img = require("@/assets/admin_night.png");
+        this.side[4].img = require("@/assets/admin_inout_white.png");
+        this.side[5].img = require("@/assets/admin_counseling.png");
+        this.side[6].img = require("@/assets/admin_schedule.png");
         this.side[4].active = true;
       } else if (this.$route.name === "adminconsulting") {
         this.title = "관리자페이지 > 상담 신청 현황";
+        this.side[0].img = require("@/assets/admin_user.png");
+        this.side[1].img = require("@/assets/admin_point.png");
+        this.side[2].img = require("@/assets/admin_calendar.png");
+        this.side[3].img = require("@/assets/admin_night.png");
+        this.side[4].img = require("@/assets/admin_inout.png");
+        this.side[5].img = require("@/assets/admin_counseling_white.png");
+        this.side[6].img = require("@/assets/admin_schedule.png");
         this.side[5].active = true;
       } else if (this.$route.name === "adminlife") {
         this.title = "관리자페이지 > 생활 일정 관리";
+        this.side[0].img = require("@/assets/admin_user.png");
+        this.side[1].img = require("@/assets/admin_point.png");
+        this.side[2].img = require("@/assets/admin_calendar.png");
+        this.side[3].img = require("@/assets/admin_night.png");
+        this.side[4].img = require("@/assets/admin_inout.png");
+        this.side[5].img = require("@/assets/admin_counseling.png");
+        this.side[6].img = require("@/assets/admin_schedule_white.png");
         this.side[6].active = true;
       } else if (this.$route.name === "adminlogout") {
         this.title = "관리자페이지 > 로그아웃";
@@ -225,7 +356,6 @@ export default {
   
 <style lang="less" scoped>
 .wrapper {
-  width: 1080px;
   display: flex;
   margin-bottom: -30px;
 
@@ -235,6 +365,7 @@ export default {
 
   .right_container {
     z-index: 1;
+    width: 100%;
   }
 }
 </style>

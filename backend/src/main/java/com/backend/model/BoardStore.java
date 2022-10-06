@@ -1,7 +1,6 @@
 package com.backend.model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -9,10 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -67,6 +65,7 @@ public class BoardStore {
     }
 
     @Column(name="contents")
+    @Lob
     private String contents;
     public String getContents() {
         return contents;
@@ -74,6 +73,17 @@ public class BoardStore {
 
     public void setContents(String contents) {
         this.contents = contents;
+    }
+
+    @Column(name="photo")
+    private byte[] photo;
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     @Column(name="views")
@@ -94,10 +104,6 @@ public class BoardStore {
     private void onCreate() {   
         this.date = LocalDateTime.now();
     }
-    // @PrePersist
-    // private void onCreate() {   
-    //     this.date = new Date();
-    // }
 
 
     public LocalDateTime getDate() {
@@ -118,5 +124,4 @@ public class BoardStore {
         this.title = title;
         this.contents = contents;
     }
-
 }

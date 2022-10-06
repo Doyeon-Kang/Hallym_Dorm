@@ -269,6 +269,7 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`board_store` (
   `writer_name` VARCHAR(200) NOT NULL COMMENT '작성자',
   `title` VARCHAR(200) NULL COMMENT '제목',
   `contents` VARCHAR(1000) NULL COMMENT '내용',
+  `photo` BLOB NULL COMMENT '이미지',
   `views` INT NULL COMMENT '조회수',
   `date` DATETIME COMMENT '작성일자',
   `user_member_id` VARCHAR(200) NULL,
@@ -453,6 +454,7 @@ ENGINE = InnoDB;
 -- Table `dormitory`.`board_notice_comments`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`board_notice_comments` (
+  `noticeId` INT NOT NULL COMMENT '게시글아이디',
   `comment_id` INT NOT NULL COMMENT '댓글아이디',
   `post_id` INT NOT NULL COMMENT '게시판 아이디',
   `comment` VARCHAR(500) NULL COMMENT '댓글내용',

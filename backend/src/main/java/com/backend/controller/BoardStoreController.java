@@ -56,6 +56,7 @@ public class BoardStoreController {
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
+<<<<<<< HEAD
     @GetMapping("/files/{id}")
     public ResponseEntity<byte[]> getPhotoStoreById(@PathVariable("id") long id) {
       BoardStore _boardStore = boardStoreService.getStore(id);
@@ -63,11 +64,38 @@ public class BoardStoreController {
       return ResponseEntity.ok()
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + _boardStore.getTitle() + "\"")
             .body(_boardStore.getPhoto());
+=======
+    @GetMapping("/stores/{id}")
+    public ResponseEntity<BoardStore> getBoardStoreById(@PathVariable("id") long id) {
+      Optional<BoardStore> storeData = boardStoreRepository.findById(id);
+
+      if(storeData.isPresent()) {
+        BoardStore _boardStore = storeData.get();
+        int views = _boardStore.getViews() + 1;
+        _boardStore.setViews(views);
+        return new ResponseEntity<>(boardStoreRepository.save(_boardStore), HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
+>>>>>>> 0638bbf13e6b91409d07f8749726ce03a8d75a54
     }
 
-    @PostMapping(value = "/stores", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<MessageResponse> createBoardStore(@RequestPart BoardStore store, @RequestPart MultipartFile photo) {
-      String message = "";
+    @GetMapping("/stores/{id}")
+    public ResponseEntity<BoardStore> getBoardStoreById(@PathVariable("id") long id) {
+      Optional<BoardStore> storeData = boardStoreRepository.findById(id);
+
+      if(storeData.isPresent()) {
+        BoardStore _boardStore = storeData.get();
+        int views = _boardStore.getViews() + 1;
+        _boardStore.setViews(views);
+        return new ResponseEntity<>(boardStoreRepository.save(_boardStore), HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
+    }
+
+    @PostMapping("/stores")
+    public ResponseEntity<BoardStore> createBoardStore(@RequestBody BoardStore boardStore) {
       try {
         boardStoreService.store(store, photo);
 

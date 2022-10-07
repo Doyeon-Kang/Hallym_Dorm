@@ -22,8 +22,6 @@
       <Addbox v-if="this.$route.name === 'adminpointadd'" :con_title="point_con_title" :listTitle="pointTitle"></Addbox>
       <Addbox v-else-if="this.$route.name === 'adminlife'" :con_title="life_con_title" :listTitle="lifeTitle"></Addbox>
 
-      <Search v-show="$route.name !== 'admininout'"></Search>
-
       <BoardList v-if="this.$route.name === 'adminuser' || this.$route.name === 'adminuseradd'" :listItem="userList"
         :listTitle="userTitle" :totaluser="totaluser">
       </BoardList>
@@ -39,15 +37,15 @@
       <BoardList v-else-if="$route.name === 'adminsleep'" :listItem="sleepList" :listTitle="sleepTitle"
         :totaluser="totaluser">
       </BoardList>
-      <BoardList v-else-if="$route.name === 'admininout'" :listItem="inoutList" :listTitle="inoutTitle"
-        :totaluser="totaluser" :title_in="title_in" :title_out="title_out">
-      </BoardList>
       <BoardList v-else-if="$route.name === 'adminconsulting'" :listItem="consultingList" :listTitle="consultingTitle"
         :totaluser="totaluser">
       </BoardList>
       <MiniBoardList v-else-if="$route.name === 'adminlife'" :listItem="lifeList" :listTitle="lifeTitle"
         :totallife="totallife">
       </MiniBoardList>
+      <InoutCom v-show="$route.name === 'admininout'" :listItemin="inList" :listTitlein="inTitle" :listItemout="outList" :listTitleout="outTitle"
+        :title_in="title_in" :title_out="title_out">
+      </InoutCom>
     </div>
   </div>
 </template>
@@ -56,9 +54,9 @@
 import PageTitle from "@/components/AdminPageTitle.vue";
 import SidebarCom from "../../components/AdminSidebarCom.vue";
 import Addbox from "../../components/AdminAddBoxCom.vue";
-import Search from "../../components/AdminSearch.vue";
 import BoardList from "../../components/AdminBoardList.vue";
 import MiniBoardList from "../../components/AdminMiniBoardList.vue";
+import InoutCom from "../../components/AdminInoutCom.vue";
 
 
 export default {
@@ -78,17 +76,85 @@ export default {
       ],
       userManagement: "사용자 관리",
       useradd: "사용자 추가",
+
       pointManagement: "점수 관리",
       pointadd: "점수 부여",
+
       searchtotal: "전체 사용자 검색",
       searchtitle: "제목 검색",
+
       title_in: "입사 관리",
       title_out: "퇴사 관리",
+      
       totaluser: 521,
       totallife: 5,
 
       userTitle: ["학번", "이름", "소속학과", "상벌점", "새로운 요청글", "거주 기숙사"],
       userList: [
+        {
+          no: "20201234",
+          name: "홍길동",
+          dep: "인문학부",
+          point: "+5",
+          newwrite: "-",
+          live: "2관",
+        },
+        {
+          no: "20201235",
+          name: "김땡땡",
+          dep: "인문학부",
+          point: "+2",
+          newwrite: "-",
+          live: "4관",
+        },
+        {
+          no: "20201236",
+          name: "박모씨",
+          dep: "인문학부",
+          point: "+3",
+          newwrite: "-",
+          live: "4관",
+        },
+        {
+          no: "20201237",
+          name: "최빵빵",
+          dep: "인문학부",
+          point: "+3",
+          newwrite: "-",
+          live: "3관",
+        },
+        {
+          no: "20201234",
+          name: "홍길동",
+          dep: "인문학부",
+          point: "+5",
+          newwrite: "-",
+          live: "2관",
+        },
+        {
+          no: "20201235",
+          name: "김땡땡",
+          dep: "인문학부",
+          point: "+2",
+          newwrite: "-",
+          live: "4관",
+        },
+        {
+          no: "20201236",
+          name: "박모씨",
+          dep: "인문학부",
+          point: "+3",
+          newwrite: "-",
+          live: "4관",
+        },
+        {
+          no: "20201237",
+          name: "최빵빵",
+          dep: "인문학부",
+          point: "+3",
+          newwrite: "-",
+          live: "3관",
+        },
         {
           no: "20201234",
           name: "홍길동",
@@ -157,14 +223,6 @@ export default {
           addpoint: "-",
           live: "2관",
         },
-        {
-          no: "20201237",
-          name: "최빵빵",
-          dep: "인문학부",
-          point: "+3",
-          addpoint: "-",
-          live: "2관",
-        },
       ],
 
       studyTitle: ["학번", "이름", "소속학과", "예약날짜", "예약시간", "선택좌석", "상태"],
@@ -193,8 +251,8 @@ export default {
         },
       ],
 
-      inoutTitle: ["학번", "학년", "이름", "소속학과", "상점", "희망 1순위"],
-      inoutList: [
+      inTitle: ["학번", "학년", "이름", "소속학과", "상점", "희망 1순위"],
+      inList: [
         {
           no: "20201234",
           grade: "3",
@@ -202,6 +260,32 @@ export default {
           dep: "인문학부",
           point: "10",
           hope: "-",
+        },
+        {
+          no: "20197554",
+          grade: "2",
+          name: "최빵빵",
+          dep: "인문학부",
+          point: "5",
+          hope: "-",
+        },
+      ],
+
+      outTitle: ["학번", "이름", "소속학과", "거주호실", "승인여부"],
+      outList: [
+        {
+          no: "20211754",
+          name: "김땡땡",
+          dep: "인문학부",
+          live: "8관 518호",
+          status: "대기중",
+        },
+        {
+          no: "20175854",
+          name: "박땡땡",
+          dep: "인문학부",
+          live: "5관 109호",
+          status: "승인완료",
         },
       ],
 
@@ -235,7 +319,7 @@ export default {
     Addbox,
     BoardList,
     MiniBoardList,
-    Search
+    InoutCom,
   },
   created() {
     this.routeCheck();

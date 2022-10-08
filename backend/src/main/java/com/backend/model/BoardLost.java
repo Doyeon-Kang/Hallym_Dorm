@@ -30,15 +30,15 @@ public class BoardLost {
         this.id = id;
     }
 
-    @Column(name="writer_username")
-    private String writer_username;
+    @Column(name="writer_studentno")
+    private String writer_studentno;
 
-    public String getWriter_username() {
-        return writer_username;
+    public String getWriter_studentno() {
+        return writer_studentno;
     }
 
-    public void setWriter_username(String writer_username) {
-        this.writer_username = writer_username;
+    public void setWriter_studentno(String writer_studentno) {
+        this.writer_studentno = writer_studentno;
     }
 
     @Column(name="writer_name")
@@ -109,8 +109,8 @@ public class BoardLost {
 
     }
 
-    public BoardLost(String writer_username, String writer_name, String title, String contents) {
-        this.writer_username = writer_username;
+    public BoardLost(String writer_studentno, String writer_name, String title, String contents) {
+        this.writer_studentno = writer_studentno;
         this.writer_name = writer_name;
         this.title = title;
         this.contents = contents;

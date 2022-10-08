@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -30,15 +31,15 @@ public class BoardStore {
         this.id = id;
     }
 
-    @Column(name="writer_username")
-    private String writer_username;
+    @Column(name="writer_studentno")
+    private String writer_studentno;
 
-    public String getWriter_username() {
-        return writer_username;
+    public String getWriter_studentno() {
+        return writer_studentno;
     }
 
-    public void setWriter_username(String writer_username) {
-        this.writer_username = writer_username;
+    public void setWriter_studentno(String writer_studentno) {
+        this.writer_studentno = writer_studentno;
     }
 
     @Column(name="writer_name")
@@ -63,14 +64,15 @@ public class BoardStore {
         this.title = title;
     }
 
-    @Column(name="contents")
-    private String contents;
-    public String getContents() {
-        return contents;
+    @Column(name="content")
+    @Lob
+    private String content;
+    public String getContent() {
+        return content;
     }
 
-    public void setContents(String contents) {
-        this.contents = contents;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Column(name="views")
@@ -91,10 +93,6 @@ public class BoardStore {
     private void onCreate() {   
         this.date = LocalDateTime.now();
     }
-    // @PrePersist
-    // private void onCreate() {   
-    //     this.date = new Date();
-    // }
 
 
     public LocalDateTime getDate() {
@@ -109,11 +107,10 @@ public class BoardStore {
 
     }
 
-    public BoardStore(String writer_username, String writer_name, String title, String contents) {
-        this.writer_username = writer_username;
+    public BoardStore(String writer_studentno, String writer_name, String title, String content) {
+        this.writer_studentno = writer_studentno;
         this.writer_name = writer_name;
         this.title = title;
-        this.contents = contents;
+        this.content = content;
     }
-
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.model.BoardStore;
 import com.backend.repository.BoardStoreRepository;
 
+
 @RestController
 @RequestMapping(path="/api")
 public class BoardStoreController {
@@ -60,7 +61,7 @@ public class BoardStoreController {
     public ResponseEntity<BoardStore> createBoardStore(@RequestBody BoardStore boardStore) {
       try {
         BoardStore _boardStore = boardStoreRepository
-                    .save(new BoardStore(boardStore.getWriter_username(), boardStore.getWriter_name(), boardStore.getTitle(), boardStore.getContents()));
+                    .save(new BoardStore(boardStore.getWriter_studentno(), boardStore.getWriter_name(), boardStore.getTitle(), boardStore.getContent()));
         return new ResponseEntity<>(_boardStore, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -72,10 +73,10 @@ public class BoardStoreController {
 
       if (storeData.isPresent()) {
         BoardStore _boardStore = storeData.get();
-        _boardStore.setWriter_username(boardStore.getWriter_username());
+        _boardStore.setWriter_studentno(boardStore.getWriter_studentno());
         _boardStore.setWriter_name(boardStore.getWriter_name());
         _boardStore.setTitle(boardStore.getTitle());
-        _boardStore.setContents(boardStore.getContents());
+        _boardStore.setContent(boardStore.getContent());
         return new ResponseEntity<>(boardStoreRepository.save(_boardStore), HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -100,8 +101,5 @@ public class BoardStoreController {
       } catch (Exception e) {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
       }
-
     }
-
-
 }

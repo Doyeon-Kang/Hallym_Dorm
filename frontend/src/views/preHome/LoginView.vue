@@ -10,7 +10,7 @@
         <div class="logintitle">학생생활관 로그인</div>
         <div class="login_id">
           <div class="login_text">아이디</div>
-          <input type="text" v-model="user.username" placeholder="아이디를 입력해주세요.">
+          <input type="text" v-model="user.studentno" placeholder="아이디를 입력해주세요.">
         </div>
         <div class="login_pw">
           <div class="login_text">비밀번호</div>
@@ -33,7 +33,7 @@
         loading: false,
         message: '',
         user: {
-          username: '',
+          studentno: '',
           password: ''
         }
       }
@@ -118,6 +118,9 @@
         color: #00B6AD;
         font-size: 17px;
         font-weight: bold;
+        input:focus {
+          
+        }
       }
 
       .login_id {

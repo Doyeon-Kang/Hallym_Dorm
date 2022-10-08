@@ -66,7 +66,7 @@
       </div>
     </div>
     <div class="right_content">
-      <div class="login_box">
+      <div v-if="!loggedIn" class="login_box">
         <div class="top">
           <img src="@/assets/logo.png" alt="" />
           <img src="@/assets/univ.png" alt="" />
@@ -77,6 +77,29 @@
         </div>
         <div class="login_btn" @click="this.$router.push('login')">로그인</div>
         <div class="join"><a href="/join">회원가입</a></div>
+      </div>
+      <div v-else class="login_box login">
+        <div class="top login">
+          {{user.name}} ({{user.studentno}}) | ?관
+        </div>
+        <div class="box">
+          <div class="title">
+            <span>마이페이지</span>
+            <span class="plus" @click="this.$router.push('/mypage')">+</span>
+          </div>
+          <div class="list">
+            <span class="mint">상점/벌점:</span>
+            <span class="black">?</span>
+          </div>
+          <div class="list">
+            <span class="mint">최근 외박 신청일자:</span>
+            <span class="black">?</span>
+          </div>
+          <div class="list">
+            <span class="mint">최근 상담 신청일자:</span>
+            <span class="black">?</span>
+          </div>
+        </div>
       </div>
       <div class="short_box">
         <table>
@@ -181,6 +204,19 @@ export default {
   components: {},
   created() {
     this.init();
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn
+    },
+    user() {
+      return this.$store.state.auth.user
+    }
+  },
+  watch: {
+    loggedIn() {
+      return this.loggedIn;
+    }
   },
   methods: {
     init() {
@@ -441,7 +477,6 @@ export default {
         .univ {
           color: #222222;
           font-weight: 700;
-
           // &::before {
           //   content: "|";
           //   color: #858585;
@@ -514,6 +549,54 @@ export default {
               }
             }
           }
+        }
+      }
+    }
+  }
+}
+</style>
+
+<!--로그인 한 경우-->
+<style lang="less">
+.right_content {
+  .login_box.login {
+    padding: 20px 20px 0 !important;
+    height: 260px !important;
+    .top.login {
+      font-weight: 700;
+      font-size: 18px;
+      color: #222;
+    }
+    .box {
+      margin-top: 8px;
+      background-color: #54AEAD;
+      padding: 14px 10px;
+      border-radius: 10px;;
+      .title {
+        color: #fff;
+        font-weight: 700;
+        font-size: 22px;
+        line-height: 18px;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 5px;
+        .plus {
+          font-size: 34px;
+          
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+      .list {
+        background-color: #fff;
+        margin-top: 5px;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 16px;
+        .mint {
+          color: #54AEAD;
+          font-weight: 600;
         }
       }
     }

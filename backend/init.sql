@@ -291,41 +291,33 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`board_store` (
   `writer_studentno` VARCHAR(200) NOT NULL COMMENT '작성자 학번',
   `writer_name` VARCHAR(200) NOT NULL COMMENT '작성자',
   `title` VARCHAR(200) NULL COMMENT '제목',
-  `contents` VARCHAR(1000) NULL COMMENT '내용',
-  `photo` BLOB NULL COMMENT '이미지',
+  `content` VARCHAR(1000) NULL COMMENT '내용',
   `views` INT NULL COMMENT '조회수',
   `date` DATETIME COMMENT '작성일자',
-  `user_member_id` VARCHAR(200) NULL,
-  `user_member_no` INT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_board_store_user_member1_idx` (`user_member_id` ASC, `user_member_no` ASC) VISIBLE,
-  CONSTRAINT `fk_board_store_user_member1`
-    FOREIGN KEY (`user_member_id` , `user_member_no`)
-    REFERENCES `dormitory`.`user_member` (`id` , `no`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`id`)
+)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `dormitory`.`board_store_comments`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dormitory`.`board_store_comments` (
-  `comment_id` INT NOT NULL COMMENT '댓글아이디',
-  `post_id` INT NOT NULL COMMENT '게시판 아이디',
-  `comment` VARCHAR(500) NULL COMMENT '댓글내용',
-  `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
-  `date` DATE NULL COMMENT '댓글 작성일',
-  `parent_id` INT NULL COMMENT '부모글 아이디',
-  `board_store_post_id` INT NOT NULL,
-  PRIMARY KEY (`post_id`, `comment_id`, `board_store_post_id`),
-  INDEX `fk_board_store_comments_board_store1_idx` (`board_store_post_id` ASC) VISIBLE,
-  CONSTRAINT `fk_board_store_comments_board_store1`
-    FOREIGN KEY (`board_store_post_id`)
-    REFERENCES `dormitory`.`board_store` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- CREATE TABLE IF NOT EXISTS `dormitory`.`board_store_comments` (
+--   `comment_id` INT NOT NULL COMMENT '댓글아이디',
+--   `post_id` INT NOT NULL COMMENT '게시판 아이디',
+--   `comment` VARCHAR(500) NULL COMMENT '댓글내용',
+--   `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
+--   `date` DATE NULL COMMENT '댓글 작성일',
+--   `parent_id` INT NULL COMMENT '부모글 아이디',
+--   `board_store_post_id` INT NOT NULL,
+--   PRIMARY KEY (`post_id`, `comment_id`, `board_store_post_id`),
+--   INDEX `fk_board_store_comments_board_store1_idx` (`board_store_post_id` ASC) VISIBLE,
+--   CONSTRAINT `fk_board_store_comments_board_store1`
+--     FOREIGN KEY (`board_store_post_id`)
+--     REFERENCES `dormitory`.`board_store` (`id`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION)
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------

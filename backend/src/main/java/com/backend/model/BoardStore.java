@@ -64,26 +64,15 @@ public class BoardStore {
         this.title = title;
     }
 
-    @Column(name="contents")
+    @Column(name="content")
     @Lob
-    private String contents;
-    public String getContents() {
-        return contents;
+    private String content;
+    public String getContent() {
+        return content;
     }
 
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
-    @Column(name="photo")
-    private byte[] photo;
-
-    public byte[] getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Column(name="views")
@@ -118,10 +107,10 @@ public class BoardStore {
 
     }
 
-    public BoardStore(String writer_studentno, String writer_name, String title, String contents) {
+    public BoardStore(String writer_studentno, String writer_name, String title, String content) {
         this.writer_studentno = writer_studentno;
         this.writer_name = writer_name;
         this.title = title;
-        this.contents = contents;
+        this.content = content;
     }
 }

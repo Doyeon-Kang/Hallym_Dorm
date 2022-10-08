@@ -31,7 +31,6 @@ public class BoardNoticeController {
           List<BoardNotice> boardNotices = new ArrayList<BoardNotice>();
 
           boardNoticeRepository.findAll().forEach(boardNotices::add);
-
           if(boardNotices.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           }

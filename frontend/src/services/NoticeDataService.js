@@ -2,27 +2,27 @@ import http from "../http-common";
 
 class NoticeDataService {
   getAll() {
-    return http.get("/notices");
+    return http.get("/board-notice");
   }
 
   get(id) {
-    return http.get(`/notices/${id}`);
+    return http.get(`/board-notice/${id}`);
   }
 
   create(data) {
-    return http.post("/notices", data);
+    return http.post("/board-notice", data);
   }
 
   update(id, data) {
-    return http.put(`/notices/${id}`, data);
+    return http.put(`/board-notice/${id}`, data);
   }
 
   delete(id) {
-    return http.delete(`/notices/${id}`);
+    return http.delete(`/board-notice/${id}`);
   }
 
   deleteAll() {
-    return http.delete(`/notices`);
+    return http.delete(`/board-notice`);
   }
 }
 

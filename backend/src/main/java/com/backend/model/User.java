@@ -51,20 +51,20 @@ public class User {
         this.id = id;
     }
 
-    @Column(name = "username")
+    @Column(name = "studentno")
 	@NotBlank
 	@Size(max=200)
-    private String username; 
+    private String studentno;
 
-    public String getUsername() {
-        return username;
-    }
+    public String getStudentno() {
+		return studentno;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setStudentno(String studentno) {
+		this.studentno = studentno;
+	}
 
-    @Column(name = "name")
+	@Column(name = "name")
 	@Size(max=50)
     private String name;
 
@@ -206,8 +206,8 @@ public class User {
 	public User() {
 
 	}
-    public User(String username, String name, String email, String password) {
-        this.username = username;
+    public User(String studentno, String name, String email, String password) {
+        this.studentno = studentno;
         this.name = name;
         this.password = password;
         this.email = email;

@@ -14,7 +14,7 @@
                 </div>
                 <div class="join_id">
                     <div class="join_text">아이디</div>
-                    <input type="text" v-model="user.username" placeholder="아이디를 입력해주세요.">
+                    <input type="text" v-model="user.studentno" placeholder="아이디를 입력해주세요.">
                     <div class="joinguide">※아이디는 한림대학교 학번과 동일하게 입력.</div>
                 </div>
                 <div class="join_pw">
@@ -43,7 +43,7 @@
         data () {
             return {
                 user: {
-                    username: '',
+                    studentno: '',
                     name: '',
                     password: '',
                     email: ''

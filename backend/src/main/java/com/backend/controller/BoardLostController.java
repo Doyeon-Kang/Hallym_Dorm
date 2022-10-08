@@ -60,7 +60,7 @@ public class BoardLostController {
     public ResponseEntity<BoardLost> createBoardLost(@RequestBody BoardLost boardLost) {
       try {
         BoardLost _boardLost = boardLostRepository
-                    .save(new BoardLost(boardLost.getWriter_username(), boardLost.getWriter_name(), boardLost.getTitle(), boardLost.getContents()));
+                    .save(new BoardLost(boardLost.getWriter_studentno(), boardLost.getWriter_name(), boardLost.getTitle(), boardLost.getContents()));
         return new ResponseEntity<>(_boardLost, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -72,7 +72,7 @@ public class BoardLostController {
 
       if (lostData.isPresent()) {
         BoardLost _boardLost = lostData.get();
-        _boardLost.setWriter_username(boardLost.getWriter_username());
+        _boardLost.setWriter_studentno(boardLost.getWriter_studentno());
         _boardLost.setWriter_name(boardLost.getWriter_name());
         _boardLost.setTitle(boardLost.getTitle());
         _boardLost.setContents(boardLost.getContents());

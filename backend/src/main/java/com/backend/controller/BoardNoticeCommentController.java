@@ -1,10 +1,7 @@
 package com.backend.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,71 +13,83 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.backend.model.BoardNotice;
 import com.backend.model.BoardNoticeComment;
 import com.backend.repository.BoardNoticeCommentRepository;
+import com.backend.repository.BoardNoticeRepository;
 
 @RestController
 @RequestMapping(path="/api")
 public class BoardNoticeCommentController {
     @Autowired
+    BoardNoticeRepository boardNoticeRepository;
+    @Autowired
     BoardNoticeCommentRepository boardNoticeCommentRepository;
 
-    @GetMapping(path="/notice-comments")
-    public ResponseEntity<List<BoardNoticeComment>> getAllBoardNoticeCommentComment(@RequestParam Long noticeId) {
+    @GetMapping(path="/board-notice/{noticeId}/comments")
+    public ResponseEntity<List<BoardNoticeComment>> getAllBoardNoticeCommentsByNoticeId(@PathVariable(name="noticeId") Long noticeId) {
         try {
-          List<BoardNoticeComment> boardNoticeComments = new ArrayList<BoardNoticeComment>();
-
-          boardNoticeCommentRepository.findAllByNoticeId(noticeId).forEach(boardNoticeComments::add);
-
-          if(boardNoticeComments.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-          }
-
-          return new ResponseEntity<>(boardNoticeComments, HttpStatus.OK);
+          List<BoardNoticeComment> noticeComments = boardNoticeCommentRepository.findByBoardNoticeId(noticeId);
+          return new ResponseEntity<>(noticeComments, HttpStatus.OK);
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PostMapping("/notice-comments")
-    public ResponseEntity<BoardNoticeComment> createBoardNoticeComment(@RequestBody BoardNoticeComment boardNoticeComment) {
+    @GetMapping(path="/comments/{id}")
+    public ResponseEntity<BoardNoticeComment> getCommentById(@PathVariable(value = "id") Long id) {
+      Optional<BoardNoticeComment> noticeComment = boardNoticeCommentRepository.findById(id);
+      if(noticeComment.isPresent()) {
+        BoardNoticeComment _boardNoticeComment = noticeComment.get();
+        return new ResponseEntity<BoardNoticeComment>(_boardNoticeComment, HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
+
+    @PostMapping("/board-notice/{noticeId}/comments")
+    public ResponseEntity<BoardNoticeComment> createBoardNoticeComment(@PathVariable(name="noticeId") Long noticeId, @RequestBody BoardNoticeComment boardNoticeCommentRequest) {
       try {
-        BoardNoticeComment _boardNoticeComment = boardNoticeCommentRepository
-                    .save(new BoardNoticeComment(boardNoticeComment.getNoticeId(), boardNoticeComment.getComment(), boardNoticeComment.getWriterId(), boardNoticeComment.getWriterName()));
+        BoardNotice _boardNotice = boardNoticeRepository.findById(noticeId).get();
+        BoardNoticeComment _boardNoticeComment = new BoardNoticeComment(boardNoticeCommentRequest.getWriter_studentno(), boardNoticeCommentRequest.getWriter_name(),
+                                                                        boardNoticeCommentRequest.getContent());
+        _boardNoticeComment.setBoardNotice(_boardNotice);
+        boardNoticeCommentRepository.save(_boardNoticeComment);
         return new ResponseEntity<>(_boardNoticeComment, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
-    @PutMapping("/notice-comments/{commentId}")
-    public ResponseEntity<BoardNoticeComment> updateBoardNoticeComment(@PathVariable("commentId") long commentId, @RequestBody BoardNoticeComment boardNoticeComment) {
-      BoardNoticeComment _boardNoticeComment = boardNoticeCommentRepository.findByNoticeIdAndCommentId(boardNoticeComment.getNoticeId(), commentId);
+    @PutMapping("/notice-comments/{id}")
+    public ResponseEntity<BoardNoticeComment> updateBoardNoticeComment(@PathVariable(name="id") Long id, @RequestBody BoardNoticeComment boardNoticeComment) {
+      Optional<BoardNoticeComment> noticeCommentData = boardNoticeCommentRepository.findById(id);
 
-      if (_boardNoticeComment != null) {
-        _boardNoticeComment.setComment(boardNoticeComment.getComment());
-        return new ResponseEntity<>(boardNoticeCommentRepository.save(_boardNoticeComment), HttpStatus.OK);
+      if (noticeCommentData.isPresent()) {
+        BoardNoticeComment _boardNoticeComment = noticeCommentData.get();
+        _boardNoticeComment.setContent(boardNoticeComment.getContent());
+        boardNoticeCommentRepository.save(_boardNoticeComment);
+        return new ResponseEntity<>(_boardNoticeComment, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
-    @DeleteMapping("/notice-comments/{commentId}")
-    public ResponseEntity<HttpStatus> deleteBoardNoticeComment(@PathVariable("id") long commentId, @RequestParam Long noticeId) {
+    @DeleteMapping("/notice-comments/{id}")
+    public ResponseEntity<HttpStatus> deleteBoardNoticeComment(@PathVariable(name="id") long id) {
       try {
-        boardNoticeCommentRepository.deletebyNoticeIdAndCommentId(noticeId, commentId);
+        boardNoticeCommentRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       } catch (Exception e) {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
 
-    @DeleteMapping("/notice-comments")
-    public ResponseEntity<HttpStatus> deleteAllBoardNoticeComments(@RequestParam Long noticeId) {
+    @DeleteMapping("/board-notice/{noticeid}/comments")
+    public ResponseEntity<HttpStatus> deleteAllBoardNoticeComments(@PathVariable(name="noticeid") long noticeId) {
       try {
-        boardNoticeCommentRepository.deleteByNoticeId(noticeId);
+        boardNoticeCommentRepository.deleteByBoardNoticeId(noticeId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       } catch (Exception e) {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

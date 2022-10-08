@@ -1,13 +1,14 @@
 package com.backend.payload.response;
 
 public class StoreResponseFile {
-    private String writer_username;
-    public String getWriter_username() {
-        return writer_username;
+    private String writer_studentno;
+
+    public String getWriter_studentno() {
+        return writer_studentno;
     }
 
-    public void setWriter_username(String writer_username) {
-        this.writer_username = writer_username;
+    public void setWriter_studentno(String writer_studentno) {
+        this.writer_studentno = writer_studentno;
     }
 
     private String writer_name;
@@ -46,9 +47,9 @@ public class StoreResponseFile {
         this.url = url;
     }
 
-    public StoreResponseFile(String writer_username, String writer_name,
+    public StoreResponseFile(String writer_studentno, String writer_name,
                         String title, String contents, String url) {
-        this.writer_username = writer_username;
+        this.writer_studentno = writer_studentno;
         this.writer_name = writer_name;
         this.title = title;
         this.contents = contents;

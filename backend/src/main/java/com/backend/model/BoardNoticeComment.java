@@ -5,120 +5,111 @@ import java.time.LocalDateTime;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-// CREATE TABLE IF NOT EXISTS `dormitory`.`board_notice_comments` (
-//   `noticeId` INT NOT NULL COMMENT '게시글아이디',
-//   `commentId` INT NOT NULL COMMENT '댓글아이디',
-//   `comment` VARCHAR(500) NULL COMMENT '댓글내용',
-//   `writerId` VARCHAR(200) NULL COMMENT '댓글 작성자 학번',
-//   `writerName` VARCHAR(200) NULL COMMENT '댓글 작성자',
-//   `date` DATETIME NULL COMMENT '댓글 작성일',
-//   PRIMARY KEY (`noticeId`, `commentId`))
-// ENGINE = InnoDB;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
 @Table(name = "board_notice_comments")
 public class BoardNoticeComment {
     @Id
-    @NotBlank
-    @Column(name="noticeId")
-    private Long noticeId;
-
-    public Long getNoticeId() {
-        return noticeId;
-    }
-
-    public void setNoticeId(Long noticeId) {
-        this.noticeId = noticeId;
-    }
-
-    @Id
-    @NotBlank
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="commentId")
-    private Long commentId;
-    
-    public Long getCommentId() {
-        return commentId;
+    @Column(name="id")
+    private Long id;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setCommentId(Long commentId) {
-        this.commentId = commentId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    @NotBlank
-    @Column(name="comment")
-    private String comment;
+    @Column(name="content")
+    private String content;
 
-    public String getComment() {
-        return comment;
+    public String getContent() {
+        return content;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    @NotBlank
-    @Column(name="writerId")
-    private String writerId;
-    
+    @Column(name="writer_studentno")
+    private String writer_studentno;
 
-    public String getWriterId() {
-        return writerId;
+    public String getWriter_studentno() {
+        return writer_studentno;
     }
 
-    public void setWriterId(String writerId) {
-        this.writerId = writerId;
+    public void setWriter_studentno(String writer_studentno) {
+        this.writer_studentno = writer_studentno;
     }
 
-    @NotBlank
-    @Column(name="writerName")
-    private String writerName;
+    @Column(name="writer_name")
+    private String writer_name;
 
-    public String getWriterName() {
-        return writerName;
+    public String getWriter_name() {
+        return writer_name;
     }
 
-    public void setWriterName(String writerName) {
-        this.writerName = writerName;
+    public void setWriter_name(String writer_name) {
+        this.writer_name = writer_name;
     }
 
     @Basic(optional=false)
-    @Column(name="date", updatable = false)
+    @Column(name="createdDate", updatable = false)
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
-    private LocalDateTime date;
+    private LocalDateTime createdDate;
 
     @PrePersist
     private void onCreate() {   
-        this.date = LocalDateTime.now();
+        this.createdDate = LocalDateTime.now();
     }
 
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
     public void setDate(LocalDateTime date) {
-        this.date = date;
+        this.createdDate = date;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "boardNotice", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private BoardNotice boardNotice;
+
+    public BoardNotice getBoardNotice() {
+        return boardNotice;
+    }
+
+    public void setBoardNotice(BoardNotice boardNotice) {
+        this.boardNotice = boardNotice;
     }
 
     public BoardNoticeComment() {
 
     }
 
-    public BoardNoticeComment(Long noticeId, String comment, String writerId, String writerName) {
-        this.noticeId = noticeId;
-        this.comment = comment;
-        this.writerId = writerId;
-        this.writerName = writerName;
+    public BoardNoticeComment(String writer_studentno, String writer_name, String content) {
+        this.content = content;
+        this.writer_studentno = writer_studentno;
+        this.writer_name = writer_name;
     }
 }

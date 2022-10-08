@@ -25,7 +25,7 @@ public class BoardNoticeController {
     @Autowired
     BoardNoticeRepository boardNoticeRepository;
 
-    @GetMapping(path="/notices")
+    @GetMapping(path="/board-notice")
     public ResponseEntity<List<BoardNotice>> getAllBoardNotice() {
         try {
           List<BoardNotice> boardNotices = new ArrayList<BoardNotice>();
@@ -42,7 +42,7 @@ public class BoardNoticeController {
         }
     }
 
-    @GetMapping("/notices/{id}")
+    @GetMapping("/board-notice/{id}")
     public ResponseEntity<BoardNotice> getBoardNoticeById(@PathVariable("id") long id) {
       Optional<BoardNotice> noticeData = boardNoticeRepository.findById(id);
 
@@ -56,33 +56,33 @@ public class BoardNoticeController {
       }
     }
 
-    @PostMapping("/notices")
+    @PostMapping("/board-notice")
     public ResponseEntity<BoardNotice> createBoardNotice(@RequestBody BoardNotice boardNotice) {
       try {
         BoardNotice _boardNotice = boardNoticeRepository
-                    .save(new BoardNotice(boardNotice.getWriter_username(), boardNotice.getWriter_name(), boardNotice.getTitle(), boardNotice.getContents()));
+                    .save(new BoardNotice(boardNotice.getWriter_studentno(), boardNotice.getWriter_name(), boardNotice.getTitle(), boardNotice.getContent()));
         return new ResponseEntity<>(_boardNotice, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
-    @PutMapping("/notices/{id}")
+    @PutMapping("/board-notice/{id}")
     public ResponseEntity<BoardNotice> updateBoardNotice(@PathVariable("id") long id, @RequestBody BoardNotice boardNotice) {
       Optional<BoardNotice> noticeData = boardNoticeRepository.findById(id);
 
       if (noticeData.isPresent()) {
         BoardNotice _boardNotice = noticeData.get();
-        _boardNotice.setWriter_username(boardNotice.getWriter_username());
+        _boardNotice.setWriter_studentno(boardNotice.getWriter_studentno());
         _boardNotice.setWriter_name(boardNotice.getWriter_name());
         _boardNotice.setTitle(boardNotice.getTitle());
-        _boardNotice.setContents(boardNotice.getContents());
+        _boardNotice.setContent(boardNotice.getContent());
         return new ResponseEntity<>(boardNoticeRepository.save(_boardNotice), HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
-    @DeleteMapping("/notices/{id}")
+    @DeleteMapping("/board-notice/{id}")
     public ResponseEntity<HttpStatus> deleteBoardNotice(@PathVariable("id") long id) {
       try {
         boardNoticeRepository.deleteById(id);
@@ -92,7 +92,7 @@ public class BoardNoticeController {
       }
     }
 
-    @DeleteMapping("/notices")
+    @DeleteMapping("/board-notice")
     public ResponseEntity<HttpStatus> deleteAllBoardNotices() {
       try {
         boardNoticeRepository.deleteAll();

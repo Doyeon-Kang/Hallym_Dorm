@@ -1,7 +1,7 @@
 import AuthService from "../services/auth.service";
 
 
-const user = JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(localStorage.getItem('user'))
 const initialState = user
   ? { status: { loggedIn: true }, user }
   : { status: { loggedIn: false }, user: null };
@@ -9,6 +9,11 @@ const initialState = user
 export const auth = {
   namespaced: true,
   state: initialState,
+  getters: {
+    loginAuth: (state) => {
+      return state.initialState.status.loggedIn;
+    }
+  },
   actions: {
     login({ commit }, user) {
       return AuthService.login(user).then(
@@ -18,6 +23,8 @@ export const auth = {
         },
         error => {
           commit('loginFailure');
+          alert("아이디/비밀번호가 일치하지 않습니다.")
+          window.location.reload(true);
           return Promise.reject(error);
         }
       );
@@ -30,6 +37,8 @@ export const auth = {
       return AuthService.register(user).then(
         response => {
           commit('registerSuccess');
+          alert("회원가입이 완료되었습니다.")
+          window.location.href = '/login';
           return Promise.resolve(response.data);
         },
         error => {

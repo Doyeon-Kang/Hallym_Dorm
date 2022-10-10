@@ -26,7 +26,7 @@ public class BoardStoreController {
     @Autowired
     BoardStoreRepository boardStoreRepository;
 
-    @GetMapping(path="/stores")
+    @GetMapping(path="/board-store")
     public ResponseEntity<List<BoardStore>> getAllBoardStore() {
         try {
           List<BoardStore> boardStores = new ArrayList<BoardStore>();
@@ -43,7 +43,7 @@ public class BoardStoreController {
         }
     }
 
-    @GetMapping("/stores/{id}")
+    @GetMapping("/board-store/{id}")
     public ResponseEntity<BoardStore> getBoardStoreById(@PathVariable("id") long id) {
       Optional<BoardStore> storeData = boardStoreRepository.findById(id);
 
@@ -57,7 +57,7 @@ public class BoardStoreController {
       }
     }
 
-    @PostMapping("/stores")
+    @PostMapping("/board-store")
     public ResponseEntity<BoardStore> createBoardStore(@RequestBody BoardStore boardStore) {
       try {
         BoardStore _boardStore = boardStoreRepository
@@ -67,7 +67,7 @@ public class BoardStoreController {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
-    @PutMapping("/stores/{id}")
+    @PutMapping("/board-store/{id}")
     public ResponseEntity<BoardStore> updateBoardStore(@PathVariable("id") long id, @RequestBody BoardStore boardStore) {
       Optional<BoardStore> storeData = boardStoreRepository.findById(id);
 
@@ -83,7 +83,7 @@ public class BoardStoreController {
       }
     }
 
-    @DeleteMapping("/stores/{id}")
+    @DeleteMapping("/board-store/{id}")
     public ResponseEntity<HttpStatus> deleteBoardStore(@PathVariable("id") long id) {
       try {
         boardStoreRepository.deleteById(id);
@@ -93,7 +93,7 @@ public class BoardStoreController {
       }
     }
 
-    @DeleteMapping("/stores")
+    @DeleteMapping("/board-store")
     public ResponseEntity<HttpStatus> deleteAllBoardStores() {
       try {
         boardStoreRepository.deleteAll();

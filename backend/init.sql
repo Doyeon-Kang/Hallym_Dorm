@@ -331,37 +331,30 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`board_lost` (
   `contents` VARCHAR(1000) NULL COMMENT '내용',
   `views` INT NULL COMMENT '조회수',
   `date` DATETIME COMMENT '작성일자',
-  `user_member_id` VARCHAR(200) NULL,
-  `user_member_no` INT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_board_lost_user_member1_idx` (`user_member_id` ASC, `user_member_no` ASC) VISIBLE,
-  CONSTRAINT `fk_board_lost_user_member1`
-    FOREIGN KEY (`user_member_id` , `user_member_no`)
-    REFERENCES `dormitory`.`user_member` (`id` , `no`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+)
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `dormitory`.`board_lost_comments`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dormitory`.`board_lost_comments` (
-  `comment_id` INT NOT NULL COMMENT '댓글아이디',
-  `post_id` INT NOT NULL COMMENT '게시판 아이디',
-  `comment` VARCHAR(500) NULL COMMENT '댓글내용',
-  `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
-  `date` DATE NULL COMMENT '댓글 작성일',
-  `parent_id` INT NULL COMMENT '부모글 아이디',
-  `board_lost_post_id` INT NOT NULL,
-  PRIMARY KEY (`post_id`, `comment_id`, `board_lost_post_id`),
-  INDEX `fk_board_lost_comments_board_lost1_idx` (`board_lost_post_id` ASC) VISIBLE,
-  CONSTRAINT `fk_board_lost_comments_board_lost1`
-    FOREIGN KEY (`board_lost_post_id`)
-    REFERENCES `dormitory`.`board_lost` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- -- -----------------------------------------------------
+-- -- Table `dormitory`.`board_lost_comments`
+-- -- -----------------------------------------------------
+-- CREATE TABLE IF NOT EXISTS `dormitory`.`board_lost_comments` (
+--   `comment_id` INT NOT NULL COMMENT '댓글아이디',
+--   `post_id` INT NOT NULL COMMENT '게시판 아이디',
+--   `comment` VARCHAR(500) NULL COMMENT '댓글내용',
+--   `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
+--   `date` DATE NULL COMMENT '댓글 작성일',
+--   `parent_id` INT NULL COMMENT '부모글 아이디',
+--   `board_lost_post_id` INT NOT NULL,
+--   PRIMARY KEY (`post_id`, `comment_id`, `board_lost_post_id`),
+--   INDEX `fk_board_lost_comments_board_lost1_idx` (`board_lost_post_id` ASC) VISIBLE,
+--   CONSTRAINT `fk_board_lost_comments_board_lost1`
+--     FOREIGN KEY (`board_lost_post_id`)
+--     REFERENCES `dormitory`.`board_lost` (`id`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION)
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------

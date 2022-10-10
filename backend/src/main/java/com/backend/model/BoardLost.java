@@ -63,14 +63,14 @@ public class BoardLost {
         this.title = title;
     }
 
-    @Column(name="contents")
-    private String contents;
-    public String getContents() {
-        return contents;
+    @Column(name="content")
+    private String content;
+    public String getContent() {
+        return content;
     }
 
-    public void setContents(String contents) {
-        this.contents = contents;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Column(name="views")
@@ -109,11 +109,11 @@ public class BoardLost {
 
     }
 
-    public BoardLost(String writer_studentno, String writer_name, String title, String contents) {
+    public BoardLost(String writer_studentno, String writer_name, String title, String content) {
         this.writer_studentno = writer_studentno;
         this.writer_name = writer_name;
         this.title = title;
-        this.contents = contents;
+        this.content = content;
     }
 
 }

@@ -25,7 +25,7 @@ public class BoardLostController {
     @Autowired
     BoardLostRepository boardLostRepository;
 
-    @GetMapping(path="/losts")
+    @GetMapping(path="/board-lost")
     public ResponseEntity<List<BoardLost>> getAllBoardLost() {
         try {
           List<BoardLost> boardLosts = new ArrayList<BoardLost>();
@@ -42,7 +42,7 @@ public class BoardLostController {
         }
     }
 
-    @GetMapping("/losts/{id}")
+    @GetMapping("/board-lost/{id}")
     public ResponseEntity<BoardLost> getBoardLostById(@PathVariable("id") long id) {
       Optional<BoardLost> lostData = boardLostRepository.findById(id);
 
@@ -56,17 +56,17 @@ public class BoardLostController {
       }
     }
 
-    @PostMapping("/losts")
+    @PostMapping("/board-lost")
     public ResponseEntity<BoardLost> createBoardLost(@RequestBody BoardLost boardLost) {
       try {
         BoardLost _boardLost = boardLostRepository
-                    .save(new BoardLost(boardLost.getWriter_studentno(), boardLost.getWriter_name(), boardLost.getTitle(), boardLost.getContents()));
+                    .save(new BoardLost(boardLost.getWriter_studentno(), boardLost.getWriter_name(), boardLost.getTitle(), boardLost.getContent()));
         return new ResponseEntity<>(_boardLost, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
-    @PutMapping("/losts/{id}")
+    @PutMapping("/board-lost/{id}")
     public ResponseEntity<BoardLost> updateBoardLost(@PathVariable("id") long id, @RequestBody BoardLost boardLost) {
       Optional<BoardLost> lostData = boardLostRepository.findById(id);
 
@@ -75,14 +75,14 @@ public class BoardLostController {
         _boardLost.setWriter_studentno(boardLost.getWriter_studentno());
         _boardLost.setWriter_name(boardLost.getWriter_name());
         _boardLost.setTitle(boardLost.getTitle());
-        _boardLost.setContents(boardLost.getContents());
+        _boardLost.setContent(boardLost.getContent());
         return new ResponseEntity<>(boardLostRepository.save(_boardLost), HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
-    @DeleteMapping("/losts/{id}")
+    @DeleteMapping("/board-lost/{id}")
     public ResponseEntity<HttpStatus> deleteBoardLost(@PathVariable("id") long id) {
       try {
         boardLostRepository.deleteById(id);
@@ -92,7 +92,7 @@ public class BoardLostController {
       }
     }
 
-    @DeleteMapping("/losts")
+    @DeleteMapping("/board-lost")
     public ResponseEntity<HttpStatus> deleteAllBoardLosts() {
       try {
         boardLostRepository.deleteAll();

@@ -38,7 +38,7 @@ public class BoardNoticeCommentController {
         }
     }
 
-    @GetMapping(path="/comments/{id}")
+    @GetMapping(path="/notice-comments/{id}")
     public ResponseEntity<BoardNoticeComment> getCommentById(@PathVariable(value = "id") Long id) {
       Optional<BoardNoticeComment> noticeComment = boardNoticeCommentRepository.findById(id);
       if(noticeComment.isPresent()) {

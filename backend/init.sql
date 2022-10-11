@@ -232,55 +232,37 @@ ENGINE = InnoDB;
 -- Table `dormitory`.`board_repair`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`board_repair` (
-  `post_id` INT NOT NULL COMMENT '게시글 아이디',
-  `id` VARCHAR(200) NOT NULL COMMENT '작성자 아이디',
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
+  `writer_studentno` VARCHAR(200) NOT NULL COMMENT '작성자 학번',
+  `writer_name` VARCHAR(200) NOT NULL COMMENT '작성자',
   `title` VARCHAR(200) NULL COMMENT '제목',
-  `contents` VARCHAR(1000) NULL COMMENT '내용',
+  `content` VARCHAR(1000) NULL COMMENT '내용',
   `views` INT NULL COMMENT '조회수',
-  `date` DATE NULL COMMENT '작성일자',
-  `progress` VARCHAR(20) NULL COMMENT '진행사항',
-  `user_member_id` VARCHAR(200) NOT NULL,
-  `user_member_no` INT NOT NULL,
-  `user_member_user_member_parent_id` VARCHAR(200) NOT NULL,
-  `user_member_user_member_parent_no` INT NOT NULL,
-  `user_member_point_id` VARCHAR(200) NOT NULL,
-  `user_member_point_no` INT NOT NULL,
-  `user_member_apply_consult_cns_no` INT NOT NULL,
-  `user_member_apply_consult_no` INT NOT NULL,
-  `user_member_apply_studyroom_no1` INT NOT NULL,
-  `user_member_apply_sleepout_no` INT NOT NULL,
-  `user_member_apply_sleepout_date` DATE NOT NULL,
-  `user_member_apply_resign_no` INT NOT NULL,
-  `user_member_apply_resign_apply_date` DATE NOT NULL,
-  PRIMARY KEY (`post_id`, `user_member_id`, `user_member_no`, `user_member_user_member_parent_id`, `user_member_user_member_parent_no`, `user_member_point_id`, `user_member_point_no`, `user_member_apply_consult_cns_no`, `user_member_apply_consult_no`, `user_member_apply_studyroom_no1`, `user_member_apply_sleepout_no`, `user_member_apply_sleepout_date`, `user_member_apply_resign_no`, `user_member_apply_resign_apply_date`, `id`),
-  INDEX `fk_board_repair_user_member1_idx` (`user_member_id` ASC, `user_member_no` ASC, `user_member_user_member_parent_id` ASC, `user_member_user_member_parent_no` ASC, `user_member_point_id` ASC, `user_member_point_no` ASC, `user_member_apply_consult_cns_no` ASC, `user_member_apply_consult_no` ASC, `user_member_apply_studyroom_no1` ASC, `user_member_apply_sleepout_no` ASC, `user_member_apply_sleepout_date` ASC, `user_member_apply_resign_no` ASC, `user_member_apply_resign_apply_date` ASC) VISIBLE,
-  CONSTRAINT `fk_board_repair_user_member1`
-    FOREIGN KEY (`user_member_id` , `user_member_no` , `user_member_user_member_parent_id` , `user_member_user_member_parent_no` , `user_member_point_id` , `user_member_point_no` , `user_member_apply_consult_cns_no` , `user_member_apply_consult_no` , `user_member_apply_studyroom_no1` , `user_member_apply_sleepout_no` , `user_member_apply_sleepout_date` , `user_member_apply_resign_no` , `user_member_apply_resign_apply_date`)
-    REFERENCES `dormitory`.`user_member` (`id` , `no` , `user_member_parent_id` , `user_member_parent_no` , `point_id` , `point_no` , `apply_consult_cns_no` , `apply_consult_no` , `apply_studyroom_no1` , `apply_sleepout_no` , `apply_sleepout_date` , `apply_resign_no` , `apply_resign_apply_date`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `date` DATETIME COMMENT '작성일자',
+  PRIMARY KEY (`id`)
+)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `dormitory`.`board_repair_comments`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dormitory`.`board_repair_comments` (
-  `comment_id` INT NOT NULL COMMENT '댓글아이디',
-  `post_id` INT NOT NULL COMMENT '게시판 아이디',
-  `comment` VARCHAR(500) NULL COMMENT '댓글내용',
-  `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
-  `date` DATE NULL COMMENT '댓글 작성일',
-  `parent_id` INT NULL COMMENT '부모글 아이디',
-  `board_repair_post_id` INT NOT NULL,
-  PRIMARY KEY (`post_id`, `comment_id`, `board_repair_post_id`),
-  INDEX `fk_board_repair_comments_board_repair1_idx` (`board_repair_post_id` ASC) VISIBLE,
-  CONSTRAINT `fk_board_repair_comments_board_repair1`
-    FOREIGN KEY (`board_repair_post_id`)
-    REFERENCES `dormitory`.`board_repair` (`post_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- CREATE TABLE IF NOT EXISTS `dormitory`.`board_repair_comments` (
+--   `comment_id` INT NOT NULL COMMENT '댓글아이디',
+--   `post_id` INT NOT NULL COMMENT '게시판 아이디',
+--   `comment` VARCHAR(500) NULL COMMENT '댓글내용',
+--   `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
+--   `date` DATE NULL COMMENT '댓글 작성일',
+--   `parent_id` INT NULL COMMENT '부모글 아이디',
+--   `board_repair_post_id` INT NOT NULL,
+--   PRIMARY KEY (`post_id`, `comment_id`, `board_repair_post_id`),
+--   INDEX `fk_board_repair_comments_board_repair1_idx` (`board_repair_post_id` ASC) VISIBLE,
+--   CONSTRAINT `fk_board_repair_comments_board_repair1`
+--     FOREIGN KEY (`board_repair_post_id`)
+--     REFERENCES `dormitory`.`board_repair` (`post_id`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION)
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------

@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Id; 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
@@ -111,5 +111,8 @@ public class BoardRepairComment {
         this.content = content;
         this.writer_studentno = writer_studentno;
         this.writer_name = writer_name;
+    }
+
+    public void setBoardRepair(BoardRepair _boardRepair) {
     }
 }

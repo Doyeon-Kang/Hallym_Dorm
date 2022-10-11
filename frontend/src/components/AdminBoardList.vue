@@ -3,29 +3,46 @@
         <div class="searchbar">
             <div class="search_input">
                 <img src="@/assets/search.png" alt="">
-                <input v-if="this.$route.name !== 'adminlife'" type="text" v-model="keyword" placeholder="전체 사용자 검색"
-                    @keyup.enter="searchshow(keyword)" />
-                <input v-if="this.$route.name === 'adminlife'" type="text" v-model="keyword" placeholder="일정 제목 검색"
-                    @keyup.enter="searchshow(keyword)" />
+                <input type="text" v-model="keyword" placeholder="전체 사용자 검색" @keyup.enter="searchresultshow(keyword)" />
             </div>
             <div class="search_button">
-                <button @click="searchshow(keyword)">
+                <button @click="searchresultshow(keyword)">
                     검색
                 </button>
             </div>
         </div>
-
         <div class="container">
             <div class="top">
-                <span v-show="$route.name !== 'adminlife'">전체 사용자 {{totaluser}}명</span>
-                <span v-show="$route.name === 'adminlife'">선택한 일정 {{totallife}}개</span>
+                <span>전체 사용자 {{this.checkList.length}}명</span>
                 <span>정렬
-                    <form>
-                        <select name="item" @change="sortABC">
-                            <option v-for="(title, index) in listTitle" :key="index" :value="title">
-                                {{title}}</option>
-                        </select>
-                    </form>
+                    <button @click="sortName()">이름순</button>
+                    <button @click="sortNo()">학번순</button>
+                    <button @click="sortDep()" v-show="
+                    $route.name !== 'adminconsulting'">소속학과순</button>
+                    <button @click="sortPoint()" v-show="
+                    $route.name === 'adminuser' ||
+                    $route.name === 'adminuseradd' ||
+                    $route.name === 'adminpoint'">상벌점순</button>
+                    <button @click="sortLive()" v-show="
+                    $route.name === 'adminuser' ||
+                    $route.name === 'adminuseradd' ||
+                    $route.name === 'adminpoint'">거주 기숙사순</button>
+                    <button @click="sortDate()" v-show="
+                    $route.name === 'adminstudy'">예약 날짜순</button>
+                    <button @click="sortTime()" v-show="
+                    $route.name === 'adminstudy'">예약 시간순</button>
+                    <button @click="sortSeat()" v-show="
+                    $route.name === 'adminstudy'">선택좌석순</button>
+                    <button @click="sortDate()" v-show="
+                    $route.name === 'adminsleep'">신청 날짜순</button>
+                    <button @click="sortTerm()" v-show="
+                    $route.name === 'adminsleep'">외박 기간순</button>
+                    <button @click="sortFind()" v-show="
+                    $route.name === 'adminconsulting'">상담분야순</button>
+                    <button @click="sortDate()" v-show="
+                    $route.name === 'adminconsulting'">신청일자순</button>
+                    <button @click="sortPhone()" v-show="
+                    $route.name === 'adminconsulting'">전화번호순</button>
                 </span>
             </div>
             <div class="tablecon">
@@ -62,6 +79,24 @@ export default {
         return {
             checkList: [],
             selectList: [],
+            listArray: this.listItem,
+            keyword: '',
+            sortedName: 1,
+            sortedNo: 1,
+            sortedDep: 1,
+            sortedPoint: 1,
+            sortedLive: 1,
+            sortedDate: 1,
+            sortedTime: 1,
+            sortedSeat: 1,
+            sortedTerm: 1,
+            sortedHope: 1,
+            sortedFind: 1,
+            sortedPhone: 1,
+            sortedTitle: 1,
+            sortedColor: 1,
+            sortedStart: 1,
+            sortedEnd: 1,
         };
     },
     props: {
@@ -76,20 +111,6 @@ export default {
             type: Array,
             required: true,
         },
-        totaluser: {
-            type: Number,
-            default: 0
-        },
-        totallife: {
-            type: Number,
-            default: 0
-        },
-        title_in: {
-            type: String,
-        },
-        title_out: {
-            type: String,
-        },
     },
     mounted() {
         if (this.listItem) this.checkList = this.listItem.map(item => item.no);
@@ -102,23 +123,63 @@ export default {
             }
             return array;
         },
-        priceLow() {
-            this.oneroom.sort(function (a, b) {
-                return a.no - b.no
-            });
+        searchresultshow(keyword) {
+            console.log(keyword)
+            if (keyword !== ''){
+                this.listArray.filter(function (a) {
+                    console.log(a.name.toLowerCase().includes(keyword))
+                    return a.name.toLowerCase().includes(keyword.toLowerCase())
+                })
+                console.log(keyword)
+            }
         },
-        priceHigh() {
-            this.oneroom.sort(function (a, b) {
-                return b.no - a.no
-            });
+        sortName() {
+            this.sortedName = 0
         },
-        sortABC() {
-            this.oneroom.sort(function (a, b) {
-                return a.title.localeCompare(b.title)
-            });
+        sortNo() {
+            this.sortedNo = 0
         },
-        sortBack() {
-            this.oneroom = [...this.oneroomOriginal];
+        sortDep() {
+            this.sortedDep = 0
+        },
+        sortPoint() {
+            this.sortedPoint = 0
+        },
+        sortLive() {
+            this.sortedLive = 0
+        },
+        sortDate() {
+            this.sortedDate = 0
+        },
+        sortTime() {
+            this.sortedTime = 0
+        },
+        sortSeat() {
+            this.sortedSeat = 0
+        },
+        sortTerm() {
+            this.sortedTerm = 0
+        },
+        sortHope() {
+            this.sortedHope = 0
+        },
+        sortFind() {
+            this.sortedFind = 0
+        },
+        sortPhone() {
+            this.sortedPhone = 0
+        },
+        sortTitle() {
+            this.sortedTitle = 0
+        },
+        sortColor() {
+            this.sortedColor = 0
+        },
+        sortStart() {
+            this.sortedStart = 0
+        },
+        sortEnd() {
+            this.sortedEnd = 0
         },
     },
     computed: {
@@ -130,7 +191,329 @@ export default {
                 this.selectList = e ? this.checkList : [];
             }
         }
-    }
+    },
+    watch: {
+        sortedName() {
+            this.listArray.sort(function (a, b) {
+                return a.name.localeCompare(b.name)
+            });
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedDate = 1
+            this.sortedTime = 1
+            this.sortedSeat = 1
+            this.sortedTerm = 1
+            this.sortedHope = 1
+            this.sortedFind = 1
+            this.sortedPhone = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedNo() {
+            this.listArray.sort(function (a, b) {
+                return a.no - b.no
+            });
+            this.sortedName = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedDate = 1
+            this.sortedTime = 1
+            this.sortedSeat = 1
+            this.sortedTerm = 1
+            this.sortedHope = 1
+            this.sortedFind = 1
+            this.sortedPhone = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedDep() {
+            this.listArray.sort(function (a, b) {
+                return a.dep.localeCompare(b.dep)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedDate = 1
+            this.sortedTime = 1
+            this.sortedSeat = 1
+            this.sortedTerm = 1
+            this.sortedHope = 1
+            this.sortedFind = 1
+            this.sortedPhone = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedPoint() {
+            this.listArray.sort(function (a, b) {
+                return b.point - a.point
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedLive = 1
+            this.sortedDate = 1
+            this.sortedTime = 1
+            this.sortedSeat = 1
+            this.sortedTerm = 1
+            this.sortedHope = 1
+            this.sortedFind = 1
+            this.sortedPhone = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedLive() {
+            this.listArray.sort(function (a, b) {
+                return a.live.localeCompare(b.live)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedDate = 1
+            this.sortedTime = 1
+            this.sortedSeat = 1
+            this.sortedTerm = 1
+            this.sortedHope = 1
+            this.sortedFind = 1
+            this.sortedPhone = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedDate() {
+            this.listArray.sort(function (a, b) {
+                return a.date.localeCompare(b.date)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedTime = 1
+            this.sortedSeat = 1
+            this.sortedTerm = 1
+            this.sortedHope = 1
+            this.sortedFind = 1
+            this.sortedPhone = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedTime() {
+            this.listArray.sort(function (a, b) {
+                return a.time.localeCompare(b.time)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedDate = 1
+            this.sortedSeat = 1
+            this.sortedTerm = 1
+            this.sortedHope = 1
+            this.sortedFind = 1
+            this.sortedPhone = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedSeat() {
+            this.listArray.sort(function (a, b) {
+                return a.seat.localeCompare(b.seat)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedDate = 1
+            this.sortedTime = 1
+            this.sortedTerm = 1
+            this.sortedHope = 1
+            this.sortedFind = 1
+            this.sortedPhone = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedTerm() {
+            this.listArray.sort(function (a, b) {
+                return a.term.localeCompare(b.term)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedDate = 1
+            this.sortedTime = 1
+            this.sortedSeat = 1
+            this.sortedHope = 1
+            this.sortedFind = 1
+            this.sortedPhone = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedHope() {
+            this.listArray.sort(function (a, b) {
+                return a.hope.localeCompare(b.hope)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedDate = 1
+            this.sortedTime = 1
+            this.sortedSeat = 1
+            this.sortedTerm = 1
+            this.sortedFind = 1
+            this.sortedPhone = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedFind() {
+            this.listArray.sort(function (a, b) {
+                return a.find.localeCompare(b.find)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedDate = 1
+            this.sortedTime = 1
+            this.sortedSeat = 1
+            this.sortedTerm = 1
+            this.sortedHope = 1
+            this.sortedPhone = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedPhone() {
+            this.listArray.sort(function (a, b) {
+                return a.phone.localeCompare(b.phone)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedDate = 1
+            this.sortedTime = 1
+            this.sortedSeat = 1
+            this.sortedTerm = 1
+            this.sortedHope = 1
+            this.sortedFind = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedTitle() {
+            this.listArray.sort(function (a, b) {
+                return a.title.localeCompare(b.title)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedDate = 1
+            this.sortedTime = 1
+            this.sortedSeat = 1
+            this.sortedTerm = 1
+            this.sortedHope = 1
+            this.sortedFind = 1
+            this.sortedPhone = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedColor() {
+            this.listArray.sort(function (a, b) {
+                return a.color.localeCompare(b.color)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedDate = 1
+            this.sortedTime = 1
+            this.sortedSeat = 1
+            this.sortedTerm = 1
+            this.sortedHope = 1
+            this.sortedFind = 1
+            this.sortedPhone = 1
+            this.sortedTitle = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedStart() {
+            this.listArray.sort(function (a, b) {
+                return a.start.localeCompare(b.start)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedDate = 1
+            this.sortedTime = 1
+            this.sortedSeat = 1
+            this.sortedTerm = 1
+            this.sortedHope = 1
+            this.sortedFind = 1
+            this.sortedPhone = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedEnd = 1
+        },
+        sortedEnd() {
+            this.listArray.sort(function (a, b) {
+                return a.end.localeCompare(b.end)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedDate = 1
+            this.sortedTime = 1
+            this.sortedSeat = 1
+            this.sortedTerm = 1
+            this.sortedHope = 1
+            this.sortedFind = 1
+            this.sortedPhone = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+        },
+    },
 };
 </script>
     
@@ -190,17 +573,19 @@ export default {
         background-color: #336EB4;
 
         span {
+            line-height: 20px;
             display: flex;
             padding: 13px 0px 13px 40px;
 
-            select {
-                margin-top: -5px;
-                height: 25px;
-                width: 120px;
-                color: #858585;
-                font-size: 70%;
-                margin-left: 5px;
-                padding: 2px;
+            button{
+                color: #fff;
+                background-color: #447EC3;
+                margin: 0 5px;
+                border: 0;
+
+                &:hover{
+                    cursor: pointer;
+                }
             }
         }
 
@@ -292,6 +677,5 @@ export default {
             }
         }
     }
-
 }
 </style>

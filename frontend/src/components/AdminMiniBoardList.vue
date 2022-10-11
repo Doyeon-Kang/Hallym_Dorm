@@ -1,15 +1,27 @@
 <template>
     <div class="wrapper_list">
         <div class="top">
-            <span v-show="$route.name !== 'adminlife'">전체 사용자 {{totaluser}}명</span>
-            <span v-show="$route.name === 'adminlife'">선택한 일정 {{totallife}}개</span>
+            <span v-show="$route.name !== 'adminlife'">전체 사용자 {{this.checkList.length}}명</span>
+            <span v-show="$route.name === 'adminlife'">선택한 일정 {{this.selectList.length}}개</span>
             <span>정렬
-                <form>
-                    <select name="item">
-                        <option v-for="(title, index) in listTitle"
-                        :key="index" :value="title">{{title}}</option>
-                    </select>
-                </form>
+                <button @click="sortName()" v-show="
+                $route.name === 'adminpointadd'">이름순</button>
+                <button @click="sortNo()" v-show="
+                $route.name === 'adminpointadd'">학번순</button>
+                <button @click="sortDep()" v-show="
+                $route.name === 'adminpointadd'">소속학과순</button>
+                <button @click="sortPoint()" v-show="
+                $route.name === 'adminpointadd'">상벌점순</button>
+                <button @click="sortLive()" v-show="
+                $route.name === 'adminpointadd'">거주 기숙사순</button>
+                <button @click="sortTitle()" v-show="
+                $route.name === 'adminlife'">제목순</button>
+                <button @click="sortColor()" v-show="
+                $route.name === 'adminlife'">색상순</button>
+                <button @click="sortStart()" v-show="
+                $route.name === 'adminlife'">시작일자순</button>
+                <button @click="sortEnd()" v-show="
+                $route.name === 'adminlife'">종료일자순</button>
             </span>
         </div>
         <table>
@@ -22,8 +34,8 @@
             </thead>
             <tbody>
                 <tr v-for="item in listItem" :key="item.no" @click="this.$router.push(item.url)">
-                    <td><input type="checkbox" class="check" :value="item.no" v-model="selectList"/></td>
-                    
+                    <td><input type="checkbox" class="check" :value="item.no" v-model="selectList" /></td>
+
                     <td v-for="(text, index) in objectKey(item)" :key="index">
                         {{ text }}
                     </td>
@@ -41,9 +53,19 @@
 <script>
 export default {
     data() {
-        return{
+        return {
             checkList: [],
             selectList: [],
+            listArray: this.listItem,
+            sortedName: 1,
+            sortedNo: 1,
+            sortedDep: 1,
+            sortedPoint: 1,
+            sortedLive: 1,
+            sortedTitle: 1,
+            sortedColor: 1,
+            sortedStart: 1,
+            sortedEnd: 1,
         };
     },
     props: {
@@ -58,14 +80,6 @@ export default {
             type: Array,
             required: true,
         },
-        totaluser: {
-            type: Number,
-            default: 0
-        },
-        totallife: {
-            type: Number,
-            default: 0
-        },
     },
     mounted() {
         if (this.listItem) this.checkList = this.listItem.map(item => item.no);
@@ -78,17 +92,163 @@ export default {
             }
             return array;
         },
+        sortName() {
+            this.sortedName = 0
+        },
+        sortNo() {
+            this.sortedNo = 0
+        },
+        sortDep() {
+            this.sortedDep = 0
+        },
+        sortPoint() {
+            this.sortedPoint = 0
+        },
+        sortLive() {
+            this.sortedLive = 0
+        },
+        sortTitle() {
+            this.sortedTitle = 0
+        },
+        sortColor() {
+            this.sortedColor = 0
+        },
+        sortStart() {
+            this.sortedStart = 0
+        },
+        sortEnd() {
+            this.sortedEnd = 0
+        },
     },
     computed: {
         checkAll: {
-            get: function(){
+            get: function () {
                 return this.checkList.length === this.selectList.length;
             },
-            set: function(e){
+            set: function (e) {
                 this.selectList = e ? this.checkList : [];
             }
         }
-    }
+    },
+    watch: {
+        sortedName() {
+            this.listArray.sort(function (a, b) {
+                return a.name.localeCompare(b.name)
+            });
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedNo() {
+            this.listArray.sort(function (a, b) {
+                return a.no - b.no
+            });
+            this.sortedName = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedDep() {
+            this.listArray.sort(function (a, b) {
+                return a.dep.localeCompare(b.dep)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedPoint() {
+            this.listArray.sort(function (a, b) {
+                return b.point - a.point
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedLive = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedLive() {
+            this.listArray.sort(function (a, b) {
+                return a.live.localeCompare(b.live)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedTitle() {
+            this.listArray.sort(function (a, b) {
+                return a.title.localeCompare(b.title)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedColor() {
+            this.listArray.sort(function (a, b) {
+                return a.color.localeCompare(b.color)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedTitle = 1
+            this.sortedStart = 1
+            this.sortedEnd = 1
+        },
+        sortedStart() {
+            this.listArray.sort(function (a, b) {
+                return a.start.localeCompare(b.start)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedEnd = 1
+        },
+        sortedEnd() {
+            this.listArray.sort(function (a, b) {
+                return a.end.localeCompare(b.end)
+            });
+            this.sortedName = 1
+            this.sortedNo = 1
+            this.sortedDep = 1
+            this.sortedPoint = 1
+            this.sortedLive = 1
+            this.sortedTitle = 1
+            this.sortedColor = 1
+            this.sortedStart = 1
+        },
+    },
 };
 </script>
     
@@ -97,7 +257,7 @@ export default {
     width: 100%;
     margin-left: 10px;
     background-color: #ededed;
-    height: 400px;
+    height: 500px;
 
     .top {
         display: flex;
@@ -107,15 +267,19 @@ export default {
         background-color: #336EB4;
 
         span {
+            line-height: 20px;
             display: flex;
             padding: 13px 0px 13px 40px;
 
-            select {
-                width: 120px;
-                color: #858585;
-                font-size: 70%;
-                margin-left: 5px;
-                padding: 2px;
+            button{
+                color: #fff;
+                background-color: #447EC3;
+                margin: 0 5px;
+                border: 0;
+
+                &:hover{
+                    cursor: pointer;
+                }
             }
         }
 

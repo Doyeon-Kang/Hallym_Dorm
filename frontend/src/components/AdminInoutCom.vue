@@ -4,11 +4,12 @@
             <div class="top">
                 <span class="inouttitle">{{title_in}}</span>
                 <span>정렬
-                    <form>
-                        <select name="item">
-                            <option v-for="(title, index) in listTitlein" :key="index" :value="title">{{title}}</option>
-                        </select>
-                    </form>
+                    <button @click="sortNamein()">이름순</button>
+                    <button @click="sortGradein()">학년순</button>
+                    <button @click="sortNoin()">학번순</button>
+                    <button @click="sortDepin()">소속학과순</button>
+                    <button @click="sortPointin()">상벌점순</button>
+                    <button @click="sortHopein()">희망 순위순</button>
                 </span>
                 <div class="searchbar">
                     <div class="search_input">
@@ -50,12 +51,10 @@
             <div class="top">
                 <span class="inouttitle">{{title_out}}</span>
                 <span>정렬
-                    <form>
-                        <select name="item">
-                            <option v-for="(title, index) in listTitleout" :key="index" :value="title">{{title}}
-                            </option>
-                        </select>
-                    </form>
+                    <button @click="sortNameout()">이름순</button>
+                    <button @click="sortNoout()">학번순</button>
+                    <button @click="sortDepout()">소속학과순</button>
+                    <button @click="sortLiveout()">거주 기숙사순</button>
                 </span>
                 <div class="searchbar">
                     <div class="search_input">
@@ -101,6 +100,18 @@ export default {
             selectListin: [],
             checkListout: [],
             selectListout: [],
+            listArrayin: this.listItemin,
+            listArrayout: this.listItemout,
+            sortedNamein: 1,
+            sortedGradein: 1,
+            sortedNoin: 1,
+            sortedDepin: 1,
+            sortedPointin: 1,
+            sortedHopein: 1,
+            sortedNameout: 1,
+            sortedNoout: 1,
+            sortedDepout: 1,
+            sortedLiveout: 1,
         };
     },
     props: {
@@ -142,6 +153,36 @@ export default {
             }
             return array;
         },
+        sortNamein() {
+            this.sortedNamein = 0
+        },
+        sortGradein() {
+            this.sortedGradein = 0
+        },
+        sortNoin() {
+            this.sortedNoin = 0
+        },
+        sortDepin() {
+            this.sortedDepin = 0
+        },
+        sortPointin() {
+            this.sortedPointin = 0
+        },
+        sortHopein() {
+            this.sortedHopein = 0
+        },
+        sortNameout() {
+            this.sortedNameout = 0
+        },
+        sortNoout() {
+            this.sortedNoout = 0
+        },
+        sortDepout() {
+            this.sortedDepout = 0
+        },
+        sortLiveout() {
+            this.sortedLiveout = 0
+        },
     },
     computed: {
         checkAllin: {
@@ -161,7 +202,101 @@ export default {
                 this.selectListout = e ? this.checkListout : [];
             }
         }
-    }
+    },
+    watch: {
+        sortedNamein() {
+            this.listArrayin.sort(function (a, b) {
+                return a.name.localeCompare(b.name)
+            });
+            this.sortedGradein = 1
+            this.sortedNoin = 1
+            this.sortedDepin = 1
+            this.sortedPointin = 1
+            this.sortedHopein = 1
+        },
+        sortedGradein() {
+            this.listArrayin.sort(function (a, b) {
+                return b.grade - a.grade
+            });
+            this.sortedNamein = 1
+            this.sortedNoin = 1
+            this.sortedDepin = 1
+            this.sortedTermin = 1
+            this.sortedHopein = 1
+        },
+        sortedNoin() {
+            this.listArrayin.sort(function (a, b) {
+                return a.no - b.no
+            });
+            this.sortedNamein = 1
+            this.sortedGradein = 1
+            this.sortedDepin = 1
+            this.sortedPointin = 1
+            this.sortedHopein = 1
+        },
+        sortedDepin() {
+            this.listArrayin.sort(function (a, b) {
+                return a.dep.localeCompare(b.dep)
+            });
+            this.sortedNamein = 1
+            this.sortedGradein = 1
+            this.sortedNoin = 1
+            this.sortedPointin = 1
+            this.sortedHopein = 1
+        },
+        sortedPointin() {
+            this.listArrayin.sort(function (a, b) {
+                return b.point - a.point
+            });
+            this.sortedNamein = 1
+            this.sortedGradein = 1
+            this.sortedNoin = 1
+            this.sortedDepin = 1
+            this.sortedHopein = 1
+        },
+        sortedHopein() {
+            this.listArrayin.sort(function (a, b) {
+                return a.hope.localeCompare(b.hope)
+            });
+            this.sortedNamein = 1
+            this.sortedGradein = 1
+            this.sortedNoin = 1
+            this.sortedDepin = 1
+            this.sortedPointin = 1
+        },
+        sortedNameout() {
+            this.listArrayout.sort(function (a, b) {
+                return a.name.localeCompare(b.name)
+            });
+            this.sortedNoout = 1
+            this.sortedDepout = 1
+            this.sortedLiveout = 1
+        },
+        sortedNoout() {
+            this.listArrayout.sort(function (a, b) {
+                return a.no - b.no
+            });
+            this.sortedNameout = 1
+            this.sortedDepout = 1
+            this.sortedLiveout = 1
+        },
+        sortedDepout() {
+            this.listArrayout.sort(function (a, b) {
+                return a.dep.localeCompare(b.dep)
+            });
+            this.sortedNameout = 1
+            this.sortedNoout = 1
+            this.sortedLiveout = 1
+        },
+        sortedLiveout() {
+            this.listArrayout.sort(function (a, b) {
+                return a.live.localeCompare(b.live)
+            });
+            this.sortedNameout = 1
+            this.sortedNoout = 1
+            this.sortedDepout = 1
+        },
+    },
 };
 </script>
     
@@ -175,11 +310,13 @@ export default {
         position: relative;
         height: 600px;
 
-        button, input[type=button]:hover{
+        button,
+        input[type=button]:hover {
             cursor: pointer;
         }
 
         .top {
+            position: relative;
             display: flex;
             color: #fff;
             font-size: 80%;
@@ -192,30 +329,34 @@ export default {
             }
 
             span {
+                line-height: 20px;
                 display: flex;
                 padding: 13px 0px 13px 40px;
 
-                select {
-                    margin-top: -5px;
-                    height: 25px;
-                    width: 120px;
-                    color: #858585;
-                    font-size: 70%;
-                    margin-left: 5px;
-                    padding: 2px;
+                button {
+                    color: #fff;
+                    background-color: #447EC3;
+                    margin: 0 5px;
+                    border: 0;
+
+                    &:hover {
+                        cursor: pointer;
+                    }
                 }
             }
 
             .searchbar {
+                position: absolute;
+                right: 20px;
                 height: 25px;
-                width: 10%;
+                width: 18%;
                 margin: 10px 0 0 10px;
                 display: flex;
 
                 .search_input {
                     margin: 0;
                     display: flex;
-                    width: 90%;
+                    width: 65%;
                     border: 1px solid #447EC3;
 
                     img {
@@ -232,7 +373,7 @@ export default {
                 }
 
                 .search_button {
-                    width: 50%;
+                    width: 35%;
 
                     button {
                         border-radius: 0;
@@ -289,7 +430,7 @@ export default {
             }
         }
 
-        .approvalbtn{
+        .approvalbtn {
             position: absolute;
             bottom: 10px;
             right: 30px;

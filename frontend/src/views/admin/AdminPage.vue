@@ -96,13 +96,13 @@
   </script>
   
   <style lang="less" scoped>
-  .wrapper {
-    display: flex;
-    margin-bottom: -30px;
-    .left_container {
+    .wrapper {
+      display: flex;
+      margin-bottom: -30px;
+      .left_container {
+      }
+      .right_container {
+      }
     }
-    .right_container {
-    }
-  }
   </style>
   

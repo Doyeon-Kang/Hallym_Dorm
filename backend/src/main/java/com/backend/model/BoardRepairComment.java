@@ -90,17 +90,17 @@ public class BoardRepairComment {
     }
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "boardNotice", nullable = false)
+    @JoinColumn(name = "boardRepair", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private BoardNotice boardNotice;
+    private BoardRepair boardRepair;
 
-    public BoardNotice getBoardNotice() {
-        return boardNotice;
+    public BoardRepair getBoardRepair() {
+        return boardRepair;
     }
 
-    public void setBoardNotice(BoardNotice boardNotice) {
-        this.boardNotice = boardNotice;
+    public void setBoardRepair(BoardRepair boardRepair) {
+        this.boardRepair = boardRepair;
     }
 
     public BoardRepairComment() {
@@ -111,8 +111,5 @@ public class BoardRepairComment {
         this.content = content;
         this.writer_studentno = writer_studentno;
         this.writer_name = writer_name;
-    }
-
-    public void setBoardRepair(BoardRepair _boardRepair) {
     }
 }

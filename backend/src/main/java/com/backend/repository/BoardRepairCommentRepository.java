@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.backend.model.BoardRepairComment;
 
 public interface BoardRepairCommentRepository extends JpaRepository<BoardRepairComment, Long>  {
-    List<BoardRepairComment> findByBoardRepairId(Long noticeId);
+    List<BoardRepairComment> findByBoardRepairId(Long repairId);
 
     @Transactional
-    void deleteByBoardRepairId(long noticeId);
+    void deleteByBoardRepairId(long repairId);
 }

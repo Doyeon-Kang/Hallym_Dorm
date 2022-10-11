@@ -8,9 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id; 
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "board_repair_comments")
 public class BoardRepairComment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_repair_comments_generator")
     @Column(name="id")
     private Long id;
 
@@ -89,7 +89,7 @@ public class BoardRepairComment {
         this.createdDate = date;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "boardRepair", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore

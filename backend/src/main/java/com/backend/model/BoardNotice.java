@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class BoardNotice {
     @Id
     @NotBlank
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_notice_generator")
     private Long id;
     public Long getId() {
         return id;

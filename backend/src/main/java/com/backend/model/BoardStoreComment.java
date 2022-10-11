@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "board_store_comments")
 public class BoardStoreComment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_store_comments_generator")
     @Column(name="id")
     private Long id;
 

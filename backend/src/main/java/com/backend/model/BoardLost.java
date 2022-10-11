@@ -20,7 +20,7 @@ public class BoardLost {
 
     @Id
     @NotBlank
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_lost_generator")
     private Long id;
     public Long getId() {
         return id;

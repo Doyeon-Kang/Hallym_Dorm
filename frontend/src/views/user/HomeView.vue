@@ -5,13 +5,13 @@
         <div class="first_notice">
           <div class="top">
             <div class="board_title">공지사항</div>
-            <a href="/life/community">더보기 ></a>
+            <a href="/community">더보기 ></a>
           </div>
 
           <div class="item_list">
             <div
               class="item"
-              v-for="(item, index) in notice1_item"
+              v-for="(item, index) in notices"
               :key="index"
             >
               <div class="title">{{ item.title }}</div>
@@ -22,7 +22,7 @@
         <div class="second_notice">
           <div class="top">
             <div class="board_title">사생자치회</div>
-            <a href="/life/community/notice1">더보기 ></a>
+            <a href="/community/notice1">더보기 ></a>
           </div>
           <div class="item_list">
             <div
@@ -66,7 +66,7 @@
       </div>
     </div>
     <div class="right_content">
-      <div class="login_box">
+      <div v-if="!loggedIn" class="login_box">
         <div class="top">
           <img src="@/assets/logo.png" alt="" />
           <img src="@/assets/univ.png" alt="" />
@@ -76,7 +76,30 @@
           더 많은 서비스를 이용하려면 로그인 하세요.
         </div>
         <div class="login_btn" @click="this.$router.push('login')">로그인</div>
-        <div class="join"><a href="/login/join">회원가입</a></div>
+        <div class="join"><a href="/join">회원가입</a></div>
+      </div>
+      <div v-else class="login_box login">
+        <div class="top login">
+          {{user.name}} ({{user.studentno}}) | ?관
+        </div>
+        <div class="box">
+          <div class="title">
+            <span>마이페이지</span>
+            <span class="plus" @click="this.$router.push('/mypage')">+</span>
+          </div>
+          <div class="list">
+            <span class="mint">상점/벌점:</span>
+            <span class="black">?</span>
+          </div>
+          <div class="list">
+            <span class="mint">최근 외박 신청일자:</span>
+            <span class="black">?</span>
+          </div>
+          <div class="list">
+            <span class="mint">최근 상담 신청일자:</span>
+            <span class="black">?</span>
+          </div>
+        </div>
       </div>
       <div class="short_box">
         <table>
@@ -147,32 +170,13 @@
 </template>
 
 <script>
+import NoticeDataService from '@/services/NoticeDataService';
+
 export default {
   name: "HomeView",
   data() {
     return {
-      notice1_item: [
-        {
-          title: "title1",
-          date: "2022.07.22",
-        },
-        {
-          title: "title2",
-          date: "2022.07.22",
-        },
-        {
-          title: "title3",
-          date: "2022.07.22",
-        },
-        {
-          title: "title4",
-          date: "2022.07.22",
-        },
-        {
-          title: "title5",
-          date: "2022.07.22",
-        },
-      ],
+      notices: [],
       notice2_item: [
         {
           title: "title1",
@@ -198,6 +202,34 @@ export default {
     };
   },
   components: {},
+  created() {
+    this.init();
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn
+    },
+    user() {
+      return this.$store.state.auth.user
+    }
+  },
+  watch: {
+    loggedIn() {
+      return this.loggedIn;
+    }
+  },
+  methods: {
+    init() {
+      NoticeDataService.getAll()
+        .then(response => {
+          this.notices = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  }
 };
 </script>
 
@@ -445,7 +477,6 @@ export default {
         .univ {
           color: #222222;
           font-weight: 700;
-
           // &::before {
           //   content: "|";
           //   color: #858585;
@@ -516,11 +547,56 @@ export default {
               span {
                 color: white;
               }
-              &:hover {
-                border: 1px solid white;
-              }
             }
           }
+        }
+      }
+    }
+  }
+}
+</style>
+
+<!--로그인 한 경우-->
+<style lang="less">
+.right_content {
+  .login_box.login {
+    padding: 20px 20px 0 !important;
+    height: 260px !important;
+    .top.login {
+      font-weight: 700;
+      font-size: 18px;
+      color: #222;
+    }
+    .box {
+      margin-top: 8px;
+      background-color: #54AEAD;
+      padding: 14px 10px;
+      border-radius: 10px;;
+      .title {
+        color: #fff;
+        font-weight: 700;
+        font-size: 22px;
+        line-height: 18px;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 5px;
+        .plus {
+          font-size: 34px;
+          
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+      .list {
+        background-color: #fff;
+        margin-top: 5px;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 16px;
+        .mint {
+          color: #54AEAD;
+          font-weight: 600;
         }
       }
     }

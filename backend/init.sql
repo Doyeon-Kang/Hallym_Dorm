@@ -331,7 +331,7 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`board_lost` (
   `contents` VARCHAR(1000) NULL COMMENT '내용',
   `views` INT NULL COMMENT '조회수',
   `date` DATETIME COMMENT '작성일자',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 )
 ENGINE = InnoDB;
 

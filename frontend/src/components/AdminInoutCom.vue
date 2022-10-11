@@ -13,12 +13,7 @@
                 </span>
                 <div class="searchbar">
                     <div class="search_input">
-                        <input type="text" v-model="name" placeholder="사용자 검색" />
-                    </div>
-                    <div class="search_button">
-                        <button @click="show">
-                            검색
-                        </button>
+                        <input type="text" v-model="keywordin" placeholder="사용자 검색" />
                     </div>
                 </div>
             </div>
@@ -32,7 +27,7 @@
                         <th></th>
                     </thead>
                     <tbody>
-                        <tr v-for="item in listItemin" :key="item.no" @click="this.$router.push(item.url)">
+                        <tr v-for="item in listSearchin" :key="item.no" @click="this.$router.push(item.url)">
                             <td><input type="checkbox" class="check" :value="item.no" v-model="selectListin" /></td>
 
                             <td v-for="(text, index) in objectKey(item)" :key="index">
@@ -58,12 +53,7 @@
                 </span>
                 <div class="searchbar">
                     <div class="search_input">
-                        <input type="text" v-model="name" placeholder="사용자 검색" />
-                    </div>
-                    <div class="search_button">
-                        <button @click="show">
-                            검색
-                        </button>
+                        <input type="text" v-model="keywordout" placeholder="사용자 검색" />
                     </div>
                 </div>
             </div>
@@ -77,7 +67,7 @@
                         <th></th>
                     </thead>
                     <tbody>
-                        <tr v-for="item in listItemout" :key="item.no" @click="this.$router.push(item.url)">
+                        <tr v-for="item in listSearchout" :key="item.no" @click="this.$router.push(item.url)">
                             <td><input type="checkbox" class="check" :value="item.no" v-model="selectListout" /></td>
 
                             <td v-for="(text, index) in objectKey(item)" :key="index">
@@ -102,6 +92,10 @@ export default {
             selectListout: [],
             listArrayin: this.listItemin,
             listArrayout: this.listItemout,
+            listItemFilterIn: this.listItemin,
+            listItemFilterOut: this.listItemout,
+            keywordin: '',
+            keywordout: '',
             sortedNamein: 1,
             sortedGradein: 1,
             sortedNoin: 1,
@@ -201,7 +195,19 @@ export default {
             set: function (e) {
                 this.selectListout = e ? this.checkListout : [];
             }
-        }
+        },
+
+        listSearchin () {
+            return this.listItemFilterIn.filter(itemin => {
+                return itemin.name.toLowerCase().indexOf(this.keywordin.toLowerCase()) > -1
+            })
+        },
+
+        listSearchout () {
+            return this.listItemFilterOut.filter(itemout => {
+                return itemout.name.toLowerCase().indexOf(this.keywordout.toLowerCase()) > -1
+            })
+        },
     },
     watch: {
         sortedNamein() {
@@ -347,16 +353,16 @@ export default {
 
             .searchbar {
                 position: absolute;
-                right: 20px;
+                right: 3%;
                 height: 25px;
-                width: 18%;
+                width: 10%;
                 margin: 10px 0 0 10px;
                 display: flex;
 
                 .search_input {
                     margin: 0;
                     display: flex;
-                    width: 65%;
+                    width: 100%;
                     border: 1px solid #447EC3;
 
                     img {
@@ -369,21 +375,6 @@ export default {
                         border: none;
                         padding: 10px 10px;
                         font-size: 11px;
-                    }
-                }
-
-                .search_button {
-                    width: 35%;
-
-                    button {
-                        border-radius: 0;
-                        width: 100%;
-                        border: 0px;
-                        height: 100%;
-                        font-size: 13px;
-                        font-weight: bold;
-                        background-color: #447EC3;
-                        color: #FFFFFF;
                     }
                 }
             }

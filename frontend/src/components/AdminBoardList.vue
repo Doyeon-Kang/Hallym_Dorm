@@ -1,14 +1,13 @@
+<!-- 
+    Vuetify
+    https://vuetifyjs.com/en/components/data-tables/#custom-filter
+ -->
 <template>
     <div class="wrapper_list">
         <div class="searchbar">
             <div class="search_input">
                 <img src="@/assets/search.png" alt="">
-                <input type="text" v-model="keyword" placeholder="전체 사용자 검색" @keyup.enter="searchresultshow(keyword)" />
-            </div>
-            <div class="search_button">
-                <button @click="searchresultshow(keyword)">
-                    검색
-                </button>
+                <input type="text" v-model="keyword" placeholder="전체 사용자 검색"/>
             </div>
         </div>
         <div class="container">
@@ -55,7 +54,7 @@
                         <th></th>
                     </thead>
                     <tbody>
-                        <tr v-for="item in listItem" :key="item.no" @click="this.$router.push(item.url)">
+                        <tr v-for="item in listSearch" :key="item.no" @click="this.$router.push(item.url)">
                             <td><input type="checkbox" class="check" :value="item.no" v-model="selectList" /></td>
 
                             <td v-for="(text, index) in objectKey(item)" :key="index">
@@ -80,6 +79,7 @@ export default {
             checkList: [],
             selectList: [],
             listArray: this.listItem,
+            listItemFilter: this.listItem,
             keyword: '',
             sortedName: 1,
             sortedNo: 1,
@@ -122,16 +122,6 @@ export default {
                 if (key !== "url") array.push(ob[key]);
             }
             return array;
-        },
-        searchresultshow(keyword) {
-            console.log(keyword)
-            if (keyword !== ''){
-                this.listArray.filter(function (a) {
-                    console.log(a.name.toLowerCase().includes(keyword))
-                    return a.name.toLowerCase().includes(keyword.toLowerCase())
-                })
-                console.log(keyword)
-            }
         },
         sortName() {
             this.sortedName = 0
@@ -190,7 +180,12 @@ export default {
             set: function (e) {
                 this.selectList = e ? this.checkList : [];
             }
-        }
+        },
+        listSearch () {
+            return this.listItemFilter.filter(item => {
+                return item.name.toLowerCase().indexOf(this.keyword.toLowerCase()) > -1
+            })
+        },
     },
     watch: {
         sortedName() {
@@ -529,7 +524,7 @@ export default {
 
         .search_input {
             display: flex;
-            width: 90%;
+            width: 100%;
             margin-right: 10px;
             border: 1px solid #336EB4;
 
@@ -543,25 +538,6 @@ export default {
                 border: none;
                 padding: 10px 10px;
                 font-size: 14px;
-            }
-        }
-
-        .search_button {
-            width: 8%;
-
-            button {
-                border-radius: 0;
-                width: 100%;
-                border: 0px;
-                height: 100%;
-                font-size: 16px;
-                font-weight: bold;
-                background-color: #3675C7;
-                color: #FFFFFF;
-
-                &:hover {
-                    cursor: pointer;
-                }
             }
         }
     }

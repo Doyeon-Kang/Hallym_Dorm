@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -15,8 +16,9 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "board_notice")
-public class BoardNotice {
+@Table(name = "board_store")
+public class BoardStore {
+
     @Id
     @NotBlank
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -63,6 +65,7 @@ public class BoardNotice {
     }
 
     @Column(name="content")
+    @Lob
     private String content;
     public String getContent() {
         return content;
@@ -91,6 +94,7 @@ public class BoardNotice {
         this.date = LocalDateTime.now();
     }
 
+
     public LocalDateTime getDate() {
         return date;
     }
@@ -99,11 +103,11 @@ public class BoardNotice {
         this.date = date;
     }
 
-    public BoardNotice() {
+    public BoardStore() {
 
     }
 
-    public BoardNotice(String writer_studentno, String writer_name, String title, String content) {
+    public BoardStore(String writer_studentno, String writer_name, String title, String content) {
         this.writer_studentno = writer_studentno;
         this.writer_name = writer_name;
         this.title = title;

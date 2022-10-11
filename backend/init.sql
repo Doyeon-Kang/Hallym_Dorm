@@ -161,7 +161,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(200) NOT NULL COMMENT '아이디',
+  `studentno` VARCHAR(200) NOT NULL COMMENT '아이디',
   `name` VARCHAR(50) NULL COMMENT '이름',
   `password` VARCHAR(120) NULL COMMENT '비밀번호',
   `email` VARCHAR(100) NULL COMMENT '이메일',
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`user` (
   `user_member_user_member_parent_no` INT NULL,
   `apply_join_no` INT NULL,
   `apply_join_apply_date` DATE NULL,
-  PRIMARY KEY (`id`, `username`),
+  PRIMARY KEY (`id`, `studentno`),
   INDEX `fk_user_user_member1_idx` (`user_member_id` ASC, `user_member_no` ASC, `user_member_user_member_parent_id` ASC, `user_member_user_member_parent_no` ASC) VISIBLE,
   INDEX `fk_user_apply_join1_idx` (`apply_join_no` ASC, `apply_join_apply_date` ASC) VISIBLE,
   CONSTRAINT `fk_user_user_member1`
@@ -185,10 +185,8 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`user` (
     FOREIGN KEY (`apply_join_no` , `apply_join_apply_date`)
     REFERENCES `dormitory`.`apply_join` (`no` , `apply_date`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION
-)
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `dormitory`.`role`
@@ -199,31 +197,35 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`role` (
     PRIMARY KEY (`id`)
 )
 ENGINE = InnoDB;
-INSERT INTO role(name) VALUES('ROLE_USER');
-INSERT INTO role(name) VALUES('ROLE_USER_MEMBER');
-INSERT INTO role(name) VALUES('ROLE_ADMIN');
 
 -- -----------------------------------------------------
 -- Table `dormitory`.`board_notice`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`board_notice` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '게시글  아이디',
-  `writer_username` VARCHAR(200) NOT NULL COMMENT '작성자 학번',
+  `writer_studentno` VARCHAR(200) NOT NULL COMMENT '작성자 학번',
   `writer_name` VARCHAR(200) NOT NULL COMMENT '작성자',
   `title` VARCHAR(200) NULL COMMENT '제목',
-  `contents` VARCHAR(1000) NULL COMMENT '내용',
+  `content` VARCHAR(1000) NULL COMMENT '내용',
   `views` INT NULL COMMENT '조회수',
   `date` DATETIME COMMENT '작성일자',
-  `user_member_id` VARCHAR(200) NULL,
-  `user_member_no` INT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_board_notice_user_member1_idx` (`user_member_id` ASC, `user_member_no` ASC) VISIBLE,
-  CONSTRAINT `fk_board_notice_user_member1`
-    FOREIGN KEY (`user_member_id` , `user_member_no`)
-    REFERENCES `dormitory`.`user_member` (`id` , `no`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`id`)
+)
 ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `dormitory`.`board_notice_comments`
+-- -----------------------------------------------------
+-- CREATE TABLE IF NOT EXISTS `dormitory`.`board_notice_comments` (
+--   `id` INT NOT NULL AUTO_INCREMENT COMMENT '댓글아이디',
+--   `noticeid` INT NOT NULL COMMENT '게시글아이디',
+--   `comment` VARCHAR(500) NULL COMMENT '댓글내용',
+--   `writerid` VARCHAR(200) NOT NULL COMMENT '댓글 작성자 학번',
+--   `writername` VARCHAR(200) NOT NULL COMMENT '댓글 작성자',
+--   `date` DATETIME NULL COMMENT '댓글 작성일',
+--   PRIMARY KEY (`id`, `noticeid`)
+-- )
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -261,59 +263,98 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `dormitory`.`board_repair_comments`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dormitory`.`board_repair_comments` (
+  `comment_id` INT NOT NULL COMMENT '댓글아이디',
+  `post_id` INT NOT NULL COMMENT '게시판 아이디',
+  `comment` VARCHAR(500) NULL COMMENT '댓글내용',
+  `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
+  `date` DATE NULL COMMENT '댓글 작성일',
+  `parent_id` INT NULL COMMENT '부모글 아이디',
+  `board_repair_post_id` INT NOT NULL,
+  PRIMARY KEY (`post_id`, `comment_id`, `board_repair_post_id`),
+  INDEX `fk_board_repair_comments_board_repair1_idx` (`board_repair_post_id` ASC) VISIBLE,
+  CONSTRAINT `fk_board_repair_comments_board_repair1`
+    FOREIGN KEY (`board_repair_post_id`)
+    REFERENCES `dormitory`.`board_repair` (`post_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `dormitory`.`board_store`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`board_store` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '게시글 아이디',
-  `writer_username` VARCHAR(200) NOT NULL COMMENT '작성자 학번',
+  `writer_studentno` VARCHAR(200) NOT NULL COMMENT '작성자 학번',
   `writer_name` VARCHAR(200) NOT NULL COMMENT '작성자',
   `title` VARCHAR(200) NULL COMMENT '제목',
-  `contents` VARCHAR(1000) NULL COMMENT '내용',
+  `content` VARCHAR(1000) NULL COMMENT '내용',
   `views` INT NULL COMMENT '조회수',
-  `date` DATE COMMENT '작성일자',
-  `user_member_id` VARCHAR(200) NULL,
-  `user_member_no` INT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_board_store_user_member1_idx` (`user_member_id` ASC, `user_member_no` ASC) VISIBLE,
-  CONSTRAINT `fk_board_store_user_member1`
-    FOREIGN KEY (`user_member_id` , `user_member_no`)
-    REFERENCES `dormitory`.`user_member` (`id` , `no`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `date` DATETIME COMMENT '작성일자',
+  PRIMARY KEY (`id`)
+)
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dormitory`.`board_store_comments`
+-- -----------------------------------------------------
+-- CREATE TABLE IF NOT EXISTS `dormitory`.`board_store_comments` (
+--   `comment_id` INT NOT NULL COMMENT '댓글아이디',
+--   `post_id` INT NOT NULL COMMENT '게시판 아이디',
+--   `comment` VARCHAR(500) NULL COMMENT '댓글내용',
+--   `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
+--   `date` DATE NULL COMMENT '댓글 작성일',
+--   `parent_id` INT NULL COMMENT '부모글 아이디',
+--   `board_store_post_id` INT NOT NULL,
+--   PRIMARY KEY (`post_id`, `comment_id`, `board_store_post_id`),
+--   INDEX `fk_board_store_comments_board_store1_idx` (`board_store_post_id` ASC) VISIBLE,
+--   CONSTRAINT `fk_board_store_comments_board_store1`
+--     FOREIGN KEY (`board_store_post_id`)
+--     REFERENCES `dormitory`.`board_store` (`id`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION)
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `dormitory`.`board_lost`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`board_lost` (
-  `post_id` INT NOT NULL COMMENT '게시글 아이디',
-  `id` VARCHAR(200) NOT NULL COMMENT '작성자 아이디',
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT '게시글 아이디',
+  `writer_studentno` VARCHAR(200) NOT NULL COMMENT '작성자 학번',
+  `writer_name` VARCHAR(200) NOT NULL COMMENT '작성자',
   `title` VARCHAR(200) NULL COMMENT '제목',
   `contents` VARCHAR(1000) NULL COMMENT '내용',
   `views` INT NULL COMMENT '조회수',
-  `date` DATE NULL COMMENT '작성일자',
-  `user_member_id` VARCHAR(200) NOT NULL,
-  `user_member_no` INT NOT NULL,
-  `user_member_user_member_parent_id` VARCHAR(200) NOT NULL,
-  `user_member_user_member_parent_no` INT NOT NULL,
-  `user_member_point_id` VARCHAR(200) NOT NULL,
-  `user_member_point_no` INT NOT NULL,
-  `user_member_apply_consult_cns_no` INT NOT NULL,
-  `user_member_apply_consult_no` INT NOT NULL,
-  `user_member_apply_studyroom_no1` INT NOT NULL,
-  `user_member_apply_sleepout_no` INT NOT NULL,
-  `user_member_apply_sleepout_date` DATE NOT NULL,
-  `user_member_apply_resign_no` INT NOT NULL,
-  `user_member_apply_resign_apply_date` DATE NOT NULL,
-  PRIMARY KEY (`post_id`, `user_member_id`, `user_member_no`, `user_member_user_member_parent_id`, `user_member_user_member_parent_no`, `user_member_point_id`, `user_member_point_no`, `user_member_apply_consult_cns_no`, `user_member_apply_consult_no`, `user_member_apply_studyroom_no1`, `user_member_apply_sleepout_no`, `user_member_apply_sleepout_date`, `user_member_apply_resign_no`, `user_member_apply_resign_apply_date`, `id`),
-  INDEX `fk_board_lost_user_member1_idx` (`user_member_id` ASC, `user_member_no` ASC, `user_member_user_member_parent_id` ASC, `user_member_user_member_parent_no` ASC, `user_member_point_id` ASC, `user_member_point_no` ASC, `user_member_apply_consult_cns_no` ASC, `user_member_apply_consult_no` ASC, `user_member_apply_studyroom_no1` ASC, `user_member_apply_sleepout_no` ASC, `user_member_apply_sleepout_date` ASC, `user_member_apply_resign_no` ASC, `user_member_apply_resign_apply_date` ASC) VISIBLE,
-  CONSTRAINT `fk_board_lost_user_member1`
-    FOREIGN KEY (`user_member_id` , `user_member_no` , `user_member_user_member_parent_id` , `user_member_user_member_parent_no` , `user_member_point_id` , `user_member_point_no` , `user_member_apply_consult_cns_no` , `user_member_apply_consult_no` , `user_member_apply_studyroom_no1` , `user_member_apply_sleepout_no` , `user_member_apply_sleepout_date` , `user_member_apply_resign_no` , `user_member_apply_resign_apply_date`)
-    REFERENCES `dormitory`.`user_member` (`id` , `no` , `user_member_parent_id` , `user_member_parent_no` , `point_id` , `point_no` , `apply_consult_cns_no` , `apply_consult_no` , `apply_studyroom_no1` , `apply_sleepout_no` , `apply_sleepout_date` , `apply_resign_no` , `apply_resign_apply_date`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `date` DATETIME COMMENT '작성일자',
+  PRIMARY KEY (`id`),
+)
 ENGINE = InnoDB;
+
+
+-- -- -----------------------------------------------------
+-- -- Table `dormitory`.`board_lost_comments`
+-- -- -----------------------------------------------------
+-- CREATE TABLE IF NOT EXISTS `dormitory`.`board_lost_comments` (
+--   `comment_id` INT NOT NULL COMMENT '댓글아이디',
+--   `post_id` INT NOT NULL COMMENT '게시판 아이디',
+--   `comment` VARCHAR(500) NULL COMMENT '댓글내용',
+--   `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
+--   `date` DATE NULL COMMENT '댓글 작성일',
+--   `parent_id` INT NULL COMMENT '부모글 아이디',
+--   `board_lost_post_id` INT NOT NULL,
+--   PRIMARY KEY (`post_id`, `comment_id`, `board_lost_post_id`),
+--   INDEX `fk_board_lost_comments_board_lost1_idx` (`board_lost_post_id` ASC) VISIBLE,
+--   CONSTRAINT `fk_board_lost_comments_board_lost1`
+--     FOREIGN KEY (`board_lost_post_id`)
+--     REFERENCES `dormitory`.`board_lost` (`id`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION)
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -449,88 +490,9 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`apply_sleepout` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `dormitory`.`board_notice_comments`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dormitory`.`board_notice_comments` (
-  `comment_id` INT NOT NULL COMMENT '댓글아이디',
-  `post_id` INT NOT NULL COMMENT '게시판 아이디',
-  `comment` VARCHAR(500) NULL COMMENT '댓글내용',
-  `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
-  `date` DATE NULL COMMENT '댓글 작성일',
-  `parent_id` INT NULL COMMENT '부모글 아이디',
-  `board_notice_post_id` INT NOT NULL,
-  PRIMARY KEY (`post_id`, `comment_id`, `board_notice_post_id`),
-  INDEX `fk_board_notice_comments_board_notice1_idx` (`board_notice_post_id` ASC) VISIBLE,
-  CONSTRAINT `fk_board_notice_comments_board_notice1`
-    FOREIGN KEY (`board_notice_post_id`)
-    REFERENCES `dormitory`.`board_notice` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `dormitory`.`board_repair_comments`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dormitory`.`board_repair_comments` (
-  `comment_id` INT NOT NULL COMMENT '댓글아이디',
-  `post_id` INT NOT NULL COMMENT '게시판 아이디',
-  `comment` VARCHAR(500) NULL COMMENT '댓글내용',
-  `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
-  `date` DATE NULL COMMENT '댓글 작성일',
-  `parent_id` INT NULL COMMENT '부모글 아이디',
-  `board_repair_post_id` INT NOT NULL,
-  PRIMARY KEY (`post_id`, `comment_id`, `board_repair_post_id`),
-  INDEX `fk_board_repair_comments_board_repair1_idx` (`board_repair_post_id` ASC) VISIBLE,
-  CONSTRAINT `fk_board_repair_comments_board_repair1`
-    FOREIGN KEY (`board_repair_post_id`)
-    REFERENCES `dormitory`.`board_repair` (`post_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `dormitory`.`board_store_comments`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dormitory`.`board_store_comments` (
-  `comment_id` INT NOT NULL COMMENT '댓글아이디',
-  `post_id` INT NOT NULL COMMENT '게시판 아이디',
-  `comment` VARCHAR(500) NULL COMMENT '댓글내용',
-  `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
-  `date` DATE NULL COMMENT '댓글 작성일',
-  `parent_id` INT NULL COMMENT '부모글 아이디',
-  `board_store_post_id` INT NOT NULL,
-  PRIMARY KEY (`post_id`, `comment_id`, `board_store_post_id`),
-  INDEX `fk_board_store_comments_board_store1_idx` (`board_store_post_id` ASC) VISIBLE,
-  CONSTRAINT `fk_board_store_comments_board_store1`
-    FOREIGN KEY (`board_store_post_id`)
-    REFERENCES `dormitory`.`board_store` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `dormitory`.`board_lost_comments`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dormitory`.`board_lost_comments` (
-  `comment_id` INT NOT NULL COMMENT '댓글아이디',
-  `post_id` INT NOT NULL COMMENT '게시판 아이디',
-  `comment` VARCHAR(500) NULL COMMENT '댓글내용',
-  `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
-  `date` DATE NULL COMMENT '댓글 작성일',
-  `parent_id` INT NULL COMMENT '부모글 아이디',
-  `board_lost_post_id` INT NOT NULL,
-  PRIMARY KEY (`post_id`, `comment_id`, `board_lost_post_id`),
-  INDEX `fk_board_lost_comments_board_lost1_idx` (`board_lost_post_id` ASC) VISIBLE,
-  CONSTRAINT `fk_board_lost_comments_board_lost1`
-    FOREIGN KEY (`board_lost_post_id`)
-    REFERENCES `dormitory`.`board_lost` (`post_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+INSERT INTO role(name) VALUES('ROLE_USER');
+INSERT INTO role(name) VALUES('ROLE_USER_MEMBER');
+INSERT INTO role(name) VALUES('ROLE_ADMIN');
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

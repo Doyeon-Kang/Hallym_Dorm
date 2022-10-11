@@ -15,8 +15,9 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "board_notice")
-public class BoardNotice {
+@Table(name = "board_lost")
+public class BoardLost {
+
     @Id
     @NotBlank
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -90,6 +91,11 @@ public class BoardNotice {
     private void onCreate() {   
         this.date = LocalDateTime.now();
     }
+    // @PrePersist
+    // private void onCreate() {   
+    //     this.date = new Date();
+    // }
+
 
     public LocalDateTime getDate() {
         return date;
@@ -99,14 +105,15 @@ public class BoardNotice {
         this.date = date;
     }
 
-    public BoardNotice() {
+    public BoardLost() {
 
     }
 
-    public BoardNotice(String writer_studentno, String writer_name, String title, String content) {
+    public BoardLost(String writer_studentno, String writer_name, String title, String content) {
         this.writer_studentno = writer_studentno;
         this.writer_name = writer_name;
         this.title = title;
         this.content = content;
     }
+
 }

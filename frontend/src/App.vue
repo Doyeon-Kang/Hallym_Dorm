@@ -138,7 +138,7 @@ export default {
   position: absolute;
   top: 0;
   z-index: -1;
-  background-size: 100%;
+  background-size: 100% 80%;
 }
 
 // content

@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class BoardRepair {
     @Id
     @NotBlank
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_repair_generator")
     private Long id;
     public Long getId() {
         return id;

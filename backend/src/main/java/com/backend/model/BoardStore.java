@@ -21,7 +21,7 @@ public class BoardStore {
 
     @Id
     @NotBlank
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_store_generator")
     private Long id;
     public Long getId() {
         return id;

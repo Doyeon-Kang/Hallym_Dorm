@@ -152,7 +152,70 @@
                 
             </div>
             <div v-else-if="$route.name === 'in'" class='in_container'>
+                <div class="division"></div>
+                <p>학생생활관 학기중 사용신청자 기본사항</p>
+                <table class="in_table">
+                    <tbody>
+                        <tr>
+                            <td class="title">성명</td>
+                            <td class="content">홍길동</td>
+                            <td class="title">대학</td>
+                            <td class="content">정보과학대학</td>
+                            <td class="title">보호자 성명</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                        </tr>
+                        <tr>
+                            <td class="title">학번</td>
+                            <td class="content">20201234</td>
+                            <td class="title">학과</td>
+                            <td class="content">빅데이터 전공</td>
+                            <td class="title">보호자 관계</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                        </tr>
+                        <tr>
+                            <td class="title">영문</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="title">학적상태</td>
+                            <td class="content">
+                                <select name="" id="">
+                                    <option value="재학">재학</option>
+                                    <option value="휴학">휴학</option>
+                                </select>
+                            </td>
+                            <td class="title">보호자 연락처</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                        </tr>
+                        <tr>
+                            <td class="title">한자</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="title">연락처</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="title">자택 전화</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                        </tr>
+                        <tr>
+                            <td class="title">학년/성별</td>
+                            <td class="content">
+                                3학년
+                                <select name="gender">
+                                    <option value="male">남자</option>
+                                    <option value="female">여자</option>
+                                </select>
+                            </td>
+                            <td class="title">이메일</td>
+                            <td class="content">h20201234@hallym.ac.kr</td>
+                        </tr>
+                        <tr>
+                            <td class="title">국적</td>
+                            <td class="content">대한민국</td>
+                            <td class="title">주소</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="division"></div>
                 
+                <div class="division"></div>
             </div>
             <div v-else-if="$route.name === 'out'" class='out_container'>
                 
@@ -329,6 +392,40 @@ export default {
                     }
                 }
                 
+            }
+            .in_container {
+                .division {
+                    width: 100%;
+                    height: 1px;
+                    background-color: #858585;
+                    margin: 20px 0;
+                }
+                .in_table {
+                    td {
+                        padding: 24px 10px;
+                        text-align: center;
+                        font-weight: 600;
+                        border: 1px solid #C0C0C0;
+                        &.title {
+                            background-color: #336EB4;
+                            color: #fff;
+                            width: 100px;
+                        }
+                        &.content {
+                            color: #336EB4;
+                            input {
+                                border: none;
+                                &::placeholder {
+                                    text-align: center;
+                                }
+                                &:focus::-webkit-input-placeholder { 
+                                    color:transparent;
+                                }
+                            }
+                        }
+                    }
+                }
+                    
             }
         }
     }

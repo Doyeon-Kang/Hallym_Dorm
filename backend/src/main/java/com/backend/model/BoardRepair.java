@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -16,12 +15,11 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "board_store")
-public class BoardStore {
-
+@Table(name = "board_repair")
+public class BoardRepair {
     @Id
     @NotBlank
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_store_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_repair_generator")
     private Long id;
     public Long getId() {
         return id;
@@ -65,7 +63,6 @@ public class BoardStore {
     }
 
     @Column(name="content")
-    @Lob
     private String content;
     public String getContent() {
         return content;
@@ -94,7 +91,6 @@ public class BoardStore {
         this.date = LocalDateTime.now();
     }
 
-
     public LocalDateTime getDate() {
         return date;
     }
@@ -103,11 +99,11 @@ public class BoardStore {
         this.date = date;
     }
 
-    public BoardStore() {
+    public BoardRepair() {
 
     }
 
-    public BoardStore(String writer_studentno, String writer_name, String title, String content) {
+    public BoardRepair(String writer_studentno, String writer_name, String title, String content) {
         this.writer_studentno = writer_studentno;
         this.writer_name = writer_name;
         this.title = title;

@@ -20,42 +20,42 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.backend.model.BoardStore;
-import com.backend.model.StorePhoto;
+import com.backend.model.BoardLost;
+import com.backend.model.LostPhoto;
 import com.backend.payload.response.MessageResponse;
 import com.backend.payload.response.PhotoResponse;
-import com.backend.repository.BoardStoreRepository;
-import com.backend.repository.StorePhotoRepository;
+import com.backend.repository.BoardLostRepository;
+import com.backend.repository.LostPhotoRepository;
 
 @RestController
 @RequestMapping(path="/api")
-public class StorePhotoController {
+public class LostPhotoController {
     @Autowired
-    BoardStoreRepository boardStoreRepository;
+    BoardLostRepository boardLostRepository;
 
     @Autowired
-    StorePhotoRepository storePhotoRepository;
+    LostPhotoRepository lostPhotoRepository;
 
-    @PostMapping(value = "/board-store/{storeId}/upload")
-    public ResponseEntity<MessageResponse> uploadPhotos(@PathVariable(name="storeId") Long storeId, @RequestParam("photos") MultipartFile[] photos) {
+    @PostMapping(value = "/board-lost/{lostId}/upload")
+    public ResponseEntity<MessageResponse> uploadPhotos(@PathVariable(name="lostId") Long lostId, @RequestParam("photos") MultipartFile[] photos) {
         String message = "";
         try {
-            BoardStore _boardStore = boardStoreRepository.findById(storeId).get();
+            BoardLost _boardLost = boardLostRepository.findById(lostId).get();
 
             List<String> photoNames = new ArrayList<>();
 
             Arrays.asList(photos).stream().forEach(photo -> {
                 String photoName = StringUtils.cleanPath(photo.getOriginalFilename());
-                StorePhoto _storePhoto = new StorePhoto();
-                _storePhoto.setName(photoName);
-                _storePhoto.setType(photo.getContentType());
+                LostPhoto _lostPhoto = new LostPhoto();
+                _lostPhoto.setName(photoName);
+                _lostPhoto.setType(photo.getContentType());
                 try {
-                    _storePhoto.setData(photo.getBytes());
+                    _lostPhoto.setData(photo.getBytes());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                _storePhoto.setBoardStore(_boardStore);
-                storePhotoRepository.save(_storePhoto);
+                _lostPhoto.setBoardLost(_boardLost);
+                lostPhotoRepository.save(_lostPhoto);
                 photoNames.add(photoName);
             });
             message = "Uploaded the files successfully: " + photoNames;
@@ -66,45 +66,45 @@ public class StorePhotoController {
         }
     }
     
-    @GetMapping("/board-store/{storeId}/photos")
-    public ResponseEntity<List<PhotoResponse>> getListPhotos(@PathVariable(name = "storeId") Long storeId) {
-        List<StorePhoto> storePhotos = storePhotoRepository.findByBoardStoreId(storeId);
-        List<PhotoResponse> storePhotoResponses = new ArrayList<>();
-        storePhotos.forEach(photo -> {
+    @GetMapping("/board-lost/{lostId}/photos")
+    public ResponseEntity<List<PhotoResponse>> getListPhotos(@PathVariable(name = "lostId") Long lostId) {
+        List<LostPhoto> lostPhotos = lostPhotoRepository.findByBoardLostId(lostId);
+        List<PhotoResponse> lostPhotoResponses = new ArrayList<>();
+        lostPhotos.forEach(photo -> {
             String fileDownloadUri = ServletUriComponentsBuilder
                                         .fromCurrentContextPath()
-                                        .path("api/board-store/" + storeId + "/photo/")
+                                        .path("api/board-lost/" + lostId + "/photo/")
                                         .path(photo.getId())
                                         .toUriString();
             photo.setUrl(fileDownloadUri);
-            storePhotoRepository.save(photo);
+            lostPhotoRepository.save(photo);
             PhotoResponse response = new PhotoResponse(photo.getId(), photo.getType(), photo.getUrl());
-            storePhotoResponses.add(response);
+            lostPhotoResponses.add(response);
         });
         try {
-            if(storePhotos.isEmpty()) {
+            if(lostPhotos.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
-                return new ResponseEntity<>(storePhotoResponses, HttpStatus.OK);
+                return new ResponseEntity<>(lostPhotoResponses, HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/board-store/{storeId}/photo/{photoId}")
-    public ResponseEntity<byte[]> getPhoto(@PathVariable(name = "storeId") Long storeId, @PathVariable(name = "photoId") String photoId) {
-        StorePhoto _storePhoto = storePhotoRepository.findById(photoId);
+    @GetMapping("/board-lost/{lostId}/photo/{photoId}")
+    public ResponseEntity<byte[]> getPhoto(@PathVariable(name = "lostId") Long lostId, @PathVariable(name = "photoId") String photoId) {
+        LostPhoto _lostPhoto = lostPhotoRepository.findById(photoId);
 
         return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + _storePhoto.getName() + "\"")
-            .body(_storePhoto.getData());
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + _lostPhoto.getName() + "\"")
+            .body(_lostPhoto.getData());
     }
 
-    @DeleteMapping("/board-store/{storeId}/photo/{photoId}")
-    public ResponseEntity<HttpStatus> deletePhoto(@PathVariable(name = "storeId") Long storeId, @PathVariable(name = "photoId") String photoId) {
+    @DeleteMapping("/board-lost/{lostId}/photo/{photoId}")
+    public ResponseEntity<HttpStatus> deletePhoto(@PathVariable(name = "lostId") Long lostId, @PathVariable(name = "photoId") String photoId) {
         try {
-            storePhotoRepository.deleteById(photoId);
+            lostPhotoRepository.deleteById(photoId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

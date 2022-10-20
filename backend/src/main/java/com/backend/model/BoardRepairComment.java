@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -22,10 +22,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
-@Table(name = "board_store_comments")
-public class BoardStoreComment {
+@Table(name = "board_repair_comments")
+public class BoardRepairComment {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_store_comments_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_repair_comments_generator")
     @Column(name="id")
     private Long id;
 
@@ -89,25 +89,25 @@ public class BoardStoreComment {
         this.createdDate = date;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "boardStore", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "boardRepair", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private BoardStore boardStore;
+    private BoardRepair boardRepair;
 
-    public BoardStore getBoardStore() {
-        return boardStore;
+    public BoardRepair getBoardRepair() {
+        return boardRepair;
     }
 
-    public void setBoardStore(BoardStore boardStore) {
-        this.boardStore = boardStore;
+    public void setBoardRepair(BoardRepair boardRepair) {
+        this.boardRepair = boardRepair;
     }
 
-    public BoardStoreComment() {
+    public BoardRepairComment() {
 
     }
 
-    public BoardStoreComment(String writer_studentno, String writer_name, String content) {
+    public BoardRepairComment(String writer_studentno, String writer_name, String content) {
         this.content = content;
         this.writer_studentno = writer_studentno;
         this.writer_name = writer_name;

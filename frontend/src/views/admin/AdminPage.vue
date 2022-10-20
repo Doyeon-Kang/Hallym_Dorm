@@ -15,10 +15,12 @@
   import SidebarCom from "../../components/AdminSidebarCom.vue";
   import BoardList from "../../components/AdminBoardList.vue";
   
-  
+  import UserService from '../../services/user.service';
+
   export default {
     data() {
       return {
+        content: '',
         title: "String",
         pageName: "관리자페이지",
         side: [
@@ -49,6 +51,16 @@
   },
     created() {
       this.routeCheck();
+    },
+    mounted() {
+      UserService.getAdminBoard().then(
+        response => {
+          console.log(response.data);
+        }),
+        error => {
+          console.log(error.data);
+          // not admin => go to error page
+        }
     },
     methods: {
       routeCheck() {

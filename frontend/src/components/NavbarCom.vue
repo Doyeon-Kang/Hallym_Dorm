@@ -15,7 +15,7 @@
           <a v-if="!loggedIn" href="/login">로그인</a>
           <a v-else @click="logout()">로그아웃</a>
           <a v-if="loggedIn" href="/mypage">마이페이지</a>
-          <a href="/admin/user">최고관리자</a>
+          <a v-if="userAdmin" href="/admin/user">최고관리자</a>
         </div>
       </div>
     </div>
@@ -110,11 +110,17 @@
 export default {
   data() {
     return {
+      userAdmin: false,
       active: false,
       expand: true,
     };
   },
   methods: {
+    init() {
+      this.user.roles.forEach(element => {
+        if(element == "ROLE_ADMIN") this.userAdmin = true;
+      })
+    },
     mouseOver() {
       this.active = true;
     },
@@ -130,11 +136,20 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn
+    },
+    user() {
+      return this.$store.state.auth.user
     }
+  },
+  created() {
+    this.init();
   },
   watch: {
     loggedIn() {
       return this.loggedIn;
+    },
+    user() {
+      return this.user;
     }
   }
 };

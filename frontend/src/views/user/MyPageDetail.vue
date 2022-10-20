@@ -1,11 +1,35 @@
 <template>
   <div class="wrapper">
     <div class="left_container">
-      <SidebarCom :pageName="pageName" :listItem="side" ></SidebarCom>
+      <SidebarCom :pageName="pageName" :listItem="side"></SidebarCom>
     </div>
     <div class="right_container">
       <PageTitle :title="title"></PageTitle>
-      <BoardList :listItem="listItem"></BoardList>
+      <BoardList
+        v-if="$route.name === 'myassey'"
+        :listItem="asseyList"
+        :listTitle="asseyTitle"
+      ></BoardList>
+      <BoardList
+        v-else-if="$route.name === 'myconsulting'"
+        :listItem="consultList"
+        :listTitle="consultTitle"
+      ></BoardList>
+      <BoardList
+        v-else-if="$route.name === 'mystudy'"
+        :listItem="studyList"
+        :listTitle="studyTitle"
+      ></BoardList>
+      <BoardList
+        v-else-if="$route.name === 'mysleep'"
+        :listItem="sleepList"
+        :listTitle="sleepTitle"
+      ></BoardList>
+      <BoardList
+        v-else-if="$route.name === 'mypoint'"
+        :listItem="pointList"
+        :listTitle="pointTitle"
+      ></BoardList>
     </div>
   </div>
 </template>
@@ -15,70 +39,107 @@ import PageTitle from "@/components/PageTitle.vue";
 import SidebarCom from "../../components/SidebarCom.vue";
 import BoardList from "../../components/BoardList.vue";
 
-
 export default {
   data() {
     return {
       title: "String",
       pageName: "마이페이지",
       side: [
-        { title: "내가 작성한 글", path: "/mypage/myassey"},
+        { title: "내가 작성한 글", path: "/mypage/myassey" },
         { title: "상담 신청", path: "/mypage/myconsulting" },
         { title: "스터디룹 예약", path: "/mypage/mystudy" },
         { title: "외박 신청", path: "/mypage/mysleep" },
         { title: "상벌점 내역", path: "/mypage/mypoint" },
       ],
-      listItem: [
+      asseyTitle: ["번호", "글제목", "작성일", "작성게시판"],
+      asseyList: [
         {
           no: "1",
-          title: "2022-2학기 입퇴사 안내",
+          title: "공책 잃어버리신 분",
           date: "2022.06.18",
-          writer: "학생생활관",
-          view: "78"
+          board: "분실물 게시판",
+          url: "",
         },
         {
           no: "2",
-          title: "2022-2학기 입퇴사 안내",
+          title: "공책 잃어버리신 분",
           date: "2022.06.18",
-          writer: "학생생활관",
-          view: "78"
+          board: "분실물 게시판",
+          url: "",
         },
         {
           no: "3",
-          title: "2022-2학기 입퇴사 안내",
+          title: "공책 잃어버리신 분",
           date: "2022.06.18",
-          writer: "학생생활관",
-          view: "78"
+          board: "분실물 게시판",
+          url: "",
         },
         {
           no: "4",
-          title: "2022-2학기 입퇴사 안내",
+          title: "쿠키 드실 분 있나요?",
           date: "2022.06.18",
-          writer: "학생생활관",
-          view: "78"
+          board: "나눔장터 게시판",
+          url: "",
         },
         {
           no: "5",
-          title: "2022-2학기 입퇴사 안내",
+          title: "쿠키 드실 분 있나요?",
           date: "2022.06.18",
-          writer: "학생생활관",
-          view: "78"
+          board: "나눔장터 게시판",
+          url: "",
         },
         {
           no: "6",
-          title: "2022-2학기 입퇴사 안내",
+          title: "공책 잃어버리신 분",
           date: "2022.06.18",
-          writer: "학생생활관",
-          view: "78"
+          board: "분실물 게시판",
+          url: "",
         },
-      ]
+        {
+          no: "7",
+          title: "공책 잃어버리신 분",
+          date: "2022.06.18",
+          board: "분실물 게시판",
+          url: "",
+        },
+      ],
+      consultTitle: [
+        "번호",
+        "상담분야",
+        "상담자",
+        "상담날짜",
+        "상담시간",
+        "진행상태",
+      ],
+      consultList: [{}],
+      studyTitle: [
+        "번호",
+        "내 좌석",
+        "신청날짜",
+        "신청시간",
+        "진행상태",
+        "비고",
+      ],
+      studyList: [{}],
+      sleepTitle: ["번호", "글제목", "진행상태", "처리일자"],
+      sleepList: [{}],
+      pointTitle: [
+        "번호",
+        "년도-학기",
+        "구분",
+        "점수",
+        "사유",
+        "발생일",
+        "입력일",
+      ],
+      pointList: [{}],
     };
   },
   components: {
     PageTitle,
     SidebarCom,
-    BoardList
-},
+    BoardList,
+  },
   created() {
     this.routeCheck();
   },
@@ -106,10 +167,10 @@ export default {
       }
     },
     activeReset() {
-      for (var i=0; i<this.side.length; i++) {
+      for (var i = 0; i < this.side.length; i++) {
         this.side[i].active = false;
       }
-    }
+    },
   },
   watch: {
     $route() {

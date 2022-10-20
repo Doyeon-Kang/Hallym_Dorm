@@ -1,13 +1,14 @@
 <template>
     <div class="mypage_container">
+        <!-- <button @click="logOut()">Logout</button> -->
         <div class="mypage">
             <div class="profile box">
                 <div class="profile_box box innerbox">
                     <div class="profile_title">내 프로필</div><br>
                     <img src="@/assets/profile.png" alt="이미지" />
                     <div class="pro_info">
-                        이름 : 홍길동<br>
-                        학번 : 20201234<br>
+                        이름 : {{user.name}}<br>
+                        학번 : {{user.studentno}}<br>
                         거주관 : X관 XXX호<br>
                     </div>
                 </div>
@@ -137,6 +138,12 @@
         name: "MyPageView",
         data() {
             return {
+                user: {
+                    studentno: '',
+                    name: '',
+                    password: '',
+                    email: ''
+                },
                 mywrite_item: [
                     {
                         category: "[분실물]",
@@ -254,7 +261,21 @@
                 ],
             };
         },
+        computed: {
+            loggedUser() {
+                return this.$store.state.auth.user;
+            },
+        },
         components: {},
+        mounted () {
+            this.user = this.loggedUser;
+        },
+        methods: {
+            logOut() {
+                this.$store.dispatch('auth/logout');
+                this.$router.push('/login');
+            }
+        }
     };
     </script>
 

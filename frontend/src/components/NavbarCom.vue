@@ -12,8 +12,10 @@
         </a>
         <div class="right">
           <a href="https://www.hallym.ac.kr/">한림대학교</a>
-          <a href="/login">로그인</a>
-          <a href="/mypage">마이페이지</a>
+          <a v-if="!loggedIn" href="/login">로그인</a>
+          <a v-else @click="logout()">로그아웃</a>
+          <a v-if="loggedIn" href="/mypage">마이페이지</a>
+          <a href="/admin/user">최고관리자</a>
         </div>
       </div>
     </div>
@@ -50,9 +52,7 @@
           <li><a href="/life">생활일정</a></li>
           <li class="sub_menu">
             <a href="/life/rules"
-              >생활수칙<span class="material-symbols-outlined">
-                expand_more
-              </span></a
+              >생활수칙 ></a
             >
             <ul>
               <li><a href="/life/rules">생활수칙</a></li>
@@ -61,10 +61,7 @@
           </li>
           <li class="sub_menu">
             <a href=""
-              >상벌점기준표
-              <span v-show="expand" class="material-symbols-outlined">
-                expand_more
-              </span>
+              >상벌점기준표 >
             </a>
             <ul>
               <li><a href="/life/prize">상점기준</a></li>
@@ -76,15 +73,12 @@
         </ul>
         <ul class="board">
           <li class="sub_menu">
-            <a href=""
-              >공지사항
-              <span v-show="expand" class="material-symbols-outlined">
-                expand_more
-              </span>
+            <a href="/community"
+              >공지사항 >
             </a>
             <ul>
-              <li><a href="/life/community">학생기숙사</a></li>
-              <li><a href="/life/community/notice1">사생자치회</a></li>
+              <li><a href="/community">학생기숙사</a></li>
+              <li><a href="/community/notice1">사생자치회</a></li>
             </ul>
           </li>
           <li><a href="/community/data">서식자료실</a></li>
@@ -98,10 +92,7 @@
           <li><a href="/reserve/study">스터디룸 예약</a></li>
           <li class="sub_menu">
             <a href="/reserve/in"
-              >입사/퇴사 신청
-              <span v-show="expand" class="material-symbols-outlined">
-                expand_more
-              </span>
+              >입사/퇴사 신청 > 
             </a>
             <ul>
               <li><a href="/reserve/in">입사신청</a></li>
@@ -130,7 +121,22 @@ export default {
     mouseLeave() {
       this.active = false;
     },
+    logout() {
+      this.$router.replace({
+        path: '/logout'
+      })
+    }
   },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn
+    }
+  },
+  watch: {
+    loggedIn() {
+      return this.loggedIn;
+    }
+  }
 };
 </script>
 
@@ -176,6 +182,7 @@ header {
         font-size: 14px;
         &:hover {
           color: #3675c7;
+          cursor: pointer;
         }
         &::after {
           margin: 0 8px;
@@ -219,6 +226,7 @@ header {
       background-color: white;
       left: 50%;
       transform: translate(-50%);
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
       ul {
         flex-grow: 1;
         flex-basis: 0;

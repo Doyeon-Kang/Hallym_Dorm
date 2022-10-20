@@ -1,11 +1,19 @@
 <template>
-  <div>
+  <div style="position: relative">
     <div class="header">
       <Navbar
         v-show="
           $route.name !== 'login' &&
           $route.name !== 'join' &&
-          $route.name !== 'findpw'
+          $route.name !== 'findpw' &&
+          $route.name !== 'adminuser' &&
+          $route.name !== 'adminpoint' &&
+          $route.name !== 'adminstudy' &&
+          $route.name !== 'adminsleep' &&
+          $route.name !== 'admininout' &&
+          $route.name !== 'adminconsulting' &&
+          $route.name !== 'adminlife' &&
+          $route.name !== 'adminlogout'
         "
       ></Navbar>
     </div>
@@ -19,6 +27,24 @@
         </div>
       </div>
     </div>
+    <div
+      class="small_banner"
+      v-show="
+        $route.name !== 'home' &&
+        $route.name !== 'mypage' &&
+        $route.name !== 'login' &&
+        $route.name !== 'join' &&
+        $route.name !== 'findpw' &&
+        $route.name !== 'adminuser' &&
+        $route.name !== 'adminpoint' &&
+        $route.name !== 'adminstudy' &&
+        $route.name !== 'adminsleep' &&
+        $route.name !== 'admininout' &&
+        $route.name !== 'adminconsulting' &&
+        $route.name !== 'adminlife' &&
+        $route.name !== 'logout'
+      "
+    ></div>
     <div class="container">
       <router-view />
     </div>
@@ -42,6 +68,9 @@ export default {
     Navbar,
     Footer,
   },
+  created() {
+    
+  }
 };
 </script>
 
@@ -101,6 +130,15 @@ export default {
       }
     }
   }
+}
+.small_banner {
+  background: url("@/assets/banner_small.png") no-repeat;
+  width: 100%;
+  height: 300px;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  background-size: 100% 80%;
 }
 
 // content

@@ -34,7 +34,11 @@
         v-else-if="$route.name === 'lost'"
         :photoList="lostList"
       ></PhotoBoard>
+      <div v-else-if="$route.name === 'article'">
+        
+      </div>
     </div>
+    <a href="community/create-article">글쓰기</a>
   </div>
 </template>
 

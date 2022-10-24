@@ -382,7 +382,120 @@
                 </div>
             </div>
             <div v-else-if="$route.name === 'out'" class='out_container'>
-                
+                <div class="division"></div>
+                <p>학생생활관 학기중 사용신청자 기본사항</p>
+                <table class="in_table">
+                    <tbody>
+                        <tr>
+                            <td class="title">성명</td>
+                            <td class="content">홍길동</td>
+                            <td class="title">대학</td>
+                            <td class="content">정보과학대학</td>
+                            <td class="title">보호자 성명</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                        </tr>
+                        <tr>
+                            <td class="title">학번</td>
+                            <td class="content">20201234</td>
+                            <td class="title">학과</td>
+                            <td class="content">빅데이터 전공</td>
+                            <td class="title">보호자 관계</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                        </tr>
+                        <tr>
+                            <td class="title">영문</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="title">학적상태</td>
+                            <td class="content">
+                                <select name="" id="">
+                                    <option value="재학">재학</option>
+                                    <option value="휴학">휴학</option>
+                                </select>
+                            </td>
+                            <td class="title">보호자 연락처</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                        </tr>
+                        <tr>
+                            <td class="title">한자</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="title">연락처</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="title">자택 전화</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                        </tr>
+                        <tr>
+                            <td class="title">학년/성별</td>
+                            <td class="content">
+                                3학년
+                                <select name="gender">
+                                    <option value="male">남자</option>
+                                    <option value="female">여자</option>
+                                </select>
+                            </td>
+                            <td class="title">이메일</td>
+                            <td class="content">h20201234@hallym.ac.kr</td>
+                        </tr>
+                        <tr>
+                            <td class="title">국적</td>
+                            <td class="content">대한민국</td>
+                            <td class="title">주소</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="division"></div>
+                <form action="" id="out_apply">
+                    <div class="box">
+                        <div class="title">퇴사 예정일</div>
+                        <select name="" id="">
+                            <option value="none">선택</option>
+                        </select>
+                    </div>
+                    <div class="box">
+                        <div class="title">퇴사 사유</div>
+                        <textarea name="" id="" cols="30" rows="10"></textarea>
+                    </div>
+                    <input type="submit" value="신청하기">
+                </form>
+                <div class="division"></div>
+                <div class="info_box">
+                    <p class="info_red">[기타 고지사항]</p>
+                    <p> 1. 본인 및 보호자의 정보 변경 발생 즉시 통합정보시스템의 개인정보를 직접 수정 바람. 
+                    </p>
+                    <p> 2. 기숙사비 감면(장학대상): 기숙사비 감면(장학대상)학생도 납부해야 할 금액(자치회비) 있음. 납부기간 내 필히 납부 바람.
+                    (미납부=입사포기 간주)</p>
+                    <p> 3. 퇴사자에게는 학생생활관 규정 제23조(납입금환불) 의거하여 환불 함.</p>
+                    <table border="1">
+                        <tr>
+                            <td></td>
+                            <td>퇴사구분</td>
+                            <td>입사관리비</td>
+                            <td>비고</td>
+                        </tr>
+                        <tr>
+                            <td>지정 입사일 이전</td>
+                            <td>8일 전까지<br/>일전부터 지정입사일 이전까지</td>
+                            <td>전액환불<br/>입사관리비의 90%환불</td>
+                            <td>*환불 시 일 수 산출의 1일 기준 금액 =<br/>학기별납입금/학기수업일수 (백원미만절상)</td>
+                        </tr>
+                        <tr>
+                            <td>지정 입사일 후</td>
+                            <td>8주 이전</td>
+                            <td>입사관리비의 30% 공제 후 일 수 산출하여 환불</td>
+                            <td>최종퇴사일은 퇴사신고 또는 KEY(출입키<br/>반납일을 기준으로 산출함)</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>9주 이후</td>
+                            <td>환불하지 않음<br/>
+                                질병 및 사고(진단서 첨부: 퇴사일 기준 15일 이내 발행), 취업<br/>
+                                (실습)에 의한 퇴사 시 입사관리비의 30% 공제 후 일 수 산출하여<br/>
+                                환불(증빙서류 미제출 시 환불 없음)
+                            </td>
+                            <td>비고</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
             <div v-else-if="$route.name === 'sleep'" class='sleep_container'>
                 
@@ -659,11 +772,131 @@ export default {
                     padding: 20px;
                     border: none;
                     display: block;
+                    &:hover {
+                        cursor: pointer;
+                    }
                 }
             }
             .info_box {
                 font-size: 14px;
             }
+        }
+        .out_container {
+            .division {
+                width: 100%;
+                height: 1px;
+                background-color: #858585;
+                margin: 40px 0;
+            }
+            .in_table {
+                td {
+                    padding: 24px 10px;
+                    text-align: center;
+                    font-weight: 600;
+                    border: 1px solid #C0C0C0;
+                    &.title {
+                        background-color: #336EB4;
+                        color: #fff;
+                        width: 100px;
+                    }
+                    &.content {
+                        color: #336EB4;
+                        input {
+                            border: none;
+                            &::placeholder {
+                                text-align: center;
+                            }
+                            &:focus::-webkit-input-placeholder { 
+                                color:transparent;
+                            }
+                        }
+                    }
+                }
+            }
+            #out_apply {
+                margin-bottom: 100px;
+                .box {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 10px;
+                    .title {
+                        width: 20%;
+                        text-align: center;
+                        background-color: #336EB4;
+                        color: #fff;
+                        width: 20%;
+                        line-height: 55px;
+                        
+                    }
+                    &:nth-child(2) {
+                        .title {
+                            height: 200px;
+                            line-height: 200px;
+                        }
+                    }
+                    select {
+                        width: 78.8%;
+                        height: 54px;
+                        border-radius: 0;
+                        border: 1px solid #C0C0C0;
+                    }
+                    textarea {
+                        width: 78%;
+                        height: 194px;
+                        border-radius: 0;
+                        border: 1px solid #C0C0C0;
+                    }
+                }
+            }
+            .info_red {
+                color: #FF0000;
+                font-size: 14px;
+                font-weight: 800;
+            } 
+            .boxes2 {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                .box {
+                    width: 33%;
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 16px;
+                    font-weight: 600;
+                    margin-bottom: 20px;
+                    .title {
+                        width: 58%;
+                        line-height: 55px;
+                        text-align: center;
+                        background-color: #336EB4;
+                        color: #fff;
+                    }
+                    select {
+                        width: 40%;
+                        text-align: center;
+                        font-size: 16px;
+                    }
+                    input[type=text] {
+                        width: 70%;
+                    }
+                }
+            }
+            input[type=submit] {
+                float: right;
+                background-color: #336EB4;
+                color: #fff;
+                font-size: 18px;
+                padding: 20px;
+                border: none;
+                display: block;
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+        .info_box {
+            font-size: 14px;
         }
     }
 }

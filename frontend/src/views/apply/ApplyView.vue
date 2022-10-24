@@ -214,8 +214,172 @@
                     </tbody>
                 </table>
                 <div class="division"></div>
-                
+                <PageTitle title="입사 신청" style="margin: 0 0 20px"></PageTitle>
+                <form action="" id="in_apply">
+                    <div class="boxes1">
+                        <div class="box">
+                            <div class="title">희망시설1</div>
+                            <select name="" id="">
+                                <option value="none">선택</option>
+                                <option value="1">1관</option>
+                                <option value="2">2관</option>
+                                <option value="3">3관</option>
+                                <option value="4">4관</option>
+                                <option value="5">5관</option>
+                                <option value="6">6관</option>
+                                <option value="7">7관</option>
+                                <option value="8">8관</option>
+                            </select>
+                        </div>
+                        <div class="box">
+                            <div class="title">희망시설2</div>
+                            <select name="" id="">
+                                <option value="none">선택</option>
+                                <option value="1">1관</option>
+                                <option value="2">2관</option>
+                                <option value="3">3관</option>
+                                <option value="4">4관</option>
+                                <option value="5">5관</option>
+                                <option value="6">6관</option>
+                                <option value="7">7관</option>
+                                <option value="8">8관</option>
+                            </select>
+                        </div>
+                        <div class="box">
+                            <div class="title">희망시설3</div>
+                            <select name="" id="">
+                                <option value="none">선택</option>
+                                <option value="1">1관</option>
+                                <option value="2">2관</option>
+                                <option value="3">3관</option>
+                                <option value="4">4관</option>
+                                <option value="5">5관</option>
+                                <option value="6">6관</option>
+                                <option value="7">7관</option>
+                                <option value="8">8관</option>
+                            </select>
+                        </div>
+                        <div class="box">
+                            <div class="title">희망시설4</div>
+                            <select name="" id="">
+                                <option value="none">선택</option>
+                                <option value="1">1관</option>
+                                <option value="2">2관</option>
+                                <option value="3">3관</option>
+                                <option value="4">4관</option>
+                                <option value="5">5관</option>
+                                <option value="6">6관</option>
+                                <option value="7">7관</option>
+                                <option value="8">8관</option>
+                            </select>
+                        </div>
+                        <div class="box">
+                            <div class="title">희망시설5</div>
+                            <select name="" id="">
+                                <option value="none">선택</option>
+                                <option value="1">1관</option>
+                                <option value="2">2관</option>
+                                <option value="3">3관</option>
+                                <option value="4">4관</option>
+                                <option value="5">5관</option>
+                                <option value="6">6관</option>
+                                <option value="7">7관</option>
+                                <option value="8">8관</option>
+                            </select>
+                        </div>
+                        <div class="box">
+                            <div class="title">희망시설6</div>
+                            <select name="" id="">
+                                <option value="none">선택</option>
+                                <option value="1">1관</option>
+                                <option value="2">2관</option>
+                                <option value="3">3관</option>
+                                <option value="4">4관</option>
+                                <option value="5">5관</option>
+                                <option value="6">6관</option>
+                                <option value="7">7관</option>
+                                <option value="8">8관</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="info_red">※ 시설에 따라 입사관리비의 차이가 있으므로 필히 시설 내용을 확인 후 신청 해 주시기 바랍니다. (입사 희망 시설 나열 / 중복신청 불가 / 남학생 5지망, 여학생 6지망 선택)</p>
+                    <div class="boxes2">
+                        <div class="box">
+                            <div class="title">사용기간</div>
+                            <select name="" id="">
+                                <option value="none">선택</option>
+                            </select>
+                        </div>
+                        <div class="box">
+                            <div class="title">1인실 사용신청</div>
+                            <select name="" id="">
+                                <option value="none">신청안함</option>
+                            </select>
+                        </div>
+                        <div class="box">
+                            <div class="title">우선입사 대상자</div>
+                            <select name="" id="">
+                                <option value="none">해당없음</option>
+                            </select>
+                        </div>
+                        <div class="box">
+                            <div class="title">외국인 룸메이트</div>
+                            <select name="" id="">
+                                <option value="none">신청안함</option>
+                            </select>
+                        </div>
+                        <div class="box">
+                            <div class="title">동반 입실자</div>
+                            <input type="text">
+                        </div>
+                        <div class="box">
+                            <div class="title">보호자 문자 수신사항</div>
+                            <select name="" id="">
+                                <option value="none">신청안함</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input type="submit" value="신청하기">
+                </form>
                 <div class="division"></div>
+                <div class="info_box">
+                    <p class="info_red">[기타 고지사항]</p>
+                    <p> 1. 본인 및 보호자의 정보 변경 발생 즉시 통합정보시스템의 개인정보를 직접 수정 바람. 
+                    </p>
+                    <p> 2. 기숙사비 감면(장학대상): 기숙사비 감면(장학대상)학생도 납부해야 할 금액(자치회비) 있음. 납부기간 내 필히 납부 바람.
+                    (미납부=입사포기 간주)</p>
+                    <p> 3. 퇴사자에게는 학생생활관 규정 제23조(납입금환불) 의거하여 환불 함.</p>
+                    <table border="1">
+                        <tr>
+                            <td></td>
+                            <td>퇴사구분</td>
+                            <td>입사관리비</td>
+                            <td>비고</td>
+                        </tr>
+                        <tr>
+                            <td>지정 입사일 이전</td>
+                            <td>8일 전까지<br/>일전부터 지정입사일 이전까지</td>
+                            <td>전액환불<br/>입사관리비의 90%환불</td>
+                            <td>*환불 시 일 수 산출의 1일 기준 금액 =<br/>학기별납입금/학기수업일수 (백원미만절상)</td>
+                        </tr>
+                        <tr>
+                            <td>지정 입사일 후</td>
+                            <td>8주 이전</td>
+                            <td>입사관리비의 30% 공제 후 일 수 산출하여 환불</td>
+                            <td>최종퇴사일은 퇴사신고 또는 KEY(출입키<br/>반납일을 기준으로 산출함)</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>9주 이후</td>
+                            <td>환불하지 않음<br/>
+                                질병 및 사고(진단서 첨부: 퇴사일 기준 15일 이내 발행), 취업<br/>
+                                (실습)에 의한 퇴사 시 입사관리비의 30% 공제 후 일 수 산출하여<br/>
+                                환불(증빙서류 미제출 시 환불 없음)
+                            </td>
+                            <td>비고</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
             <div v-else-if="$route.name === 'out'" class='out_container'>
                 
@@ -398,7 +562,7 @@ export default {
                     width: 100%;
                     height: 1px;
                     background-color: #858585;
-                    margin: 20px 0;
+                    margin: 40px 0;
                 }
                 .in_table {
                     td {
@@ -425,7 +589,80 @@ export default {
                         }
                     }
                 }
-                    
+                #in_apply {
+                    margin-bottom: 100px;
+                    .boxes1 {
+                        display: flex;
+                        justify-content: space-between;
+                        flex-wrap: wrap;
+                        .box {
+                            display: flex;
+                            justify-content: space-between;
+                            width: 30%;
+                            height: 50px;
+                            margin-bottom: 20px;
+                            font-size: 16px;
+                            font-weight: 600;
+                            .title {
+                                width: 50%;
+                                line-height: 55px;
+                                text-align: center;
+                                background-color: #336EB4;
+                                color: #fff;
+                            }
+                            select {
+                                width: 45%;
+                                text-align: center;
+                                font-size: 16px;
+                            }
+                        }
+                    }
+                }
+                .info_red {
+                    color: #FF0000;
+                    font-size: 14px;
+                    font-weight: 800;
+                } 
+                .boxes2 {
+                    display: flex;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    .box {
+                        width: 33%;
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 16px;
+                        font-weight: 600;
+                        margin-bottom: 20px;
+                        .title {
+                            width: 58%;
+                            line-height: 55px;
+                            text-align: center;
+                            background-color: #336EB4;
+                            color: #fff;
+                        }
+                        select {
+                            width: 40%;
+                            text-align: center;
+                            font-size: 16px;
+                        }
+                        input[type=text] {
+                            width: 70%;
+                        }
+                    }
+                }
+                input[type=submit] {
+                    float: right;
+                    background-color: #336EB4;
+                    color: #fff;
+                    font-size: 18px;
+                    padding: 20px;
+                    border: none;
+                    display: block;
+                }
+            }
+            .info_box {
+                font-size: 14px;
             }
         }
     }

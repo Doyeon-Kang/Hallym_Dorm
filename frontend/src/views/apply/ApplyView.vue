@@ -498,7 +498,29 @@
                 </div>
             </div>
             <div v-else-if="$route.name === 'sleep'" class='sleep_container'>
-                
+                <div class="box_blue"></div>
+                <form id="sleep_apply" action="">
+                    <table>
+                        <tr>
+                            <td class="title">신청 사유</td>
+                            <td class="content">
+                                <input type="text" placeholder="Ex). 본가 방문 (20자 이내)" maxlength="20">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="title">신청 날짜</td>
+                            <td class="content">
+                                <input type="date" 
+                                data-placeholder="2022-07-25 (달력에서 선택하게 달력 삽입)"
+                                required
+                                aria-required="true"
+                                className={styles.selectDay}
+                                >
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="submit" value="신청하기">
+                </form>
             </div>
             <div v-else>
                 error_page
@@ -637,8 +659,8 @@ export default {
                                 float: right;
                                 background-color: #336EB4;
                                 color: #fff;
-                                font-size: 18px;
-                                padding: 20px;
+                                font-size: 14px;
+                                padding: 16px;
                                 border: none;
                                 &:hover {
                                     cursor: pointer;
@@ -768,8 +790,8 @@ export default {
                     float: right;
                     background-color: #336EB4;
                     color: #fff;
-                    font-size: 18px;
-                    padding: 20px;
+                    font-size: 16px;
+                    padding: 18px;
                     border: none;
                     display: block;
                     &:hover {
@@ -886,18 +908,75 @@ export default {
                 float: right;
                 background-color: #336EB4;
                 color: #fff;
-                font-size: 18px;
-                padding: 20px;
+                font-size: 16px;
+                padding: 18px;
                 border: none;
                 display: block;
                 &:hover {
                     cursor: pointer;
                 }
             }
+            .info_box {
+                font-size: 14px;
+            }
         }
-        .info_box {
-            font-size: 14px;
+        .sleep_container {
+            .box_blue {
+                background: #336EB4;
+                height: 30px;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            #sleep_apply {
+                table {
+                    width: 100%;
+                    tr {
+                        .title {
+                            width: 20%;
+                            font-weight: 800;
+                            padding: 14px 8px;
+                        }
+                        .content {
+                            input[type="text"] {
+                                width: 90%;
+                                border: none;
+                                background: #DBECFF;
+                                padding: 5px;
+                            }
+                            input[type='date'] {
+                                background: #EBECF0;
+                                color: #858585;
+                                border: none;
+                                padding: 4px;
+                                width: 50%;
+                                &::before {
+                                    content: attr(data-placeholder);
+                                    width: 100%;
+                                }
+                                &:focus::before,
+                                &:valid::before {
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+                }
+                input[type="submit"] {
+                    float: right;
+                    background-color: #336EB4;
+                    color: #fff;
+                    font-size: 14px;
+                    padding: 16px;
+                    border: none;
+                    margin-top: 80px;
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+            
         }
+        
     }
 }
 </style>

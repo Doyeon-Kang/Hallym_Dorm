@@ -27,27 +27,7 @@
         </div>
       </div>
     </div>
-<<<<<<< HEAD
-    <div
-      class="small_banner"
-      v-show="
-        $route.name !== 'home' &&
-        $route.name !== 'mypage' &&
-        $route.name !== 'login' &&
-        $route.name !== 'join' &&
-        $route.name !== 'findpw' &&
-        $route.name !== 'adminuser' &&
-        $route.name !== 'adminpoint' &&
-        $route.name !== 'adminstudy' &&
-        $route.name !== 'adminsleep' &&
-        $route.name !== 'admininout' &&
-        $route.name !== 'adminconsulting' &&
-        $route.name !== 'adminlife' &&
-        $route.name !== 'logout'
-      "
-    ></div>
-    <div class="container">
-=======
+
     <div class="small_banner" v-show="
       $route.name !== 'home' &&
       $route.name !== 'mypage' &&
@@ -76,7 +56,7 @@
     this.$route.name === 'admininout' ||
     this.$route.name === 'adminconsulting' ||
     this.$route.name === 'adminlife'">
->>>>>>> feature/admin
+
       <router-view />
     </div>
 

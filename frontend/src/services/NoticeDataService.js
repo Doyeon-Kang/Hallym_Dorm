@@ -5,6 +5,10 @@ class NoticeDataService {
     return http.get("/board-notice");
   }
 
+  getAllNotice1() {
+    return http.get("/board-notice1")
+  }
+
   get(id) {
     return http.get(`/board-notice/${id}`);
   }

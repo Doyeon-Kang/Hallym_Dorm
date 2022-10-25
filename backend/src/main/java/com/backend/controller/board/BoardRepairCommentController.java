@@ -49,15 +49,20 @@ public class BoardRepairCommentController {
       }
     }
 
-    @PostMapping("/board-repair/{repairId}/comments")
-    public ResponseEntity<BoardRepairComment> createBoardRepairComment(@PathVariable(name="repairId") Long repairId, @RequestBody BoardRepairComment boardRepairCommentRequest) {
+    @PostMapping("/board-repair/{repairId}/comments/{id}")
+    public ResponseEntity<BoardRepairComment> createBoardRepairComment(@PathVariable(name="repairId") Long repairId, @PathVariable(name="id") Long id, @RequestBody BoardRepairComment boardRepairCommentRequest) {
       try {
-        BoardRepair _boardRepair = boardRepairRepository.findById(repairId).get();
-        BoardRepairComment _boardRepairComment = new BoardRepairComment(boardRepairCommentRequest.getWriter_studentno(), boardRepairCommentRequest.getWriter_name(),
-                                                                        boardRepairCommentRequest.getContent());
-        _boardRepairComment.setBoardRepair(_boardRepair);
-        boardRepairCommentRepository.save(_boardRepairComment);
-        return new ResponseEntity<>(_boardRepairComment, HttpStatus.CREATED);
+        Optional<BoardRepairComment> repairComment = boardRepairCommentRepository.findById(id);
+        if(repairComment.isPresent()) {
+          return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
+        } else {
+          BoardRepair _boardRepair = boardRepairRepository.findById(repairId).get();
+          BoardRepairComment _boardRepairComment = new BoardRepairComment(boardRepairCommentRequest.getWriter_studentno(), boardRepairCommentRequest.getWriter_name(),
+                                                                          boardRepairCommentRequest.getContent());
+          _boardRepairComment.setBoardRepair(_boardRepair);
+          boardRepairCommentRepository.save(_boardRepairComment);
+          return new ResponseEntity<>(_boardRepairComment, HttpStatus.CREATED);
+        }
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
@@ -86,8 +91,8 @@ public class BoardRepairCommentController {
       }
     }
 
-    @DeleteMapping("/board-repair/{repairid}/comments")
-    public ResponseEntity<HttpStatus> deleteAllBoardRepairComments(@PathVariable(name="repairid") long repairId) {
+    @DeleteMapping("/board-repair/{repairId}/comments")
+    public ResponseEntity<HttpStatus> deleteAllBoardRepairComments(@PathVariable(name="repairId") long repairId) {
       try {
         boardRepairCommentRepository.deleteByBoardRepairId(repairId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

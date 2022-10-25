@@ -117,9 +117,11 @@ export default {
   },
   methods: {
     init() {
-      this.user.roles.forEach(element => {
-        if(element == "ROLE_ADMIN") this.userAdmin = true;
-      })
+      if(this.user) {
+        this.user.roles.forEach(element => {
+          if(element == "ROLE_ADMIN") this.userAdmin = true;
+        })
+      }
     },
     mouseOver() {
       this.active = true;

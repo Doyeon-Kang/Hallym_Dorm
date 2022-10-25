@@ -54,6 +54,7 @@ export default {
     color: #fff;
     width: 100px;
     padding: 36px 30px;
+    white-space: nowrap;
     z-index: auto;
     &::after {
       content: "";

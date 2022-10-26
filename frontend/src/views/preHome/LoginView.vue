@@ -53,7 +53,7 @@
         this.loading = true
         this.$store.dispatch('auth/login', user).then(
           () => {
-            this.$router.push('/mypage');
+            this.$router.go('/mypage');
           },
           (error) => {
             this.loading = false;

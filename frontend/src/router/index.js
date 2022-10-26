@@ -155,8 +155,8 @@ const routes = [
   {
     path: "/community/article/no", // 글넘버
     name: "articleNo",
-    component: () => import("../views/board/BoardDetail.vue"),
-  },
+    component: () => import("../views/board/BoardDetail.vue")
+  }
 ];
 
 const router = createRouter({

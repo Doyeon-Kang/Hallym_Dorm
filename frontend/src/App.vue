@@ -153,11 +153,11 @@ export default {
 .small_banner {
   background: url("@/assets/banner_small.png") no-repeat;
   width: 100%;
-  height: 25%;
+  height: 300px;
   position: absolute;
   top: 0;
   z-index: -1;
-  background-size: 100%;
+  background-size: 100% 80%;
 }
 
 // content

@@ -150,6 +150,18 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`apply_resign` (
   )
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `dormitory`.`apply_sleepout`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dormitory`.`apply_sleepout` (
+  `id` INT NOT NULL COMMENT '',
+  `date` DATETIME COMMENT '신청날짜',
+  `date_sleepout` DATE NULL COMMENT '',
+  `reason` VARCHAR(200) NULL COMMENT '',
+  `approved` BOOLEAN COMMENT '',
+  PRIMARY KEY(`id`))
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `dormitory`.`user`
@@ -410,36 +422,6 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`apply_studyroom` (
   PRIMARY KEY (`no`, `id`, `user_member_id`, `user_member_no`, `user_member_user_member_parent_id`, `user_member_user_member_parent_no`, `user_member_point_id`, `user_member_point_no`, `user_member_apply_consult_cns_no`, `user_member_apply_consult_no`, `user_member_apply_studyroom_no1`, `user_member_apply_sleepout_no`, `user_member_apply_sleepout_date`, `user_member_apply_resign_no`, `user_member_apply_resign_apply_date`),
   INDEX `fk_apply_studyroom_user_member1_idx` (`user_member_id` ASC, `user_member_no` ASC, `user_member_user_member_parent_id` ASC, `user_member_user_member_parent_no` ASC, `user_member_point_id` ASC, `user_member_point_no` ASC, `user_member_apply_consult_cns_no` ASC, `user_member_apply_consult_no` ASC, `user_member_apply_studyroom_no1` ASC, `user_member_apply_sleepout_no` ASC, `user_member_apply_sleepout_date` ASC, `user_member_apply_resign_no` ASC, `user_member_apply_resign_apply_date` ASC) VISIBLE,
   CONSTRAINT `fk_apply_studyroom_user_member1`
-    FOREIGN KEY (`user_member_id` , `user_member_no` , `user_member_user_member_parent_id` , `user_member_user_member_parent_no` , `user_member_point_id` , `user_member_point_no` , `user_member_apply_consult_cns_no` , `user_member_apply_consult_no` , `user_member_apply_studyroom_no1` , `user_member_apply_sleepout_no` , `user_member_apply_sleepout_date` , `user_member_apply_resign_no` , `user_member_apply_resign_apply_date`)
-    REFERENCES `dormitory`.`user_member` (`id` , `no` , `user_member_parent_id` , `user_member_parent_no` , `point_id` , `point_no` , `apply_consult_cns_no` , `apply_consult_no` , `apply_studyroom_no1` , `apply_sleepout_no` , `apply_sleepout_date` , `apply_resign_no` , `apply_resign_apply_date`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `dormitory`.`apply_sleepout`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dormitory`.`apply_sleepout` (
-  `no` INT NOT NULL COMMENT '학번',
-  `date` DATE NOT NULL COMMENT '신청날짜',
-  `slout_reason` VARCHAR(40) NULL COMMENT '신청사유',
-  `user_member_id` VARCHAR(200) NOT NULL,
-  `user_member_no` INT NOT NULL,
-  `user_member_user_member_parent_id` VARCHAR(200) NOT NULL,
-  `user_member_user_member_parent_no` INT NOT NULL,
-  `user_member_point_id` VARCHAR(200) NOT NULL,
-  `user_member_point_no` INT NOT NULL,
-  `user_member_apply_consult_cns_no` INT NOT NULL,
-  `user_member_apply_consult_no` INT NOT NULL,
-  `user_member_apply_studyroom_no1` INT NOT NULL,
-  `user_member_apply_sleepout_no` INT NOT NULL,
-  `user_member_apply_sleepout_date` DATE NOT NULL,
-  `user_member_apply_resign_no` INT NOT NULL,
-  `user_member_apply_resign_apply_date` DATE NOT NULL,
-  PRIMARY KEY (`no`, `date`, `user_member_id`, `user_member_no`, `user_member_user_member_parent_id`, `user_member_user_member_parent_no`, `user_member_point_id`, `user_member_point_no`, `user_member_apply_consult_cns_no`, `user_member_apply_consult_no`, `user_member_apply_studyroom_no1`, `user_member_apply_sleepout_no`, `user_member_apply_sleepout_date`, `user_member_apply_resign_no`, `user_member_apply_resign_apply_date`),
-  INDEX `fk_apply_sleepout_user_member1_idx` (`user_member_id` ASC, `user_member_no` ASC, `user_member_user_member_parent_id` ASC, `user_member_user_member_parent_no` ASC, `user_member_point_id` ASC, `user_member_point_no` ASC, `user_member_apply_consult_cns_no` ASC, `user_member_apply_consult_no` ASC, `user_member_apply_studyroom_no1` ASC, `user_member_apply_sleepout_no` ASC, `user_member_apply_sleepout_date` ASC, `user_member_apply_resign_no` ASC, `user_member_apply_resign_apply_date` ASC) VISIBLE,
-  CONSTRAINT `fk_apply_sleepout_user_member1`
     FOREIGN KEY (`user_member_id` , `user_member_no` , `user_member_user_member_parent_id` , `user_member_user_member_parent_no` , `user_member_point_id` , `user_member_point_no` , `user_member_apply_consult_cns_no` , `user_member_apply_consult_no` , `user_member_apply_studyroom_no1` , `user_member_apply_sleepout_no` , `user_member_apply_sleepout_date` , `user_member_apply_resign_no` , `user_member_apply_resign_apply_date`)
     REFERENCES `dormitory`.`user_member` (`id` , `no` , `user_member_parent_id` , `user_member_parent_no` , `point_id` , `point_no` , `apply_consult_cns_no` , `apply_consult_no` , `apply_studyroom_no1` , `apply_sleepout_no` , `apply_sleepout_date` , `apply_resign_no` , `apply_resign_apply_date`)
     ON DELETE NO ACTION

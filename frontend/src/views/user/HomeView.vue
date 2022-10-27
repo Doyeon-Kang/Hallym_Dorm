@@ -80,7 +80,7 @@
       </div>
       <div v-else class="login_box login">
         <div class="top login">
-          {{user.name}} ({{user.username}}) | ?관
+          {{user.name}} ({{user.studentno}}) | ?관
         </div>
         <div class="box">
           <div class="title">

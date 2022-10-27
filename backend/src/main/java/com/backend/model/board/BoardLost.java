@@ -1,7 +1,6 @@
-package com.backend.model;
+package com.backend.model.board;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -11,26 +10,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "board_notice")
-public class BoardNotice {
-//     `id` INT NOT NULL AUTO_INCREMENT COMMENT '게시글  아이디',
-//   `writer_id` VARCHAR(200) NOT NULL COMMENT '작성자 아이디',
-//   `title` VARCHAR(200) NULL COMMENT '제목',
-//   `contents` VARCHAR(1000) NULL COMMENT '내용',
-//   `views` INT NULL COMMENT '조회수',
-//   `date` DATE NULL COMMENT '작성일자',
-//   `user_member_id` VARCHAR(200) NULL,
-//   `user_member_no` INT NULL,
+@Table(name = "board_lost")
+public class BoardLost {
+
     @Id
     @NotBlank
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_lost_generator")
     private Long id;
     public Long getId() {
         return id;
@@ -40,15 +30,15 @@ public class BoardNotice {
         this.id = id;
     }
 
-    @Column(name="writer_username")
-    private String writer_username;
+    @Column(name="writer_studentno")
+    private String writer_studentno;
 
-    public String getWriter_username() {
-        return writer_username;
+    public String getWriter_studentno() {
+        return writer_studentno;
     }
 
-    public void setWriter_username(String writer_username) {
-        this.writer_username = writer_username;
+    public void setWriter_studentno(String writer_studentno) {
+        this.writer_studentno = writer_studentno;
     }
 
     @Column(name="writer_name")
@@ -73,14 +63,14 @@ public class BoardNotice {
         this.title = title;
     }
 
-    @Column(name="contents")
-    private String contents;
-    public String getContents() {
-        return contents;
+    @Column(name="content")
+    private String content;
+    public String getContent() {
+        return content;
     }
 
-    public void setContents(String contents) {
-        this.contents = contents;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Column(name="views")
@@ -92,7 +82,6 @@ public class BoardNotice {
     public void setViews(int views) {
         this.views = views;
     }
-
     @Basic(optional=false)
     @Column(name="date", updatable = false)
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -102,6 +91,10 @@ public class BoardNotice {
     private void onCreate() {   
         this.date = LocalDateTime.now();
     }
+    // @PrePersist
+    // private void onCreate() {   
+    //     this.date = new Date();
+    // }
 
 
     public LocalDateTime getDate() {
@@ -112,15 +105,15 @@ public class BoardNotice {
         this.date = date;
     }
 
-    public BoardNotice() {
+    public BoardLost() {
 
     }
 
-    public BoardNotice(String writer_username, String writer_name, String title, String contents) {
-        this.writer_username = writer_username;
+    public BoardLost(String writer_studentno, String writer_name, String title, String content) {
+        this.writer_studentno = writer_studentno;
         this.writer_name = writer_name;
         this.title = title;
-        this.contents = contents;
+        this.content = content;
     }
 
 }

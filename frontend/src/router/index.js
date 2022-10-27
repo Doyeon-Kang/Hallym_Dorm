@@ -67,8 +67,18 @@ const routes = [
     component: () => import("../views/admin/AdminPage.vue"),
   },
   {
+    path: "/admin/user/add",
+    name: "adminuseradd",
+    component: () => import("../views/admin/AdminPage.vue"),
+  },
+  {
     path: "/admin/point",
     name: "adminpoint",
+    component: () => import("../views/admin/AdminPage.vue"),
+  },
+  {
+    path: "/admin/point/add",
+    name: "adminpointadd",
     component: () => import("../views/admin/AdminPage.vue"),
   },
   {
@@ -162,6 +172,10 @@ const routes = [
     name: "sleep",
     component: () => import("../views/apply/ApplyView.vue"),
   },
+    path: "/community/article/no", // 글넘버
+    name: "articleNo",
+    component: () => import("../views/board/BoardDetail.vue")
+  }
 ];
 
 const router = createRouter({

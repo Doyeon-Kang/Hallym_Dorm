@@ -9,9 +9,9 @@ import com.backend.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByUsername(String username);
+    Optional<User> findByStudentno(String studentno);
     
-    Boolean existsByUsername(String username);
+    Boolean existsByStudentno(String studentno);
 
     Boolean existsByEmail(String email);
 }

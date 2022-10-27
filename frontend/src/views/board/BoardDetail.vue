@@ -34,6 +34,11 @@
         v-else-if="$route.name === 'lost'"
         :photoList="lostList"
       ></PhotoBoard>
+      <div v-else-if="$route.name === 'article'">
+        <CreateArticle ></CreateArticle>
+      </div>
+      <a v-show="$route.name !== 'faq' && $route.name !== 'article'"
+      class="create_btn" href="/community/create-article">글쓰기</a>
     </div>
   </div>
 </template>
@@ -44,6 +49,7 @@ import SidebarCom from "../../components/SidebarCom.vue";
 import BoardList from "../../components/BoardList.vue";
 import FaqQuestion from "../../components/FaqQuestion.vue";
 import PhotoBoard from "@/components/PhotoBoard.vue";
+import CreateArticle from "@/components/CreateArticle.vue"
 
 export default {
   data() {
@@ -181,6 +187,7 @@ export default {
     BoardList,
     FaqQuestion,
     PhotoBoard,
+    CreateArticle
   },
   created() {
     this.routeCheck();
@@ -216,6 +223,9 @@ export default {
       } else if (this.$route.name === "lost") {
         this.title = "게시판 > 분실물";
         this.side[5].active = true;
+      } else if (this.$route.name === "article") {
+        this.title = "게시글 작성";
+        //this.side[5].active = true;
       } else {
         this.title = "Error Page";
       }
@@ -250,13 +260,21 @@ export default {
 
 <style lang="less" scoped>
 .wrapper {
-  margin: 100px 0 300px;
+  margin: 100px 0 250px;
   display: flex;
   .left_container {
     width: 18%;
   }
   .right_container {
     width: 82%;
+    .create_btn {
+      display: block;
+      float: right;
+      background-color: #336EB4;
+      color: #fff;
+      padding: 14px 20px; 
+      margin-top: 30px;
+    }
   }
 }
 </style>

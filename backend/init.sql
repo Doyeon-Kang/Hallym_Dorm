@@ -118,40 +118,35 @@ ENGINE = InnoDB;
 -- Table `dormitory`.`apply_join`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`apply_join` (
-  `no` INT NOT NULL COMMENT '학번',
-  `apply_date` DATE NOT NULL,
+  `id` INT NOT NULL COMMENT '아이디',
+  `english_name` VARCHAR(50) COMMENT '영문',
+  `chinese_name` VARCHAR(10) COMMENT '한자',
+  `grade` INT NOT NULL COMMENT '학년',
+  `gender` VARCHAR(1) COMMENT '성별',
+  `nationality` VARCHAR(20) COMMENT '국적',
+  `department` VARCHAR(50) COMMENT '대학',
+  `major` VARCHAR(50) COMMENT '학과',
+  `student_status` VARCHAR(10) COMMENT '학적상태',
+  `phone` VARCHAR(20) COMMENT '연락처',
+  `address` VARCHAR(100) COMMENT '주소',
+  `guardian_name` VARCHAR(50) COMMENT '보호자 성명',
+  `guardian_relation` VARCHAR(15) COMMENT '보호자 관계',
+  `guardian_phone` VARCHAR(20) COMMENT '보호자 연락처',
+  `landline` VARCHAR(20) COMMENT '자택 전화',
+  `date` DATETIME,
   `hope_fac_1` INT NULL COMMENT '희망시설1',
   `hope_fac_2` INT NULL COMMENT '희망시설2',
   `hope_fac_3` INT NULL COMMENT '희망시설3',
   `hope_fac_4` INT NULL COMMENT '희망시설4',
   `hope_fac_5` INT NULL COMMENT '희망시설5',
   `hope_fac_6` INT NULL COMMENT '희망시설6',
-  `period` INT NULL COMMENT '사용기간',
-  `single_yn` VARCHAR(1) NULL COMMENT '1인실 사용신청',
-  `pri_ent` VARCHAR(1) NULL COMMENT '우선입사 대상자',
-  `fgn_mate` VARCHAR(1) NULL COMMENT '외국인 룸메이트',
+  `period` VARCHAR(15) NULL COMMENT '사용기간',
+  `single_yn` BOOLEAN NULL COMMENT '1인실 사용신청',
+  `pri_ent` BOOLEAN NULL COMMENT '우선입사 대상자',
+  `fgn_mate` BOOLEAN NULL COMMENT '외국인 룸메이트',
   `accpm_ent` VARCHAR(50) NULL COMMENT '동반 입실자',
-  `par_mes_yn` VARCHAR(1) NULL COMMENT '보호자 문자 수신사항',
-  `pri_ent_yn` VARCHAR(1) NULL COMMENT '우선입사대상서류유무',
-  `pri_ent_doc` VARCHAR(45) NULL COMMENT '우선입사대상서류제출',
-  `user_member_id` VARCHAR(200) NOT NULL,
-  `user_member_no` INT NOT NULL,
-  `user_member_user_member_parent_id` VARCHAR(200) NOT NULL,
-  `user_member_user_member_parent_no` INT NOT NULL,
-  `user_member_point_id` VARCHAR(200) NOT NULL,
-  `user_member_point_no` INT NOT NULL,
-  `user_member_apply_consult_cns_no` INT NOT NULL,
-  `user_member_apply_consult_no` INT NOT NULL,
-  `user_member_apply_studyroom_no1` INT NOT NULL,
-  `user_member_apply_sleepout_no` INT NOT NULL,
-  `user_member_apply_sleepout_date` DATE NOT NULL,
-  PRIMARY KEY (`no`, `apply_date`, `user_member_id`, `user_member_no`, `user_member_user_member_parent_id`, `user_member_user_member_parent_no`, `user_member_point_id`, `user_member_point_no`, `user_member_apply_consult_cns_no`, `user_member_apply_consult_no`, `user_member_apply_studyroom_no1`, `user_member_apply_sleepout_no`, `user_member_apply_sleepout_date`),
-  INDEX `fk_apply_join_user_member1_idx` (`user_member_id` ASC, `user_member_no` ASC, `user_member_user_member_parent_id` ASC, `user_member_user_member_parent_no` ASC, `user_member_point_id` ASC, `user_member_point_no` ASC, `user_member_apply_consult_cns_no` ASC, `user_member_apply_consult_no` ASC, `user_member_apply_studyroom_no1` ASC, `user_member_apply_sleepout_no` ASC, `user_member_apply_sleepout_date` ASC) VISIBLE,
-  CONSTRAINT `fk_apply_join_user_member1`
-    FOREIGN KEY (`user_member_id` , `user_member_no` , `user_member_user_member_parent_id` , `user_member_user_member_parent_no` , `user_member_point_id` , `user_member_point_no` , `user_member_apply_consult_cns_no` , `user_member_apply_consult_no` , `user_member_apply_studyroom_no1` , `user_member_apply_sleepout_no` , `user_member_apply_sleepout_date`)
-    REFERENCES `dormitory`.`user_member` (`id` , `no` , `user_member_parent_id` , `user_member_parent_no` , `point_id` , `point_no` , `apply_consult_cns_no` , `apply_consult_no` , `apply_studyroom_no1` , `apply_sleepout_no` , `apply_sleepout_date`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+  `par_mes_yn` BOOLEAN NULL COMMENT '보호자 문자 수신사항',
+  PRIMARY KEY (`id`)
 )
 ENGINE = InnoDB;
 
@@ -165,27 +160,7 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`user` (
   `name` VARCHAR(50) NULL COMMENT '이름',
   `password` VARCHAR(120) NULL COMMENT '비밀번호',
   `email` VARCHAR(100) NULL COMMENT '이메일',
-  `join_yn` VARCHAR(1) NULL COMMENT '입사여부',
-  -- `div` VARCHAR(20) NULL COMMENT '회원구분',
-  `user_member_id` VARCHAR(200) NULL,
-  `user_member_no` INT NULL,
-  `user_member_user_member_parent_id` VARCHAR(200) NULL,
-  `user_member_user_member_parent_no` INT NULL,
-  `apply_join_no` INT NULL,
-  `apply_join_apply_date` DATE NULL,
-  PRIMARY KEY (`id`, `studentno`),
-  INDEX `fk_user_user_member1_idx` (`user_member_id` ASC, `user_member_no` ASC, `user_member_user_member_parent_id` ASC, `user_member_user_member_parent_no` ASC) VISIBLE,
-  INDEX `fk_user_apply_join1_idx` (`apply_join_no` ASC, `apply_join_apply_date` ASC) VISIBLE,
-  CONSTRAINT `fk_user_user_member1`
-    FOREIGN KEY (`user_member_id` , `user_member_no` , `user_member_user_member_parent_id` , `user_member_user_member_parent_no`)
-    REFERENCES `dormitory`.`user_member` (`id` , `no` , `user_member_parent_id` , `user_member_parent_no`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_user_apply_join1`
-    FOREIGN KEY (`apply_join_no` , `apply_join_apply_date`)
-    REFERENCES `dormitory`.`apply_join` (`no` , `apply_date`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`id`, `studentno`))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------

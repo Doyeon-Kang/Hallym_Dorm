@@ -49,19 +49,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dormitory`.`apply_resign`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dormitory`.`apply_resign` (
-  `no` INT NOT NULL COMMENT '학번',
-  `apply_date` DATE NOT NULL,
-  `res_date` DATE NULL COMMENT '퇴사 예정일',
-  `res_reason` VARCHAR(200) NULL COMMENT '퇴사 사유',
-  PRIMARY KEY (`no`, `apply_date`)
-  )
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `dormitory`.`user_member`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`user_member` (
@@ -148,6 +135,19 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`apply_join` (
   `par_mes_yn` BOOLEAN NULL COMMENT '보호자 문자 수신사항',
   PRIMARY KEY (`id`)
 )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dormitory`.`apply_resign`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dormitory`.`apply_resign` (
+  `id` INT NOT NULL COMMENT '아이디',
+  `date` DATETIME,
+  `res_date` DATE NULL COMMENT '퇴사 예정일',
+  `res_reason` VARCHAR(200) NULL COMMENT '퇴사 사유',
+  PRIMARY KEY (`id`)
+  )
 ENGINE = InnoDB;
 
 

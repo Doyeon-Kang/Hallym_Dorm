@@ -1,4 +1,4 @@
-package com.backend.model.board;
+package com.backend.model.apply;
 
 import java.time.LocalDateTime;
 

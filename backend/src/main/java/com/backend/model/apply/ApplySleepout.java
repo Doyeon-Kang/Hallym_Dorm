@@ -1,6 +1,6 @@
-package com.backend.model;
+package com.backend.model.apply;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Basic;
@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -36,13 +35,13 @@ public class ApplySleepout {
 //   `date_sleepout` DATE NULL COMMENT '',
     @Column(name="date_sleepout")
     @JsonFormat(pattern="yyyy-MM-dd")
-    private Date date_sleepout;
+    private LocalDate date_sleepout;
     
-    public Date getDate_sleepout() {
+    public LocalDate getDate_sleepout() {
         return date_sleepout;
     }
 
-    public void setDate_sleepout(Date date_sleepout) {
+    public void setDate_sleepout(LocalDate date_sleepout) {
         this.date_sleepout = date_sleepout;
     }
 
@@ -95,7 +94,7 @@ public class ApplySleepout {
 
     }
 
-    public ApplySleepout(Date date_sleepout, String reason) {
+    public ApplySleepout(LocalDate date_sleepout, String reason) {
         this.date_sleepout = date_sleepout;
         this.reason = reason;
     }

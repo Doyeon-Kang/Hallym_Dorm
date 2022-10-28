@@ -1,4 +1,4 @@
-package com.backend.controller;
+package com.backend.controller.apply;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.backend.model.ApplySleepout;
-
-import com.backend.repository.ApplySleepoutRepository;
+import com.backend.model.apply.ApplySleepout;
+import com.backend.repository.apply.ApplySleepoutRepository;
 
 @RestController
 @RequestMapping(path="/api")
@@ -31,7 +30,7 @@ public class ApplySleepoutController {
         try {
           List<ApplySleepout> applySleepouts = new ArrayList<ApplySleepout>();
 
-          applySleepoutRepository.findByApprovedFalse().forEach(applySleepouts::add);
+          applySleepoutRepository.findAll().forEach(applySleepouts::add);
           if(applySleepouts.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           }
@@ -65,6 +64,7 @@ public class ApplySleepoutController {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
+
     @PutMapping("/apply-sleepout/{id}")
     public ResponseEntity<ApplySleepout> updateApplySleepout(@PathVariable("id") long id, @RequestBody ApplySleepout applySleepout) {
       Optional<ApplySleepout> sleepoutData = applySleepoutRepository.findById(id);
@@ -79,19 +79,20 @@ public class ApplySleepoutController {
       }
     }
 
-    @PutMapping("/apply-sleepout/{sleepoutId}/approved")
-    public ResponseEntity<ApplySleepout> updateApplySleepoutsBySleepoutID(@PathVariable(name="sleepoutId") Long sleepoutId, @RequestBody ApplySleepout applySleepout) {
+    @PutMapping("/apply-sleepout/{sleepoutId}/approve")
+    public ResponseEntity<ApplySleepout> approveApplySleepout(@PathVariable(name="sleepoutId") Long sleepoutId) {
       Optional<ApplySleepout> sleepoutData = applySleepoutRepository.findById(sleepoutId);
 
       if (sleepoutData.isPresent()) {
         ApplySleepout _applySleepout = sleepoutData.get();
         _applySleepout.setApproved(true);
-       applySleepoutRepository.save(_applySleepout);
+        applySleepoutRepository.save(_applySleepout);
         return new ResponseEntity<>(_applySleepout, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
+
     @DeleteMapping("/apply-sleepout/{id}")
     public ResponseEntity<HttpStatus> deleteApplySleepout(@PathVariable("id") long id) {
       try {

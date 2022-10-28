@@ -152,7 +152,7 @@
             <!-- 스터디룸 예약 -->
             <div v-else-if="$route.name === 'study'" class='study_container'>
                 <form action="" class="reserve_box">
-                    <div class="title">선택좌석</div>
+                    <div class="title">선택좌석 (좌석도 삽입예정)</div>
                     <div class="seat_status">
                         <input type="button" v-for="(seat, index) in this.seat" :key="seat.no" class="seat" :class="{active: seat.isActive, disable: !seat.status}" @click="myFilter(index)" :disabled="!seat.status" :value=" seat.no">
                     </div>

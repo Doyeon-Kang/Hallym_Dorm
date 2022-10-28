@@ -1,6 +1,5 @@
 package com.backend.controller.board;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,9 @@ public class BoardRepairCommentController {
     BoardRepairCommentRepository boardRepairCommentRepository;
 
     @GetMapping(path="/board-repair/{repairId}/comments")
-    public ResponseEntity<List<BoardRepairComment>> getAllBoardRepairCommentsByRepairId(@PathVariable(name="repairId") Long repairId) {
+    public ResponseEntity<BoardRepairComment> getAllBoardRepairCommentsByRepairId(@PathVariable(name="repairId") Long repairId) {
         try {
-          List<BoardRepairComment> repairComments = boardRepairCommentRepository.findByBoardRepairId(repairId);
+          BoardRepairComment repairComments = boardRepairCommentRepository.findByBoardRepairId(repairId).get();
           return new ResponseEntity<>(repairComments, HttpStatus.OK);
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -49,10 +48,10 @@ public class BoardRepairCommentController {
       }
     }
 
-    @PostMapping("/board-repair/{repairId}/comments/{id}")
-    public ResponseEntity<BoardRepairComment> createBoardRepairComment(@PathVariable(name="repairId") Long repairId, @PathVariable(name="id") Long id, @RequestBody BoardRepairComment boardRepairCommentRequest) {
+    @PostMapping("/board-repair/{repairId}/comments")
+    public ResponseEntity<BoardRepairComment> createBoardRepairComment(@PathVariable(name="repairId") Long repairId, @RequestBody BoardRepairComment boardRepairCommentRequest) {
       try {
-        Optional<BoardRepairComment> repairComment = boardRepairCommentRepository.findById(id);
+        Optional<BoardRepairComment> repairComment = boardRepairCommentRepository.findByBoardRepairId(repairId);
         if(repairComment.isPresent()) {
           return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
         } else {

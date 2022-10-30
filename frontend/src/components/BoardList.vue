@@ -10,8 +10,8 @@
           :key="item.no"
           @click="this.$router.push(item.url)"
         >
-          <td v-for="(text, index) in objectKey(item)" :key="index">
-            <a href="/community/no">{{ text }}</a>
+          <td v-for="(text, index) in objectKey(item)" :key="index" @click="$router.push(this.$route.path + '/no')">
+            {{ text }}
           </td>
         </tr>
       </tbody>

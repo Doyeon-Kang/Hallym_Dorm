@@ -11,7 +11,7 @@
           @click="this.$router.push(item.url)"
         >
           <td v-for="(text, index) in objectKey(item)" :key="index">
-            {{ text }}
+            <a href="/community/no">{{ text }}</a>
           </td>
         </tr>
       </tbody>

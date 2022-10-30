@@ -69,7 +69,15 @@ export default {
       ],
       // 게시판 정보
       communityTitle: ["번호", "글제목", "작성일", "작성자", "조회수"],
-      communityList: [{}],
+      communityList: [
+        {
+          no: 1,
+          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
+          date: "2022.07.18",
+          writer: "홍길동",
+          write_cnt: 3,
+        }
+      ],
       noticeTitle: ["번호", "글제목", "작성일", "작성자", "조회수", ""],
       noticeList: [{}],
       dataTitle: ["번호", "글제목", "작성일자", "작성자", "조회수", ""],

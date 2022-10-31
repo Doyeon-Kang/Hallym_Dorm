@@ -68,7 +68,7 @@ public class ApplyResignController {
                 ApplyResign _applyResign = new ApplyResign(applyResign.getRes_date(), applyResign.getRes_reason());
                
                 _applyResign.setUser(_user);
-                _applyResign.setApproved(applyResign.isApproved());
+                // _applyResign.setApproved(applyResign.isApproved());
                 applyResignRepository.save(_applyResign);
                 return new ResponseEntity<>(_applyResign, HttpStatus.CREATED);
             } else {

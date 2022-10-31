@@ -29,7 +29,11 @@ public class UserMemberManagement {
     @Transactional
     public boolean userMemberExists(User user) {
         Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(user.getId());
-        if(_userMemberData.isPresent()) return true;
+        if(_userMemberData.isPresent()) {
+            UserMember _userMember = _userMemberData.get();
+            // check if approved + after date 퇴사 신청 --> user_member 삭제 --> return false
+            return true;
+        }
         else {
             Optional<ApplyJoin> _applyJoinData = applyJoinRepository.findByUserId(user.getId());
             if(_applyJoinData.isPresent()) {

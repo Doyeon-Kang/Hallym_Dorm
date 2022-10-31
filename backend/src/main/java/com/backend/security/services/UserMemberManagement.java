@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import com.backend.model.User;
 import com.backend.model.UserMember;
 import com.backend.model.apply.ApplyJoin;
+import com.backend.model.apply.ApplyResign;
 import com.backend.repository.UserMemberRepository;
 import com.backend.repository.UserRepository;
 import com.backend.repository.apply.ApplyJoinRepository;
+import com.backend.repository.apply.ApplyResignRepository;
 
 @Service
 public class UserMemberManagement {
@@ -26,13 +28,26 @@ public class UserMemberManagement {
     @Autowired
     ApplyJoinRepository applyJoinRepository;
 
+    @Autowired
+    ApplyResignRepository applyResignRepository;
+
     @Transactional
     public boolean userMemberExists(User user) {
         Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(user.getId());
         if(_userMemberData.isPresent()) {
             UserMember _userMember = _userMemberData.get();
-            // check if approved + after date 퇴사 신청 --> user_member 삭제 --> return false
-            return true;
+            Optional<ApplyResign> _applyResignData = applyResignRepository.findByUserId(user.getId());
+            if(_applyResignData.isPresent()) {
+                ApplyResign _applyResign = _applyResignData.get();
+                if((_applyResign.getRes_date().isBefore(LocalDate.now()) || _applyResign.getRes_date().isEqual(LocalDate.now()))
+                    && (_applyResign.isApproved())) {
+                        userMemberRepository.deleteById(_userMember.getId());
+                        return false;
+                } else {
+                    return true;
+                }
+            }
+            else return true;
         }
         else {
             Optional<ApplyJoin> _applyJoinData = applyJoinRepository.findByUserId(user.getId());

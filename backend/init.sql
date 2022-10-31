@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`apply_join` (
   `id` INT NOT NULL COMMENT '아이디',
   `english_name` VARCHAR(50) COMMENT '영문',
   `chinese_name` VARCHAR(10) COMMENT '한자',
-  `grade` INT NOT NULL COMMENT '학년',
+  `grade` INT NULL COMMENT '학년',
   `gender` VARCHAR(1) COMMENT '성별',
   `nationality` VARCHAR(20) COMMENT '국적',
   `department` VARCHAR(50) COMMENT '대학',
@@ -121,6 +121,7 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`apply_resign` (
   `date` DATETIME,
   `res_date` DATE NULL COMMENT '퇴사 예정일',
   `res_reason` VARCHAR(200) NULL COMMENT '퇴사 사유',
+  `approved` BOOLEAN COMMENT '승인 여부',
   PRIMARY KEY (`id`)
   )
 ENGINE = InnoDB;
@@ -129,11 +130,11 @@ ENGINE = InnoDB;
 -- Table `dormitory`.`apply_sleepout`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`apply_sleepout` (
-  `id` INT NOT NULL COMMENT '',
-  `date` DATETIME COMMENT '신청날짜',
-  `date_sleepout` DATE NULL COMMENT '',
-  `reason` VARCHAR(200) NULL COMMENT '',
-  `approved` BOOLEAN COMMENT '',
+  `id` INT NOT NULL COMMENT '아이디',
+  `date` DATETIME COMMENT '',
+  `date_sleepout` DATE NULL COMMENT '신청 날짜',
+  `reason` VARCHAR(200) NULL COMMENT '신청 사유',
+  `approved` BOOLEAN COMMENT '승인 여부',
   PRIMARY KEY(`id`))
 ENGINE = InnoDB;
 
@@ -272,7 +273,7 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`board_lost` (
   `writer_studentno` VARCHAR(200) NOT NULL COMMENT '작성자 학번',
   `writer_name` VARCHAR(200) NOT NULL COMMENT '작성자',
   `title` VARCHAR(200) NULL COMMENT '제목',
-  `contents` VARCHAR(1000) NULL COMMENT '내용',
+  `content` VARCHAR(1000) NULL COMMENT '내용',
   `views` INT NULL COMMENT '조회수',
   `date` DATETIME COMMENT '작성일자',
   PRIMARY KEY (`id`)

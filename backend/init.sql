@@ -102,6 +102,7 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`apply_join` (
   `hope_fac_5` INT NULL COMMENT '희망시설5',
   `hope_fac_6` INT NULL COMMENT '희망시설6',
   `period` VARCHAR(15) NULL COMMENT '사용기간',
+  `date_join` DATE NULL COMMENT `입사 날짜`,
   `single_yn` BOOLEAN NULL COMMENT '1인실 사용신청',
   `pri_ent` BOOLEAN NULL COMMENT '우선입사 대상자',
   `fgn_mate` BOOLEAN NULL COMMENT '외국인 룸메이트',

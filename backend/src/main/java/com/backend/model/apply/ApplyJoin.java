@@ -1,5 +1,6 @@
 package com.backend.model.apply;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Basic;
@@ -287,7 +288,17 @@ public class ApplyJoin {
         this.period = period;
     }
 
-// `single_yn` BOOLEAN NULL COMMENT '1인실 사용신청',
+    @Column(name="date_join")
+    private LocalDate date_join;
+    public LocalDate getDate_join() {
+        return date_join;
+    }
+
+    public void setDate_join(LocalDate date_join) {
+        this.date_join = date_join;
+    }
+
+    // `single_yn` BOOLEAN NULL COMMENT '1인실 사용신청',
     @Column(name="single_yn")
     private boolean single_yn;
     public boolean isSingle_yn() {
@@ -377,7 +388,7 @@ public class ApplyJoin {
                         String phone, String address, String guardian_name, String guardian_relation,
                         String guardian_phone, String landline, int hope_fac_1, int hope_fac_2,
                         int hope_fac_3, int hope_fac_4, int hope_fac_5, int hope_fac_6,
-                        String period, boolean single_yn, boolean pri_ent, boolean fgn_mate,
+                        String period, LocalDate date_join, boolean single_yn, boolean pri_ent, boolean fgn_mate,
                         String accpm_ent, boolean par_mes_yn) {
         this.english_name = english_name;
         this.chinese_name = chinese_name;
@@ -400,6 +411,7 @@ public class ApplyJoin {
         this.hope_fac_5 = hope_fac_5;
         this.hope_fac_6 = hope_fac_6; 
         this.period = period;
+        this.date_join = date_join;
         this.single_yn = single_yn;
         this.pri_ent = pri_ent;
         this.fgn_mate = fgn_mate;

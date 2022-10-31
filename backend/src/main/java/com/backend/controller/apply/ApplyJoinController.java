@@ -71,8 +71,8 @@ public class ApplyJoinController {
                         applyJoin.getPhone(), applyJoin.getAddress(), applyJoin.getGuardian_name(), applyJoin.getGuardian_relation(),
                         applyJoin.getGuardian_phone(), applyJoin.getLandline(), applyJoin.getHope_fac_1(),
                         applyJoin.getHope_fac_2(), applyJoin.getHope_fac_3(), applyJoin.getHope_fac_4(), applyJoin.getHope_fac_5(),
-                        applyJoin.getHope_fac_6(), applyJoin.getPeriod(), applyJoin.isSingle_yn(), applyJoin.isPri_ent(), 
-                        applyJoin.isFgn_mate(), applyJoin.getAccpm_ent(), applyJoin.isPar_mes_yn());
+                        applyJoin.getHope_fac_6(), applyJoin.getPeriod(), applyJoin.getDate_join(), applyJoin.isSingle_yn(), 
+                        applyJoin.isPri_ent(), applyJoin.isFgn_mate(), applyJoin.getAccpm_ent(), applyJoin.isPar_mes_yn());
             _applyJoin.setUser(_user);
             _applyJoin.setApproved(applyJoin.isApproved());
             applyJoinRepository.save(_applyJoin);

@@ -305,15 +305,15 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `dormitory`.`apply_consult_dtl`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dormitory`.`apply_consult_dtl` (
-  `cns_no` INT NOT NULL COMMENT '상담번호',
-  `no` INT NOT NULL COMMENT '신청자 학번',
-  `email` VARCHAR(100) NULL COMMENT '신청자 이메일',
-  `cns_field` VARCHAR(50) NULL COMMENT '상담분야',
-  `cns_contents` VARCHAR(1000) NULL COMMENT '상담내용',
-  `cns_ok_time` TIME NULL COMMENT '상담가능시간',
-  PRIMARY KEY (`cns_no`, `no`))
-ENGINE = InnoDB;
+-- CREATE TABLE IF NOT EXISTS `dormitory`.`apply_consult_dtl` (
+--   `cns_no` INT NOT NULL COMMENT '상담번호',
+--   `no` INT NOT NULL COMMENT '신청자 학번',
+--   `email` VARCHAR(100) NULL COMMENT '신청자 이메일',
+--   `cns_field` VARCHAR(50) NULL COMMENT '상담분야',
+--   `cns_contents` VARCHAR(1000) NULL COMMENT '상담내용',
+--   `cns_ok_time` TIME NULL COMMENT '상담가능시간',
+--   PRIMARY KEY (`cns_no`, `no`))
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------

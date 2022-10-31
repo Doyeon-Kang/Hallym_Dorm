@@ -367,6 +367,26 @@ public class ApplyJoin {
         this.user = user;
     }
 
+    @Column(name="res_fac")
+    private int res_fac;
+    public int getRes_fac() {
+        return res_fac;
+    }
+
+    public void setRes_fac(int res_fac) {
+        this.res_fac = res_fac;
+    }
+
+    @Column(name="res_room")
+    private int res_room;
+    public int getRes_room() {
+        return res_room;
+    }
+
+    public void setRes_room(int res_room) {
+        this.res_room = res_room;
+    }
+
     @Column(name="approved")
     private boolean approved = false;
 

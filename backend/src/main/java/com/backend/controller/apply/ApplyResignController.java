@@ -60,7 +60,7 @@ public class ApplyResignController {
     }
 
     @PostMapping("/apply-resign/{studentNo}")
-    public ResponseEntity<ApplyResign> createApplyResign(@PathVariable(name="sutdentNo") String studentNo, @RequestBody ApplyResign applyResign) {
+    public ResponseEntity<ApplyResign> createApplyResign(@PathVariable(name="studentNo") String studentNo, @RequestBody ApplyResign applyResign) {
         try {
             Optional<User> _userData = userRepository.findByStudentno(studentNo);
             if(_userData.isPresent()) {

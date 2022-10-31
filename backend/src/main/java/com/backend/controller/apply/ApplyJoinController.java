@@ -60,7 +60,7 @@ public class ApplyJoinController {
     }
 
     @PostMapping("/apply-join/{studentNo}")
-    public ResponseEntity<ApplyJoin> createApplyJoin(@PathVariable(name="sutdentNo") String studentNo, @RequestBody ApplyJoin applyJoin) {
+    public ResponseEntity<ApplyJoin> createApplyJoin(@PathVariable(name="studentNo") String studentNo, @RequestBody ApplyJoin applyJoin) {
       try {
         Optional<User> _userData = userRepository.findByStudentno(studentNo);
         if(_userData.isPresent()) {

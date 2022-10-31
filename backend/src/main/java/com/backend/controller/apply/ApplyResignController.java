@@ -60,7 +60,7 @@ public class ApplyResignController {
     }
 
     @PostMapping("/apply-resign/{studentNo}")
-    public ResponseEntity<ApplyResign> createApplyResign(@PathVariable(name="sutdentNo") String studentNo, @RequestBody ApplyResign applyResign) {
+    public ResponseEntity<ApplyResign> createApplyResign(@PathVariable(name="studentNo") String studentNo, @RequestBody ApplyResign applyResign) {
         try {
             Optional<User> _userData = userRepository.findByStudentno(studentNo);
             if(_userData.isPresent()) {
@@ -68,7 +68,7 @@ public class ApplyResignController {
                 ApplyResign _applyResign = new ApplyResign(applyResign.getRes_date(), applyResign.getRes_reason());
                
                 _applyResign.setUser(_user);
-                _applyResign.setApproved(applyResign.isApproved());
+                // _applyResign.setApproved(applyResign.isApproved());
                 applyResignRepository.save(_applyResign);
                 return new ResponseEntity<>(_applyResign, HttpStatus.CREATED);
             } else {

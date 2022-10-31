@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "apply_join")
+@Table(name = "apply_resign")
 public class ApplyResign {
     // `id` INT NOT NULL COMMENT '아이디',
     @Id

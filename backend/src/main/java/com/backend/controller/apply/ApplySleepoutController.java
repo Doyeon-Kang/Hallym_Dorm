@@ -16,14 +16,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.backend.model.User;
+import com.backend.model.UserMember;
 import com.backend.model.apply.ApplySleepout;
+import com.backend.repository.UserMemberRepository;
+import com.backend.repository.UserRepository;
 import com.backend.repository.apply.ApplySleepoutRepository;
+import com.backend.security.services.UserMemberManagement;
 
 @RestController
 @RequestMapping(path="/api")
 public class ApplySleepoutController {
     @Autowired
     ApplySleepoutRepository applySleepoutRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    UserMemberRepository userMemberRepository;
+
+    @Autowired
+    UserMemberManagement userMemberManager;
 
     @GetMapping(path="/apply-sleepout")
     public ResponseEntity<List<ApplySleepout>> getAllApplySleepout() {
@@ -54,12 +68,23 @@ public class ApplySleepoutController {
       }
     }
 
-    @PostMapping("/apply-sleepout")
-    public ResponseEntity<ApplySleepout> createApplySleepout(@RequestBody ApplySleepout applySleepout) {
+    @PostMapping("/apply-sleepout/{studentNo}")
+    public ResponseEntity<ApplySleepout> createApplySleepout(@PathVariable(name="studentNo") String studentNo, @RequestBody ApplySleepout applySleepout) {
       try {
-        ApplySleepout _applySleepout = applySleepoutRepository
-                    .save(new ApplySleepout(applySleepout.getDate_sleepout(), applySleepout.getReason()));
-        return new ResponseEntity<>(_applySleepout, HttpStatus.CREATED);
+        Optional<User> _userData = userRepository.findByStudentno(studentNo);
+        if(_userData.isPresent()) {
+          User _user = _userData.get();
+          if(userMemberManager.userMemberExists(_user)) {
+            ApplySleepout _applySleepout = new ApplySleepout(applySleepout.getDate_sleepout(), applySleepout.getReason());
+            Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+            _applySleepout.setUserMember(_userMemberData.get());
+            return new ResponseEntity<>(applySleepoutRepository.save(_applySleepout), HttpStatus.CREATED);
+          } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+          }
+        } else {
+          return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }

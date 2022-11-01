@@ -34,6 +34,11 @@
         v-else-if="$route.name === 'lost'"
         :photoList="lostList"
       ></PhotoBoard>
+      <div v-else-if="$route.name === 'article'">
+        <CreateArticle ></CreateArticle>
+      </div>
+      <a v-show="$route.name !== 'faq' && $route.name !== 'article'"
+      class="create_btn" href="/community/create-article">글쓰기</a>
     </div>
   </div>
 </template>
@@ -44,6 +49,7 @@ import SidebarCom from "../../components/SidebarCom.vue";
 import BoardList from "../../components/BoardList.vue";
 import FaqQuestion from "../../components/FaqQuestion.vue";
 import PhotoBoard from "@/components/PhotoBoard.vue";
+import CreateArticle from "@/components/CreateArticle.vue"
 
 export default {
   data() {
@@ -69,15 +75,48 @@ export default {
       ],
       // 게시판 정보
       communityTitle: ["번호", "글제목", "작성일", "작성자", "조회수"],
-      communityList: [{}],
+      communityList: [
+        {
+          no: 1,
+          title: "1학기 공지사항",
+          date: "2022.04.07",
+          writer: "홍길동",
+          read_cnt: 3,
+        }
+      ],
       noticeTitle: ["번호", "글제목", "작성일", "작성자", "조회수", ""],
-      noticeList: [{}],
+      noticeList: [
+        {
+          no: 1,
+          title: "2학기 공지사항",
+          date: "2022.08.22",
+          writer: "박땡땡",
+          read_cnt: 5,
+        }
+      ],
       dataTitle: ["번호", "글제목", "작성일자", "작성자", "조회수", ""],
-      dataList: [{}],
+      dataList: [
+        {
+          no: 1,
+          title: "서식자료",
+          date: "2022.10.11",
+          writer: "김땡땡",
+          read_cnt: 14,
+        }
+      ],
       faqTitle: ["번호", "글제목", "진행상태", "처리일자"],
       faqList: [{}],
       repairTitle: ["번호", "분야", "글제목", "작성일자", "작성자", "진행상태"],
-      repairList: [{}],
+      repairList: [
+        {
+          no: 1,
+          kind: "분야",
+          title: "고쳐주셈",
+          date: "2022.05.26",
+          writer: "박땡땡",
+          status: "진행중",
+        }
+      ],
       marketList: [
         {
           photo: "샴푸린스.jpg",
@@ -181,6 +220,7 @@ export default {
     BoardList,
     FaqQuestion,
     PhotoBoard,
+    CreateArticle
   },
   created() {
     this.routeCheck();
@@ -216,6 +256,9 @@ export default {
       } else if (this.$route.name === "lost") {
         this.title = "게시판 > 분실물";
         this.side[5].active = true;
+      } else if (this.$route.name === "article") {
+        this.title = "게시글 작성";
+        //this.side[5].active = true;
       } else {
         this.title = "Error Page";
       }
@@ -250,13 +293,21 @@ export default {
 
 <style lang="less" scoped>
 .wrapper {
-  margin: 100px 0 300px;
+  margin: 100px 0 250px;
   display: flex;
   .left_container {
     width: 18%;
   }
   .right_container {
     width: 82%;
+    .create_btn {
+      display: block;
+      float: right;
+      background-color: #336EB4;
+      color: #fff;
+      padding: 14px 20px; 
+      margin-top: 30px;
+    }
   }
 }
 </style>

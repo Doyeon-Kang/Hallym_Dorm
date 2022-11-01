@@ -30,7 +30,7 @@ public class BoardNoticeController {
         try {
           List<BoardNotice> boardNotices = new ArrayList<BoardNotice>();
 
-          boardNoticeRepository.findAll().forEach(boardNotices::add);
+          boardNoticeRepository.findByNotice1False().forEach(boardNotices::add);
           if(boardNotices.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           }
@@ -39,6 +39,22 @@ public class BoardNoticeController {
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping(path="/board-notice1")
+    public ResponseEntity<List<BoardNotice>> getAllBoardNotice1() {
+      try {
+        List<BoardNotice> boardNotices = new ArrayList<BoardNotice>();
+
+        boardNoticeRepository.findByNotice1True().forEach(boardNotices::add);
+        if(boardNotices.isEmpty()) {
+          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(boardNotices, HttpStatus.OK);
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
     }
 
     @GetMapping("/board-notice/{id}")
@@ -59,7 +75,7 @@ public class BoardNoticeController {
     public ResponseEntity<BoardNotice> createBoardNotice(@RequestBody BoardNotice boardNotice) {
       try {
         BoardNotice _boardNotice = boardNoticeRepository
-                    .save(new BoardNotice(boardNotice.getWriter_studentno(), boardNotice.getWriter_name(), boardNotice.getTitle(), boardNotice.getContent()));
+                    .save(new BoardNotice(boardNotice.getWriter_studentno(), boardNotice.getWriter_name(), boardNotice.getTitle(), boardNotice.getContent(), boardNotice.isNotice1()));
         return new ResponseEntity<>(_boardNotice, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -75,6 +91,7 @@ public class BoardNoticeController {
         _boardNotice.setWriter_name(boardNotice.getWriter_name());
         _boardNotice.setTitle(boardNotice.getTitle());
         _boardNotice.setContent(boardNotice.getContent());
+        _boardNotice.setNotice1(boardNotice.isNotice1());
         return new ResponseEntity<>(boardNoticeRepository.save(_boardNotice), HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

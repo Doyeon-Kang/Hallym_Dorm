@@ -148,6 +148,31 @@ const routes = [
     component: () => import("../views/board/BoardDetail.vue"),
   },
   {
+    path: "/reserve",
+    name: "consult",
+    component: () => import("../views/apply/ApplyView.vue"),
+  },
+  {
+    path: "/reserve/study",
+    name: "study",
+    component: () => import("../views/apply/ApplyView.vue"),
+  },
+  {
+    path: "/reserve/in",
+    name: "in",
+    component: () => import("../views/apply/ApplyView.vue"),
+  },
+  {
+    path: "/reserve/out",
+    name: "out",
+    component: () => import("../views/apply/ApplyView.vue"),
+  },
+  {
+    path: "/reserve/sleep",
+    name: "sleep",
+    component: () => import("../views/apply/ApplyView.vue"),
+  },
+  {
     path: "/community/create-article",
     name: "article",
     component: () => import("../views/board/BoardDetail.vue"),

@@ -7,7 +7,7 @@ import javax.validation.constraints.*;
 public class SignupRequest {
   @NotBlank
   @Size(min = 3, max = 20)
-  private String username;
+  private String studentno;
 
   @NotBlank
   @Size(max=50)
@@ -32,12 +32,12 @@ public String getName() {
   @Size(min = 6, max = 40)
   private String password;
 
-  public String getUsername() {
-    return username;
+  public String getStudentno() {
+    return studentno;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setStudentno(String studentno) {
+    this.studentno = studentno;
   }
 
   public String getEmail() {

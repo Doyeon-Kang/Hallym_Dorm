@@ -1,21 +1,21 @@
 <template>
   <div style="position: relative">
     <div class="header">
-      <Navbar
-        v-show="
-          $route.name !== 'login' &&
-          $route.name !== 'join' &&
-          $route.name !== 'findpw' &&
-          $route.name !== 'adminuser' &&
-          $route.name !== 'adminpoint' &&
-          $route.name !== 'adminstudy' &&
-          $route.name !== 'adminsleep' &&
-          $route.name !== 'admininout' &&
-          $route.name !== 'adminconsulting' &&
-          $route.name !== 'adminlife' &&
-          $route.name !== 'adminlogout'
-        "
-      ></Navbar>
+      <Navbar v-show="
+        $route.name !== 'login' &&
+        $route.name !== 'join' &&
+        $route.name !== 'findpw' &&
+        $route.name !== 'adminuser' &&
+        $route.name !== 'adminuseradd' &&
+        $route.name !== 'adminpoint' &&
+        $route.name !== 'adminpointadd' &&
+        $route.name !== 'adminstudy' &&
+        $route.name !== 'adminsleep' &&
+        $route.name !== 'admininout' &&
+        $route.name !== 'adminconsulting' &&
+        $route.name !== 'adminlife' &&
+        $route.name !== 'adminlogout'
+      "></Navbar>
     </div>
     <div class="banner" v-show="$route.name === 'home'">
       <img src="@/assets/banner.jpg" alt="배너이미지" />
@@ -27,34 +27,47 @@
         </div>
       </div>
     </div>
-    <div
-      class="small_banner"
-      v-show="
-        $route.name !== 'home' &&
-        $route.name !== 'mypage' &&
-        $route.name !== 'login' &&
-        $route.name !== 'join' &&
-        $route.name !== 'findpw' &&
-        $route.name !== 'adminuser' &&
-        $route.name !== 'adminpoint' &&
-        $route.name !== 'adminstudy' &&
-        $route.name !== 'adminsleep' &&
-        $route.name !== 'admininout' &&
-        $route.name !== 'adminconsulting' &&
-        $route.name !== 'adminlife' &&
-        $route.name !== 'logout'
-      "
-    ></div>
-    <div class="container">
+
+    <div class="small_banner" v-show="
+      $route.name !== 'home' &&
+      $route.name !== 'mypage' &&
+      $route.name !== 'login' &&
+      $route.name !== 'join' &&
+      $route.name !== 'findpw' &&
+      $route.name !== 'adminuser' &&
+      $route.name !== 'adminuseradd' &&
+      $route.name !== 'adminpoint' &&
+      $route.name !== 'adminpointadd' &&
+      $route.name !== 'adminstudy' &&
+      $route.name !== 'adminsleep' &&
+      $route.name !== 'admininout' &&
+      $route.name !== 'adminconsulting' &&
+      $route.name !== 'adminlife' &&
+      $route.name !== 'adminlogout'
+    "></div>
+
+    <div class="admincontainer" v-if="
+        this.$route.name === 'adminuser' ||
+        this.$route.name === 'adminuseradd' ||
+        this.$route.name === 'adminpoint' ||
+        this.$route.name === 'adminpointadd' ||
+        this.$route.name === 'adminstudy' ||
+        this.$route.name === 'adminsleep' ||
+        this.$route.name === 'admininout' ||
+        this.$route.name === 'adminconsulting' ||
+        this.$route.name === 'adminlife'">
       <router-view />
     </div>
-    <Footer
-      v-show="
-        $route.name !== 'login' &&
-        $route.name !== 'join' &&
-        $route.name !== 'findpw'
-      "
-    ></Footer>
+
+    <div class="container" v-else>
+      <router-view />
+    </div>
+    
+    <Footer v-show="
+      $route.name !== 'login' &&
+      $route.name !== 'join' &&
+      $route.name !== 'findpw'
+    "></Footer>
   </div>
 </template>
 
@@ -69,7 +82,7 @@ export default {
     Footer,
   },
   created() {
-    
+
   }
 };
 </script>
@@ -96,12 +109,14 @@ export default {
   width: 100vw;
   height: 50vh;
   position: relative;
+
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
+
   .banner_container {
     position: absolute;
     top: 50%;
@@ -110,19 +125,23 @@ export default {
     width: 1080px;
     margin: 0 auto;
     color: white;
+
     .wrapper {
       .sub {
         font-size: 18px;
       }
+
       h1 {
         font-size: 48px;
       }
+
       .btn {
         display: inline-block;
         border: 1px solid white;
         margin: 40px 0 0;
         color: white;
         padding: 15px 28px;
+
         &:hover {
           color: #222222;
           background-color: white;
@@ -131,6 +150,7 @@ export default {
     }
   }
 }
+
 .small_banner {
   background: url("@/assets/banner_small.png") no-repeat;
   width: 100%;
@@ -144,6 +164,14 @@ export default {
 // content
 .container {
   width: 1080px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+// admincontent
+.admincontainer {
+  width: 100%;
   margin: 0 auto;
   position: relative;
   z-index: 1;

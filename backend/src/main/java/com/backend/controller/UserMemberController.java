@@ -31,7 +31,7 @@ public class UserMemberController {
     @Autowired
     ApplySleepoutRepository applySleepoutRepository;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path="/info/{studentNo}")
     public ResponseEntity<UserMember> getGeneralInfo(@PathVariable(name="studentNo") String studentNo) {
         Optional<User> _userData = userRepository.findByStudentno(studentNo);
@@ -48,7 +48,7 @@ public class UserMemberController {
         }
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path="/sleepout-info/{studentNo}")
     public ResponseEntity<List<ApplySleepout>> getSleepoutList(@PathVariable(name="studentNo") String studentNo) {
         Optional<User> _userData = userRepository.findByStudentno(studentNo);

@@ -6,27 +6,27 @@
             <div class="wrapper_detail">
                 <hr>
                 <div class="detail_top">
-                    <div class="detail_title">{{writerinfo.title}}</div>
+                    <div class="detail_title">{{ writerinfo.title }}</div>
                     <div class="detail_info">
-                        <div>{{writerinfo.writer}}</div>
-                        <div>{{writerinfo.date}}</div>
-                        <div>{{writerinfo.read_cnt}}</div>
+                        <div>{{ writerinfo.writer }}</div>
+                        <div>{{ writerinfo.date }}</div>
+                        <div>{{ writerinfo.read_cnt }}</div>
                     </div>
                 </div>
                 <hr>
-                <div class="detail_cont">{{writerinfo.cont}}</div>
+                <div class="detail_cont">{{ writerinfo.cont }}</div>
                 <hr>
                 <div class="btn_list">
                     <input class="modify" type="button" value="수정" />
                     <input class="delete" type="button" value="삭제" />
-                    <input class="writelist" type="button" value="글목록" />
+                    <input class="writelist" type="button" value="글목록" @click="$router.push('/community')" />
                 </div>
                 <div class="comments">
                     <div class="comments_input">
-                        <div class="comments_title">댓글</div>
+                        <div class="comments_title" >댓글</div>
                         <div class="comments_box">
-                            <div class="comments_cont"><textarea></textarea></div>
-                            <div class="comments_btn"><button>등록</button></div>
+                            <textarea class="comments_cont"></textarea>
+                            <input class="comments_btn" type="button" value="등록"/>
                         </div>
                     </div>
                     <div class="comments_list" v-for="(text, index) in commentslist" :key="index">
@@ -36,9 +36,32 @@
                                 <div class="comments_date">{{ text.date }}</div>
                             </div>
                             <div class="comments_cont">{{ text.cont }}</div>
-                            <div class="comments_plus">답글 달기</div>
+                            <div class="reply">
+                                <div class="reply_list" @click="visiblereplylist">답글 보기 ({{ seccommentscnt }})</div>
+                                <div class="reply_input" @click="visiblereplyinput">답글 달기</div>
+                            </div>
                         </div>
                         <hr>
+                        <div class="reply_listbox" v-for="(text, index) in seccommentslist" :key="index" v-show="isStatusOnList">
+                            <div class="reply_contbox">
+                                <div class="reply_info">
+                                    <div class="reply_writer">{{ text.writer }}</div>
+                                    <div class="reply_date">{{ text.date }}</div>
+                                </div>
+                                <div class="reply_cont">{{ text.cont }}</div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="reply_write" v-show="isStatusOnInput">
+                        <div class="reply_title">답글</div>
+                        <div class="reply_box">
+                            <textarea class="reply_cont_box"></textarea>
+                            <div class="reply_btn">
+                                <input class="reply_submit" type="button" value="등록" />
+                                <input class="reply_delete" type="button" value="삭제" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -53,6 +76,8 @@ import PageTitle from "@/components/PageTitle.vue";
 export default {
     data() {
         return {
+            isStatusOnList: false,
+            isStatusOnInput: false,
             writerinfo: {
                 title: "2022년 공지사항",
                 writer: "이땡땡",
@@ -82,6 +107,14 @@ export default {
                     comments_cnt: 3,
                 },
             ],
+            seccommentscnt: 2,
+            seccommentslist: [
+                {
+                    writer: "황땡땡",
+                    date: "2022.10.12 00:59",
+                    cont: "유용한 정보 감사합니다.",
+                }
+            ],
         }
     },
     components: {
@@ -92,7 +125,6 @@ export default {
         this.routeCheck();
     },
     mounted() {
-        this.fnGetView();
     },
     methods: {
         routeCheck() {
@@ -111,6 +143,12 @@ export default {
             } else {
                 this.title = "Error Page";
             }
+        },
+        visiblereplylist: function() {
+            this.isStatusOnList = !this.isStatusOnList;
+        },
+        visiblereplyinput: function() {
+            this.isStatusOnInput = !this.isStatusOnInput;
         },
     },
     watch: {
@@ -133,7 +171,7 @@ export default {
                 margin: 25px 15px;
 
                 .detail_title {
-                    font-size: 18px;
+                    font-size: 20px;
                     font-weight: bold;
                     margin-bottom: 12px;
                 }
@@ -141,7 +179,7 @@ export default {
                 .detail_info {
                     display: flex;
                     align-items: center;
-                    font-size: 11px;
+                    font-size: 12px;
 
                     div {
                         &::after {
@@ -165,11 +203,11 @@ export default {
 
             .btn_list {
                 display: flex;
-                float: right;
+                justify-content: flex-end;
+                width: 100%;
 
-                input[type=button] {
-                    float: right;
-                    width: 80px;
+                .modify, .delete, .writelist {
+                    width: 7%;
                     height: 40px;
                     font-size: 15px;
                     color: #fff;
@@ -189,7 +227,7 @@ export default {
                     }
 
                     &:nth-child(3) {
-                        width: 140px;
+                        width: 10%;
                         background-color: #939393;
                     }
                 }
@@ -209,16 +247,16 @@ export default {
                         display: flex;
 
                         textarea {
-                            width: 917.5px;
+                            width: 90%;
                             font-size: 15px;
                             height: 80px;
                             resize: none;
                             padding: 5px;
                         }
 
-                        button {
-                            width: 140px;
-                            height: 90px;
+                        .comments_btn {
+                            width: 10%;
+                            height: 92px;
                             font-size: 15px;
                             margin-left: 10px;
                             background-color: #336EB4;
@@ -237,7 +275,6 @@ export default {
                     margin: 20px 0;
 
                     .comments_listbox {
-                        position: relative;
                         padding: 0 15px;
 
                         .comments_info {
@@ -261,17 +298,106 @@ export default {
                             padding-bottom: 25px;
                         }
 
-                        .comments_plus {
-                            color: #858585;
+                        .reply {
+                            position: relative;
                             font-weight: bold;
                             font-size: 15px;
-                            position: absolute;
-                            right: 15px;
-                            bottom: 1px;
 
-                            &:hover {
-                                cursor: pointer;
+                            .reply_list {
+                                color: #447EC3;
+                                position: absolute;
+                                bottom: 3px;
+
+                                &:hover {
+                                    cursor: pointer;
+                                }
                             }
+
+                            .reply_input {
+                                color: #858585;
+                                position: absolute;
+                                bottom: 3px;
+                                right: 10px;
+
+                                &:hover {
+                                    cursor: pointer;
+                                }
+                            }
+                        }
+                    }
+
+                    .reply_listbox {
+                        width: 100%;
+
+                        .reply_contbox{
+                            margin-left: 50px;
+                            padding-top: 5px;
+                            .reply_info {
+                                display: flex;
+
+                                .reply_writer {
+                                    font-weight: bold;
+                                    font-size: 18px;
+                                }
+
+                                .reply_date {
+                                    color: #858585;
+                                    font-size: 13px;
+                                    line-height: 30px;
+                                    margin-left: 20px;
+                                }
+                            }
+                        }
+
+                        .reply_cont {
+                            margin: 10px 0;
+                        }
+                    }
+                }
+
+                .reply_write {
+                    width: 100%;
+
+                    .reply_title {
+                        padding: 15px 0;
+                        font-weight: bold;
+                        font-size: 17px;
+                    }
+
+                    .reply_box {
+                        .reply_cont_box {
+                            width: 99%;
+                            font-size: 15px;
+                            height: 60px;
+                            resize: none;
+                            padding: 5px;
+                        }
+
+                        .reply_btn {
+                            display: flex;
+                            float: right;
+
+                            input[type=button] {
+                                width: 100%;
+                                padding: 5px 10px;
+                                font-size: 15px;
+                                color: #fff;
+                                border: none;
+
+                                &:hover {
+                                    cursor: pointer;
+                                }
+
+                                &:nth-child(1) {
+                                    background-color: #336EB4;
+                                }
+
+                                &:nth-child(2) {
+                                    background-color: #D36060;
+                                    margin-left: 10px;
+                                }
+                            }
+
                         }
                     }
                 }

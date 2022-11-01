@@ -6,6 +6,7 @@
     <div class="right_container">
         <PageTitle :title="title"></PageTitle>
         <div class="content_wrap">
+            <!-- 상담 및 면담신청 -->
             <div v-if="$route.name === 'consult'" class='consult_container'>
                 <form action="">
                     <table class="consult_table">
@@ -148,9 +149,53 @@
                     
                 </form>
             </div>
+            <!-- 스터디룸 예약 -->
             <div v-else-if="$route.name === 'study'" class='study_container'>
-                
+                <form action="" class="reserve_box">
+                    <div class="title">선택좌석 (좌석도 삽입예정)</div>
+                    <div class="seat_status">
+                        <input type="button" v-for="(seat, index) in this.seat" :key="seat.no" class="seat" :class="{active: seat.isActive, disable: !seat.status}" @click="myFilter(index)" :disabled="!seat.status" :value=" seat.no">
+                    </div>
+                    <div class="title">
+                        이용시간
+                        <p>(하루 최대 이용 시간은 6시간입니다.)</p>
+                    </div>
+                    <select id="" required>
+                        <option value="" disabled selected>시간 선택</option>
+                        <option value="9">09:00~11:00</option>
+                        <option value="11">11:00~13:00</option>
+                        <option value="13">13:00~15:00</option>
+                        <option value="15">15:00~17:00</option>
+                        <option value="17">17:00~19:00</option>
+                        <option value="19">19:00~21:00</option>
+                        <option value="21">21:00~23:00</option>
+                    </select>
+                    <select v-show="timeTable[1]" id="">
+                        <option value="" disabled selected>추가 시간 선택</option>
+                        <option value="9">09:00~11:00</option>
+                        <option value="11">11:00~13:00</option>
+                        <option value="13">13:00~15:00</option>
+                        <option value="15">15:00~17:00</option>
+                        <option value="17">17:00~19:00</option>
+                        <option value="19">19:00~21:00</option>
+                        <option value="21">21:00~23:00</option>
+                    </select>
+                    <select v-show="timeTable[2]" id="">
+                        <option value="" disabled selected>추가 시간 선택</option>
+                        <option value="9">09:00~11:00</option>
+                        <option value="11">11:00~13:00</option>
+                        <option value="13">13:00~15:00</option>
+                        <option value="15">15:00~17:00</option>
+                        <option value="17">17:00~19:00</option>
+                        <option value="19">19:00~21:00</option>
+                        <option value="21">21:00~23:00</option>
+                    </select>
+                    <input type="button" v-if="timeCount < 2" @click="addTime" value="+">
+                    <input type="button" v-if="timeCount >= 1" @click="subTime" value="-">
+                    <input type="submit" value="예약하기">
+                </form>
             </div>
+            <!-- 입사 신청 -->
             <div v-else-if="$route.name === 'in'" class='in_container'>
                 <div class="division"></div>
                 <p>학생생활관 학기중 사용신청자 기본사항</p>
@@ -381,6 +426,7 @@
                     </table>
                 </div>
             </div>
+            <!-- 퇴사 신청 -->
             <div v-else-if="$route.name === 'out'" class='out_container'>
                 <div class="division"></div>
                 <p>학생생활관 학기중 사용신청자 기본사항</p>
@@ -497,6 +543,7 @@
                     </table>
                 </div>
             </div>
+            <!-- 외박 신청 -->
             <div v-else-if="$route.name === 'sleep'" class='sleep_container'>
                 <div class="box_blue"></div>
                 <form id="sleep_apply" action="">
@@ -545,17 +592,31 @@ export default {
                 { title: "상담 및 면담신청", path: "/reserve", active: true},
                 { title: "스터디룸 예약", path: "/reserve/study" },
                 {
-                title: "입사/퇴사 신청",
-                path: "/reserve/in",
-                semi: true,
-                semiTitle: [
-                    { title: "입사신청", path: "/reserve/in", active: false },
-                    { title: "퇴사신청", path: "/reserve/out", active: false },
-                ],
+                    title: "입사/퇴사 신청",
+                    path: "/reserve/in",
+                    semi: true,
+                    semiTitle: [
+                        { title: "입사신청", path: "/reserve/in", active: false },
+                        { title: "퇴사신청", path: "/reserve/out", active: false },
+                    ],
                 },
                 { title: "외박 신청", path: "/reserve/sleep" },
                 
             ],
+            timeCount: 0,
+            timeTable: [true, false, false],
+            seat: [
+                { no: 1, status: true, isActive: false},
+                { no: 2, status: false, isActive: false},
+                { no: 3, status: false, isActive: false},
+                { no: 4, status: true, isActive: false},
+                { no: 5, status: true, isActive: false},
+                { no: 6, status: true, isActive: false},
+                { no: 7, status: false, isActive: false},
+                { no: 8, status: true, isActive: false},
+                { no: 9, status: true, isActive: false},
+                { no: 10, status: false, isActive: false},
+            ]
         }
     },
     components: { SidebarCom, PageTitle},
@@ -592,15 +653,38 @@ export default {
         }
         },
         activeReset() {
-        for (var i = 0; i < this.side.length; i++) {
-            this.side[i].active = false;
-        }
+            for (var i = 0; i < this.side.length; i++) {
+                this.side[i].active = false;
+            }
         },
+        addTime() {
+            this.timeCount += 1;
+            this.timeTable[this.timeCount] = true;
+        },
+        subTime() {
+            this.timeTable[this.timeCount] = false;
+            this.timeCount -= 1;
+        },
+        myFilter(index) {
+            for (const item in this.seat) {
+                this.seat[item].isActive = false;
+            }
+            this.seat[index].isActive = !this.seat[index].isActive;
+        }
     },
     computed: {
         today() {
-            let date = new Date();
+            const date = new Date();
             return date.toLocaleDateString();
+        },
+        selectedSeat() {
+            let no = ''
+            for (const item in this.seat) {
+                if(this.seat[item].isActive == true) {
+                    no = this.seat[item].no
+                }
+            }
+            return no
         }
     },  
     watch: {
@@ -691,6 +775,77 @@ export default {
                     }
                 }
                 
+            }
+            .study_container {
+                .reserve_box {
+                    .title {
+                        color: #336EB4;
+                        margin-bottom: 10px;
+                        font-weight: 700;
+                        font-size: 18px;
+                        p {
+                            display: inline-block;
+                            font-weight: 300;
+                        }
+                    }
+                    .seat_status {
+                        margin-bottom: 30px;
+                        .seat {
+                            padding: 10px 16px;
+                            background-color: #fff;
+                            color: #336EB4;
+                            &.active {
+                                background-color: #336EB4;
+                                color: #fff;
+                            }
+                            &.disable {
+                                border-color: #858585;
+                                color: #fff;
+                                background-color: #858585;
+                                cursor:auto;
+                            }
+                        }
+                    }
+                    select {
+                        padding: 14px;
+                        border: 1px solid #858585;
+                        border-radius: 0;
+                        color: #858585;
+                        margin-right: 3px;
+                        option {
+                            font-size: 16px;
+                            &[value=""][disabled] {
+                                display: none;
+                            }
+                        }
+                    }
+                    input[type="button"] {
+                        border: 3px solid #336EB4;
+                        border-radius: 5px;
+                        margin-left: 10px;
+                        padding: 5px 12px;
+                        line-height: 24px;
+                        font-size: 20px;
+                        font-weight: 900;
+                        text-align: center;
+                        color: #336EB4;
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                    input[type="submit"] {
+                        display: block;
+                        background-color: #336EB4;
+                        color: #fff;
+                        font-size: 14px;
+                        padding: 16px;
+                        margin-top: 200px;
+                        border: none;
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                }
             }
             .in_container {
                 .division {

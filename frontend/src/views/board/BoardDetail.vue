@@ -75,15 +75,48 @@ export default {
       ],
       // 게시판 정보
       communityTitle: ["번호", "글제목", "작성일", "작성자", "조회수"],
-      communityList: [{}],
+      communityList: [
+        {
+          no: 1,
+          title: "1학기 공지사항",
+          date: "2022.04.07",
+          writer: "홍길동",
+          read_cnt: 3,
+        }
+      ],
       noticeTitle: ["번호", "글제목", "작성일", "작성자", "조회수", ""],
-      noticeList: [{}],
+      noticeList: [
+        {
+          no: 1,
+          title: "2학기 공지사항",
+          date: "2022.08.22",
+          writer: "박땡땡",
+          read_cnt: 5,
+        }
+      ],
       dataTitle: ["번호", "글제목", "작성일자", "작성자", "조회수", ""],
-      dataList: [{}],
+      dataList: [
+        {
+          no: 1,
+          title: "서식자료",
+          date: "2022.10.11",
+          writer: "김땡땡",
+          read_cnt: 14,
+        }
+      ],
       faqTitle: ["번호", "글제목", "진행상태", "처리일자"],
       faqList: [{}],
       repairTitle: ["번호", "분야", "글제목", "작성일자", "작성자", "진행상태"],
-      repairList: [{}],
+      repairList: [
+        {
+          no: 1,
+          kind: "분야",
+          title: "고쳐주셈",
+          date: "2022.05.26",
+          writer: "박땡땡",
+          status: "진행중",
+        }
+      ],
       marketList: [
         {
           photo: "샴푸린스.jpg",

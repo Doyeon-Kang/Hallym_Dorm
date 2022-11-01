@@ -1,26 +1,64 @@
 <template>
-    <div class="wrapper">
-      <div class="left_container">
-        <SidebarCom :pageName="pageName" :listItem="side" ></SidebarCom>
-      </div>
-      <div class="right_container">
-        <PageTitle :title="title"></PageTitle>
-        <BoardList :listItem="listItem"></BoardList>
-      </div>
+  <div class="wrapper">
+    <div class="left_container">
+      <SidebarCom :pageName="pageName" :listItem="side"></SidebarCom>
     </div>
-  </template>
+    <div class="right_container">
+      <PageTitle v-if="this.$route.name === 'adminuser'" :title="title" :add="userManagement">
+      </PageTitle>
+      <PageTitle v-else-if="this.$route.name === 'adminuseradd'" :title="title" :add="useradd">
+      </PageTitle>
+      <PageTitle v-else-if="this.$route.name === 'adminpoint'" :title="title" :add="pointManagement">
+      </PageTitle>
+      <PageTitle v-else-if="this.$route.name === 'adminpointadd'" :title="title" :add="pointadd">
+      </PageTitle>
+      <PageTitle v-else-if="this.$route.name === 'adminstudy' ||
+      this.$route.name === 'adminsleep' ||
+      this.$route.name === 'admininout' ||
+      this.$route.name === 'adminconsulting' ||
+      this.$route.name === 'adminlife'" :title="title">
+      </PageTitle>
+
+      <Addbox v-if="this.$route.name === 'adminpointadd'" :con_title="point_con_title" :listTitle="pointTitle"></Addbox>
+      <Addbox v-else-if="this.$route.name === 'adminlife'" :con_title="life_con_title" :listTitle="lifeTitle"></Addbox>
+
+      <BoardList v-if="this.$route.name === 'adminuser' || this.$route.name === 'adminuseradd'" :listItem="userList"
+        :listTitle="userTitle" :totaluser="totaluser">
+      </BoardList>
+      <BoardList v-else-if="this.$route.name === 'adminpoint'" :listItem="pointList" :listTitle="pointTitle"
+        :totaluser="totaluser">
+      </BoardList>
+      <MiniBoardList v-if="this.$route.name === 'adminpointadd'" :listItem="pointList" :listTitle="pointTitle"
+        :totaluser="totaluser">
+      </MiniBoardList>
+      <BoardList v-else-if="$route.name === 'adminstudy'" :listItem="studyList" :listTitle="studyTitle"
+        :totaluser="totaluser">
+      </BoardList>
+      <BoardList v-else-if="$route.name === 'adminsleep'" :listItem="sleepList" :listTitle="sleepTitle"
+        :totaluser="totaluser">
+      </BoardList>
+      <BoardList v-else-if="$route.name === 'adminconsulting'" :listItem="consultingList" :listTitle="consultingTitle"
+        :totaluser="totaluser">
+      </BoardList>
+      <MiniBoardList v-else-if="$route.name === 'adminlife'" :listItem="lifeList" :listTitle="lifeTitle"
+        :totallife="totallife">
+      </MiniBoardList>
+      <InoutCom v-show="$route.name === 'admininout'" :listItemin="inList" :listTitlein="inTitle" :listItemout="outList" :listTitleout="outTitle"
+        :title_in="title_in" :title_out="title_out">
+      </InoutCom>
+    </div>
+  </div>
+</template>
   
   <script>
   import PageTitle from "@/components/AdminPageTitle.vue";
   import SidebarCom from "../../components/AdminSidebarCom.vue";
   import BoardList from "../../components/AdminBoardList.vue";
   
-  import UserService from '../../services/user.service';
-
+  
   export default {
     data() {
       return {
-        content: '',
         title: "String",
         pageName: "관리자페이지",
         side: [
@@ -51,16 +89,6 @@
   },
     created() {
       this.routeCheck();
-    },
-    mounted() {
-      UserService.getAdminBoard().then(
-        response => {
-          console.log(response.data);
-        }),
-        error => {
-          console.log(error.data);
-          // not admin => go to error page
-        }
     },
     methods: {
       routeCheck() {
@@ -107,14 +135,18 @@
   };
   </script>
   
-  <style lang="less" scoped>
-    .wrapper {
-      display: flex;
-      margin-bottom: -30px;
-      .left_container {
-      }
-      .right_container {
-      }
-    }
-  </style>
-  
+<style lang="less" scoped>
+.wrapper {
+  display: flex;
+  margin-bottom: -30px;
+
+  .left_container {
+    z-index: 50;
+  }
+
+  .right_container {
+    z-index: 1;
+    width: 100%;
+  }
+}
+</style>

@@ -177,28 +177,28 @@ export default {
   data() {
     return {
       notices: [],
-      notice2_item: [
-        {
-          title: "title1",
-          date: "2022.07.22",
-        },
-        {
-          title: "title2",
-          date: "2022.07.22",
-        },
-        {
-          title: "title3",
-          date: "2022.07.22",
-        },
-        {
-          title: "title4",
-          date: "2022.07.22",
-        },
-        {
-          title: "title5",
-          date: "2022.07.22",
-        },
-      ],
+      notice2_item: [],
+      //   {
+      //     title: "title1",
+      //     date: "2022.07.22",
+      //   },
+      //   {
+      //     title: "title2",
+      //     date: "2022.07.22",
+      //   },
+      //   {
+      //     title: "title3",
+      //     date: "2022.07.22",
+      //   },
+      //   {
+      //     title: "title4",
+      //     date: "2022.07.22",
+      //   },
+      //   {
+      //     title: "title5",
+      //     date: "2022.07.22",
+      //   },
+      // ],
     };
   },
   components: {},
@@ -228,6 +228,14 @@ export default {
         .catch(e => {
           console.log(e);
         });
+      NoticeDataService.getAllNotice1()
+        .then(response => {
+          this.notice2_item = response.data;
+          console.log(response.data)
+        })
+        .catch(e => {
+          console.log(e);
+        })
     }
   }
 };

@@ -1,6 +1,5 @@
 package com.backend.controller.board;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,9 @@ public class BoardRepairCommentController {
     BoardRepairCommentRepository boardRepairCommentRepository;
 
     @GetMapping(path="/board-repair/{repairId}/comments")
-    public ResponseEntity<List<BoardRepairComment>> getAllBoardRepairCommentsByRepairId(@PathVariable(name="repairId") Long repairId) {
+    public ResponseEntity<BoardRepairComment> getAllBoardRepairCommentsByRepairId(@PathVariable(name="repairId") Long repairId) {
         try {
-          List<BoardRepairComment> repairComments = boardRepairCommentRepository.findByBoardRepairId(repairId);
+          BoardRepairComment repairComments = boardRepairCommentRepository.findByBoardRepairId(repairId).get();
           return new ResponseEntity<>(repairComments, HttpStatus.OK);
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -52,12 +51,17 @@ public class BoardRepairCommentController {
     @PostMapping("/board-repair/{repairId}/comments")
     public ResponseEntity<BoardRepairComment> createBoardRepairComment(@PathVariable(name="repairId") Long repairId, @RequestBody BoardRepairComment boardRepairCommentRequest) {
       try {
-        BoardRepair _boardRepair = boardRepairRepository.findById(repairId).get();
-        BoardRepairComment _boardRepairComment = new BoardRepairComment(boardRepairCommentRequest.getWriter_studentno(), boardRepairCommentRequest.getWriter_name(),
-                                                                        boardRepairCommentRequest.getContent());
-        _boardRepairComment.setBoardRepair(_boardRepair);
-        boardRepairCommentRepository.save(_boardRepairComment);
-        return new ResponseEntity<>(_boardRepairComment, HttpStatus.CREATED);
+        Optional<BoardRepairComment> repairComment = boardRepairCommentRepository.findByBoardRepairId(repairId);
+        if(repairComment.isPresent()) {
+          return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
+        } else {
+          BoardRepair _boardRepair = boardRepairRepository.findById(repairId).get();
+          BoardRepairComment _boardRepairComment = new BoardRepairComment(boardRepairCommentRequest.getWriter_studentno(), boardRepairCommentRequest.getWriter_name(),
+                                                                          boardRepairCommentRequest.getContent());
+          _boardRepairComment.setBoardRepair(_boardRepair);
+          boardRepairCommentRepository.save(_boardRepairComment);
+          return new ResponseEntity<>(_boardRepairComment, HttpStatus.CREATED);
+        }
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
@@ -86,8 +90,8 @@ public class BoardRepairCommentController {
       }
     }
 
-    @DeleteMapping("/board-repair/{repairid}/comments")
-    public ResponseEntity<HttpStatus> deleteAllBoardRepairComments(@PathVariable(name="repairid") long repairId) {
+    @DeleteMapping("/board-repair/{repairId}/comments")
+    public ResponseEntity<HttpStatus> deleteAllBoardRepairComments(@PathVariable(name="repairId") long repairId) {
       try {
         boardRepairCommentRepository.deleteByBoardRepairId(repairId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

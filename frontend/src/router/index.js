@@ -182,6 +182,36 @@ const routes = [
     name: "articleNo",
     component: () => import("../views/board/BoardDetail.vue")
   },
+  {
+    path: "/community/no",
+    name: "communityNo",
+    component: () => import("../views/board/ViewDetail.vue"),
+  },
+  {
+    path: "/community/notice1/no",
+    name: "notice1No",
+    component: () => import("../views/board/ViewDetail.vue"),
+  },
+  {
+    path: "/community/data/no",
+    name: "dataNo",
+    component: () => import("../views/board/ViewDetail.vue"),
+  },
+  {
+    path: "/community/repair/no",
+    name: "repairNo",
+    component: () => import("../views/board/ViewDetail.vue"),
+  },
+  {
+    path: "/community/market/no",
+    name: "marketNo",
+    component: () => import("../views/board/ViewDetail.vue"),
+  },
+  {
+    path: "/community/lost/no",
+    name: "lostNo",
+    component: () => import("../views/board/ViewDetail.vue"),
+  },
 ];
 
 const router = createRouter({

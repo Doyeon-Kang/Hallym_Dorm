@@ -15,11 +15,11 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "board_notice")
-public class BoardNotice {
+@Table(name = "board_news")
+public class BoardNews {
     @Id
     @NotBlank
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_notice_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_news_generator")
     private Long id;
     public Long getId() {
         return id;
@@ -99,26 +99,14 @@ public class BoardNotice {
         this.date = date;
     }
 
-    @Column(name="notice1")
-    private boolean notice1;
-
-    public boolean isNotice1() {
-        return notice1;
-    }
-
-    public void setNotice1(boolean notice1) {
-        this.notice1 = notice1;
-    }
-
-    public BoardNotice() {
+    public BoardNews() {
 
     }
 
-    public BoardNotice(String writer_studentno, String writer_name, String title, String content, boolean notice1) {
+    public BoardNews(String writer_studentno, String writer_name, String title, String content) {
         this.writer_studentno = writer_studentno;
         this.writer_name = writer_name;
         this.title = title;
         this.content = content;
-        this.notice1 = notice1;
     }
 }

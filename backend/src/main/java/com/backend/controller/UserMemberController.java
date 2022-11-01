@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ public class UserMemberController {
     @Autowired
     ApplySleepoutRepository applySleepoutRepository;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path="/info/{studentNo}")
     public ResponseEntity<UserMember> getGeneralInfo(@PathVariable(name="studentNo") String studentNo) {
         Optional<User> _userData = userRepository.findByStudentno(studentNo);
@@ -46,6 +48,7 @@ public class UserMemberController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path="/sleepout-info/{studentNo}")
     public ResponseEntity<List<ApplySleepout>> getSleepoutList(@PathVariable(name="studentNo") String studentNo) {
         Optional<User> _userData = userRepository.findByStudentno(studentNo);

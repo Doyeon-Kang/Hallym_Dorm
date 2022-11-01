@@ -182,8 +182,6 @@ const routes = [
     name: "articleNo",
     component: () => import("../views/board/BoardDetail.vue")
   },
-<<<<<<< HEAD
-=======
   {
     path: "/community/no",
     name: "communityNo",
@@ -214,7 +212,6 @@ const routes = [
     name: "lostNo",
     component: () => import("../views/board/ViewDetail.vue"),
   },
->>>>>>> origin/deveop/km
 ];
 
 const router = createRouter({

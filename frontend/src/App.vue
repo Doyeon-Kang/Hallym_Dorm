@@ -45,24 +45,24 @@
       $route.name !== 'adminlife' &&
       $route.name !== 'adminlogout'
     "></div>
-    
-    <div class="admincontainer" v-if="
-    this.$route.name === 'adminuser' ||
-    this.$route.name === 'adminuseradd' ||
-    this.$route.name === 'adminpoint' ||
-    this.$route.name === 'adminpointadd' ||
-    this.$route.name === 'adminstudy' ||
-    this.$route.name === 'adminsleep' ||
-    this.$route.name === 'admininout' ||
-    this.$route.name === 'adminconsulting' ||
-    this.$route.name === 'adminlife'">
 
+    <div class="admincontainer" v-if="
+        this.$route.name === 'adminuser' ||
+        this.$route.name === 'adminuseradd' ||
+        this.$route.name === 'adminpoint' ||
+        this.$route.name === 'adminpointadd' ||
+        this.$route.name === 'adminstudy' ||
+        this.$route.name === 'adminsleep' ||
+        this.$route.name === 'admininout' ||
+        this.$route.name === 'adminconsulting' ||
+        this.$route.name === 'adminlife'">
       <router-view />
     </div>
 
     <div class="container" v-else>
       <router-view />
     </div>
+    
     <Footer v-show="
       $route.name !== 'login' &&
       $route.name !== 'join' &&
@@ -82,7 +82,7 @@ export default {
     Footer,
   },
   created() {
-    
+
   }
 };
 </script>
@@ -150,6 +150,7 @@ export default {
     }
   }
 }
+
 .small_banner {
   background: url("@/assets/banner_small.png") no-repeat;
   width: 100%;

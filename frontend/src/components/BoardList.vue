@@ -5,12 +5,8 @@
         <th v-for="(title, index) in listTitle" :key="index">{{ title }}</th>
       </thead>
       <tbody>
-        <tr
-          v-for="item in paginatedData"
-          :key="item.no"
-          @click="this.$router.push(item.url)"
-        >
-          <td v-for="(text, index) in objectKey(item)" :key="index">
+        <tr v-for="item in paginatedData" :key="item.no" @click="this.$router.push(item.url)">
+          <td v-for="(text, index) in objectKey(item)" :key="index" @click="$router.push(this.$route.path + '/no')">
             {{ text }}
           </td>
         </tr>
@@ -21,11 +17,7 @@
         이전
       </button>
       <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-      <button
-        :disabled="pageNum >= pageCount - 1"
-        @click="nextPage"
-        class="page-btn"
-      >
+      <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
         다음
       </button>
     </div>
@@ -90,19 +82,24 @@ export default {
 .wrapper_list {
   table {
     width: 100%;
+
     thead {
       background-color: #336eb4;
+
       th {
         color: #fff;
         padding: 12px;
       }
     }
+
     tbody {
       tr {
         border-bottom: 1px solid #858585;
+
         &:hover {
           cursor: pointer;
         }
+
         td {
           text-align: center;
           padding: 20px;
@@ -111,9 +108,11 @@ export default {
       }
     }
   }
+
   .btn-cover {
     margin-top: 1.5rem;
     text-align: center;
+
     .page-btn {
       width: 4rem;
       height: 2rem;
@@ -123,18 +122,22 @@ export default {
       border-radius: 5px;
       color: #858585;
       font-weight: 800;
+
       &:hover {
         cursor: pointer;
         border: 1px solid #336eb4;
       }
+
       &[disabled] {
         color: #c0c0c0;
+
         &:hover {
           cursor: auto;
           border: 1px solid #c0c0c0;
         }
       }
     }
+
     .page-count {
       padding: 0 1rem;
     }

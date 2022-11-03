@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`apply_join` (
   `hope_fac_5` INT NULL COMMENT '희망시설5',
   `hope_fac_6` INT NULL COMMENT '희망시설6',
   `period` VARCHAR(15) NULL COMMENT '사용기간',
-  `date_join` DATE NULL COMMENT `입사 날짜`,
+  `date_join` DATE NULL COMMENT '입사 날짜',
   `single_yn` BOOLEAN NULL COMMENT '1인실 사용신청',
   `pri_ent` BOOLEAN NULL COMMENT '우선입사 대상자',
   `fgn_mate` BOOLEAN NULL COMMENT '외국인 룸메이트',
@@ -369,6 +369,9 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`schedule` (
   PRIMARY KEY (`sch_id`))
 ENGINE = InnoDB;
 
+INSERT INTO role(name) VALUES('ROLE_USER');
+INSERT INTO role(name) VALUES('ROLE_USER_MEMBER');
+INSERT INTO role(name) VALUES('ROLE_ADMIN');
 
 -- -----------------------------------------------------
 -- Table `dormitory`.`apply_studyroom`
@@ -403,11 +406,6 @@ ENGINE = InnoDB;
 --     ON DELETE NO ACTION
 --     ON UPDATE NO ACTION)
 -- ENGINE = InnoDB;
-
-
-INSERT INTO role(name) VALUES('ROLE_USER');
-INSERT INTO role(name) VALUES('ROLE_USER_MEMBER');
-INSERT INTO role(name) VALUES('ROLE_ADMIN');
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

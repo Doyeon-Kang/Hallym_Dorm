@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class ApplyJoinController {
     @Autowired
     UserRepository userRepository;
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path="/apply-join")
     public ResponseEntity<List<ApplyJoin>> getAllApplyJoin() {
         try {
@@ -46,6 +48,7 @@ public class ApplyJoinController {
         }
     }
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/apply-join/{id}")
     public ResponseEntity<ApplyJoin> getApplyJoinById(@PathVariable("id") long id) {
       Optional<ApplyJoin> joinData = applyJoinRepository.findById(id);
@@ -85,6 +88,7 @@ public class ApplyJoinController {
       }
     }
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/apply-join/{joinId}")
     public ResponseEntity<ApplyJoin> updateApplyJoin(@PathVariable("joinId") long joinId, @RequestBody ApplyJoin applyJoin) {
       Optional<ApplyJoin> joinData = applyJoinRepository.findById(joinId);
@@ -127,6 +131,7 @@ public class ApplyJoinController {
       }
     }
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/apply-join/{joinId}/approve")
     public ResponseEntity<ApplyJoin> approveApplyJoin(@PathVariable(name="joinId") Long joinId) {
       Optional<ApplyJoin> joinData = applyJoinRepository.findById(joinId);
@@ -141,6 +146,7 @@ public class ApplyJoinController {
       }
     }
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/apply-join/{joinId}")
     public ResponseEntity<HttpStatus> deleteApplyJoin(@PathVariable("joinId") long joinId) {
       try {
@@ -151,6 +157,7 @@ public class ApplyJoinController {
       }
     }
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/apply-join")
     public ResponseEntity<HttpStatus> deleteAllApplyJoins() {
       try {

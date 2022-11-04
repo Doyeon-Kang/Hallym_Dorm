@@ -62,22 +62,20 @@ export default {
             }
             if (this.category === 'community') {
                 NoticeDataService.create(data).then(res => {
-                    console.log('notice success!')
                     this.$router.push('/community');
                 })
             } else if (this.category === 'notice1'){
                 data.notice1 = true
                 NoticeDataService.create(data).then(res => {
-                    console.log('notice success!')
-                    this.$router.push('/community');
+                    this.$router.push('/community/notice1');
                 })
             } else if (this.category === 'news') {
                 NewsDataService.create(data).then(res => {
-                    console.log('news success!')
+                    this.$router.push('/community/data');
                 })
             } else if (this.category === 'repair') {
                 RepairDataService.create(data).then(res => {
-                    console.log('repair success!')
+                    this.$router.push('/community/repair');
                 })
             } else {
 

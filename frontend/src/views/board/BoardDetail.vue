@@ -294,10 +294,11 @@ export default {
         for (let i=0; i<res.length; i++) {
           list.push({})
           list[i].no = res[i].id // 번호
-          list[i].title = res[i].title // 글제목
-          list[i].date = res[i].date // 작성일
-          list[i].writer = res[i].writer_name // 작성자
-          list[i].views = res[i].views // 조회수
+          list[i].category = '-'// 분야
+          list[i].date = res[i].title // 글제목
+          list[i].writer = res[i].date // 작성일자
+          list[i].views = res[i].writer_name // 작성자
+          list[i].progress = '-'//진행상태
         }
         this.repairList = list
       }

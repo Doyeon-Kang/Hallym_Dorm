@@ -14,11 +14,11 @@ class NewsDataService {
   }
 
   update(id, data) {
-    return http.put(`/board-news${id}`, data);
+    return http.put(`/board-news/${id}`, data);
   }
 
   delete(id) {
-    return http.delete(`/board-news${id}`);
+    return http.delete(`/board-news/${id}`);
   }
 
   deleteAll() {

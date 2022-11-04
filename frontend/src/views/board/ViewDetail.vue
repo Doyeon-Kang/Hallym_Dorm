@@ -14,10 +14,10 @@
                     </div>
                 </div>
                 <hr>
-                <div class="detail_cont">{{ writerinfo.cont }}</div>
+                <div class="detail_cont" v-html="writerinfo.cont"></div>
                 <div class="btn_list">
-                    <input class="modify" type="button" value="수정" />
-                    <input class="delete" type="button" value="삭제" />
+                    <input v-if="writerinfo.writer === user.name" class="modify" type="button" value="수정"  />
+                    <input v-if="writerinfo.writer === user.name" class="delete" type="button" value="삭제" @click="deleteArticle()"/>
                     <input class="writelist" type="button" value="글목록" @click="$router.push('/community')" />
                 </div>
                 <div class="comments">
@@ -177,8 +177,30 @@ export default {
             } else {
 
             }
-            
         }, 
+        // goModify () { // 게시글 수정 - 현재 게시글 ID를 전송
+        //     this.$router.push({name: 'modify-article', params: {articleID: this.no}}).catch(() => {})
+        // },
+        deleteArticle() {
+            if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {
+                NoticeDataService.delete(this.no).then(data => {
+                    alert("정상적으로 삭제되었습니다.")
+                    this.$router.push('/community')
+                })
+            } else if (this.$route.name === 'dataNo') {
+                NewsDataService.delete(this.no).then(data => {
+                    alert("정상적으로 삭제되었습니다.")
+                    this.$router.push('/community/data')
+                })
+            } else if (this.$route.name === 'repairNo') {
+                RepairDataService.delete(this.no).then(data => {
+                    alert("정상적으로 삭제되었습니다.")
+                    this.$router.push('/community/repair')
+                })
+            } else {
+
+            }
+        },  
         visiblereplylist: function() {
             this.isStatusOnList = !this.isStatusOnList;
         },
@@ -186,6 +208,11 @@ export default {
             this.isStatusOnInput = !this.isStatusOnInput;
         },
     },
+    computed: {
+        user() {
+            return this.$store.state.auth.user
+        }
+    }
 };
 </script>
   
@@ -204,7 +231,7 @@ export default {
                 margin: 25px 15px;
 
                 .detail_title {
-                    font-size: 20px;
+                    font-size: 24px;
                     font-weight: bold;
                     margin-bottom: 12px;
                 }
@@ -212,7 +239,7 @@ export default {
                 .detail_info {
                     display: flex;
                     align-items: center;
-                    font-size: 12px;
+                    font-size: 14px;
 
                     div {
                         &::after {
@@ -249,20 +276,19 @@ export default {
                     &:hover {
                         cursor: pointer;
                     }
-
-                    &:nth-child(1) {
+                }
+                .modify {
                         background-color: #336EB4;
                     }
 
-                    &:nth-child(2) {
-                        background-color: #D36060;
-                        margin: 0 10px;
-                    }
+                .delete {
+                    background-color: #D36060;
+                    margin: 0 10px;
+                }
 
-                    &:nth-child(3) {
-                        width: 10%;
-                        background-color: #939393;
-                    }
+                .writelist {
+                    width: 10%;
+                    background-color: #939393;
                 }
             }
 

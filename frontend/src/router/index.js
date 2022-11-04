@@ -188,6 +188,11 @@ const routes = [
     component: () => import("../views/board/ViewDetail.vue"),
   },
   {
+    path: "/community/modify",
+    name: "modify-article",
+    component: () => import("../views/board/Create.vue"),
+  },
+  {
     path: "/community/notice1/view",
     name: "notice1No",
     component: () => import("../views/board/ViewDetail.vue"),

@@ -72,20 +72,22 @@
 <script>
 import PageTitle from "@/components/PageTitle.vue";
 //import ViewDetailComVue from "@/components/ViewDetailCom.vue";
+import NoticeDataService from "@/services/NoticeDataService";
+import NewsDataService from "@/services/NewsDataService";
+import RepairDataService from "@/services/RepairDataService";
 
 export default {
     data() {
         return {
+            no: this.$route.query.no,
             isStatusOnList: false,
             isStatusOnInput: false,
             writerinfo: {
-                title: "2022년 공지사항",
-                writer: "이땡땡",
-                date: "2022.10.11",
-                read_cnt: 5,
-                cont: `
-                로렘 입숨(lorem ipsum; 줄여서 립숨, lipsum)은 출판이나 그래픽 디자인 분야에서 폰트, 타이포그래피, 레이아웃 같은 그래픽 요소나 시각적 연출을 보여줄 때 사용하는 표준 채우기 텍스트로, 최종 결과물에 들어가는 실제적인 문장 내용이 채워지기 전에 시각 디자인 프로젝트 모형의 채움 글로도 이용된다. 이런 용도로 사용할 때 로렘 입숨을 그리킹(greeking)이라고도 부르며, 때로 로렘 입숨은 공간만 차지하는 무언가를 지칭하는 용어로도 사용된다.
-                로렘 입숨(lorem ipsum; 줄여서 립숨, lipsum)은 출판이나 그래픽 디자인 분야에서 폰트, 타이포그래피, 레이아웃 같은 그래픽 요소나 시각적 연출을 보여줄 때 사용하는 표준 채우기 텍스트로, 최종 결과물에 들어가는 실제적인 문장 내용이 채워지기 전에 시각 디자인 프로젝트 모형의 채움 글로도 이용된다. 이런 용도로 사용할 때 로렘 입숨을 그리킹(greeking)이라고도 부르며, 때로 로렘 입숨은 공간만 차지하는 무언가를 지칭하는 용어로도 사용된다.`
+                title: "",
+                writer: "",
+                date: "",
+                read_cnt: 0,
+                cont : ''
             },
             commentslist: [
                 {
@@ -123,6 +125,7 @@ export default {
     },
     created() {
         this.routeCheck();
+        this.init()
     },
     mounted() {
     },
@@ -144,14 +147,45 @@ export default {
                 this.title = "Error Page";
             }
         },
+        init() {
+            if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {
+                NoticeDataService.get(this.no).then(data => {
+                    let res = data.data
+                    this.writerinfo.title = res.title
+                    this.writerinfo.writer = res.writer_name
+                    this.writerinfo.date = res.date
+                    this.writerinfo.read_cnt = res.views
+                    this.writerinfo.cont = res.content
+                })
+            } else if (this.$route.name === 'dataNo') {
+                NewsDataService.get(this.no).then(data => {
+                    let res = data.data
+                    this.writerinfo.title = res.title
+                    this.writerinfo.writer = res.writer_name
+                    this.writerinfo.date = res.date
+                    this.writerinfo.read_cnt = res.views
+                    this.writerinfo.cont = res.content
+                })
+            } else if (this.$route.name === 'repairNo') {
+                RepairDataService.get(this.no).then(data => {
+                    let res = data.data
+                    this.writerinfo.title = res.title
+                    this.writerinfo.writer = res.writer_name
+                    this.writerinfo.date = res.date
+                    this.writerinfo.read_cnt = res.views
+                    this.writerinfo.cont = res.content
+                })
+            } else {
+
+            }
+            
+        }, 
         visiblereplylist: function() {
             this.isStatusOnList = !this.isStatusOnList;
         },
         visiblereplyinput: function() {
             this.isStatusOnInput = !this.isStatusOnInput;
         },
-    },
-    watch: {
     },
 };
 </script>

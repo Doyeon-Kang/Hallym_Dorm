@@ -52,6 +52,7 @@ import PhotoBoard from "@/components/PhotoBoard.vue";
 import CreateArticle from "@/components/CreateArticle.vue"
 import NoticeDataService from "@/services/NoticeDataService"
 import NewsDataService from "@/services/NewsDataService";
+import RepairDataService from "@/services/RepairDataService"
 
 export default {
   data() {
@@ -85,16 +86,7 @@ export default {
       faqTitle: ["번호", "글제목", "진행상태", "처리일자"],
       faqList: [{}],
       repairTitle: ["번호", "분야", "글제목", "작성일자", "작성자", "진행상태"],
-      repairList: [
-        {
-          no: 1,
-          kind: "분야",
-          title: "고쳐주셈",
-          date: "2022.05.26",
-          writer: "박땡땡",
-          status: "진행중",
-        }
-      ],
+      repairList: [],
       marketList: [
         {
           photo: "샴푸린스.jpg",
@@ -292,6 +284,22 @@ export default {
           list[i].views = res[i].views // 조회수
         }
         this.dataList = list
+      }
+      )
+      // 불편수리
+      RepairDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].no = res[i].id // 번호
+          list[i].title = res[i].title // 글제목
+          list[i].date = res[i].date // 작성일
+          list[i].writer = res[i].writer_name // 작성자
+          list[i].views = res[i].views // 조회수
+        }
+        this.repairList = list
       }
       )
     }

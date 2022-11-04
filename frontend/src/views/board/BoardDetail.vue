@@ -7,7 +7,7 @@
       <PageTitle :title="title"></PageTitle>
       <BoardList
         v-if="$route.name === 'community'"
-        :listItem="communityList"
+        :listItem="communityList" 
         :listTitle="communityTitle"
       ></BoardList>
       <BoardList
@@ -50,6 +50,7 @@ import BoardList from "../../components/BoardList.vue";
 import FaqQuestion from "../../components/FaqQuestion.vue";
 import PhotoBoard from "@/components/PhotoBoard.vue";
 import CreateArticle from "@/components/CreateArticle.vue"
+import NoticeDataService from "@/services/NoticeDataService"
 
 export default {
   data() {
@@ -75,15 +76,7 @@ export default {
       ],
       // 게시판 정보
       communityTitle: ["번호", "글제목", "작성일", "작성자", "조회수"],
-      communityList: [
-        {
-          no: 1,
-          title: "1학기 공지사항",
-          date: "2022.04.07",
-          writer: "홍길동",
-          read_cnt: 3,
-        }
-      ],
+      communityList: [{}, {}],
       noticeTitle: ["번호", "글제목", "작성일", "작성자", "조회수", ""],
       noticeList: [
         {
@@ -224,6 +217,8 @@ export default {
   },
   created() {
     this.routeCheck();
+    let community = this.communityGetAll()
+    console.log(community)
   },
   methods: {
     routeCheck() {
@@ -268,6 +263,24 @@ export default {
         this.side[i].active = false;
       }
     },
+    // 공지사항
+    communityGetAll() {
+      NoticeDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].no = res[i].id // 번호
+          list[i].title = res[i].title // 글제목
+          list[i].date = res[i].date // 작성일
+          list[i].writer = res[i].writer_name // 작성자
+          list[i].views = res[i].views // 조회수
+        }
+        this.communityList = list
+      }
+      )
+    }
   },
   watch: {
     $route(to) {

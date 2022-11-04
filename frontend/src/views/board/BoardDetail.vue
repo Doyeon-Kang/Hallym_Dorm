@@ -76,17 +76,9 @@ export default {
       ],
       // 게시판 정보
       communityTitle: ["번호", "글제목", "작성일", "작성자", "조회수"],
-      communityList: [{}, {}],
+      communityList: [],
       noticeTitle: ["번호", "글제목", "작성일", "작성자", "조회수", ""],
-      noticeList: [
-        {
-          no: 1,
-          title: "2학기 공지사항",
-          date: "2022.08.22",
-          writer: "박땡땡",
-          read_cnt: 5,
-        }
-      ],
+      noticeList: [],
       dataTitle: ["번호", "글제목", "작성일자", "작성자", "조회수", ""],
       dataList: [
         {
@@ -217,8 +209,8 @@ export default {
   },
   created() {
     this.routeCheck();
-    let community = this.communityGetAll()
-    console.log(community)
+    this.communityGetAll()
+    this.noticeGetAll()
   },
   methods: {
     routeCheck() {
@@ -278,6 +270,23 @@ export default {
           list[i].views = res[i].views // 조회수
         }
         this.communityList = list
+      }
+      )
+    },
+    noticeGetAll() {
+      NoticeDataService.getAllNotice1().then(resolveData => {
+        let res = resolveData.data
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].no = res[i].id // 번호
+          list[i].title = res[i].title // 글제목
+          list[i].date = res[i].date // 작성일
+          list[i].writer = res[i].writer_name // 작성자
+          list[i].views = res[i].views // 조회수
+        }
+        this.noticeList = list
       }
       )
     }

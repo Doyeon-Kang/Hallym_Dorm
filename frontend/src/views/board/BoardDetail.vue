@@ -51,6 +51,7 @@ import FaqQuestion from "../../components/FaqQuestion.vue";
 import PhotoBoard from "@/components/PhotoBoard.vue";
 import CreateArticle from "@/components/CreateArticle.vue"
 import NoticeDataService from "@/services/NoticeDataService"
+import NewsDataService from "@/services/NewsDataService";
 
 export default {
   data() {
@@ -79,16 +80,8 @@ export default {
       communityList: [],
       noticeTitle: ["번호", "글제목", "작성일", "작성자", "조회수", ""],
       noticeList: [],
-      dataTitle: ["번호", "글제목", "작성일자", "작성자", "조회수", ""],
-      dataList: [
-        {
-          no: 1,
-          title: "서식자료",
-          date: "2022.10.11",
-          writer: "김땡땡",
-          read_cnt: 14,
-        }
-      ],
+      dataTitle: ["번호", "글제목", "작성일", "작성자", "조회수", ""],
+      dataList: [],
       faqTitle: ["번호", "글제목", "진행상태", "처리일자"],
       faqList: [{}],
       repairTitle: ["번호", "분야", "글제목", "작성일자", "작성자", "진행상태"],
@@ -284,6 +277,21 @@ export default {
           list[i].views = res[i].views // 조회수
         }
         this.noticeList = list
+      })
+      // 서식자료실
+      NewsDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].no = res[i].id // 번호
+          list[i].title = res[i].title // 글제목
+          list[i].date = res[i].date // 작성일
+          list[i].writer = res[i].writer_name // 작성자
+          list[i].views = res[i].views // 조회수
+        }
+        this.dataList = list
       }
       )
     }

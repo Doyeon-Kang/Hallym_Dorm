@@ -40,7 +40,7 @@
       <div v-else-if="$route.name === 'modify-article'">
         <ModifyArticle></ModifyArticle>
       </div>
-      <a v-show="$route.name !== 'faq' && $route.name !== 'article' && $route.name !== 'modify-article'"
+      <a v-show="$route.name !== 'faq' && $route.name !== 'article' && $route.name !== 'modify-article' && loggedIn"
       class="create_btn" href="/community/create-article">글쓰기</a>
     </div>
   </div>
@@ -311,6 +311,11 @@ export default {
       }
       )
     }
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn
+    },
   },
   watch: {
     $route(to) {

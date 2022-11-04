@@ -226,7 +226,14 @@ export default {
     },
     computed: {
         user() {
-            return this.$store.state.auth.user
+            if (this.$store.state.auth.user == null) {
+                let data = {
+                    name: ''
+                }
+                return data
+            } else {
+                return this.$store.state.auth.user
+            }
         }
     }
 };

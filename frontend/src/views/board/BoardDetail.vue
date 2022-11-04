@@ -209,8 +209,7 @@ export default {
   },
   created() {
     this.routeCheck();
-    this.communityGetAll()
-    this.noticeGetAll()
+    this.init()
   },
   methods: {
     routeCheck() {
@@ -255,8 +254,8 @@ export default {
         this.side[i].active = false;
       }
     },
-    // 공지사항
-    communityGetAll() {
+    init() {
+      // 공지사항
       NoticeDataService.getAll().then(resolveData => {
         let res = resolveData.data
         let list = []
@@ -270,10 +269,8 @@ export default {
           list[i].views = res[i].views // 조회수
         }
         this.communityList = list
-      }
-      )
-    },
-    noticeGetAll() {
+      })
+      // 사생자치회
       NoticeDataService.getAllNotice1().then(resolveData => {
         let res = resolveData.data
         let list = []

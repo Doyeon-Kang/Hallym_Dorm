@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +40,7 @@ public class ApplySleepoutController {
     @Autowired
     UserMemberManagement userMemberManager;
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path="/apply-sleepout")
     public ResponseEntity<List<ApplySleepout>> getAllApplySleepout() {
         try {
@@ -55,6 +57,7 @@ public class ApplySleepoutController {
         }
     }
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/apply-sleepout/{id}")
     public ResponseEntity<ApplySleepout> getApplySleepoutById(@PathVariable("id") long id) {
       Optional<ApplySleepout> sleepoutData = applySleepoutRepository.findById(id);
@@ -90,6 +93,7 @@ public class ApplySleepoutController {
       }
     }
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/apply-sleepout/{id}")
     public ResponseEntity<ApplySleepout> updateApplySleepout(@PathVariable("id") long id, @RequestBody ApplySleepout applySleepout) {
       Optional<ApplySleepout> sleepoutData = applySleepoutRepository.findById(id);
@@ -104,6 +108,7 @@ public class ApplySleepoutController {
       }
     }
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/apply-sleepout/{sleepoutId}/approve")
     public ResponseEntity<ApplySleepout> approveApplySleepout(@PathVariable(name="sleepoutId") Long sleepoutId) {
       Optional<ApplySleepout> sleepoutData = applySleepoutRepository.findById(sleepoutId);
@@ -118,6 +123,7 @@ public class ApplySleepoutController {
       }
     }
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/apply-sleepout/{id}")
     public ResponseEntity<HttpStatus> deleteApplySleepout(@PathVariable("id") long id) {
       try {
@@ -128,6 +134,7 @@ public class ApplySleepoutController {
       }
     }
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/apply-sleepout")
     public ResponseEntity<HttpStatus> deleteAllApplySleepouts() {
       try {

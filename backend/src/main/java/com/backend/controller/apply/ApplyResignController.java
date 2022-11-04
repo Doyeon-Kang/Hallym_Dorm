@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class ApplyResignController {
     @Autowired
     UserRepository userRepository;
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path="/apply-resign")
     public ResponseEntity<List<ApplyResign>> getAllApplyResign() {
         try {
@@ -46,6 +48,7 @@ public class ApplyResignController {
         }
     }
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/apply-resign/{id}")
     public ResponseEntity<ApplyResign> getApplyResignById(@PathVariable("id") long id) {
       Optional<ApplyResign> resignData = applyResignRepository.findById(id);
@@ -80,6 +83,7 @@ public class ApplyResignController {
         }
     
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/apply-resign/{id}")
     public ResponseEntity<ApplyResign> updateApplyResign(@PathVariable("id") long id, @RequestBody ApplyResign applyResign) {
       Optional<ApplyResign> resignData = applyResignRepository.findById(id);
@@ -94,6 +98,7 @@ public class ApplyResignController {
       }
     }
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/apply-resign/{resignId}/approve")
     public ResponseEntity<ApplyResign> approveApplyResign(@PathVariable(name="resignId") Long resignId) {
       Optional<ApplyResign> resignData = applyResignRepository.findById(resignId);
@@ -108,6 +113,7 @@ public class ApplyResignController {
       }
     }
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/apply-resign/{id}")
     public ResponseEntity<HttpStatus> deleteApplyResign(@PathVariable("id") long id) {
       try {
@@ -118,6 +124,7 @@ public class ApplyResignController {
       }
     }
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/apply-resign")
     public ResponseEntity<HttpStatus> deleteAllApplyResigns() {
       try {

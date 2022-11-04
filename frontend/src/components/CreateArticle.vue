@@ -62,19 +62,23 @@ export default {
             }
             if (this.category === 'community') {
                 NoticeDataService.create(data).then(res => {
+                    alert("작성 완료되었습니다.")
                     this.$router.push('/community');
                 })
             } else if (this.category === 'notice1'){
                 data.notice1 = true
                 NoticeDataService.create(data).then(res => {
+                    alert("작성 완료되었습니다.")
                     this.$router.push('/community/notice1');
                 })
             } else if (this.category === 'news') {
                 NewsDataService.create(data).then(res => {
+                    alert("작성 완료되었습니다.")
                     this.$router.push('/community/data');
                 })
             } else if (this.category === 'repair') {
                 RepairDataService.create(data).then(res => {
+                    alert("작성 완료되었습니다.")
                     this.$router.push('/community/repair');
                 })
             } else {

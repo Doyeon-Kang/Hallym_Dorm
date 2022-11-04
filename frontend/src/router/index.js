@@ -190,7 +190,7 @@ const routes = [
   {
     path: "/community/modify",
     name: "modify-article",
-    component: () => import("../views/board/Create.vue"),
+    component: () => import("../views/board/BoardDetail.vue"),
   },
   {
     path: "/community/notice1/view",

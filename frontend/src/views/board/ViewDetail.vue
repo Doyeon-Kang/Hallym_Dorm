@@ -16,7 +16,7 @@
                 <hr>
                 <div class="detail_cont" v-html="writerinfo.cont"></div>
                 <div class="btn_list">
-                    <input v-if="writerinfo.writer === user.name" class="modify" type="button" value="수정"  />
+                    <input v-if="writerinfo.writer === user.name" class="modify" type="button" value="수정" @click="updateArticle()" />
                     <input v-if="writerinfo.writer === user.name" class="delete" type="button" value="삭제" @click="deleteArticle()"/>
                     <input class="writelist" type="button" value="글목록" @click="$router.push('/community')" />
                 </div>
@@ -79,6 +79,7 @@ export default {
     data() {
         return {
             no: this.$route.query.no,
+            category: 0,
             isStatusOnList: false,
             isStatusOnInput: false,
             writerinfo: {
@@ -132,16 +133,22 @@ export default {
         routeCheck() {
             if (this.$route.name === "communityNo") {
                 this.title = "공시사항 > 학생기숙사 > 게시글 상세보기";
+                this.category = 1
             } else if (this.$route.name === "notice1No") {
                 this.title = "공시사항 > 사생자치회 > 게시글 상세보기";
+                this.category = 2
             } else if (this.$route.name === "dataNo") {
                 this.title = "게시판 > 서식자료실 > 게시글 상세보기";
+                this.category = 3
             } else if (this.$route.name === "repairNo") {
                 this.title = "게시판 > 불편/수리 요청 > 게시글 상세보기";
+                this.category = 4
             } else if (this.$route.name === "marketNo") {
                 this.title = "게시판 > 나눔 장터 > 게시글 상세보기";
+                this.category = 5
             } else if (this.$route.name === "lostNo") {
                 this.title = "게시판 > 분실물 > 게시글 상세보기";
+                this.category = 6
             } else {
                 this.title = "Error Page";
             }
@@ -201,6 +208,15 @@ export default {
 
             }
         },  
+        updateArticle() {
+            this.$router.push({
+                name: 'modify-article',
+                query: { 
+                    category: this.category,
+                    no: this.no,
+                }
+            })
+        },
         visiblereplylist: function() {
             this.isStatusOnList = !this.isStatusOnList;
         },

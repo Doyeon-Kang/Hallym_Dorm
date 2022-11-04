@@ -37,7 +37,10 @@
       <div v-else-if="$route.name === 'article'">
         <CreateArticle ></CreateArticle>
       </div>
-      <a v-show="$route.name !== 'faq' && $route.name !== 'article'"
+      <div v-else-if="$route.name === 'modify-article'">
+        <ModifyArticle></ModifyArticle>
+      </div>
+      <a v-show="$route.name !== 'faq' && $route.name !== 'article' && $route.name !== 'modify-article'"
       class="create_btn" href="/community/create-article">글쓰기</a>
     </div>
   </div>
@@ -53,6 +56,7 @@ import CreateArticle from "@/components/CreateArticle.vue"
 import NoticeDataService from "@/services/NoticeDataService"
 import NewsDataService from "@/services/NewsDataService";
 import RepairDataService from "@/services/RepairDataService"
+import ModifyArticle from '../../components/ModifyArticle.vue';
 
 export default {
   data() {
@@ -190,7 +194,8 @@ export default {
     BoardList,
     FaqQuestion,
     PhotoBoard,
-    CreateArticle
+    CreateArticle,
+    ModifyArticle
   },
   created() {
     this.routeCheck();
@@ -229,8 +234,10 @@ export default {
         this.side[5].active = true;
       } else if (this.$route.name === "article") {
         this.title = "게시글 작성";
-        //this.side[5].active = true;
-      } else {
+      } else if (this.$route.name === "modify-article") {
+        this.title = "게시글 수정";
+      }
+      else {
         this.title = "Error Page";
       }
     },

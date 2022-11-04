@@ -15,7 +15,6 @@
                 </div>
                 <hr>
                 <div class="detail_cont">{{ writerinfo.cont }}</div>
-                <hr>
                 <div class="btn_list">
                     <input class="modify" type="button" value="수정" />
                     <input class="delete" type="button" value="삭제" />
@@ -232,7 +231,7 @@ export default {
             }
 
             .detail_cont {
-                margin: 25px 15px;
+                margin: 25px 15px 100px;
             }
 
             .btn_list {

@@ -1,16 +1,16 @@
 <template>
 <div>
     <form action="">
-        <select name="" id="">
-            <option value="">공지사항-학생기숙사</option>
-            <option value="">공지사항-사생자치회</option>
-            <option value="">서식자료실</option>
-            <option value="">불편/수리 요청</option>
-            <option value="">나눔 장터</option>
-            <option value="">분실물</option>
+        <select v-model="category">
+            <option value="community">공지사항-학생기숙사</option>
+            <option value="notice1">공지사항-사생자치회</option>
+            <option value="news">서식자료실</option>
+            <option value="repair">불편/수리 요청</option>
+            <option value="store">나눔 장터</option>
+            <option value="lost">분실물</option>
         </select>
         <div class="division">제목</div>
-        <input class="title" type="text" placeholder="글 제목을 입력하세요.">
+        <input class="title" type="text" v-model="title" placeholder="글 제목을 입력하세요.">
         <!-- https://github.com/davidroyer/vue2-editor 참고-->
         <div class="division">내용</div>
         <VueEditor 
@@ -19,7 +19,7 @@
         id="editor"
         ></VueEditor>
         <div class="buttons">
-            <input id="submit_btn" type="submit" value="작성완료">
+            <input id="submit_btn" type="button" value="작성완료" @click="createArticle()">
             <input id="cancle_btn" type="button" @click="this.$router.go(-1)" value="취소">
         </div>
     </form>
@@ -29,10 +29,15 @@
 
 <script>
 import { VueEditor } from "vue3-editor";
+import NoticeDataService from "@/services/NoticeDataService";
+import NewsDataService from "@/services/NewsDataService";
+import RepairDataService from "@/services/RepairDataService";
 
 export default {
     data() {
         return {
+            category: "",
+            title: "",
             content: "",
             prevRoute: null
         }
@@ -40,9 +45,51 @@ export default {
     components: {
         VueEditor
     },
-    routes: [
-        
-    ]
+    created() {
+        console.log(this.user)
+    },
+    methods: {
+        showValue(target) {
+            console.log(target.calue)
+            console.log(target.options[target.selectedIndex].text)
+        },
+        createArticle() {
+            let data = {
+                writer_studentno: this.user.studentno,
+                writer_name: this.user.name,
+                title: this.title,
+                content: this.content
+            }
+            if (this.category === 'community') {
+                NoticeDataService.create(data).then(res => {
+                    console.log('notice success!')
+                    this.$router.push('/community');
+                })
+            } else if (this.category === 'notice1'){
+                data.notice1 = true
+                NoticeDataService.create(data).then(res => {
+                    console.log('notice success!')
+                    this.$router.push('/community');
+                })
+            } else if (this.category === 'news') {
+                NewsDataService.create(data).then(res => {
+                    console.log('news success!')
+                })
+            } else if (this.category === 'repair') {
+                RepairDataService.create(data).then(res => {
+                    console.log('repair success!')
+                })
+            } else {
+
+            }
+            
+        }
+    },
+    computed: {
+        user() {
+            return this.$store.state.auth.user
+        }
+    }
 }
 </script>
 

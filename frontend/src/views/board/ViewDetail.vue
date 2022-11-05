@@ -10,7 +10,7 @@
                     <div class="detail_info">
                         <div>{{ writerinfo.writer }}</div>
                         <div>{{ writerinfo.date }}</div>
-                        <div>{{ writerinfo.read_cnt }}</div>
+                        <div>조회수: {{ writerinfo.read_cnt }}</div>
                     </div>
                 </div>
                 <hr>
@@ -24,8 +24,8 @@
                     <div class="comments_input">
                         <div class="comments_title" >댓글</div>
                         <div class="comments_box">
-                            <textarea class="comments_cont"></textarea>
-                            <input class="comments_btn" type="button" value="등록"/>
+                            <textarea class="comments_cont" v-model="newComment"></textarea>
+                            <input class="comments_btn" type="button" value="등록" @click="createComment()"/>
                         </div>
                     </div>
                     <div class="comments_list" v-for="(text, index) in commentslist" :key="index">
@@ -38,6 +38,8 @@
                             <div class="reply">
                                 <div class="reply_list" @click="visiblereplylist">답글 보기 ({{ seccommentscnt }})</div>
                                 <div class="reply_input" @click="visiblereplyinput">답글 달기</div>
+                                <!-- <div class="edit_btn" >수정</div> -->
+                                <div class="delete_btn" @click="deleteComment(text.no)">삭제</div>
                             </div>
                         </div>
                         <hr>
@@ -75,11 +77,15 @@ import PageTitle from "@/components/PageTitle.vue";
 import NoticeDataService from "@/services/NoticeDataService";
 import NewsDataService from "@/services/NewsDataService";
 import RepairDataService from "@/services/RepairDataService";
+import NoticeCommentService from "@/services/NoticeCommentService";
+import NewsCommentService from "@/services/NewsCommentService";
+import RepairCommentService from "@/services/RepairCommentService";
 
 export default {
     data() {
         return {
             no: this.$route.query.no,
+            newComment: "",
             category: 0,
             isStatusOnList: false,
             isStatusOnInput: false,
@@ -90,26 +96,7 @@ export default {
                 read_cnt: 0,
                 cont : ''
             },
-            commentslist: [
-                {
-                    writer: "김땡땡",
-                    date: "2022.10.11 07:20",
-                    cont: "유용한 정보 감사합니다.",
-                    comments_cnt: 3,
-                },
-                {
-                    writer: "박땡땡",
-                    date: "2022.10.11 16:17",
-                    cont: "유용한 정보 감사합니다.",
-                    comments_cnt: 3,
-                },
-                {
-                    writer: "최땡땡",
-                    date: "2022.10.12 00:55",
-                    cont: "유용한 정보 감사합니다.",
-                    comments_cnt: 3,
-                },
-            ],
+            commentslist: [],
             seccommentscnt: 2,
             seccommentslist: [
                 {
@@ -127,6 +114,7 @@ export default {
     created() {
         this.routeCheck();
         this.init()
+        console.log(this.user)
     },
     mounted() {
     },
@@ -164,6 +152,17 @@ export default {
                     this.writerinfo.read_cnt = res.views
                     this.writerinfo.cont = res.content
                 })
+                NoticeCommentService.getAll(this.no).then(data => {
+                    let res = data.data
+                    for(let i=0; i<res.length; i++) {
+                        this.commentslist.push({})
+                        this.commentslist[i].no = res[i].id
+                        this.commentslist[i].writer = res[i].writer_name
+                        this.commentslist[i].date = res[i].createdDate
+                        this.commentslist[i].cont = res[i].content
+                        this.commentslist[i].comments_cnt = 3
+                    }
+                })
             } else if (this.$route.name === 'dataNo') {
                 NewsDataService.get(this.no).then(data => {
                     let res = data.data
@@ -172,6 +171,17 @@ export default {
                     this.writerinfo.date = res.date
                     this.writerinfo.read_cnt = res.views
                     this.writerinfo.cont = res.content
+                })
+                NewsCommentService.getAll(this.no).then(data => {
+                    let res = data.data
+                    for(let i=0; i<res.length; i++) {
+                        this.commentslist.push({})
+                        this.commentslist[i].no = res[i].id
+                        this.commentslist[i].writer = res[i].writer_name
+                        this.commentslist[i].date = res[i].createdDate
+                        this.commentslist[i].cont = res[i].content
+                        this.commentslist[i].comments_cnt = 3
+                    }
                 })
             } else if (this.$route.name === 'repairNo') {
                 RepairDataService.get(this.no).then(data => {
@@ -182,18 +192,28 @@ export default {
                     this.writerinfo.read_cnt = res.views
                     this.writerinfo.cont = res.content
                 })
+                RepairCommentService.getAll(this.no).then(data => {
+                    let res = data.data
+                    console.log(res)
+                    for(let i=0; i<res.length; i++) {
+                        this.commentslist.push({})
+                        this.commentslist[i].no = res[i].id
+                        this.commentslist[i].writer = res[i].writer_name
+                        this.commentslist[i].date = res[i].createdDate
+                        this.commentslist[i].cont = res[i].content
+                        this.commentslist[i].comments_cnt = 3
+                    }
+                })
             } else {
 
             }
         }, 
-        // goModify () { // 게시글 수정 - 현재 게시글 ID를 전송
-        //     this.$router.push({name: 'modify-article', params: {articleID: this.no}}).catch(() => {})
-        // },
+        // 게시글 삭제
         deleteArticle() {
             if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {
                 NoticeDataService.delete(this.no).then(data => {
                     alert("정상적으로 삭제되었습니다.")
-                    this.$router.push('/community')
+                    this.$router.go('')
                 })
             } else if (this.$route.name === 'dataNo') {
                 NewsDataService.delete(this.no).then(data => {
@@ -209,6 +229,7 @@ export default {
 
             }
         },  
+        // 게시글 수정
         updateArticle() {
             this.$router.push({
                 name: 'modify-article',
@@ -217,6 +238,37 @@ export default {
                     no: this.no,
                 }
             })
+        },
+        // 댓글 생성
+        createComment() {
+            let req = {}
+            req.writer_studentno = this.user.studentno
+            req.writer_name = this.user.name
+            req.content = this.newComment
+
+            if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {                
+                NoticeCommentService.create(this.no, req)
+            } else if (this.$route.name === 'dataNo') {
+                NewsCommentService.create(this.no, req)
+            } else if (this.$route.name === 'repairNo') {
+                RepairCommentService.create(this.no, req)
+            } else {
+
+            }
+            this.$router.go('')
+        },
+        deleteComment(no) {
+            if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {
+                NoticeCommentService.delete(no)
+            } else if (this.$route.name === 'dataNo') {
+                NewsCommentService.delete(no)
+            } else if (this.$route.name === 'repairNo') {
+                RepairCommentService.delete(no)
+            } else {
+
+            }
+            alert("댓글이 삭제되었습니다.")
+            this.$router.go('')
         },
         visiblereplylist: function() {
             this.isStatusOnList = !this.isStatusOnList;
@@ -400,8 +452,26 @@ export default {
                                 color: #858585;
                                 position: absolute;
                                 bottom: 3px;
-                                right: 10px;
+                                right: 50px;
 
+                                &:hover {
+                                    cursor: pointer;
+                                }
+                            }
+                            .edit_btn {
+                                color: #336EB4;
+                                position: absolute;
+                                bottom: 3px;
+                                right: 50px;
+                                &:hover {
+                                    cursor: pointer;
+                                }
+                            }
+                            .delete_btn {
+                                color: #D36060;
+                                position: absolute;
+                                bottom: 3px;
+                                right: 10px;
                                 &:hover {
                                     cursor: pointer;
                                 }

@@ -36,33 +36,34 @@
                             </div>
                             <div class="comments_cont">{{ text.cont }}</div>
                             <div class="reply">
-                                <div class="reply_list" @click="visiblereplylist">답글 보기 ({{ seccommentscnt }})</div>
-                                <div class="reply_input" @click="visiblereplyinput">답글 달기</div>
+                                <div class="reply_list" @click="visiblereplylist(text)">답글 보기 ({{ text.SecCnt }})</div>
+                                <div class="reply_input" @click="visiblereplyinput(text)">답글 달기</div>
                                 <!-- <div class="edit_btn" >수정</div> -->
                                 <div class="delete_btn" @click="deleteComment(text.no)">삭제</div>
                             </div>
                         </div>
                         <hr>
-                        <div class="reply_listbox" v-for="(text, index) in seccommentslist" :key="index" v-show="isStatusOnList">
+                        <div class="reply_listbox" v-for="(text2, index) in text.seccommentslist" :key="index" v-show="text.sub_show">
                             <div class="reply_contbox">
                                 <div class="reply_info">
-                                    <div class="reply_writer">{{ text.writer }}</div>
-                                    <div class="reply_date">{{ text.date }}</div>
+                                    <div class="reply_writer">> {{ text2.writer }}</div>
+                                    <div class="reply_date">{{ text2.date }}</div>
                                 </div>
-                                <div class="reply_cont">{{ text.cont }}</div>
+                                <div class="reply_cont">{{ text2.cont }}</div>
+                                
                             </div>
                             <hr>
                         </div>
-                    </div>
-                    <div class="reply_write" v-show="isStatusOnInput">
+                        <div class="reply_write" v-show="text.input_show">
                         <div class="reply_title">답글</div>
                         <div class="reply_box">
-                            <textarea class="reply_cont_box"></textarea>
+                            <textarea class="reply_cont_box" v-model="newSubComment"></textarea>
                             <div class="reply_btn">
-                                <input class="reply_submit" type="button" value="등록" />
+                                <input class="reply_submit" type="button" value="등록" @click="createSubComment(text.no)"/>
                                 <input class="reply_delete" type="button" value="삭제" />
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -80,15 +81,17 @@ import RepairDataService from "@/services/RepairDataService";
 import NoticeCommentService from "@/services/NoticeCommentService";
 import NewsCommentService from "@/services/NewsCommentService";
 import RepairCommentService from "@/services/RepairCommentService";
+import NoticeSubcommentService from "@/services/NoticeSubcommentService";
+import NewsSubcommentService from "@/services/NewsSubcommentService";
+import RepairSubcommentService from "@/services/RepairSubcommentService";
 
 export default {
     data() {
         return {
             no: this.$route.query.no,
             newComment: "",
+            newSubComment: "",
             category: 0,
-            isStatusOnList: false,
-            isStatusOnInput: false,
             writerinfo: {
                 title: "",
                 writer: "",
@@ -97,14 +100,7 @@ export default {
                 cont : ''
             },
             commentslist: [],
-            seccommentscnt: 2,
-            seccommentslist: [
-                {
-                    writer: "황땡땡",
-                    date: "2022.10.12 00:59",
-                    cont: "유용한 정보 감사합니다.",
-                }
-            ],
+            seccommentslist: [],
         }
     },
     components: {
@@ -114,7 +110,6 @@ export default {
     created() {
         this.routeCheck();
         this.init()
-        console.log(this.user)
     },
     mounted() {
     },
@@ -160,7 +155,21 @@ export default {
                         this.commentslist[i].writer = res[i].writer_name
                         this.commentslist[i].date = res[i].createdDate
                         this.commentslist[i].cont = res[i].content
-                        this.commentslist[i].comments_cnt = 3
+                        this.commentslist[i].sub_show = false // 대댓글 보기
+                        this.commentslist[i].input_show = false // 대댓글 입력창
+
+                        NoticeSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
+                            let res2 = data2.data
+                            this.commentslist[i].SecCnt = res2.length
+                            this.commentslist[i].seccommentslist = []
+                            for(let j=0; j<res2.length; j++) {
+                                this.commentslist[i].seccommentslist.push({})
+                                this.commentslist[i].seccommentslist[j].no = res2[j].id
+                                this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
+                                this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
+                                this.commentslist[i].seccommentslist[j].cont = res2[j].content
+                            }
+                        })
                     }
                 })
             } else if (this.$route.name === 'dataNo') {
@@ -180,7 +189,21 @@ export default {
                         this.commentslist[i].writer = res[i].writer_name
                         this.commentslist[i].date = res[i].createdDate
                         this.commentslist[i].cont = res[i].content
-                        this.commentslist[i].comments_cnt = 3
+                        this.commentslist[i].sub_show = false // 대댓글 보기
+                        this.commentslist[i].input_show = false // 대댓글 입력창
+
+                        NewsSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
+                            let res2 = data2.data
+                            this.commentslist[i].SecCnt = res2.length
+                            this.commentslist[i].seccommentslist = []
+                            for(let j=0; j<res2.length; j++) {
+                                this.commentslist[i].seccommentslist.push({})
+                                this.commentslist[i].seccommentslist[j].no = res2[j].id
+                                this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
+                                this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
+                                this.commentslist[i].seccommentslist[j].cont = res2[j].content
+                            }
+                        })
                     }
                 })
             } else if (this.$route.name === 'repairNo') {
@@ -201,7 +224,21 @@ export default {
                         this.commentslist[i].writer = res[i].writer_name
                         this.commentslist[i].date = res[i].createdDate
                         this.commentslist[i].cont = res[i].content
-                        this.commentslist[i].comments_cnt = 3
+                        this.commentslist[i].sub_show = false // 대댓글 보기
+                        this.commentslist[i].input_show = false // 대댓글 입력창
+
+                        RepairSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
+                            let res2 = data2.data
+                            this.commentslist[i].SecCnt = res2.length
+                            this.commentslist[i].seccommentslist = []
+                            for(let j=0; j<res2.length; j++) {
+                                this.commentslist[i].seccommentslist.push({})
+                                this.commentslist[i].seccommentslist[j].no = res2[j].id
+                                this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
+                                this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
+                                this.commentslist[i].seccommentslist[j].cont = res2[j].content
+                            }
+                        })
                     }
                 })
             } else {
@@ -257,24 +294,47 @@ export default {
             }
             this.$router.go('')
         },
+        // 댓글 삭제
         deleteComment(no) {
             if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {
                 NoticeCommentService.delete(no)
+                NoticeSubcommentService.deleteAll(this.no, no)
             } else if (this.$route.name === 'dataNo') {
                 NewsCommentService.delete(no)
+                NewsSubcommentService.deleteAll(this.no, no)
             } else if (this.$route.name === 'repairNo') {
                 RepairCommentService.delete(no)
+                RepairSubcommentService.deleteAll(this.no, no)
             } else {
 
             }
             alert("댓글이 삭제되었습니다.")
             this.$router.go('')
         },
-        visiblereplylist: function() {
-            this.isStatusOnList = !this.isStatusOnList;
+        // 대댓글 생성
+        createSubComment(sub_id) {
+            let req = {}
+            req.writer_studentno = this.user.studentno
+            req.writer_name = this.user.name
+            req.content = this.newSubComment
+
+            if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {                
+                NoticeSubcommentService.create(this.no, sub_id, req)
+            } else if (this.$route.name === 'dataNo') {
+                NewsSubcommentService.create(this.no, sub_id, req)
+            } else if (this.$route.name === 'repairNo') {
+                RepairSubcommentService.create(this.no, sub_id, req)
+            } else {
+
+            }
+            this.$router.go('')
         },
-        visiblereplyinput: function() {
-            this.isStatusOnInput = !this.isStatusOnInput;
+        visiblereplylist(comment) {
+            this.com_id = comment.no
+            comment.sub_show = !comment.sub_show
+        },
+        visiblereplyinput(comment) {
+            comment.input_show = !comment.input_show
         },
     },
     computed: {

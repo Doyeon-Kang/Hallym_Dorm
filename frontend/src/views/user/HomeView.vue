@@ -170,6 +170,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import NoticeDataService from '@/services/NoticeDataService';
 
 export default {
@@ -205,7 +206,7 @@ export default {
           //console.log(response.data);
         })
         .catch(e => {
-          //console.log(e);
+          console.log(e);
         });
       NoticeDataService.getAllNotice1()
         .then(response => {

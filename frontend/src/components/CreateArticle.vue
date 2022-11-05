@@ -28,6 +28,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import { VueEditor } from "vue3-editor";
 import NoticeDataService from "@/services/NoticeDataService";
 import NewsDataService from "@/services/NewsDataService";

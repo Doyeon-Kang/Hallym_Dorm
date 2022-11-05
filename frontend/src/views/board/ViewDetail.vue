@@ -69,6 +69,7 @@
 </template>
   
 <script>
+/* eslint-disable */
 import PageTitle from "@/components/PageTitle.vue";
 //import ViewDetailComVue from "@/components/ViewDetailCom.vue";
 import NoticeDataService from "@/services/NoticeDataService";

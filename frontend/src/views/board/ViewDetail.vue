@@ -87,9 +87,14 @@ import LostDataService from "@/services/LostDataService";
 import NoticeCommentService from "@/services/NoticeCommentService";
 import NewsCommentService from "@/services/NewsCommentService";
 import RepairCommentService from "@/services/RepairCommentService";
+import StoreCommentService from "@/services/StoreCommentService";
+import LostCommentService from "@/services/LostCommentService";
+
 import NoticeSubcommentService from "@/services/NoticeSubcommentService";
 import NewsSubcommentService from "@/services/NewsSubcommentService";
 import RepairSubcommentService from "@/services/RepairSubcommentService";
+import StoreSubcommentService from "@/services/RepairSubcommentService";
+import LostSubcommentService from "@/services/RepairSubcommentService";
 
 import StorePhotoService from "@/services/StorePhotoService";
 import LostPhotoService from "@/services/LostPhotoService";
@@ -266,32 +271,33 @@ export default {
                 StorePhotoService.getAll(this.no).then(photo_data => {
                     this.photo = photo_data.data[0].url
                 })
-                // RepairCommentService.getAll(this.no).then(data => {
-                //     let res = data.data
-                //     console.log(res)
-                //     for(let i=0; i<res.length; i++) {
-                //         this.commentslist.push({})
-                //         this.commentslist[i].no = res[i].id
-                //         this.commentslist[i].writer = res[i].writer_name
-                //         this.commentslist[i].date = res[i].createdDate
-                //         this.commentslist[i].cont = res[i].content
-                //         this.commentslist[i].sub_show = false // 대댓글 보기
-                //         this.commentslist[i].input_show = false // 대댓글 입력창
+                StoreCommentService.getAll(this.no).then(data => {
+                    let res = data.data
+                    console.log(res)
+                    for(let i=0; i<res.length; i++) {
+                        this.commentslist.push({})
+                        this.commentslist[i].no = res[i].id
+                        this.commentslist[i].writer = res[i].writer_name
+                        this.commentslist[i].date = res[i].createdDate
+                        this.commentslist[i].cont = res[i].content
+                        this.commentslist[i].sub_show = false // 대댓글 보기
+                        this.commentslist[i].input_show = false // 대댓글 입력창
 
-                //         RepairSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
-                //             let res2 = data2.data
-                //             this.commentslist[i].SecCnt = res2.length
-                //             this.commentslist[i].seccommentslist = []
-                //             for(let j=0; j<res2.length; j++) {
-                //                 this.commentslist[i].seccommentslist.push({})
-                //                 this.commentslist[i].seccommentslist[j].no = res2[j].id
-                //                 this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
-                //                 this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
-                //                 this.commentslist[i].seccommentslist[j].cont = res2[j].content
-                //             }
-                //         })
-                //     }
-                // })
+                        StoreSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
+                            let res2 = data2.data
+                            this.commentslist[i].SecCnt = res2.length
+                            console.log(data2)
+                            this.commentslist[i].seccommentslist = []
+                            for(let j=0; j<res2.length; j++) {
+                                this.commentslist[i].seccommentslist.push({})
+                                this.commentslist[i].seccommentslist[j].no = res2[j].id
+                                this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
+                                this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
+                                this.commentslist[i].seccommentslist[j].cont = res2[j].content
+                            }
+                        })
+                    }
+                })
             } else if (this.$route.name === 'lostNo') {
                 this.photo_board = true
                 LostDataService.get(this.no).then(data => {
@@ -305,32 +311,32 @@ export default {
                 LostPhotoService.getAll(this.no).then(photo_data => {
                     this.photo = photo_data.data[0].url
                 })
-                // RepairCommentService.getAll(this.no).then(data => {
-                //     let res = data.data
-                //     console.log(res)
-                //     for(let i=0; i<res.length; i++) {
-                //         this.commentslist.push({})
-                //         this.commentslist[i].no = res[i].id
-                //         this.commentslist[i].writer = res[i].writer_name
-                //         this.commentslist[i].date = res[i].createdDate
-                //         this.commentslist[i].cont = res[i].content
-                //         this.commentslist[i].sub_show = false // 대댓글 보기
-                //         this.commentslist[i].input_show = false // 대댓글 입력창
+                LostCommentService.getAll(this.no).then(data => {
+                    let res = data.data
+                    console.log(res)
+                    for(let i=0; i<res.length; i++) {
+                        this.commentslist.push({})
+                        this.commentslist[i].no = res[i].id
+                        this.commentslist[i].writer = res[i].writer_name
+                        this.commentslist[i].date = res[i].createdDate
+                        this.commentslist[i].cont = res[i].content
+                        this.commentslist[i].sub_show = false // 대댓글 보기
+                        this.commentslist[i].input_show = false // 대댓글 입력창
 
-                //         RepairSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
-                //             let res2 = data2.data
-                //             this.commentslist[i].SecCnt = res2.length
-                //             this.commentslist[i].seccommentslist = []
-                //             for(let j=0; j<res2.length; j++) {
-                //                 this.commentslist[i].seccommentslist.push({})
-                //                 this.commentslist[i].seccommentslist[j].no = res2[j].id
-                //                 this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
-                //                 this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
-                //                 this.commentslist[i].seccommentslist[j].cont = res2[j].content
-                //             }
-                //         })
-                //     }
-                // })
+                        LostSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
+                            let res2 = data2.data
+                            this.commentslist[i].SecCnt = res2.length
+                            this.commentslist[i].seccommentslist = []
+                            for(let j=0; j<res2.length; j++) {
+                                this.commentslist[i].seccommentslist.push({})
+                                this.commentslist[i].seccommentslist[j].no = res2[j].id
+                                this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
+                                this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
+                                this.commentslist[i].seccommentslist[j].cont = res2[j].content
+                            }
+                        })
+                    }
+                })
             } else {
 
             }
@@ -351,6 +357,16 @@ export default {
                 RepairDataService.delete(this.no).then(data => {
                     alert("정상적으로 삭제되었습니다.")
                     this.$router.push('/community/repair')
+                })
+            } else if (this.$route.name === 'marketNo') {
+                StoreDataService.delete(this.no).then(data => {
+                    alert("정상적으로 삭제되었습니다.")
+                    this.$router.push('/community/market')
+                })
+            } else if (this.$route.name === 'lostNo') {
+                LostDataService.delete(this.no).then(data => {
+                    alert("정상적으로 삭제되었습니다.")
+                    this.$router.push('/community/lost')
                 })
             } else {
 
@@ -379,6 +395,10 @@ export default {
                 NewsCommentService.create(this.no, req)
             } else if (this.$route.name === 'repairNo') {
                 RepairCommentService.create(this.no, req)
+            } else if (this.$route.name === 'marketNo') {
+                StoreCommentService.create(this.no, req)
+            } else if (this.$route.name === 'lostNo') {
+                LostCommentService.create(this.no, req)
             } else {
 
             }
@@ -395,6 +415,12 @@ export default {
             } else if (this.$route.name === 'repairNo') {
                 RepairCommentService.delete(no)
                 RepairSubcommentService.deleteAll(this.no, no)
+            } else if (this.$route.name === 'marketNo') {
+                StoreCommentService.delete(no)
+                StoreSubcommentService.deleteAll(this.no, no)
+            } else if (this.$route.name === 'lostNo') {
+                LostCommentService.delete(no)
+                LostSubcommentService.deleteAll(this.no, no)
             } else {
 
             }
@@ -414,6 +440,10 @@ export default {
                 NewsSubcommentService.create(this.no, sub_id, req)
             } else if (this.$route.name === 'repairNo') {
                 RepairSubcommentService.create(this.no, sub_id, req)
+            } else if (this.$route.name === 'marketNo') {
+                StoreSubcommentService.create(this.no, sub_id, req)
+            } else if (this.$route.name === 'lostNo') {
+                LostSubcommentService.create(this.no, sub_id, req)
             } else {
 
             }

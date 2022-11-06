@@ -56,6 +56,10 @@ import CreateArticle from "@/components/CreateArticle.vue"
 import NoticeDataService from "@/services/NoticeDataService"
 import NewsDataService from "@/services/NewsDataService";
 import RepairDataService from "@/services/RepairDataService"
+import StoreDataService from "@/services/StoreDataService";
+import StorePhotoService from "@/services/StorePhotoService";
+import LostDataService from "@/services/LostDataService";
+import LostPhotoService from "@/services/LostPhotoService";
 import ModifyArticle from '../../components/ModifyArticle.vue';
 
 export default {
@@ -91,101 +95,8 @@ export default {
       faqList: [{}],
       repairTitle: ["번호", "분야", "글제목", "작성일자", "작성자", "진행상태"],
       repairList: [],
-      marketList: [
-        {
-          photo: "샴푸린스.jpg",
-          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
-          writer: "홍길동",
-          date: "2022.07.18",
-          comment_cnt: 3,
-        },
-        {
-          photo: "banner.jpg",
-          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
-          writer: "홍길동",
-          date: "2022.07.18",
-          comment_cnt: 3,
-        },
-        {
-          photo: "샴푸린스.jpg",
-          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
-          writer: "홍길동",
-          date: "2022.07.18",
-          comment_cnt: 3,
-        },
-        {
-          photo: "샴푸린스.jpg",
-          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
-          writer: "홍길동",
-          date: "2022.07.18",
-          comment_cnt: 3,
-        },
-        {
-          photo: "샴푸린스.jpg",
-          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
-          writer: "홍길동",
-          date: "2022.07.18",
-          comment_cnt: 3,
-        },
-        {
-          photo: "샴푸린스.jpg",
-          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
-          writer: "홍길동",
-          date: "2022.07.18",
-          comment_cnt: 3,
-        },
-      ],
-      lostList: [
-        {
-          photo: "지갑.jpg",
-          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
-          writer: "김땡땡",
-          date: "2022.07.18",
-          comment_cnt: 5,
-        },
-        {
-          photo: "지갑.jpg",
-          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
-          writer: "김땡땡",
-          date: "2022.07.18",
-          comment_cnt: 5,
-        },
-        {
-          photo: "지갑.jpg",
-          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
-          writer: "김땡땡",
-          date: "2022.07.18",
-          comment_cnt: 5,
-        },
-        {
-          photo: "지갑.jpg",
-          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
-          writer: "김땡땡",
-          date: "2022.07.18",
-          comment_cnt: 5,
-        },
-        {
-          photo: "지갑.jpg",
-          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
-          writer: "김땡땡",
-          date: "2022.07.18",
-          comment_cnt: 5,
-        },
-        {
-          photo: "지갑.jpg",
-          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
-          writer: "김땡땡",
-          date: "2022.07.18",
-          comment_cnt: 5,
-        },
-        {
-          photo: "지갑.jpg",
-          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
-          writer: "김땡땡",
-          date: "2022.07.18",
-          comment_cnt: 5,
-        },
-      ],
+      marketList: [],
+      lostList: [],
     };
   },
   components: {
@@ -310,6 +221,44 @@ export default {
         this.repairList = list
       }
       )
+      // 나눔장터
+      StoreDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+
+        for (let i=0; i<res.length; i++) {
+          this.marketList.push({})
+          this.marketList[i].id = res[i].id
+          this.marketList[i].title = res[i].title // 글제목
+          this.marketList[i].date = res[i].date // 작성자
+          this.marketList[i].writer = res[i].writer_name // 작성일
+          this.marketList[i].views = res[i].views // 조회수
+
+          // 나눔장터 사진
+          StorePhotoService.getAll(this.marketList[i].id).then(photo_data => {
+            this.marketList[i].photo = photo_data.data[0].url
+          })
+        }
+      })
+      // 분실물
+      LostDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+
+        for (let i=0; i<res.length; i++) {
+          this.lostList.push({})
+          this.lostList[i].id = res[i].id
+          this.lostList[i].title = res[i].title // 글제목
+          this.lostList[i].date = res[i].date // 작성자
+          this.lostList[i].writer = res[i].writer_name // 작성일
+          this.lostList[i].views = res[i].views // 조회수
+
+          // 분실물 사진
+          LostPhotoService.getAll(this.lostList[i].id).then(photo_data => {
+            this.lostList[i].photo = photo_data.data[0].url
+          })
+        }
+      })
+      
+      
     }
   },
   computed: {

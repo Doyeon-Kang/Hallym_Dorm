@@ -14,6 +14,9 @@
                     </div>
                 </div>
                 <hr>
+                <div class="photo" v-show="photo_board">
+                    <img :src="photo" alt="사진">
+                </div>
                 <div class="detail_cont" v-html="writerinfo.cont"></div>
                 <div class="btn_list">
                     <input v-if="writerinfo.writer === user.name" class="modify" type="button" value="수정" @click="updateArticle()" />
@@ -78,12 +81,18 @@ import PageTitle from "@/components/PageTitle.vue";
 import NoticeDataService from "@/services/NoticeDataService";
 import NewsDataService from "@/services/NewsDataService";
 import RepairDataService from "@/services/RepairDataService";
+import StoreDataService from "@/services/StoreDataService";
+import LostDataService from "@/services/LostDataService";
+
 import NoticeCommentService from "@/services/NoticeCommentService";
 import NewsCommentService from "@/services/NewsCommentService";
 import RepairCommentService from "@/services/RepairCommentService";
 import NoticeSubcommentService from "@/services/NoticeSubcommentService";
 import NewsSubcommentService from "@/services/NewsSubcommentService";
 import RepairSubcommentService from "@/services/RepairSubcommentService";
+
+import StorePhotoService from "@/services/StorePhotoService";
+import LostPhotoService from "@/services/LostPhotoService";
 
 export default {
     data() {
@@ -101,6 +110,8 @@ export default {
             },
             commentslist: [],
             seccommentslist: [],
+            photo_board: false,
+            photo: '',
         }
     },
     components: {
@@ -241,6 +252,85 @@ export default {
                         })
                     }
                 })
+            } else if (this.$route.name === 'marketNo') {
+                this.photo_board = true
+                StoreDataService.get(this.no).then(data => {
+                    let res = data.data
+                    this.writerinfo.title = res.title
+                    this.writerinfo.writer = res.writer_name
+                    this.writerinfo.date = res.date
+                    this.writerinfo.read_cnt = res.views
+                    this.writerinfo.cont = res.content
+                })
+
+                StorePhotoService.getAll(this.no).then(photo_data => {
+                    this.photo = photo_data.data[0].url
+                })
+                // RepairCommentService.getAll(this.no).then(data => {
+                //     let res = data.data
+                //     console.log(res)
+                //     for(let i=0; i<res.length; i++) {
+                //         this.commentslist.push({})
+                //         this.commentslist[i].no = res[i].id
+                //         this.commentslist[i].writer = res[i].writer_name
+                //         this.commentslist[i].date = res[i].createdDate
+                //         this.commentslist[i].cont = res[i].content
+                //         this.commentslist[i].sub_show = false // 대댓글 보기
+                //         this.commentslist[i].input_show = false // 대댓글 입력창
+
+                //         RepairSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
+                //             let res2 = data2.data
+                //             this.commentslist[i].SecCnt = res2.length
+                //             this.commentslist[i].seccommentslist = []
+                //             for(let j=0; j<res2.length; j++) {
+                //                 this.commentslist[i].seccommentslist.push({})
+                //                 this.commentslist[i].seccommentslist[j].no = res2[j].id
+                //                 this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
+                //                 this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
+                //                 this.commentslist[i].seccommentslist[j].cont = res2[j].content
+                //             }
+                //         })
+                //     }
+                // })
+            } else if (this.$route.name === 'lostNo') {
+                this.photo_board = true
+                LostDataService.get(this.no).then(data => {
+                    let res = data.data
+                    this.writerinfo.title = res.title
+                    this.writerinfo.writer = res.writer_name
+                    this.writerinfo.date = res.date
+                    this.writerinfo.read_cnt = res.views
+                    this.writerinfo.cont = res.content
+                })
+                LostPhotoService.getAll(this.no).then(photo_data => {
+                    this.photo = photo_data.data[0].url
+                })
+                // RepairCommentService.getAll(this.no).then(data => {
+                //     let res = data.data
+                //     console.log(res)
+                //     for(let i=0; i<res.length; i++) {
+                //         this.commentslist.push({})
+                //         this.commentslist[i].no = res[i].id
+                //         this.commentslist[i].writer = res[i].writer_name
+                //         this.commentslist[i].date = res[i].createdDate
+                //         this.commentslist[i].cont = res[i].content
+                //         this.commentslist[i].sub_show = false // 대댓글 보기
+                //         this.commentslist[i].input_show = false // 대댓글 입력창
+
+                //         RepairSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
+                //             let res2 = data2.data
+                //             this.commentslist[i].SecCnt = res2.length
+                //             this.commentslist[i].seccommentslist = []
+                //             for(let j=0; j<res2.length; j++) {
+                //                 this.commentslist[i].seccommentslist.push({})
+                //                 this.commentslist[i].seccommentslist[j].no = res2[j].id
+                //                 this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
+                //                 this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
+                //                 this.commentslist[i].seccommentslist[j].cont = res2[j].content
+                //             }
+                //         })
+                //     }
+                // })
             } else {
 
             }
@@ -391,6 +481,12 @@ export default {
                     }
                 }
 
+            }
+
+            .photo {
+                img {
+                    width: 400px;
+                }
             }
 
             .detail_cont {

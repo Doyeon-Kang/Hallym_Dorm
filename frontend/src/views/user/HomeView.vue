@@ -1,4 +1,5 @@
 <template>
+
   <div class="content_container">
     <div class="left_content">
       <div class="notice_box">

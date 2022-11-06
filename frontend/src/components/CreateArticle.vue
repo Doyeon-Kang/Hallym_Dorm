@@ -9,6 +9,9 @@
             <option value="store">나눔 장터</option>
             <option value="lost">분실물</option>
         </select>
+        <div class="img_input" >
+            <input type="file" accept="image/*" @change="fileChange"/>
+        </div>
         <div class="division">제목</div>
         <input class="title" type="text" v-model="title" placeholder="글 제목을 입력하세요.">
         <!-- https://github.com/davidroyer/vue2-editor 참고-->
@@ -33,6 +36,10 @@ import { VueEditor } from "vue3-editor";
 import NoticeDataService from "@/services/NoticeDataService";
 import NewsDataService from "@/services/NewsDataService";
 import RepairDataService from "@/services/RepairDataService";
+import StoreDataService from "@/services/StoreDataService";
+import LostDataService from "@/services/LostDataService";
+import StorePhotoService from "@/services/StorePhotoService";
+import LostPhotoService from "@/services/LostPhotoService";
 
 export default {
     data() {
@@ -40,16 +47,44 @@ export default {
             category: "",
             title: "",
             content: "",
-            prevRoute: null
+            prevRoute: null,
+            file: "",
         }
     },
     components: {
         VueEditor
     },
     created() {
-        console.log(this.user)
+        
     },
     methods: {
+        fileChange(e) {
+            const file = e.target.files;
+            let validation = true;
+            let message = '';
+
+            if (file.length > 1) {
+                validation= false;
+                message = `파일은 한개만 등록 가능합니다.`
+            }
+
+            if (file[0].size > 1024 * 1024 * 2) {
+                message = `${message}, 파일은 용량은 2MB 이하만 가능합니다.`;
+                validation = false;
+            }
+
+            if (file[0].type.indexOf('image') < 0) {
+                message = `${message}, 이미지 파일만 업로드 가능합니다.`;
+                validation = false;
+            }
+
+            if (validation) {
+                this.file = file
+            }else {
+                this.file = '';
+                alert(message);
+            }
+        },  
         showValue(target) {
             console.log(target.calue)
             console.log(target.options[target.selectedIndex].text)
@@ -82,6 +117,22 @@ export default {
                     alert("작성 완료되었습니다.")
                     this.$router.push('/community/repair');
                 })
+            } else if (this.category === 'store') {
+                StoreDataService.create(data).then(res => {
+                    alert("작성 완료되었습니다.")
+                    console.log(res.data)
+                    // if (this.photo !== "") {
+                    //     StorePhotoService.create(res.data.id, this.photo)
+                    // }
+                })
+                
+            } else if (this.category === 'lost') {
+                LostDataService.create(data).then(res => {
+                    alert("작성 완료되었습니다.")
+                    if (this.photo !== "") {
+                        LostPhotoService.create(res.data.id, this.photo)
+                    }
+                })
             } else {
 
             }
@@ -103,6 +154,9 @@ select {
     margin-bottom: 20px;
     border-radius: 0px;
     border: 1px solid #c0c0c0;
+}
+.img_input {
+    margin-bottom: 20px;
 }
 .title {
     display: block;

@@ -15,7 +15,7 @@
                 </div>
                 <hr>
                 <div class="photo" v-show="photo_board">
-                    <img :src="photo" alt="사진">
+                    <img v-for="(photo, index) in photo" :key="index" :src="photo" alt="사진">
                 </div>
                 <div class="detail_cont" v-html="writerinfo.cont"></div>
                 <div class="btn_list">
@@ -116,7 +116,7 @@ export default {
             commentslist: [],
             seccommentslist: [],
             photo_board: false,
-            photo: '',
+            photo: [],
         }
     },
     components: {
@@ -269,7 +269,9 @@ export default {
                 })
 
                 StorePhotoService.getAll(this.no).then(photo_data => {
-                    this.photo = photo_data.data[0].url
+                    for(let i=0; i<photo_data.data.length; i++) {
+                        this.photo[i] = photo_data.data[i].url
+                    }
                 })
                 StoreCommentService.getAll(this.no).then(data => {
                     let res = data.data
@@ -309,11 +311,13 @@ export default {
                     this.writerinfo.cont = res.content
                 })
                 LostPhotoService.getAll(this.no).then(photo_data => {
-                    this.photo = photo_data.data[0].url
+                    for(let i=0; i<photo_data.data.length; i++) {
+                        this.photo[i] = photo_data.data[i].url
+                    }
+                    
                 })
                 LostCommentService.getAll(this.no).then(data => {
                     let res = data.data
-                    console.log(res)
                     for(let i=0; i<res.length; i++) {
                         this.commentslist.push({})
                         this.commentslist[i].no = res[i].id
@@ -324,7 +328,9 @@ export default {
                         this.commentslist[i].input_show = false // 대댓글 입력창
 
                         LostSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
+                            
                             let res2 = data2.data
+                            console.log(res2)
                             this.commentslist[i].SecCnt = res2.length
                             this.commentslist[i].seccommentslist = []
                             for(let j=0; j<res2.length; j++) {

@@ -10,7 +10,7 @@
             <option value="lost">분실물</option>
         </select>
         <div class="img_input" >
-            <input type="file" accept="image/*" @change="fileChange"/>
+            <input type="file" multiple accept="image/*" @change="fileChange"/>
         </div>
         <div class="division">제목</div>
         <input class="title" type="text" v-model="title" placeholder="글 제목을 입력하세요.">
@@ -48,7 +48,7 @@ export default {
             title: "",
             content: "",
             prevRoute: null,
-            file: "",
+            file: [],
         }
     },
     components: {
@@ -59,29 +59,27 @@ export default {
     },
     methods: {
         fileChange(event) {
-            const file = event.target.files[0];
+            const file = event.target.files;
+            console.log(file)
             let validation = true;
             let message = '';
 
-            if (file.length > 1) {
-                validation = false;
-                message = `파일은 한개만 등록 가능합니다.`
-            }
+            for(let i=0; i<file.length; i++) {
+                if (file[i].size > 1024 * 1024 * 2) {
+                    message = `${message}, 파일은 용량은 2MB 이하만 가능합니다.`;
+                    validation = false;
+                }
 
-            if (file.size > 1024 * 1024 * 2) {
-                message = `${message}, 파일은 용량은 2MB 이하만 가능합니다.`;
-                validation = false;
-            }
-
-            if (file.type.indexOf('image') < 0) {
-                message = `${message}, 이미지 파일만 업로드 가능합니다.`;
-                validation = false;
+                if (file[i].type.indexOf('image') < 0) {
+                    message = `${message}, 이미지 파일만 업로드 가능합니다.`;
+                    validation = false;
+                }
             }
 
             if (validation) {
                 this.file = file
             } else {
-                this.file = '';
+                this.file = [];
                 alert(message);
             }
         },  

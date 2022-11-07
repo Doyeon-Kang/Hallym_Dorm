@@ -39,16 +39,16 @@ public class ApplyStudyroomScheduleController {
         }
     }
 
-    @GetMapping("/apply-studyroom-schedule/{id}")
-    public ResponseEntity<ApplyStudyroomSchedule> getApplyStudyroomScheduleById(@PathVariable("id") long id) {
-      Optional<ApplyStudyroomSchedule> studyroomScheduleData = applyStudyroomScheduleRepository.findById(id);
+    // @GetMapping("/apply-studyroom-schedule/{id}")
+    // public ResponseEntity<ApplyStudyroomSchedule> getApplyStudyroomScheduleById(@PathVariable("id") long id) {
+    //   Optional<ApplyStudyroomSchedule> studyroomScheduleData = applyStudyroomScheduleRepository.findById(id);
 
-      if(studyroomScheduleData.isPresent()) {
-        ApplyStudyroomSchedule _applyStudyroomSchedule = studyroomScheduleData.get();
+    //   if(studyroomScheduleData.isPresent()) {
+    //     ApplyStudyroomSchedule _applyStudyroomSchedule = studyroomScheduleData.get();
         
-        return new ResponseEntity<>(applyStudyroomScheduleRepository.save(_applyStudyroomSchedule), HttpStatus.OK);
-      } else {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      }
-    }
+    //     return new ResponseEntity<>(applyStudyroomScheduleRepository.save(_applyStudyroomSchedule), HttpStatus.OK);
+    //   } else {
+    //     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //   }
+    // }
 }

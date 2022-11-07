@@ -86,8 +86,8 @@ public class BoardNoticeSubcommentController {
       }
     }
 
-    @DeleteMapping("/board-notice/{noticeid}/comments/{commentId}/subcomments")
-    public ResponseEntity<HttpStatus> deleteAllBoardNoticeSubcomments(@PathVariable(name="noticeid") long noticeId, @PathVariable(name="commentId") long commentId) {
+    @DeleteMapping("/board-notice/{noticeId}/comments/{commentId}/subcomments")
+    public ResponseEntity<HttpStatus> deleteAllBoardNoticeSubcomments(@PathVariable(name="noticeId") long noticeId, @PathVariable(name="commentId") long commentId) {
       try {
         boardNoticeSubcommentRepository.deleteByBoardNoticeCommentId(commentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

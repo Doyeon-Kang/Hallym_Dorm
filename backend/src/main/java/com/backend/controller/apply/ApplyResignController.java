@@ -84,9 +84,9 @@ public class ApplyResignController {
     
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/apply-resign/{id}")
-    public ResponseEntity<ApplyResign> updateApplyResign(@PathVariable("id") long id, @RequestBody ApplyResign applyResign) {
-      Optional<ApplyResign> resignData = applyResignRepository.findById(id);
+    @PutMapping("/apply-resign/{resignId}")
+    public ResponseEntity<ApplyResign> updateApplyResign(@PathVariable("resignId") long resignId, @RequestBody ApplyResign applyResign) {
+      Optional<ApplyResign> resignData = applyResignRepository.findById(resignId);
       if (resignData.isPresent()) {
         ApplyResign _applyResign = resignData.get();
         _applyResign.setRes_date(applyResign.getRes_date());
@@ -114,10 +114,10 @@ public class ApplyResignController {
     }
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/apply-resign/{id}")
-    public ResponseEntity<HttpStatus> deleteApplyResign(@PathVariable("id") long id) {
+    @DeleteMapping("/apply-resign/{resignId}")
+    public ResponseEntity<HttpStatus> deleteApplyResign(@PathVariable("resignId") long resignId) {
       try {
-        applyResignRepository.deleteById(id);
+        applyResignRepository.deleteById(resignId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       } catch (Exception e) {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

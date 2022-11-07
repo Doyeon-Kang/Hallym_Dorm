@@ -94,9 +94,9 @@ public class ApplySleepoutController {
     }
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/apply-sleepout/{id}")
-    public ResponseEntity<ApplySleepout> updateApplySleepout(@PathVariable("id") long id, @RequestBody ApplySleepout applySleepout) {
-      Optional<ApplySleepout> sleepoutData = applySleepoutRepository.findById(id);
+    @PutMapping("/apply-sleepout/{sleepoutId}")
+    public ResponseEntity<ApplySleepout> updateApplySleepout(@PathVariable("sleepoutId") long sleepoutId, @RequestBody ApplySleepout applySleepout) {
+      Optional<ApplySleepout> sleepoutData = applySleepoutRepository.findById(sleepoutId);
       if (sleepoutData.isPresent()) {
         ApplySleepout _applySleepout = sleepoutData.get();
         _applySleepout.setDate_sleepout(applySleepout.getDate_sleepout());
@@ -124,10 +124,10 @@ public class ApplySleepoutController {
     }
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/apply-sleepout/{id}")
-    public ResponseEntity<HttpStatus> deleteApplySleepout(@PathVariable("id") long id) {
+    @DeleteMapping("/apply-sleepout/{sleepoutId}")
+    public ResponseEntity<HttpStatus> deleteApplySleepout(@PathVariable("sleepoutId") long sleepoutId) {
       try {
-        applySleepoutRepository.deleteById(id);
+        applySleepoutRepository.deleteById(sleepoutId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       } catch (Exception e) {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

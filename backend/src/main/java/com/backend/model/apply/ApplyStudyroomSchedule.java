@@ -127,23 +127,12 @@ public class ApplyStudyroomSchedule {
         this.timeslot7_taken = timeslot7_taken;
     }
 
-    // `timeslot8_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
-    @Column(name="timeslot8_taken")
-    private boolean timeslot8_taken = false;
-    public boolean isTimeslot8_taken() {
-        return timeslot8_taken;
-    }
-
-    public void setTimeslot8_taken(boolean timeslot8_taken) {
-        this.timeslot8_taken = timeslot8_taken;
-    }
-
     public ApplyStudyroomSchedule() {
 
     }
 
     public ApplyStudyroomSchedule(int seat, boolean timeslot1_taken,  boolean timeslot2_taken, boolean timeslot3_taken, boolean timeslot4_taken, 
-                                    boolean timeslot5_taken, boolean timeslot6_taken, boolean timeslot7_taken, boolean timeslot8_taken) {
+                                    boolean timeslot5_taken, boolean timeslot6_taken, boolean timeslot7_taken) {
         this.seat = seat;
         this.timeslot1_taken = timeslot1_taken;
         this.timeslot2_taken = timeslot2_taken;
@@ -152,6 +141,5 @@ public class ApplyStudyroomSchedule {
         this.timeslot5_taken = timeslot5_taken;
         this.timeslot6_taken = timeslot6_taken;
         this.timeslot7_taken = timeslot7_taken;
-        this.timeslot8_taken = timeslot8_taken;
     }
 }

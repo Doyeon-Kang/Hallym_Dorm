@@ -10,23 +10,25 @@
                     <div class="detail_info">
                         <div>{{ writerinfo.writer }}</div>
                         <div>{{ writerinfo.date }}</div>
-                        <div>{{ writerinfo.read_cnt }}</div>
+                        <div>조회수: {{ writerinfo.read_cnt }}</div>
                     </div>
                 </div>
                 <hr>
-                <div class="detail_cont">{{ writerinfo.cont }}</div>
-                <hr>
+                <div class="photo" v-show="photo_board">
+                    <img :src="photo" alt="사진">
+                </div>
+                <div class="detail_cont" v-html="writerinfo.cont"></div>
                 <div class="btn_list">
-                    <input class="modify" type="button" value="수정" />
-                    <input class="delete" type="button" value="삭제" />
+                    <input v-if="writerinfo.writer === user.name" class="modify" type="button" value="수정" @click="updateArticle()" />
+                    <input v-if="writerinfo.writer === user.name" class="delete" type="button" value="삭제" @click="deleteArticle()"/>
                     <input class="writelist" type="button" value="글목록" @click="$router.push('/community')" />
                 </div>
                 <div class="comments">
                     <div class="comments_input">
                         <div class="comments_title" >댓글</div>
                         <div class="comments_box">
-                            <textarea class="comments_cont"></textarea>
-                            <input class="comments_btn" type="button" value="등록"/>
+                            <textarea class="comments_cont" v-model="newComment"></textarea>
+                            <input class="comments_btn" type="button" value="등록" @click="createComment()"/>
                         </div>
                     </div>
                     <div class="comments_list" v-for="(text, index) in commentslist" :key="index">
@@ -37,31 +39,34 @@
                             </div>
                             <div class="comments_cont">{{ text.cont }}</div>
                             <div class="reply">
-                                <div class="reply_list" @click="visiblereplylist">답글 보기 ({{ seccommentscnt }})</div>
-                                <div class="reply_input" @click="visiblereplyinput">답글 달기</div>
+                                <div class="reply_list" @click="visiblereplylist(text)">답글 보기 ({{ text.SecCnt }})</div>
+                                <div class="reply_input" @click="visiblereplyinput(text)">답글 달기</div>
+                                <!-- <div class="edit_btn" >수정</div> -->
+                                <div class="delete_btn" @click="deleteComment(text.no)">삭제</div>
                             </div>
                         </div>
                         <hr>
-                        <div class="reply_listbox" v-for="(text, index) in seccommentslist" :key="index" v-show="isStatusOnList">
+                        <div class="reply_listbox" v-for="(text2, index) in text.seccommentslist" :key="index" v-show="text.sub_show">
                             <div class="reply_contbox">
                                 <div class="reply_info">
-                                    <div class="reply_writer">{{ text.writer }}</div>
-                                    <div class="reply_date">{{ text.date }}</div>
+                                    <div class="reply_writer">> {{ text2.writer }}</div>
+                                    <div class="reply_date">{{ text2.date }}</div>
                                 </div>
-                                <div class="reply_cont">{{ text.cont }}</div>
+                                <div class="reply_cont">{{ text2.cont }}</div>
+                                
                             </div>
                             <hr>
                         </div>
-                    </div>
-                    <div class="reply_write" v-show="isStatusOnInput">
+                        <div class="reply_write" v-show="text.input_show">
                         <div class="reply_title">답글</div>
                         <div class="reply_box">
-                            <textarea class="reply_cont_box"></textarea>
+                            <textarea class="reply_cont_box" v-model="newSubComment"></textarea>
                             <div class="reply_btn">
-                                <input class="reply_submit" type="button" value="등록" />
+                                <input class="reply_submit" type="button" value="등록" @click="createSubComment(text.no)"/>
                                 <input class="reply_delete" type="button" value="삭제" />
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -70,51 +75,48 @@
 </template>
   
 <script>
+/* eslint-disable */
 import PageTitle from "@/components/PageTitle.vue";
 //import ViewDetailComVue from "@/components/ViewDetailCom.vue";
+import NoticeDataService from "@/services/NoticeDataService";
+import NewsDataService from "@/services/NewsDataService";
+import RepairDataService from "@/services/RepairDataService";
+import StoreDataService from "@/services/StoreDataService";
+import LostDataService from "@/services/LostDataService";
+
+import NoticeCommentService from "@/services/NoticeCommentService";
+import NewsCommentService from "@/services/NewsCommentService";
+import RepairCommentService from "@/services/RepairCommentService";
+import StoreCommentService from "@/services/StoreCommentService";
+import LostCommentService from "@/services/LostCommentService";
+
+import NoticeSubcommentService from "@/services/NoticeSubcommentService";
+import NewsSubcommentService from "@/services/NewsSubcommentService";
+import RepairSubcommentService from "@/services/RepairSubcommentService";
+import StoreSubcommentService from "@/services/RepairSubcommentService";
+import LostSubcommentService from "@/services/RepairSubcommentService";
+
+import StorePhotoService from "@/services/StorePhotoService";
+import LostPhotoService from "@/services/LostPhotoService";
 
 export default {
     data() {
         return {
-            isStatusOnList: false,
-            isStatusOnInput: false,
+            no: this.$route.query.no,
+            newComment: "",
+            newSubComment: "",
+            category: 0,
             writerinfo: {
-                title: "2022년 공지사항",
-                writer: "이땡땡",
-                date: "2022.10.11",
-                read_cnt: 5,
-                cont: `
-                로렘 입숨(lorem ipsum; 줄여서 립숨, lipsum)은 출판이나 그래픽 디자인 분야에서 폰트, 타이포그래피, 레이아웃 같은 그래픽 요소나 시각적 연출을 보여줄 때 사용하는 표준 채우기 텍스트로, 최종 결과물에 들어가는 실제적인 문장 내용이 채워지기 전에 시각 디자인 프로젝트 모형의 채움 글로도 이용된다. 이런 용도로 사용할 때 로렘 입숨을 그리킹(greeking)이라고도 부르며, 때로 로렘 입숨은 공간만 차지하는 무언가를 지칭하는 용어로도 사용된다.
-                로렘 입숨(lorem ipsum; 줄여서 립숨, lipsum)은 출판이나 그래픽 디자인 분야에서 폰트, 타이포그래피, 레이아웃 같은 그래픽 요소나 시각적 연출을 보여줄 때 사용하는 표준 채우기 텍스트로, 최종 결과물에 들어가는 실제적인 문장 내용이 채워지기 전에 시각 디자인 프로젝트 모형의 채움 글로도 이용된다. 이런 용도로 사용할 때 로렘 입숨을 그리킹(greeking)이라고도 부르며, 때로 로렘 입숨은 공간만 차지하는 무언가를 지칭하는 용어로도 사용된다.`
+                title: "",
+                writer: "",
+                date: "",
+                read_cnt: 0,
+                cont : ''
             },
-            commentslist: [
-                {
-                    writer: "김땡땡",
-                    date: "2022.10.11 07:20",
-                    cont: "유용한 정보 감사합니다.",
-                    comments_cnt: 3,
-                },
-                {
-                    writer: "박땡땡",
-                    date: "2022.10.11 16:17",
-                    cont: "유용한 정보 감사합니다.",
-                    comments_cnt: 3,
-                },
-                {
-                    writer: "최땡땡",
-                    date: "2022.10.12 00:55",
-                    cont: "유용한 정보 감사합니다.",
-                    comments_cnt: 3,
-                },
-            ],
-            seccommentscnt: 2,
-            seccommentslist: [
-                {
-                    writer: "황땡땡",
-                    date: "2022.10.12 00:59",
-                    cont: "유용한 정보 감사합니다.",
-                }
-            ],
+            commentslist: [],
+            seccommentslist: [],
+            photo_board: false,
+            photo: '',
         }
     },
     components: {
@@ -123,6 +125,7 @@ export default {
     },
     created() {
         this.routeCheck();
+        this.init()
     },
     mounted() {
     },
@@ -130,29 +133,342 @@ export default {
         routeCheck() {
             if (this.$route.name === "communityNo") {
                 this.title = "공시사항 > 학생기숙사 > 게시글 상세보기";
+                this.category = 1
             } else if (this.$route.name === "notice1No") {
                 this.title = "공시사항 > 사생자치회 > 게시글 상세보기";
+                this.category = 2
             } else if (this.$route.name === "dataNo") {
                 this.title = "게시판 > 서식자료실 > 게시글 상세보기";
+                this.category = 3
             } else if (this.$route.name === "repairNo") {
                 this.title = "게시판 > 불편/수리 요청 > 게시글 상세보기";
+                this.category = 4
             } else if (this.$route.name === "marketNo") {
                 this.title = "게시판 > 나눔 장터 > 게시글 상세보기";
+                this.category = 5
             } else if (this.$route.name === "lostNo") {
                 this.title = "게시판 > 분실물 > 게시글 상세보기";
+                this.category = 6
             } else {
                 this.title = "Error Page";
             }
         },
-        visiblereplylist: function() {
-            this.isStatusOnList = !this.isStatusOnList;
+        init() {
+            if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {
+                NoticeDataService.get(this.no).then(data => {
+                    let res = data.data
+                    this.writerinfo.title = res.title
+                    this.writerinfo.writer = res.writer_name
+                    this.writerinfo.date = res.date
+                    this.writerinfo.read_cnt = res.views
+                    this.writerinfo.cont = res.content
+                })
+                NoticeCommentService.getAll(this.no).then(data => {
+                    let res = data.data
+                    for(let i=0; i<res.length; i++) {
+                        this.commentslist.push({})
+                        this.commentslist[i].no = res[i].id
+                        this.commentslist[i].writer = res[i].writer_name
+                        this.commentslist[i].date = res[i].createdDate
+                        this.commentslist[i].cont = res[i].content
+                        this.commentslist[i].sub_show = false // 대댓글 보기
+                        this.commentslist[i].input_show = false // 대댓글 입력창
+
+                        NoticeSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
+                            let res2 = data2.data
+                            this.commentslist[i].SecCnt = res2.length
+                            this.commentslist[i].seccommentslist = []
+                            for(let j=0; j<res2.length; j++) {
+                                this.commentslist[i].seccommentslist.push({})
+                                this.commentslist[i].seccommentslist[j].no = res2[j].id
+                                this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
+                                this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
+                                this.commentslist[i].seccommentslist[j].cont = res2[j].content
+                            }
+                        })
+                    }
+                })
+            } else if (this.$route.name === 'dataNo') {
+                NewsDataService.get(this.no).then(data => {
+                    let res = data.data
+                    this.writerinfo.title = res.title
+                    this.writerinfo.writer = res.writer_name
+                    this.writerinfo.date = res.date
+                    this.writerinfo.read_cnt = res.views
+                    this.writerinfo.cont = res.content
+                })
+                NewsCommentService.getAll(this.no).then(data => {
+                    let res = data.data
+                    for(let i=0; i<res.length; i++) {
+                        this.commentslist.push({})
+                        this.commentslist[i].no = res[i].id
+                        this.commentslist[i].writer = res[i].writer_name
+                        this.commentslist[i].date = res[i].createdDate
+                        this.commentslist[i].cont = res[i].content
+                        this.commentslist[i].sub_show = false // 대댓글 보기
+                        this.commentslist[i].input_show = false // 대댓글 입력창
+
+                        NewsSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
+                            let res2 = data2.data
+                            this.commentslist[i].SecCnt = res2.length
+                            this.commentslist[i].seccommentslist = []
+                            for(let j=0; j<res2.length; j++) {
+                                this.commentslist[i].seccommentslist.push({})
+                                this.commentslist[i].seccommentslist[j].no = res2[j].id
+                                this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
+                                this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
+                                this.commentslist[i].seccommentslist[j].cont = res2[j].content
+                            }
+                        })
+                    }
+                })
+            } else if (this.$route.name === 'repairNo') {
+                RepairDataService.get(this.no).then(data => {
+                    let res = data.data
+                    this.writerinfo.title = res.title
+                    this.writerinfo.writer = res.writer_name
+                    this.writerinfo.date = res.date
+                    this.writerinfo.read_cnt = res.views
+                    this.writerinfo.cont = res.content
+                })
+                RepairCommentService.getAll(this.no).then(data => {
+                    let res = data.data
+                    console.log(res)
+                    for(let i=0; i<res.length; i++) {
+                        this.commentslist.push({})
+                        this.commentslist[i].no = res[i].id
+                        this.commentslist[i].writer = res[i].writer_name
+                        this.commentslist[i].date = res[i].createdDate
+                        this.commentslist[i].cont = res[i].content
+                        this.commentslist[i].sub_show = false // 대댓글 보기
+                        this.commentslist[i].input_show = false // 대댓글 입력창
+
+                        RepairSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
+                            let res2 = data2.data
+                            this.commentslist[i].SecCnt = res2.length
+                            this.commentslist[i].seccommentslist = []
+                            for(let j=0; j<res2.length; j++) {
+                                this.commentslist[i].seccommentslist.push({})
+                                this.commentslist[i].seccommentslist[j].no = res2[j].id
+                                this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
+                                this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
+                                this.commentslist[i].seccommentslist[j].cont = res2[j].content
+                            }
+                        })
+                    }
+                })
+            } else if (this.$route.name === 'marketNo') {
+                this.photo_board = true
+                StoreDataService.get(this.no).then(data => {
+                    let res = data.data
+                    this.writerinfo.title = res.title
+                    this.writerinfo.writer = res.writer_name
+                    this.writerinfo.date = res.date
+                    this.writerinfo.read_cnt = res.views
+                    this.writerinfo.cont = res.content
+                })
+
+                StorePhotoService.getAll(this.no).then(photo_data => {
+                    this.photo = photo_data.data[0].url
+                })
+                StoreCommentService.getAll(this.no).then(data => {
+                    let res = data.data
+                    console.log(res)
+                    for(let i=0; i<res.length; i++) {
+                        this.commentslist.push({})
+                        this.commentslist[i].no = res[i].id
+                        this.commentslist[i].writer = res[i].writer_name
+                        this.commentslist[i].date = res[i].createdDate
+                        this.commentslist[i].cont = res[i].content
+                        this.commentslist[i].sub_show = false // 대댓글 보기
+                        this.commentslist[i].input_show = false // 대댓글 입력창
+
+                        StoreSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
+                            let res2 = data2.data
+                            this.commentslist[i].SecCnt = res2.length
+                            console.log(data2)
+                            this.commentslist[i].seccommentslist = []
+                            for(let j=0; j<res2.length; j++) {
+                                this.commentslist[i].seccommentslist.push({})
+                                this.commentslist[i].seccommentslist[j].no = res2[j].id
+                                this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
+                                this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
+                                this.commentslist[i].seccommentslist[j].cont = res2[j].content
+                            }
+                        })
+                    }
+                })
+            } else if (this.$route.name === 'lostNo') {
+                this.photo_board = true
+                LostDataService.get(this.no).then(data => {
+                    let res = data.data
+                    this.writerinfo.title = res.title
+                    this.writerinfo.writer = res.writer_name
+                    this.writerinfo.date = res.date
+                    this.writerinfo.read_cnt = res.views
+                    this.writerinfo.cont = res.content
+                })
+                LostPhotoService.getAll(this.no).then(photo_data => {
+                    this.photo = photo_data.data[0].url
+                })
+                LostCommentService.getAll(this.no).then(data => {
+                    let res = data.data
+                    console.log(res)
+                    for(let i=0; i<res.length; i++) {
+                        this.commentslist.push({})
+                        this.commentslist[i].no = res[i].id
+                        this.commentslist[i].writer = res[i].writer_name
+                        this.commentslist[i].date = res[i].createdDate
+                        this.commentslist[i].cont = res[i].content
+                        this.commentslist[i].sub_show = false // 대댓글 보기
+                        this.commentslist[i].input_show = false // 대댓글 입력창
+
+                        LostSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
+                            let res2 = data2.data
+                            this.commentslist[i].SecCnt = res2.length
+                            this.commentslist[i].seccommentslist = []
+                            for(let j=0; j<res2.length; j++) {
+                                this.commentslist[i].seccommentslist.push({})
+                                this.commentslist[i].seccommentslist[j].no = res2[j].id
+                                this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
+                                this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
+                                this.commentslist[i].seccommentslist[j].cont = res2[j].content
+                            }
+                        })
+                    }
+                })
+            } else {
+
+            }
+        }, 
+        // 게시글 삭제
+        deleteArticle() {
+            if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {
+                NoticeDataService.delete(this.no).then(data => {
+                    alert("정상적으로 삭제되었습니다.")
+                    this.$router.go('')
+                })
+            } else if (this.$route.name === 'dataNo') {
+                NewsDataService.delete(this.no).then(data => {
+                    alert("정상적으로 삭제되었습니다.")
+                    this.$router.push('/community/data')
+                })
+            } else if (this.$route.name === 'repairNo') {
+                RepairDataService.delete(this.no).then(data => {
+                    alert("정상적으로 삭제되었습니다.")
+                    this.$router.push('/community/repair')
+                })
+            } else if (this.$route.name === 'marketNo') {
+                StoreDataService.delete(this.no).then(data => {
+                    alert("정상적으로 삭제되었습니다.")
+                    this.$router.push('/community/market')
+                })
+            } else if (this.$route.name === 'lostNo') {
+                LostDataService.delete(this.no).then(data => {
+                    alert("정상적으로 삭제되었습니다.")
+                    this.$router.push('/community/lost')
+                })
+            } else {
+
+            }
+        },  
+        // 게시글 수정
+        updateArticle() {
+            this.$router.push({
+                name: 'modify-article',
+                query: { 
+                    category: this.category,
+                    no: this.no,
+                }
+            })
         },
-        visiblereplyinput: function() {
-            this.isStatusOnInput = !this.isStatusOnInput;
+        // 댓글 생성
+        createComment() {
+            let req = {}
+            req.writer_studentno = this.user.studentno
+            req.writer_name = this.user.name
+            req.content = this.newComment
+
+            if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {                
+                NoticeCommentService.create(this.no, req)
+            } else if (this.$route.name === 'dataNo') {
+                NewsCommentService.create(this.no, req)
+            } else if (this.$route.name === 'repairNo') {
+                RepairCommentService.create(this.no, req)
+            } else if (this.$route.name === 'marketNo') {
+                StoreCommentService.create(this.no, req)
+            } else if (this.$route.name === 'lostNo') {
+                LostCommentService.create(this.no, req)
+            } else {
+
+            }
+            this.$router.go('')
+        },
+        // 댓글 삭제
+        deleteComment(no) {
+            if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {
+                NoticeCommentService.delete(no)
+                NoticeSubcommentService.deleteAll(this.no, no)
+            } else if (this.$route.name === 'dataNo') {
+                NewsCommentService.delete(no)
+                NewsSubcommentService.deleteAll(this.no, no)
+            } else if (this.$route.name === 'repairNo') {
+                RepairCommentService.delete(no)
+                RepairSubcommentService.deleteAll(this.no, no)
+            } else if (this.$route.name === 'marketNo') {
+                StoreCommentService.delete(no)
+                StoreSubcommentService.deleteAll(this.no, no)
+            } else if (this.$route.name === 'lostNo') {
+                LostCommentService.delete(no)
+                LostSubcommentService.deleteAll(this.no, no)
+            } else {
+
+            }
+            alert("댓글이 삭제되었습니다.")
+            this.$router.go('')
+        },
+        // 대댓글 생성
+        createSubComment(sub_id) {
+            let req = {}
+            req.writer_studentno = this.user.studentno
+            req.writer_name = this.user.name
+            req.content = this.newSubComment
+
+            if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {                
+                NoticeSubcommentService.create(this.no, sub_id, req)
+            } else if (this.$route.name === 'dataNo') {
+                NewsSubcommentService.create(this.no, sub_id, req)
+            } else if (this.$route.name === 'repairNo') {
+                RepairSubcommentService.create(this.no, sub_id, req)
+            } else if (this.$route.name === 'marketNo') {
+                StoreSubcommentService.create(this.no, sub_id, req)
+            } else if (this.$route.name === 'lostNo') {
+                LostSubcommentService.create(this.no, sub_id, req)
+            } else {
+
+            }
+            this.$router.go('')
+        },
+        visiblereplylist(comment) {
+            this.com_id = comment.no
+            comment.sub_show = !comment.sub_show
+        },
+        visiblereplyinput(comment) {
+            comment.input_show = !comment.input_show
         },
     },
-    watch: {
-    },
+    computed: {
+        user() {
+            if (this.$store.state.auth.user == null) {
+                let data = {
+                    name: ''
+                }
+                return data
+            } else {
+                return this.$store.state.auth.user
+            }
+        }
+    }
 };
 </script>
   
@@ -171,7 +487,7 @@ export default {
                 margin: 25px 15px;
 
                 .detail_title {
-                    font-size: 20px;
+                    font-size: 24px;
                     font-weight: bold;
                     margin-bottom: 12px;
                 }
@@ -179,7 +495,7 @@ export default {
                 .detail_info {
                     display: flex;
                     align-items: center;
-                    font-size: 12px;
+                    font-size: 14px;
 
                     div {
                         &::after {
@@ -197,8 +513,14 @@ export default {
 
             }
 
+            .photo {
+                img {
+                    width: 400px;
+                }
+            }
+
             .detail_cont {
-                margin: 25px 15px;
+                margin: 25px 15px 100px;
             }
 
             .btn_list {
@@ -216,20 +538,19 @@ export default {
                     &:hover {
                         cursor: pointer;
                     }
-
-                    &:nth-child(1) {
+                }
+                .modify {
                         background-color: #336EB4;
                     }
 
-                    &:nth-child(2) {
-                        background-color: #D36060;
-                        margin: 0 10px;
-                    }
+                .delete {
+                    background-color: #D36060;
+                    margin: 0 10px;
+                }
 
-                    &:nth-child(3) {
-                        width: 10%;
-                        background-color: #939393;
-                    }
+                .writelist {
+                    width: 10%;
+                    background-color: #939393;
                 }
             }
 
@@ -317,8 +638,26 @@ export default {
                                 color: #858585;
                                 position: absolute;
                                 bottom: 3px;
-                                right: 10px;
+                                right: 50px;
 
+                                &:hover {
+                                    cursor: pointer;
+                                }
+                            }
+                            .edit_btn {
+                                color: #336EB4;
+                                position: absolute;
+                                bottom: 3px;
+                                right: 50px;
+                                &:hover {
+                                    cursor: pointer;
+                                }
+                            }
+                            .delete_btn {
+                                color: #D36060;
+                                position: absolute;
+                                bottom: 3px;
+                                right: 10px;
                                 &:hover {
                                     cursor: pointer;
                                 }

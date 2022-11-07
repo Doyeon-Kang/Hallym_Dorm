@@ -49,7 +49,7 @@
     </div>
   </div>
 </template>
-
+  
 <script>
 import PageTitle from "@/components/AdminPageTitle.vue";
 import SidebarCom from "../../components/AdminSidebarCom.vue";
@@ -487,9 +487,10 @@ export default {
   watch: {
     $route() {
       this.routeCheck();
-    },
-  },
+    }
+  }
 };
+
 </script>
   
 <style lang="less" scoped>

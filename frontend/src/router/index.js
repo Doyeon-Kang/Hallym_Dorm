@@ -153,12 +153,12 @@ const routes = [
     component: () => import("../views/apply/ApplyView.vue"),
   },
   {
-<<<<<<<<< Temporary merge branch 1
+
     path: "/community/article/no", // 글넘버
     name: "articleNo",
     component: () => import("../views/board/BoardDetail.vue")
-  }
-=========
+  },
+  {
     path: "/reserve/study",
     name: "study",
     component: () => import("../views/apply/ApplyView.vue"),
@@ -176,10 +176,10 @@ const routes = [
   {
     path: "/reserve/sleep",
     name: "sleep",
-<<<<<<<<< Temporary merge branch 1
+  
     component: () => import("../views/apply/ApplyView.vue")
-  }
-=========
+  },
+  {
     component: () => import("../views/apply/ApplyView.vue"),
   },
   {
@@ -227,7 +227,7 @@ const routes = [
     name: "lostNo",
     component: () => import("../views/board/ViewDetail.vue"),
   },
->>>>>>>>> Temporary merge branch 2
+
 ];
 
 const router = createRouter({

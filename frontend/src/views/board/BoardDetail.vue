@@ -58,8 +58,10 @@ import NewsDataService from "@/services/NewsDataService";
 import RepairDataService from "@/services/RepairDataService"
 import StoreDataService from "@/services/StoreDataService";
 import StorePhotoService from "@/services/StorePhotoService";
+import StoreCommentService from "@/services/StoreCommentService";
 import LostDataService from "@/services/LostDataService";
 import LostPhotoService from "@/services/LostPhotoService";
+import LostCommentService from "@/services/LostCommentService";
 import ModifyArticle from '../../components/ModifyArticle.vue';
 
 export default {
@@ -232,7 +234,10 @@ export default {
           this.marketList[i].date = res[i].date // 작성자
           this.marketList[i].writer = res[i].writer_name // 작성일
           this.marketList[i].views = res[i].views // 조회수
-
+          // 나눔장터 댓글수
+          StoreCommentService.getAll(this.marketList[i].id).then(res => {
+            this.marketList[i].comment_cnt = res.data.length
+          })
           // 나눔장터 사진
           StorePhotoService.getAll(this.marketList[i].id).then(photo_data => {
             this.marketList[i].photo = photo_data.data[0].url
@@ -250,7 +255,10 @@ export default {
           this.lostList[i].date = res[i].date // 작성자
           this.lostList[i].writer = res[i].writer_name // 작성일
           this.lostList[i].views = res[i].views // 조회수
-
+          // 분실물 댓글수
+          LostCommentService.getAll(this.lostList[i].id).then(res => {
+            this.lostList[i].comment_cnt = res.data.length
+          })
           // 분실물 사진
           LostPhotoService.getAll(this.lostList[i].id).then(photo_data => {
             this.lostList[i].photo = photo_data.data[0].url

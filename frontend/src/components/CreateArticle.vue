@@ -9,7 +9,7 @@
             <option value="store">나눔 장터</option>
             <option value="lost">분실물</option>
         </select>
-        <div class="img_input" >
+        <div class="img_input" v-show="category === 'store' || category === 'lost'">
             <input type="file" multiple accept="image/*" @change="fileChange"/>
         </div>
         <div class="division">제목</div>
@@ -55,7 +55,6 @@ export default {
         VueEditor
     },
     created() {
-        
     },
     methods: {
         fileChange(event) {
@@ -87,7 +86,7 @@ export default {
             console.log(target.calue)
             console.log(target.options[target.selectedIndex].text)
         },
-        createArticle() {
+        async createArticle() {
             let data = {
                 writer_studentno: this.user.studentno,
                 writer_name: this.user.name,
@@ -95,46 +94,47 @@ export default {
                 content: this.content
             }
             if (this.category === 'community') {
-                NoticeDataService.create(data).then(res => {
+                await NoticeDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    this.$router.push('/community');
+                    //this.$router.push('/community');
                 })
             } else if (this.category === 'notice1'){
                 data.notice1 = true
-                NoticeDataService.create(data).then(res => {
+                await NoticeDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    this.$router.push('/community/notice1');
+                    //this.$router.push('/community/notice1');
                 })
             } else if (this.category === 'news') {
-                NewsDataService.create(data).then(res => {
+                await NewsDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    this.$router.push('/community/data');
+                    //this.$router.push('/community/data');
                 })
             } else if (this.category === 'repair') {
-                RepairDataService.create(data).then(res => {
+                await RepairDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    this.$router.push('/community/repair');
+                    //this.$router.push('/community/repair');
                 })
             } else if (this.category === 'store') {
-                StoreDataService.create(data).then(res => {
+                await StoreDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    console.log(res.data)
-                    if (this.file !== "") {
+                    if (this.file !== []) {
                         StorePhotoService.create(res.data.id, this.file);
                     }
+                    //this.$router.push('/community/market');
                 })
                 
             } else if (this.category === 'lost') {
-                LostDataService.create(data).then(res => {
+                await LostDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    if (this.file !== "") {
+                    if (this.file !== []) {
                         LostPhotoService.create(res.data.id, this.file)
                     }
+                    //this.$router.push('/community/lost');
                 })
             } else {
 
             }
-            
+            this.$router.go('')
         }
     },
     computed: {

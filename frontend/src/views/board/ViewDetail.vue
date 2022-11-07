@@ -39,7 +39,7 @@
                             </div>
                             <div class="comments_cont">{{ text.cont }}</div>
                             <div class="reply">
-                                <div class="reply_list" @click="visiblereplylist(text)">답글 보기 ({{ text.SecCnt }})</div>
+                                <div class="reply_list" v-show="text.SecCnt > 0" @click="visiblereplylist(text)">답글 보기 ({{ text.SecCnt }})</div>
                                 <div class="reply_input" @click="visiblereplyinput(text)">답글 달기</div>
                                 <!-- <div class="edit_btn" >수정</div> -->
                                 <div class="delete_btn" @click="deleteComment(text.no)">삭제</div>
@@ -232,7 +232,6 @@ export default {
                 })
                 RepairCommentService.getAll(this.no).then(data => {
                     let res = data.data
-                    console.log(res)
                     for(let i=0; i<res.length; i++) {
                         this.commentslist.push({})
                         this.commentslist[i].no = res[i].id
@@ -261,7 +260,6 @@ export default {
                 })
                 StoreCommentService.getAll(this.no).then(data => {
                     let res = data.data
-                    console.log(res)
                     for(let i=0; i<res.length; i++) {
                         this.commentslist.push({})
                         this.commentslist[i].no = res[i].id
@@ -274,7 +272,6 @@ export default {
                         StoreSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
                             let res2 = data2.data
                             this.commentslist[i].SecCnt = res2.length
-                            console.log(data2)
                             this.commentslist[i].seccommentslist = []
                             for(let j=0; j<res2.length; j++) {
                                 this.commentslist[i].seccommentslist.push({})
@@ -316,7 +313,6 @@ export default {
                         LostSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
                             
                             let res2 = data2.data
-                            console.log(res2)
                             this.commentslist[i].SecCnt = res2.length
                             this.commentslist[i].seccommentslist = []
                             for(let j=0; j<res2.length; j++) {

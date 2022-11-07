@@ -180,9 +180,6 @@ const routes = [
     component: () => import("../views/apply/ApplyView.vue")
   },
   {
-    component: () => import("../views/apply/ApplyView.vue"),
-  },
-  {
     path: "/community/create-article",
     name: "article",
     component: () => import("../views/board/BoardDetail.vue"),

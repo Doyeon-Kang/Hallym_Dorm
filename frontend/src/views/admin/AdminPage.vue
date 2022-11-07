@@ -50,7 +50,7 @@
   </div>
 </template>
   
-<<<<<<<<< Temporary merge branch 1
+
   <script>
   import PageTitle from "@/components/AdminPageTitle.vue";
   import SidebarCom from "../../components/AdminSidebarCom.vue";
@@ -138,7 +138,10 @@
         for (var i=0; i<this.side.length; i++) {
           this.side[i].active = false;
         }
-=========
+      }
+    }
+  };
+
 <script>
 import PageTitle from "@/components/AdminPageTitle.vue";
 import SidebarCom from "../../components/AdminSidebarCom.vue";

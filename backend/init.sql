@@ -128,7 +128,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `dormitory`.`consult_schedule`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dormitory`.`consult_schedule` (
+CREATE TABLE IF NOT EXISTS `dormitory`.`apply_consult_schedule` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
   `day` VARCHAR(3) NOT NULL COMMENT '',
   `timeslot1_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
@@ -158,7 +158,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `dormitory`.`studyroom_schedule`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dormitory`.`studyroom_schedule` (
+CREATE TABLE IF NOT EXISTS `dormitory`.`apply_studyroom_schedule` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
   `seat` INT NOT NULL COMMENT '',
   `timeslot1_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
@@ -419,21 +419,21 @@ INSERT INTO role(name) VALUES('ROLE_USER');
 INSERT INTO role(name) VALUES('ROLE_USER_MEMBER');
 INSERT INTO role(name) VALUES('ROLE_ADMIN');
 
-INSERT INTO consult_schedule(day) VALUES('MON');
-INSERT INTO consult_schedule(day) VALUES('TUE');
-INSERT INTO consult_schedule(day) VALUES('WED');
-INSERT INTO consult_schedule(day) VALUES('THU');
-INSERT INTO consult_schedule(day) VALUES('FRI');
+INSERT INTO apply_consult_schedule(day) VALUES('MON');
+INSERT INTO apply_consult_schedule(day) VALUES('TUE');
+INSERT INTO apply_consult_schedule(day) VALUES('WED');
+INSERT INTO apply_consult_schedule(day) VALUES('THU');
+INSERT INTO apply_consult_schedule(day) VALUES('FRI');
 
-INSERT INTO studyroom_schedule(seat) VALUES(1);
-INSERT INTO studyroom_schedule(seat) VALUES(2);
-INSERT INTO studyroom_schedule(seat) VALUES(3);
-INSERT INTO studyroom_schedule(seat) VALUES(4);
-INSERT INTO studyroom_schedule(seat) VALUES(5);
-INSERT INTO studyroom_schedule(seat) VALUES(6);
-INSERT INTO studyroom_schedule(seat) VALUES(7);
-INSERT INTO studyroom_schedule(seat) VALUES(8);
-INSERT INTO studyroom_schedule(seat) VALUES(9);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(1);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(2);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(3);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(4);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(5);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(6);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(7);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(8);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(9);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

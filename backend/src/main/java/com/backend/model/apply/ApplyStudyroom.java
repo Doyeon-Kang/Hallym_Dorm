@@ -92,10 +92,19 @@ public class ApplyStudyroom {
         this.timeslot3 = timeslot3;
     }
 
-    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    // @JoinColumn(name = "studyroomSchedule", nullable = false)
-    // @OnDelete(action = OnDeleteAction.CASCADE)
-    // @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "applyStudyroomSchedule", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    ApplyStudyroomSchedule applyStudyroomSchedule;
+
+    public ApplyStudyroomSchedule getApplyStudyroomSchedule() {
+        return applyStudyroomSchedule;
+    }
+
+    public void setApplyStudyroomSchedule(ApplyStudyroomSchedule applyStudyroomSchedule) {
+        this.applyStudyroomSchedule = applyStudyroomSchedule;
+    }
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "userMember", nullable = false)

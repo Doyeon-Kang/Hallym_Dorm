@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.model.User;
 import com.backend.model.UserMember;
 import com.backend.model.apply.ApplyStudyroom;
+import com.backend.model.apply.ApplyStudyroomSchedule;
 import com.backend.repository.UserMemberRepository;
 import com.backend.repository.UserRepository;
 import com.backend.repository.apply.ApplyStudyroomRepository;
+import com.backend.repository.apply.ApplyStudyroomScheduleRepository;
 import com.backend.security.services.UserMemberManagement;
 
 @RestController
@@ -30,6 +31,9 @@ import com.backend.security.services.UserMemberManagement;
 public class ApplyStudyroomController {
     @Autowired
     ApplyStudyroomRepository applyStudyroomRepository;
+
+    @Autowired
+    ApplyStudyroomScheduleRepository applyStudyroomScheduleRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -71,6 +75,62 @@ public class ApplyStudyroomController {
       }
     }
 
+    private boolean takeTimeslot(ApplyStudyroomSchedule schedule, int timeslot) {
+        switch(timeslot) {
+            case 1:
+                if(schedule.isTimeslot1_taken() == false) {
+                    schedule.setTimeslot1_taken(true);
+                    return true;
+                } else {
+                    return false;
+                }
+            case 2:
+                if(schedule.isTimeslot2_taken() == false) {
+                    schedule.setTimeslot2_taken(true);
+                    return true;
+                } else {
+                    return false;
+                }
+            case 3:
+                if(schedule.isTimeslot3_taken() == false) {
+                    schedule.setTimeslot3_taken(true);
+                    return true;
+                } else {
+                    return false;
+                }
+            case 4:
+                if(schedule.isTimeslot4_taken() == false) {
+                    schedule.setTimeslot4_taken(true);
+                    return true;
+                } else {
+                    return false;
+                }
+            case 5:
+                if(schedule.isTimeslot5_taken() == false) {
+                    schedule.setTimeslot5_taken(true);
+                    return true;
+                } else {
+                    return false;
+                }
+            case 6:
+                if(schedule.isTimeslot6_taken() == false) {
+                    schedule.setTimeslot6_taken(true);
+                    return true;
+                } else {
+                    return false;
+                }
+            case 7:
+                if(schedule.isTimeslot7_taken() == false) {
+                    schedule.setTimeslot7_taken(true);
+                    return true;
+                } else {
+                    return false;
+                }
+            default:
+                return false;
+        }
+    }
+
     @PostMapping("/apply-studyroom/{studentNo}-{seat}")
     public ResponseEntity<ApplyStudyroom> createApplyStudyroom(@PathVariable(name="studentNo") String studentNo, @PathVariable(name="seat") int seat, @RequestBody ApplyStudyroom applyStudyroom) {
       try {
@@ -78,50 +138,45 @@ public class ApplyStudyroomController {
         if(_userData.isPresent()) {
           User _user = _userData.get();
           if(userMemberManager.userMemberExists(_user)) {
-            ApplyStudyroom _applyStudyroom = new ApplyStudyroom(applyStudyroom.getTimeslot1(), applyStudyroom.getTimeslot2(), applyStudyroom.getTimeslot3());
-            Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
-            _applyStudyroom.setUserMember(_userMemberData.get());
-            return new ResponseEntity<>(applyStudyroomRepository.save(_applyStudyroom), HttpStatus.CREATED);
+            Optional <ApplyStudyroomSchedule> _studyroomScheduleData = applyStudyroomScheduleRepository.findBySeat(seat);
+
+            if(_studyroomScheduleData.isPresent()) {
+                ApplyStudyroomSchedule _studyroomSchedule = _studyroomScheduleData.get();
+
+                int timeslot1 = applyStudyroom.getTimeslot1();
+                int timeslot2 = applyStudyroom.getTimeslot2();
+                int timeslot3 = applyStudyroom.getTimeslot3();
+
+                if(((takeTimeslot(_studyroomSchedule, timeslot1)) && (takeTimeslot(_studyroomSchedule, timeslot2)))
+                        && (takeTimeslot(_studyroomSchedule, timeslot3))) {
+                            applyStudyroomScheduleRepository.save(_studyroomSchedule);
+
+                            ApplyStudyroom _applyStudyroom = new ApplyStudyroom(applyStudyroom.getTimeslot1(), applyStudyroom.getTimeslot2(), applyStudyroom.getTimeslot3());
+                        
+                            Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+                            _applyStudyroom.setUserMember(_userMemberData.get());
+
+                            _applyStudyroom.setApplyStudyroomSchedule(_studyroomSchedule);
+
+                            return new ResponseEntity<>(applyStudyroomRepository.save(_applyStudyroom), HttpStatus.CREATED);
+                        }
+                else {
+                    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                }
+
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
           } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
           }
         } else {
-          return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+          return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
-
-    // // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    // @PutMapping("/apply-studyroom/{studyroomId}")
-    // public ResponseEntity<ApplyStudyroom> updateApplyStudyroom(@PathVariable("studyroomId") long studyroomId, @RequestBody ApplyStudyroom applyStudyroom) {
-    //   Optional<ApplyStudyroom> studyroomData = applyStudyroomRepository.findById(studyroomId);
-    //   if (studyroomData.isPresent()) {
-    //     ApplyStudyroom _applyStudyroom = studyroomData.get();
-    //     _applyStudyroom.setDate_studyroom(applyStudyroom.getDate_studyroom());
-    //     _applyStudyroom.setReason(applyStudyroom.getReason());
-    //     _applyStudyroom.setApproved(applyStudyroom.isApproved());
-    //     return new ResponseEntity<>(applyStudyroomRepository.save(_applyStudyroom), HttpStatus.OK);
-    //   } else {
-    //     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    //   }
-    // }
-
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    // @PutMapping("/apply-studyroom/{studyroomId}/approve")
-    // public ResponseEntity<ApplyStudyroom> approveApplyStudyroom(@PathVariable(name="studyroomId") Long studyroomId) {
-    //   Optional<ApplyStudyroom> studyroomData = applyStudyroomRepository.findById(studyroomId);
-
-    //   if (studyroomData.isPresent()) {
-    //     ApplyStudyroom _applyStudyroom = studyroomData.get();
-    //     _applyStudyroom.setApproved(true);
-    //     applyStudyroomRepository.save(_applyStudyroom);
-    //     return new ResponseEntity<>(_applyStudyroom, HttpStatus.OK);
-    //   } else {
-    //     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    //   }
-    // }
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/apply-studyroom/{studyroomId}")

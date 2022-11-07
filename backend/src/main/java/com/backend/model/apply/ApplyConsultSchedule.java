@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "consult_schedule")
+@Table(name = "apply_consult_schedule")
 public class ApplyConsultSchedule {
     // `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
     @Id

@@ -153,10 +153,11 @@ const routes = [
     component: () => import("../views/apply/ApplyView.vue"),
   },
   {
+
     path: "/community/article/no", // 글넘버
     name: "articleNo",
     component: () => import("../views/board/BoardDetail.vue")
-  }, 
+  },
   {
     path: "/reserve/study",
     name: "study",
@@ -175,6 +176,10 @@ const routes = [
   {
     path: "/reserve/sleep",
     name: "sleep",
+  
+    component: () => import("../views/apply/ApplyView.vue")
+  },
+  {
     component: () => import("../views/apply/ApplyView.vue"),
   },
   {
@@ -222,6 +227,7 @@ const routes = [
     name: "lostNo",
     component: () => import("../views/board/ViewDetail.vue"),
   },
+
 ];
 
 const router = createRouter({

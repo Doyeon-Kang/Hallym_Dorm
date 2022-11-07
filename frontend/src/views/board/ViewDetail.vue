@@ -92,9 +92,8 @@ import LostCommentService from "@/services/LostCommentService";
 
 import NoticeSubcommentService from "@/services/NoticeSubcommentService";
 import NewsSubcommentService from "@/services/NewsSubcommentService";
-import RepairSubcommentService from "@/services/RepairSubcommentService";
-import StoreSubcommentService from "@/services/RepairSubcommentService";
-import LostSubcommentService from "@/services/RepairSubcommentService";
+import StoreSubcommentService from "@/services/StoreSubcommentService";
+import LostSubcommentService from "@/services/LostSubcommentService";
 
 import StorePhotoService from "@/services/StorePhotoService";
 import LostPhotoService from "@/services/LostPhotoService";
@@ -242,19 +241,6 @@ export default {
                         this.commentslist[i].cont = res[i].content
                         this.commentslist[i].sub_show = false // 대댓글 보기
                         this.commentslist[i].input_show = false // 대댓글 입력창
-
-                        RepairSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
-                            let res2 = data2.data
-                            this.commentslist[i].SecCnt = res2.length
-                            this.commentslist[i].seccommentslist = []
-                            for(let j=0; j<res2.length; j++) {
-                                this.commentslist[i].seccommentslist.push({})
-                                this.commentslist[i].seccommentslist[j].no = res2[j].id
-                                this.commentslist[i].seccommentslist[j].writer = res2[j].writer_name
-                                this.commentslist[i].seccommentslist[j].date = res2[j].createdDate
-                                this.commentslist[i].seccommentslist[j].cont = res2[j].content
-                            }
-                        })
                     }
                 })
             } else if (this.$route.name === 'marketNo') {
@@ -420,7 +406,6 @@ export default {
                 NewsSubcommentService.deleteAll(this.no, no)
             } else if (this.$route.name === 'repairNo') {
                 RepairCommentService.delete(no)
-                RepairSubcommentService.deleteAll(this.no, no)
             } else if (this.$route.name === 'marketNo') {
                 StoreCommentService.delete(no)
                 StoreSubcommentService.deleteAll(this.no, no)
@@ -444,8 +429,6 @@ export default {
                 NoticeSubcommentService.create(this.no, sub_id, req)
             } else if (this.$route.name === 'dataNo') {
                 NewsSubcommentService.create(this.no, sub_id, req)
-            } else if (this.$route.name === 'repairNo') {
-                RepairSubcommentService.create(this.no, sub_id, req)
             } else if (this.$route.name === 'marketNo') {
                 StoreSubcommentService.create(this.no, sub_id, req)
             } else if (this.$route.name === 'lostNo') {

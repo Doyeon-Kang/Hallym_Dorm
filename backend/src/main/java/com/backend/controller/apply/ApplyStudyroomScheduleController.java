@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,16 +38,16 @@ public class ApplyStudyroomScheduleController {
         }
     }
 
-    @GetMapping("/apply-studyroom-schedule/{id}")
-    public ResponseEntity<ApplyStudyroomSchedule> getApplyStudyroomScheduleById(@PathVariable("id") long id) {
-      Optional<ApplyStudyroomSchedule> studyroomScheduleData = applyStudyroomScheduleRepository.findById(id);
+    // @GetMapping("/apply-studyroom-schedule/{id}")
+    // public ResponseEntity<ApplyStudyroomSchedule> getApplyStudyroomScheduleById(@PathVariable("id") long id) {
+    //   Optional<ApplyStudyroomSchedule> studyroomScheduleData = applyStudyroomScheduleRepository.findById(id);
 
-      if(studyroomScheduleData.isPresent()) {
-        ApplyStudyroomSchedule _applyStudyroomSchedule = studyroomScheduleData.get();
+    //   if(studyroomScheduleData.isPresent()) {
+    //     ApplyStudyroomSchedule _applyStudyroomSchedule = studyroomScheduleData.get();
         
-        return new ResponseEntity<>(applyStudyroomScheduleRepository.save(_applyStudyroomSchedule), HttpStatus.OK);
-      } else {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      }
-    }
+    //     return new ResponseEntity<>(applyStudyroomScheduleRepository.save(_applyStudyroomSchedule), HttpStatus.OK);
+    //   } else {
+    //     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //   }
+    // }
 }

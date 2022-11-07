@@ -69,10 +69,19 @@ public class ApplyConsult {
         this.timeslot = timeslot;
     }
 
-    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    // @JoinColumn(name = "consultSchedule", nullable = false)
-    // @OnDelete(action = OnDeleteAction.CASCADE)
-    // @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "applyConsultSchedule", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    ApplyConsultSchedule applyConsultSchedule;
+
+    public ApplyConsultSchedule getApplyConsultSchedule() {
+        return applyConsultSchedule;
+    }
+
+    public void setApplyConsultSchedule(ApplyConsultSchedule applyConsultSchedule) {
+        this.applyConsultSchedule = applyConsultSchedule;
+    }
 
     @Column(name="approved")
     private boolean approved = false;

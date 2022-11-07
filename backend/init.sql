@@ -419,9 +419,20 @@ INSERT INTO role(name) VALUES('ROLE_USER_MEMBER');
 INSERT INTO role(name) VALUES('ROLE_ADMIN');
 
 INSERT INTO consult_schedule(day) VALUES('MON');
--- add 4 more
+INSERT INTO consult_schedule(day) VALUES('TUE');
+INSERT INTO consult_schedule(day) VALUES('WED');
+INSERT INTO consult_schedule(day) VALUES('THU');
+INSERT INTO consult_schedule(day) VALUES('FRI');
+
 INSERT INTO studyroom_schedule(seat) VALUES(1);
--- add 9 more
+INSERT INTO studyroom_schedule(seat) VALUES(2);
+INSERT INTO studyroom_schedule(seat) VALUES(3);
+INSERT INTO studyroom_schedule(seat) VALUES(4);
+INSERT INTO studyroom_schedule(seat) VALUES(5);
+INSERT INTO studyroom_schedule(seat) VALUES(6);
+INSERT INTO studyroom_schedule(seat) VALUES(7);
+INSERT INTO studyroom_schedule(seat) VALUES(8);
+INSERT INTO studyroom_schedule(seat) VALUES(9);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

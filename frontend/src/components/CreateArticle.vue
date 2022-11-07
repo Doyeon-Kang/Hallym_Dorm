@@ -58,29 +58,29 @@ export default {
         
     },
     methods: {
-        fileChange(e) {
-            const file = e.target.files;
+        fileChange(event) {
+            const file = event.target.files[0];
             let validation = true;
             let message = '';
 
             if (file.length > 1) {
-                validation= false;
+                validation = false;
                 message = `파일은 한개만 등록 가능합니다.`
             }
 
-            if (file[0].size > 1024 * 1024 * 2) {
+            if (file.size > 1024 * 1024 * 2) {
                 message = `${message}, 파일은 용량은 2MB 이하만 가능합니다.`;
                 validation = false;
             }
 
-            if (file[0].type.indexOf('image') < 0) {
+            if (file.type.indexOf('image') < 0) {
                 message = `${message}, 이미지 파일만 업로드 가능합니다.`;
                 validation = false;
             }
 
             if (validation) {
                 this.file = file
-            }else {
+            } else {
                 this.file = '';
                 alert(message);
             }
@@ -121,16 +121,16 @@ export default {
                 StoreDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
                     console.log(res.data)
-                    // if (this.photo !== "") {
-                    //     StorePhotoService.create(res.data.id, this.photo)
-                    // }
+                    if (this.file !== "") {
+                        StorePhotoService.create(res.data.id, this.file);
+                    }
                 })
                 
             } else if (this.category === 'lost') {
                 LostDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    if (this.photo !== "") {
-                        LostPhotoService.create(res.data.id, this.photo)
+                    if (this.file !== "") {
+                        LostPhotoService.create(res.data.id, this.file)
                     }
                 })
             } else {

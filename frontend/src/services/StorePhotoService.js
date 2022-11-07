@@ -9,8 +9,24 @@ class StorePhotoService {
     return http.get(`/board-store/${id}/photo/${photo_id}`);
   }
 
-  create(id, data) {
-    return http.post(`/board-store/${id}/upload`, data);
+  create(id, photo) {
+    let formData = new FormData();
+
+    formData.append('photos', photo);
+
+    return http.post(`/board-store/${id}/upload`, 
+    formData,
+    {
+      headers: {
+          'Content-Type': 'multipart/form-data'
+      }
+    }
+    ).then(function(){
+      console.log('SUCCESS!!');
+    })
+    .catch(function(){
+      console.log('FAILURE!!');
+    });
   }
 
   delete(id, photo_id) {

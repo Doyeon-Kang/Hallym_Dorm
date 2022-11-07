@@ -1,28 +1,16 @@
 package com.backend.model.apply;
 
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import com.backend.model.User;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
-@Table(name = "consult_schedule")
+@Table(name = "apply_consult_schedule")
 public class ApplyConsultSchedule {
     // `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
     @Id

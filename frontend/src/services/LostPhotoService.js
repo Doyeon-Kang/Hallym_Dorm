@@ -10,7 +10,23 @@ class LostPhotoService {
   }
 
   create(id, photo) {
-    return http.post(`/board-lost/${id}/upload`, photo);
+    let formData = new FormData();
+
+    formData.append('photos', photo);
+
+    return http.post(`/board-lost/${id}/upload`, 
+    formData,
+    {
+      headers: {
+          'Content-Type': 'multipart/form-data'
+      }
+    }
+    ).then(function(){
+      console.log('SUCCESS!!');
+    })
+    .catch(function(){
+      console.log('FAILURE!!');
+    });
   }
 
   delete(id, photo_id) {

@@ -372,25 +372,30 @@ export default {
         },
         // 댓글 생성
         createComment() {
-            let req = {}
-            req.writer_studentno = this.user.studentno
-            req.writer_name = this.user.name
-            req.content = this.newComment
-
-            if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {                
-                NoticeCommentService.create(this.no, req)
-            } else if (this.$route.name === 'dataNo') {
-                NewsCommentService.create(this.no, req)
-            } else if (this.$route.name === 'repairNo') {
-                RepairCommentService.create(this.no, req)
-            } else if (this.$route.name === 'marketNo') {
-                StoreCommentService.create(this.no, req)
-            } else if (this.$route.name === 'lostNo') {
-                LostCommentService.create(this.no, req)
+            if (this.user.name === '') {
+                alert('로그인 후 시도해주세요.')
+                this.$router.push('/login')
             } else {
+                let req = {}
+                req.writer_studentno = this.user.studentno
+                req.writer_name = this.user.name
+                req.content = this.newComment
 
+                if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {                
+                    NoticeCommentService.create(this.no, req)
+                } else if (this.$route.name === 'dataNo') {
+                    NewsCommentService.create(this.no, req)
+                } else if (this.$route.name === 'repairNo') {
+                    RepairCommentService.create(this.no, req)
+                } else if (this.$route.name === 'marketNo') {
+                    StoreCommentService.create(this.no, req)
+                } else if (this.$route.name === 'lostNo') {
+                    LostCommentService.create(this.no, req)
+                } else {
+
+                }
+                this.$router.go('')
             }
-            this.$router.go('')
         },
         // 댓글 삭제
         deleteComment(no) {

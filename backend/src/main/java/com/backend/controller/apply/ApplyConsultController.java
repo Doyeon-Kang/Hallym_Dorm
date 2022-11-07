@@ -155,7 +155,7 @@ public class ApplyConsultController {
                 if(takeTimeslot(_consultSchedule, timeslot)) {
                             applyConsultScheduleRepository.save(_consultSchedule);
 
-                            ApplyConsult _applyConsult = new ApplyConsult(applyConsult.getTimeslot());
+                            ApplyConsult _applyConsult = new ApplyConsult(applyConsult.getTimeslot(), applyConsult.getTopic(), applyConsult.getSubject());
                         
                             Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
                             _applyConsult.setUserMember(_userMemberData.get());

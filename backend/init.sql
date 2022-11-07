@@ -150,6 +150,8 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`apply_consult` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
   `date` DATETIME COMMENT '',
   `timeslot` INT NOT NULL COMMENT '',
+  `topic` VARCHAR(20) NULL COMMENT '',
+  `subject` VARCHAR(100) NULL COMMENT '',
   `approved` BOOLEAN COMMENT '',
   PRIMARY KEY(`id`))
 ENGINE = InnoDB;

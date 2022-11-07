@@ -153,6 +153,11 @@ const routes = [
     component: () => import("../views/apply/ApplyView.vue"),
   },
   {
+    path: "/community/article/no", // 글넘버
+    name: "articleNo",
+    component: () => import("../views/board/BoardDetail.vue")
+  }, 
+  {
     path: "/reserve/study",
     name: "study",
     component: () => import("../views/apply/ApplyView.vue"),

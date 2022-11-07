@@ -49,7 +49,7 @@
     </div>
   </div>
 </template>
-  
+
 <script>
 import PageTitle from "@/components/AdminPageTitle.vue";
 import SidebarCom from "../../components/AdminSidebarCom.vue";

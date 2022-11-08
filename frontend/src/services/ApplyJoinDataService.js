@@ -2,23 +2,26 @@ import http from "../http-common";
 
 class ApplyJoinDataService {
   getAll() {
-    return http.get("/apply-join");
+    return http.get(`/apply-join`);
   }
 
   get(id) {
     return http.get(`/apply-join/${id}`);
   }
-
-  create(id, data) {
-    return http.post(`/apply-join/${id}`, data);
+  create(studentNo, data) {
+    return http.post(`/apply-join/${studentNo}`, data);
   }
 
-  update(id, data) {
-    return http.put(`/apply-join/${id}`, data);
+  update(joinId, data) {
+    return http.put(`/apply-join/${joinId}`, data);
   }
 
-  delete(id) {
-    return http.delete(`/apply-join/${id}`);
+  updateApprove(joinId, data) {
+    return http.put(`/apply-join/${joinId}/approve`, data);
+  }
+
+  delete(joinId) {
+    return http.delete(`/apply-join/${joinId}`);
   }
 
   deleteAll() {

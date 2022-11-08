@@ -153,6 +153,12 @@ const routes = [
     component: () => import("../views/apply/ApplyView.vue"),
   },
   {
+
+    path: "/community/article/no", // 글넘버
+    name: "articleNo",
+    component: () => import("../views/board/BoardDetail.vue")
+  },
+  {
     path: "/reserve/study",
     name: "study",
     component: () => import("../views/apply/ApplyView.vue"),
@@ -170,6 +176,10 @@ const routes = [
   {
     path: "/reserve/sleep",
     name: "sleep",
+  
+    component: () => import("../views/apply/ApplyView.vue")
+  },
+  {
     component: () => import("../views/apply/ApplyView.vue"),
   },
   {
@@ -183,35 +193,41 @@ const routes = [
     component: () => import("../views/board/BoardDetail.vue")
   },
   {
-    path: "/community/no",
+    path: "/community/view",
     name: "communityNo",
     component: () => import("../views/board/ViewDetail.vue"),
   },
   {
-    path: "/community/notice1/no",
+    path: "/community/modify",
+    name: "modify-article",
+    component: () => import("../views/board/BoardDetail.vue"),
+  },
+  {
+    path: "/community/notice1/view",
     name: "notice1No",
     component: () => import("../views/board/ViewDetail.vue"),
   },
   {
-    path: "/community/data/no",
+    path: "/community/data/view",
     name: "dataNo",
     component: () => import("../views/board/ViewDetail.vue"),
   },
   {
-    path: "/community/repair/no",
+    path: "/community/repair/view",
     name: "repairNo",
     component: () => import("../views/board/ViewDetail.vue"),
   },
   {
-    path: "/community/market/no",
+    path: "/community/market/view",
     name: "marketNo",
     component: () => import("../views/board/ViewDetail.vue"),
   },
   {
-    path: "/community/lost/no",
+    path: "/community/lost/view",
     name: "lostNo",
     component: () => import("../views/board/ViewDetail.vue"),
   },
+
 ];
 
 const router = createRouter({

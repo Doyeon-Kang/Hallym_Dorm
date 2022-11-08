@@ -15,7 +15,7 @@
                 </div>
                 <hr>
                 <div class="photo" v-show="photo_board">
-                    <img :src="photo" alt="사진">
+                    <img v-for="(photo, index) in photo" :key="index" :src="photo" alt="사진">
                 </div>
                 <div class="detail_cont" v-html="writerinfo.cont"></div>
                 <div class="btn_list">
@@ -39,7 +39,7 @@
                             </div>
                             <div class="comments_cont">{{ text.cont }}</div>
                             <div class="reply">
-                                <div class="reply_list" @click="visiblereplylist(text)">답글 보기 ({{ text.SecCnt }})</div>
+                                <div class="reply_list" v-show="text.SecCnt > 0" @click="visiblereplylist(text)">답글 보기 ({{ text.SecCnt }})</div>
                                 <div class="reply_input" @click="visiblereplyinput(text)">답글 달기</div>
                                 <!-- <div class="edit_btn" >수정</div> -->
                                 <div class="delete_btn" @click="deleteComment(text.no)">삭제</div>
@@ -115,7 +115,7 @@ export default {
             commentslist: [],
             seccommentslist: [],
             photo_board: false,
-            photo: '',
+            photo: [],
         }
     },
     components: {
@@ -232,7 +232,6 @@ export default {
                 })
                 RepairCommentService.getAll(this.no).then(data => {
                     let res = data.data
-                    console.log(res)
                     for(let i=0; i<res.length; i++) {
                         this.commentslist.push({})
                         this.commentslist[i].no = res[i].id
@@ -255,11 +254,12 @@ export default {
                 })
 
                 StorePhotoService.getAll(this.no).then(photo_data => {
-                    this.photo = photo_data.data[0].url
+                    for(let i=0; i<photo_data.data.length; i++) {
+                        this.photo[i] = photo_data.data[i].url
+                    }
                 })
                 StoreCommentService.getAll(this.no).then(data => {
                     let res = data.data
-                    console.log(res)
                     for(let i=0; i<res.length; i++) {
                         this.commentslist.push({})
                         this.commentslist[i].no = res[i].id
@@ -272,7 +272,6 @@ export default {
                         StoreSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
                             let res2 = data2.data
                             this.commentslist[i].SecCnt = res2.length
-                            console.log(data2)
                             this.commentslist[i].seccommentslist = []
                             for(let j=0; j<res2.length; j++) {
                                 this.commentslist[i].seccommentslist.push({})
@@ -295,11 +294,13 @@ export default {
                     this.writerinfo.cont = res.content
                 })
                 LostPhotoService.getAll(this.no).then(photo_data => {
-                    this.photo = photo_data.data[0].url
+                    for(let i=0; i<photo_data.data.length; i++) {
+                        this.photo[i] = photo_data.data[i].url
+                    }
+                    
                 })
                 LostCommentService.getAll(this.no).then(data => {
                     let res = data.data
-                    console.log(res)
                     for(let i=0; i<res.length; i++) {
                         this.commentslist.push({})
                         this.commentslist[i].no = res[i].id
@@ -310,6 +311,7 @@ export default {
                         this.commentslist[i].input_show = false // 대댓글 입력창
 
                         LostSubcommentService.getAll(this.no, this.commentslist[i].no).then(data2 => {
+                            
                             let res2 = data2.data
                             this.commentslist[i].SecCnt = res2.length
                             this.commentslist[i].seccommentslist = []
@@ -370,25 +372,30 @@ export default {
         },
         // 댓글 생성
         createComment() {
-            let req = {}
-            req.writer_studentno = this.user.studentno
-            req.writer_name = this.user.name
-            req.content = this.newComment
-
-            if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {                
-                NoticeCommentService.create(this.no, req)
-            } else if (this.$route.name === 'dataNo') {
-                NewsCommentService.create(this.no, req)
-            } else if (this.$route.name === 'repairNo') {
-                RepairCommentService.create(this.no, req)
-            } else if (this.$route.name === 'marketNo') {
-                StoreCommentService.create(this.no, req)
-            } else if (this.$route.name === 'lostNo') {
-                LostCommentService.create(this.no, req)
+            if (this.user.name === '') {
+                alert('로그인 후 시도해주세요.')
+                this.$router.push('/login')
             } else {
+                let req = {}
+                req.writer_studentno = this.user.studentno
+                req.writer_name = this.user.name
+                req.content = this.newComment
 
+                if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {                
+                    NoticeCommentService.create(this.no, req)
+                } else if (this.$route.name === 'dataNo') {
+                    NewsCommentService.create(this.no, req)
+                } else if (this.$route.name === 'repairNo') {
+                    RepairCommentService.create(this.no, req)
+                } else if (this.$route.name === 'marketNo') {
+                    StoreCommentService.create(this.no, req)
+                } else if (this.$route.name === 'lostNo') {
+                    LostCommentService.create(this.no, req)
+                } else {
+
+                }
+                this.$router.go('')
             }
-            this.$router.go('')
         },
         // 댓글 삭제
         deleteComment(no) {

@@ -11,8 +11,13 @@ class StorePhotoService {
 
   create(id, photo) {
     let formData = new FormData();
+    console.log('photo', photo)
 
-    formData.append('photos', photo);
+    for(let i=0; i<photo.length; i++) {
+      formData.append('photos', photo[i]);
+    }
+
+    //formData.append('photos', photo);
 
     return http.post(`/board-store/${id}/upload`, 
     formData,

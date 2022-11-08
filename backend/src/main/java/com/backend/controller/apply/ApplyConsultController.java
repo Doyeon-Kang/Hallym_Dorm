@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -181,6 +182,21 @@ public class ApplyConsultController {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
+
+      // @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PutMapping("/apply-consult/{consultId}/approve")
+      public ResponseEntity<ApplyConsult> approveApplyConsult(@PathVariable(name="consultId") Long consultId) {
+        Optional<ApplyConsult> consultData = applyConsultRepository.findById(consultId);
+  
+        if (consultData.isPresent()) {
+          ApplyConsult _applyConsult = consultData.get();
+          _applyConsult.setApproved(true);
+          applyConsultRepository.save(_applyConsult);
+          return new ResponseEntity<>(_applyConsult, HttpStatus.OK);
+        } else {
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+      }
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/apply-consult/{consultId}")

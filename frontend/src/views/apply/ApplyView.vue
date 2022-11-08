@@ -512,7 +512,7 @@
                     <div class="box">
                         <div class="title">퇴사 예정일</div>
                             <input type="date" 
-                            v-model="date_sleepout" 
+                            v-model="res_date" 
                             data-placeholder="2022-07-25 (달력에서 선택하게 달력 삽입)"
                             required 
                             aria-required="true"
@@ -604,7 +604,7 @@
 <script>
 import SidebarCom from '@/components/SidebarCom.vue';
 import PageTitle from "@/components/PageTitle.vue";
-import ApplySleepDataService from "@/services/ApplySleepDataService";
+import ApplySleepoutDataService from "@/services/ApplySleepoutDataService";
 import ApplyJoinDataService from "@/services/ApplyJoinDataService";
 import ApplyResignDataService from "@/services/ApplyResignDataService";
 
@@ -733,34 +733,8 @@ export default {
         // 퇴사 신청
         reserveResign(){
             let data = {
-                english_name: this.english_name,
-                chinese_name: this.chinese_name,
-                grade: this.grade,
-                gender: this.gender,
-                nationality: this.nationality,
-                department: this.department,
-                major: this.major,
-                student_status: this.student_status,
-                phone: this.phone,
-                address: this.address,
-                guardian_name: this.guardian_name,
-                guardian_relation: this.guardian_relation,
-                guardian_phone: this.guardian_phone,
-                landline: this.landline,
-                hope_fac_1: this.hope_fac_1,
-                hope_fac_2: this.hope_fac_2,
-                hope_fac_3: this.hope_fac_3,
-                hope_fac_4: this.hope_fac_4,
-                hope_fac_5: this.hope_fac_5,
-                hope_fac_6: this.hope_fac_6,
-                period: this.period,
-                single_yn: this.single_yn,
-                pri_ent: this.pri_ent,
-                fgn_mate: this.fgn_mate,
-                accpm_ent: this.accpm_ent,
-                par_mes_yn: this.par_mes_yn,
                 res_date: this.res_date,
-                res_season: this.res_reason
+                res_reason: this.res_reason
             }
             ApplyResignDataService.create(this.user.studentno, data)
             alert("신청 완료했습니다.");
@@ -771,7 +745,7 @@ export default {
                 date_sleepout: this.date_sleepout,
                 reason: this.reason
             }
-            ApplySleepDataService.create(this.user.studentno, data)
+            ApplySleepoutDataService.create(this.user.studentno, data)
             alert("신청 완료했습니다.");
         }
     },

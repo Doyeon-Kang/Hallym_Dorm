@@ -142,7 +142,7 @@
                         </tr>
                         <tr>
                             <td colspan="4" style="background-color:#fff">
-                                <input type="submit" value="신청하기">
+                                <input class="submit_btn" type="button" value="신청하기">
                             </td>
                         </tr>
                     </table>
@@ -192,7 +192,7 @@
                     </select>
                     <input type="button" v-if="timeCount < 2" @click="addTime" value="+">
                     <input type="button" v-if="timeCount >= 1" @click="subTime" value="-">
-                    <input type="submit" value="예약하기">
+                    <input class="submit_btn" type="button" value="예약하기">
                 </form>
             </div>
             <!-- 입사 신청 -->
@@ -203,63 +203,63 @@
                     <tbody>
                         <tr>
                             <td class="title">성명</td>
-                            <td class="content">홍길동</td>
+                            <td class="content">{{this.user.name}}</td>
                             <td class="title">대학</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="department" placeholder="입력해주세요"></td>
                             <td class="title">보호자 성명</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="guardian_name" placeholder="입력해주세요"></td>
                         </tr>
                         <tr>
                             <td class="title">학번</td>
-                            <td class="content">20201234</td>
+                            <td class="content">{{this.user.studentno}}</td>
                             <td class="title">학과</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="major" placeholder="입력해주세요"></td>
                             <td class="title">보호자 관계</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="guardian_relation" placeholder="입력해주세요"></td>
                         </tr>
                         <tr>
                             <td class="title">영문</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="english_name" placeholder="입력해주세요"></td>
                             <td class="title">학적상태</td>
                             <td class="content">
-                                <select name="" id="">
+                                <select name="" id="" v-model="student_status">
                                     <option value="재학">재학</option>
                                     <option value="휴학">휴학</option>
                                 </select>
                             </td>
                             <td class="title">보호자 연락처</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="guardian_phone" placeholder="입력해주세요"></td>
                         </tr>
                         <tr>
                             <td class="title">한자</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="chinese_name" placeholder="입력해주세요"></td>
                             <td class="title">연락처</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="phone" placeholder="입력해주세요"></td>
                             <td class="title">자택 전화</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="landline" placeholder="입력해주세요"></td>
                         </tr>
                         <tr>
                             <td class="title">학년/성별</td>
                             <td class="content">
-                                <select name="grade">
-                                    <option value="grade_one">1학년</option>
-                                    <option value="grade_two">2학년</option>
-                                    <option value="grade_three">3학년</option>
-                                    <option value="grade_four">4학년</option>
+                                <select name="grade" v-model="grade">
+                                    <option value=1 selected>1학년</option>
+                                    <option value=2>2학년</option>
+                                    <option value=3>3학년</option>
+                                    <option value=4>4학년</option>
                                 </select>
-                                <select name="gender">
-                                    <option value="male">남자</option>
-                                    <option value="female">여자</option>
+                                <select name="gender" v-model="gender">
+                                    <option value="m">남자</option>
+                                    <option value="f">여자</option>
                                 </select>
                             </td>
                             <td class="title">이메일</td>
-                            <td class="content">h20201234@hallym.ac.kr</td>
+                            <td class="content">{{this.user.email}}</td>
                         </tr>
                         <tr>
                             <td class="title">국적</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="nationality" placeholder="입력해주세요"></td>
                             <td class="title">주소</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="address" placeholder="입력해주세요"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -269,86 +269,86 @@
                     <div class="boxes1">
                         <div class="box">
                             <div class="title">희망시설1</div>
-                            <select name="" id="">
+                            <select name="" id="" v-model="hope_fac_1">
                                 <option value="none">선택</option>
-                                <option value="1">1관</option>
-                                <option value="2">2관</option>
-                                <option value="3">3관</option>
-                                <option value="4">4관</option>
-                                <option value="5">5관</option>
-                                <option value="6">6관</option>
-                                <option value="7">7관</option>
-                                <option value="8">8관</option>
+                                <option value=1>1관</option>
+                                <option value=2>2관</option>
+                                <option value=3>3관</option>
+                                <option value=4>4관</option>
+                                <option value=5>5관</option>
+                                <option value=6>6관</option>
+                                <option value=7>7관</option>
+                                <option value=8>8관</option>
                             </select>
                         </div>
                         <div class="box">
                             <div class="title">희망시설2</div>
-                            <select name="" id="">
+                            <select name="" id="" v-model="hope_fac_2">
                                 <option value="none">선택</option>
-                                <option value="1">1관</option>
-                                <option value="2">2관</option>
-                                <option value="3">3관</option>
-                                <option value="4">4관</option>
-                                <option value="5">5관</option>
-                                <option value="6">6관</option>
-                                <option value="7">7관</option>
-                                <option value="8">8관</option>
+                                <option value=1>1관</option>
+                                <option value=2>2관</option>
+                                <option value=3>3관</option>
+                                <option value=4>4관</option>
+                                <option value=5>5관</option>
+                                <option value=6>6관</option>
+                                <option value=7>7관</option>
+                                <option value=8>8관</option>
                             </select>
                         </div>
                         <div class="box">
                             <div class="title">희망시설3</div>
-                            <select name="" id="">
+                            <select name="" id="" v-model="hope_fac_3">
                                 <option value="none">선택</option>
-                                <option value="1">1관</option>
-                                <option value="2">2관</option>
-                                <option value="3">3관</option>
-                                <option value="4">4관</option>
-                                <option value="5">5관</option>
-                                <option value="6">6관</option>
-                                <option value="7">7관</option>
-                                <option value="8">8관</option>
+                                <option value=1>1관</option>
+                                <option value=2>2관</option>
+                                <option value=3>3관</option>
+                                <option value=4>4관</option>
+                                <option value=5>5관</option>
+                                <option value=6>6관</option>
+                                <option value=7>7관</option>
+                                <option value=8>8관</option>
                             </select>
                         </div>
                         <div class="box">
                             <div class="title">희망시설4</div>
-                            <select name="" id="">
+                            <select name="" id="" v-model="hope_fac_4">
                                 <option value="none">선택</option>
-                                <option value="1">1관</option>
-                                <option value="2">2관</option>
-                                <option value="3">3관</option>
-                                <option value="4">4관</option>
-                                <option value="5">5관</option>
-                                <option value="6">6관</option>
-                                <option value="7">7관</option>
-                                <option value="8">8관</option>
+                                <option value=1>1관</option>
+                                <option value=2>2관</option>
+                                <option value=3>3관</option>
+                                <option value=4>4관</option>
+                                <option value=5>5관</option>
+                                <option value=6>6관</option>
+                                <option value=7>7관</option>
+                                <option value=8>8관</option>
                             </select>
                         </div>
                         <div class="box">
                             <div class="title">희망시설5</div>
-                            <select name="" id="">
+                            <select name="" id="" v-model="hope_fac_5">
                                 <option value="none">선택</option>
-                                <option value="1">1관</option>
-                                <option value="2">2관</option>
-                                <option value="3">3관</option>
-                                <option value="4">4관</option>
-                                <option value="5">5관</option>
-                                <option value="6">6관</option>
-                                <option value="7">7관</option>
-                                <option value="8">8관</option>
+                                <option value=1>1관</option>
+                                <option value=2>2관</option>
+                                <option value=3>3관</option>
+                                <option value=4>4관</option>
+                                <option value=5>5관</option>
+                                <option value=6>6관</option>
+                                <option value=7>7관</option>
+                                <option value=8>8관</option>
                             </select>
                         </div>
                         <div class="box">
                             <div class="title">희망시설6</div>
-                            <select name="" id="">
+                            <select name="" id="" v-model="hope_fac_6">
                                 <option value="none">선택</option>
-                                <option value="1">1관</option>
-                                <option value="2">2관</option>
-                                <option value="3">3관</option>
-                                <option value="4">4관</option>
-                                <option value="5">5관</option>
-                                <option value="6">6관</option>
-                                <option value="7">7관</option>
-                                <option value="8">8관</option>
+                                <option value=1>1관</option>
+                                <option value=2>2관</option>
+                                <option value=3>3관</option>
+                                <option value=4>4관</option>
+                                <option value=5>5관</option>
+                                <option value=6>6관</option>
+                                <option value=7>7관</option>
+                                <option value=8>8관</option>
                             </select>
                         </div>
                     </div>
@@ -356,40 +356,48 @@
                     <div class="boxes2">
                         <div class="box">
                             <div class="title">사용기간</div>
-                            <select name="" id="">
-                                <option value="none">선택</option>
+                            <select name="" id="" v-model="period">
+                                <option value="1">1개월</option>
+                                <option value="2">2개월</option>
+                                <option value="3">3개월</option>
+                                <option value="6">6개월</option>
+                                <option value="12">12개월</option>
                             </select>
                         </div>
                         <div class="box">
                             <div class="title">1인실 사용신청</div>
-                            <select name="" id="">
-                                <option value="none">신청안함</option>
+                            <select name="" id="" v-model="single_yn">
+                                <option value="true">신청</option>
+                                <option value="false">신청안함</option>
                             </select>
                         </div>
                         <div class="box">
                             <div class="title">우선입사 대상자</div>
-                            <select name="" id="">
-                                <option value="none">해당없음</option>
+                            <select name="" id="" v-model="pri_ent">
+                                <option value="true">해당함</option>
+                                <option value="false">해당없음</option>
                             </select>
                         </div>
                         <div class="box">
                             <div class="title">외국인 룸메이트</div>
-                            <select name="" id="">
-                                <option value="none">신청안함</option>
+                            <select name="" id="" v-model="fgn_mate">
+                                <option value="true">신청</option>
+                                <option value="false">신청안함</option>
                             </select>
                         </div>
                         <div class="box">
                             <div class="title">동반 입실자</div>
-                            <input type="text">
+                            <input type="text" v-model="accpm_ent">
                         </div>
                         <div class="box">
                             <div class="title">보호자 문자 수신사항</div>
-                            <select name="" id="">
-                                <option value="none">신청안함</option>
+                            <select name="" id="" v-model="par_mes_yn">
+                                <option value="true">신청</option>
+                                <option value="false">신청안함</option>
                             </select>
                         </div>
                     </div>
-                    <input type="submit" value="신청하기">
+                    <input class="submit_btn" type="button" value="신청하기" @click="reserveJoin()">
                 </form>
                 <div class="division"></div>
                 <div class="info_box">
@@ -439,63 +447,63 @@
                     <tbody>
                         <tr>
                             <td class="title">성명</td>
-                            <td class="content">홍길동</td>
+                            <td class="content">{{this.user.name}}</td>
                             <td class="title">대학</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="department" placeholder="입력해주세요"></td>
                             <td class="title">보호자 성명</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="guardian_name" placeholder="입력해주세요"></td>
                         </tr>
                         <tr>
                             <td class="title">학번</td>
-                            <td class="content">20201234</td>
+                            <td class="content">{{this.user.studentno}}</td>
                             <td class="title">학과</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="major" placeholder="입력해주세요"></td>
                             <td class="title">보호자 관계</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="guardian_relation" placeholder="입력해주세요"></td>
                         </tr>
                         <tr>
                             <td class="title">영문</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="english_name" placeholder="입력해주세요"></td>
                             <td class="title">학적상태</td>
                             <td class="content">
-                                <select name="" id="">
+                                <select name="" id="" v-model="student_status">
                                     <option value="재학">재학</option>
                                     <option value="휴학">휴학</option>
                                 </select>
                             </td>
                             <td class="title">보호자 연락처</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="guardian_phone" placeholder="입력해주세요"></td>
                         </tr>
                         <tr>
                             <td class="title">한자</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="chinese_name" placeholder="입력해주세요"></td>
                             <td class="title">연락처</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="phone" placeholder="입력해주세요"></td>
                             <td class="title">자택 전화</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="landline" placeholder="입력해주세요"></td>
                         </tr>
                         <tr>
                             <td class="title">학년/성별</td>
                             <td class="content">
-                                <select name="grade">
-                                    <option value="grade_one">1학년</option>
-                                    <option value="grade_two">2학년</option>
-                                    <option value="grade_three">3학년</option>
-                                    <option value="grade_four">4학년</option>
+                                <select name="grade" v-model="grade">
+                                    <option value=1>1학년</option>
+                                    <option value=2>2학년</option>
+                                    <option value=3>3학년</option>
+                                    <option value=4>4학년</option>
                                 </select>
-                                <select name="gender">
-                                    <option value="male">남자</option>
-                                    <option value="female">여자</option>
+                                <select name="gender" v-model="gender">
+                                    <option value="m">남자</option>
+                                    <option value="f">여자</option>
                                 </select>
                             </td>
                             <td class="title">이메일</td>
-                            <td class="content">h20201234@hallym.ac.kr</td>
+                            <td class="content">{{this.user.email}}</td>
                         </tr>
                         <tr>
                             <td class="title">국적</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="nationality" placeholder="입력해주세요"></td>
                             <td class="title">주소</td>
-                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
+                            <td class="content"><input type="text" v-model="address" placeholder="입력해주세요"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -503,15 +511,19 @@
                 <form action="" id="out_apply">
                     <div class="box">
                         <div class="title">퇴사 예정일</div>
-                        <select name="" id="">
-                            <option value="none">선택</option>
-                        </select>
+                            <input type="date" 
+                            v-model="date_sleepout" 
+                            data-placeholder="2022-07-25 (달력에서 선택하게 달력 삽입)"
+                            required 
+                            aria-required="true"
+                            className={styles.selectDay}
+                            >
                     </div>
                     <div class="box">
                         <div class="title">퇴사 사유</div>
-                        <textarea name="" id="" cols="30" rows="10"></textarea>
+                        <textarea v-model="res_reason" name="" id="" cols="30" rows="10"></textarea>
                     </div>
-                    <input type="submit" value="신청하기">
+                    <input class="submit_btn" type="button" value="신청하기" @click="reserveResign()">
                 </form>
                 <div class="division"></div>
                 <div class="info_box">
@@ -577,7 +589,7 @@
                             </td>
                         </tr>
                     </table>
-                    <input class="submit_btn" type="button" value="신청하기" @click="creatSleepOut()">
+                    <input class="submit_btn" type="button" value="신청하기" @click="reserveSleepout()">
                 </form>
             </div>
             <div v-else>
@@ -593,6 +605,8 @@
 import SidebarCom from '@/components/SidebarCom.vue';
 import PageTitle from "@/components/PageTitle.vue";
 import ApplySleepDataService from "@/services/ApplySleepDataService";
+import ApplyJoinDataService from "@/services/ApplyJoinDataService";
+import ApplyResignDataService from "@/services/ApplyResignDataService";
 
 export default {
     data() {
@@ -629,9 +643,6 @@ export default {
                 { no: 9, status: true, isActive: false},
                 { no: 10, status: false, isActive: false},
             ],
-            reason: "",
-            date_sleepout: "",
-            studentno: "",
         }
     },
     components: { SidebarCom, PageTitle},
@@ -686,7 +697,76 @@ export default {
             }
             this.seat[index].isActive = !this.seat[index].isActive;
         },
-        creatSleepOut(){
+        // 입사 신청
+        reserveJoin(){
+            let data = {
+                english_name: this.english_name,
+                chinese_name: this.chinese_name,
+                grade: this.grade,
+                gender: this.gender,
+                nationality: this.nationality,
+                department: this.department,
+                major: this.major,
+                student_status: this.student_status,
+                phone: this.phone,
+                address: this.address,
+                guardian_name: this.guardian_name,
+                guardian_relation: this.guardian_relation,
+                guardian_phone: this.guardian_phone,
+                landline: this.landline,
+                hope_fac_1: this.hope_fac_1,
+                hope_fac_2: this.hope_fac_2,
+                hope_fac_3: this.hope_fac_3,
+                hope_fac_4: this.hope_fac_4,
+                hope_fac_5: this.hope_fac_5,
+                hope_fac_6: this.hope_fac_6,
+                period: this.period,
+                single_yn: this.single_yn,
+                pri_ent: this.pri_ent,
+                fgn_mate: this.fgn_mate,
+                accpm_ent: this.accpm_ent,
+                par_mes_yn: this.par_mes_yn
+            }
+            ApplyJoinDataService.create(this.user.studentno, data)
+            alert("신청 완료했습니다.");
+        },
+        // 퇴사 신청
+        reserveResign(){
+            let data = {
+                english_name: this.english_name,
+                chinese_name: this.chinese_name,
+                grade: this.grade,
+                gender: this.gender,
+                nationality: this.nationality,
+                department: this.department,
+                major: this.major,
+                student_status: this.student_status,
+                phone: this.phone,
+                address: this.address,
+                guardian_name: this.guardian_name,
+                guardian_relation: this.guardian_relation,
+                guardian_phone: this.guardian_phone,
+                landline: this.landline,
+                hope_fac_1: this.hope_fac_1,
+                hope_fac_2: this.hope_fac_2,
+                hope_fac_3: this.hope_fac_3,
+                hope_fac_4: this.hope_fac_4,
+                hope_fac_5: this.hope_fac_5,
+                hope_fac_6: this.hope_fac_6,
+                period: this.period,
+                single_yn: this.single_yn,
+                pri_ent: this.pri_ent,
+                fgn_mate: this.fgn_mate,
+                accpm_ent: this.accpm_ent,
+                par_mes_yn: this.par_mes_yn,
+                res_date: this.res_date,
+                res_season: this.res_reason
+            }
+            ApplyResignDataService.create(this.user.studentno, data)
+            alert("신청 완료했습니다.");
+        },
+        // 외박 신청
+        reserveSleepout(){
             let data = {
                 date_sleepout: this.date_sleepout,
                 reason: this.reason
@@ -765,7 +845,7 @@ export default {
                         td {
                             border: none;
                             padding: 20px 0;
-                            input[type="submit"] {
+                            .submit_btn {
                                 float: right;
                                 background-color: #336EB4;
                                 color: #fff;
@@ -859,7 +939,7 @@ export default {
                             cursor: pointer;
                         }
                     }
-                    input[type="submit"] {
+                    .submit_btn {
                         display: block;
                         background-color: #336EB4;
                         color: #fff;
@@ -967,7 +1047,7 @@ export default {
                         }
                     }
                 }
-                input[type=submit] {
+                .submit_btn {
                     float: right;
                     background-color: #336EB4;
                     color: #fff;
@@ -1038,7 +1118,7 @@ export default {
                             line-height: 200px;
                         }
                     }
-                    select {
+                    input[type=date] {
                         width: 78.8%;
                         height: 54px;
                         border-radius: 0;
@@ -1085,7 +1165,7 @@ export default {
                     }
                 }
             }
-            input[type=submit] {
+            .submit_btn {
                 float: right;
                 background-color: #336EB4;
                 color: #fff;

@@ -205,7 +205,7 @@
                             <td class="title">성명</td>
                             <td class="content">홍길동</td>
                             <td class="title">대학</td>
-                            <td class="content">정보과학대학</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
                             <td class="title">보호자 성명</td>
                             <td class="content"><input type="text" placeholder="입력해주세요"></td>
                         </tr>
@@ -213,7 +213,7 @@
                             <td class="title">학번</td>
                             <td class="content">20201234</td>
                             <td class="title">학과</td>
-                            <td class="content">빅데이터 전공</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
                             <td class="title">보호자 관계</td>
                             <td class="content"><input type="text" placeholder="입력해주세요"></td>
                         </tr>
@@ -241,7 +241,12 @@
                         <tr>
                             <td class="title">학년/성별</td>
                             <td class="content">
-                                3학년
+                                <select name="grade">
+                                    <option value="grade_one">1학년</option>
+                                    <option value="grade_two">2학년</option>
+                                    <option value="grade_three">3학년</option>
+                                    <option value="grade_four">4학년</option>
+                                </select>
                                 <select name="gender">
                                     <option value="male">남자</option>
                                     <option value="female">여자</option>
@@ -252,7 +257,7 @@
                         </tr>
                         <tr>
                             <td class="title">국적</td>
-                            <td class="content">대한민국</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
                             <td class="title">주소</td>
                             <td class="content"><input type="text" placeholder="입력해주세요"></td>
                         </tr>
@@ -436,7 +441,7 @@
                             <td class="title">성명</td>
                             <td class="content">홍길동</td>
                             <td class="title">대학</td>
-                            <td class="content">정보과학대학</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
                             <td class="title">보호자 성명</td>
                             <td class="content"><input type="text" placeholder="입력해주세요"></td>
                         </tr>
@@ -444,7 +449,7 @@
                             <td class="title">학번</td>
                             <td class="content">20201234</td>
                             <td class="title">학과</td>
-                            <td class="content">빅데이터 전공</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
                             <td class="title">보호자 관계</td>
                             <td class="content"><input type="text" placeholder="입력해주세요"></td>
                         </tr>
@@ -472,7 +477,12 @@
                         <tr>
                             <td class="title">학년/성별</td>
                             <td class="content">
-                                3학년
+                                <select name="grade">
+                                    <option value="grade_one">1학년</option>
+                                    <option value="grade_two">2학년</option>
+                                    <option value="grade_three">3학년</option>
+                                    <option value="grade_four">4학년</option>
+                                </select>
                                 <select name="gender">
                                     <option value="male">남자</option>
                                     <option value="female">여자</option>
@@ -483,7 +493,7 @@
                         </tr>
                         <tr>
                             <td class="title">국적</td>
-                            <td class="content">대한민국</td>
+                            <td class="content"><input type="text" placeholder="입력해주세요"></td>
                             <td class="title">주소</td>
                             <td class="content"><input type="text" placeholder="입력해주세요"></td>
                         </tr>
@@ -551,22 +561,23 @@
                         <tr>
                             <td class="title">신청 사유</td>
                             <td class="content">
-                                <input type="text" placeholder="Ex). 본가 방문 (20자 이내)" maxlength="20">
+                                <input type="text" v-model="reason" placeholder="Ex). 본가 방문 (20자 이내)" maxlength="20">
                             </td>
                         </tr>
                         <tr>
                             <td class="title">신청 날짜</td>
                             <td class="content">
                                 <input type="date" 
+                                v-model="date_sleepout" 
                                 data-placeholder="2022-07-25 (달력에서 선택하게 달력 삽입)"
-                                required
+                                required 
                                 aria-required="true"
                                 className={styles.selectDay}
                                 >
                             </td>
                         </tr>
                     </table>
-                    <input type="submit" value="신청하기">
+                    <input class="submit_btn" type="button" value="신청하기" @click="creatSleepOut()">
                 </form>
             </div>
             <div v-else>
@@ -581,6 +592,7 @@
 <script>
 import SidebarCom from '@/components/SidebarCom.vue';
 import PageTitle from "@/components/PageTitle.vue";
+import ApplySleepDataService from "@/services/ApplySleepDataService";
 
 export default {
     data() {
@@ -616,41 +628,44 @@ export default {
                 { no: 8, status: true, isActive: false},
                 { no: 9, status: true, isActive: false},
                 { no: 10, status: false, isActive: false},
-            ]
+            ],
+            reason: "",
+            date_sleepout: "",
+            studentno: "",
         }
     },
     components: { SidebarCom, PageTitle},
     created() {
-        this.routeCheck();
+        this.routeCheck()
     },
     methods: {
         routeCheck() {
-        this.activeReset();
-        this.side[2].semi = false;
-        if (this.$route.name === "consult") {
-            this.title = "신청 및 예약 > 상담 및 면담 신청";
-            this.side[0].active = true;
-        }  else if (this.$route.name === "study") {
-            this.title = "신청 및 예약 > 스터디룸 예약";
-            this.side[1].active = true;
-        } else if (this.$route.name === "in") {
-            this.title = "신청 및 예약 > 입사 신청";
-            this.side[2].active = true;
-            this.side[2].semiTitle[0].active = true;
-            this.side[2].semiTitle[1].active = false;
-            this.side[2].semi = true;
-        } else if (this.$route.name === "out") {
-            this.title = "신청 및 예약 > 퇴사 신청";
-            this.side[2].active = true;
-            this.side[2].semiTitle[0].active = false;
-            this.side[2].semiTitle[1].active = true;
-            this.side[2].semi = true;
-        }  else if (this.$route.name === "sleep") {
-            this.title = "신청 및 예약 > 외박 신청";
-            this.side[3].active = true;
-        } else {
-            this.title = "Error Page";
-        }
+            this.activeReset();
+            this.side[2].semi = false;
+            if (this.$route.name === "consult") {
+                this.title = "신청 및 예약 > 상담 및 면담 신청";
+                this.side[0].active = true;
+            }  else if (this.$route.name === "study") {
+                this.title = "신청 및 예약 > 스터디룸 예약";
+                this.side[1].active = true;
+            } else if (this.$route.name === "in") {
+                this.title = "신청 및 예약 > 입사 신청";
+                this.side[2].active = true;
+                this.side[2].semiTitle[0].active = true;
+                this.side[2].semiTitle[1].active = false;
+                this.side[2].semi = true;
+            } else if (this.$route.name === "out") {
+                this.title = "신청 및 예약 > 퇴사 신청";
+                this.side[2].active = true;
+                this.side[2].semiTitle[0].active = false;
+                this.side[2].semiTitle[1].active = true;
+                this.side[2].semi = true;
+            }  else if (this.$route.name === "sleep") {
+                this.title = "신청 및 예약 > 외박 신청";
+                this.side[3].active = true;
+            } else {
+                this.title = "Error Page";
+            }
         },
         activeReset() {
             for (var i = 0; i < this.side.length; i++) {
@@ -670,6 +685,14 @@ export default {
                 this.seat[item].isActive = false;
             }
             this.seat[index].isActive = !this.seat[index].isActive;
+        },
+        creatSleepOut(){
+            let data = {
+                date_sleepout: this.date_sleepout,
+                reason: this.reason
+            }
+            ApplySleepDataService.create(this.user.studentno, data)
+            alert("신청 완료했습니다.");
         }
     },
     computed: {
@@ -685,25 +708,28 @@ export default {
                 }
             }
             return no
+        },
+        user() {
+            return this.$store.state.auth.user
         }
     },  
     watch: {
         $route(to) {
-        this.routeCheck();
-        if (to.path == "/reserve/in" || to.path == "/reserve/out") {
-            this.side[2].semi = true;
-            if (to.path == "/reserve/in") {
-            this.side[2].semiTitle[0].active = true;
-            this.side[2].semiTitle[1].active = false;
+            this.routeCheck();
+            if (to.path == "/reserve/in" || to.path == "/reserve/out") {
+                this.side[2].semi = true;
+                if (to.path == "/reserve/in") {
+                this.side[2].semiTitle[0].active = true;
+                this.side[2].semiTitle[1].active = false;
+                } else {
+                this.side[2].semiTitle[1].active = true;
+                this.side[2].semiTitle[0].active = false;
+                }
             } else {
-            this.side[2].semiTitle[1].active = true;
-            this.side[2].semiTitle[0].active = false;
+                for (var i = 0; i < this.side.length; i++) {
+                this.side[i].semi = false;
+                }
             }
-        } else {
-            for (var i = 0; i < this.side.length; i++) {
-            this.side[i].semi = false;
-            }
-        }
         },
     },
 }
@@ -1116,7 +1142,7 @@ export default {
                         }
                     }
                 }
-                input[type="submit"] {
+                .submit_btn {
                     float: right;
                     background-color: #336EB4;
                     color: #fff;

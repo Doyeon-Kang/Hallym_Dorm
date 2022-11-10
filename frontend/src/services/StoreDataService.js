@@ -10,7 +10,7 @@ class StoreDataService {
   }
 
   create(data) {
-    return http.post("/board-store", data);
+    return http.post(`/board-store`, data);
   }
 
   update(id, data) {

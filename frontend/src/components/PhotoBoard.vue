@@ -106,6 +106,9 @@ export default {
         white-space: nowrap;
         text-overflow: ellipsis;
       }
+      .comment_cnt {
+        color:#336eb4
+      }
     }
     .second_line {
       display: flex;

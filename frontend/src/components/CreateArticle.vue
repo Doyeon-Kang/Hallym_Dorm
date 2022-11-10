@@ -9,8 +9,8 @@
             <option value="store">나눔 장터</option>
             <option value="lost">분실물</option>
         </select>
-        <div class="img_input" >
-            <input type="file" accept="image/*" @change="fileChange"/>
+        <div class="img_input" v-show="category === 'store' || category === 'lost'">
+            <input type="file" multiple accept="image/*" @change="fileChange"/>
         </div>
         <div class="division">제목</div>
         <input class="title" type="text" v-model="title" placeholder="글 제목을 입력하세요.">
@@ -48,40 +48,37 @@ export default {
             title: "",
             content: "",
             prevRoute: null,
-            file: "",
+            file: [],
         }
     },
     components: {
         VueEditor
     },
     created() {
-        
     },
     methods: {
         fileChange(event) {
-            const file = event.target.files[0];
+            const file = event.target.files;
+            console.log(file)
             let validation = true;
             let message = '';
 
-            if (file.length > 1) {
-                validation = false;
-                message = `파일은 한개만 등록 가능합니다.`
-            }
+            for(let i=0; i<file.length; i++) {
+                if (file[i].size > 1024 * 1024 * 2) {
+                    message = `${message}, 파일은 용량은 2MB 이하만 가능합니다.`;
+                    validation = false;
+                }
 
-            if (file.size > 1024 * 1024 * 2) {
-                message = `${message}, 파일은 용량은 2MB 이하만 가능합니다.`;
-                validation = false;
-            }
-
-            if (file.type.indexOf('image') < 0) {
-                message = `${message}, 이미지 파일만 업로드 가능합니다.`;
-                validation = false;
+                if (file[i].type.indexOf('image') < 0) {
+                    message = `${message}, 이미지 파일만 업로드 가능합니다.`;
+                    validation = false;
+                }
             }
 
             if (validation) {
                 this.file = file
             } else {
-                this.file = '';
+                this.file = [];
                 alert(message);
             }
         },  
@@ -89,7 +86,7 @@ export default {
             console.log(target.calue)
             console.log(target.options[target.selectedIndex].text)
         },
-        createArticle() {
+        async createArticle() {
             let data = {
                 writer_studentno: this.user.studentno,
                 writer_name: this.user.name,
@@ -97,46 +94,47 @@ export default {
                 content: this.content
             }
             if (this.category === 'community') {
-                NoticeDataService.create(data).then(res => {
+                await NoticeDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    this.$router.push('/community');
+                    //this.$router.push('/community');
                 })
             } else if (this.category === 'notice1'){
                 data.notice1 = true
-                NoticeDataService.create(data).then(res => {
+                await NoticeDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    this.$router.push('/community/notice1');
+                    //this.$router.push('/community/notice1');
                 })
             } else if (this.category === 'news') {
-                NewsDataService.create(data).then(res => {
+                await NewsDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    this.$router.push('/community/data');
+                    //this.$router.push('/community/data');
                 })
             } else if (this.category === 'repair') {
-                RepairDataService.create(data).then(res => {
+                await RepairDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    this.$router.push('/community/repair');
+                    //this.$router.push('/community/repair');
                 })
             } else if (this.category === 'store') {
-                StoreDataService.create(data).then(res => {
+                await StoreDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    console.log(res.data)
-                    if (this.file !== "") {
+                    if (this.file !== []) {
                         StorePhotoService.create(res.data.id, this.file);
                     }
+                    //this.$router.push('/community/market');
                 })
                 
             } else if (this.category === 'lost') {
-                LostDataService.create(data).then(res => {
+                await LostDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    if (this.file !== "") {
+                    if (this.file !== []) {
                         LostPhotoService.create(res.data.id, this.file)
                     }
+                    //this.$router.push('/community/lost');
                 })
             } else {
 
             }
-            
+            this.$router.go('')
         }
     },
     computed: {

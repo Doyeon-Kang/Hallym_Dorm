@@ -8,7 +8,6 @@ class ApplyJoinDataService {
   get(id) {
     return http.get(`/apply-join/${id}`);
   }
-
   create(studentNo, data) {
     return http.post(`/apply-join/${studentNo}`, data);
   }

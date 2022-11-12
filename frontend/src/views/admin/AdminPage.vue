@@ -58,6 +58,9 @@ import BoardList from "../../components/AdminBoardList.vue";
 import MiniBoardList from "../../components/AdminMiniBoardList.vue";
 import InoutCom from "../../components/AdminInoutCom.vue";
 
+import ApplySleepoutDataService from "@/services/ApplySleepoutDataService";
+import ApplyStudyroomDataService from "@/services/ApplyStudyroomDataService";
+
 
 export default {
   data() {
@@ -158,46 +161,8 @@ export default {
         },
       ],
 
-      studyTitle: ["학번", "이름", "소속학과", "예약날짜", "예약시간", "선택좌석", "상태"],
-      studyList: [
-        {
-          no: "20201234",
-          name: "홍길동",
-          dep: "전자공학과",
-          date: "2022-08-17",
-          time: "14:00 - 16:00",
-          seat: "38번",
-          status: "미승인",
-        },
-        {
-          no: "20204237",
-          name: "김땡땡",
-          dep: "빅데이터학과",
-          date: "2022-08-15",
-          time: "13:00 - 15:00",
-          seat: "51번",
-          status: "승인",
-        },
-        {
-          no: "20191235",
-          name: "박모씨",
-          dep: "체육학과",
-          date: "2022-09-02",
-          time: "13:00 - 14:00",
-          seat: "22번",
-          status: "승인",
-        },
-        {
-          no: "20215236",
-          name: "최빵빵",
-          dep: "사회복지학과",
-          date: "2022-08-28",
-          time: "15:00 - 17:00",
-          seat: "14번",
-          status: "승인",
-        },
-      ],
-
+      studyTitle: ["학번", "이름", "소속학과", "예약날짜", "예약시간", "선택좌석"],
+      studyList: [],
       sleepTitle: ["학번", "이름", "소속학과", "신청날짜", "외박 기간", "신청 사유", "승인 상태"],
       sleepList: [
         {
@@ -375,10 +340,34 @@ export default {
     MiniBoardList,
     InoutCom,
   },
+  beforeCreate() {
+    
+  },
   created() {
     this.routeCheck();
+    this.init();
   },
   methods: {
+    init() {
+      ApplyStudyroomDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+        console.log(res)
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].no = "-" // 학번
+          list[i].name = "-" // 이름
+          list[i].dep = "-" // 학과
+          list[i].date = res[i].date // 신청일자
+          for(let j=1; j<=3; j++)
+          list[i].time = res[i].timeslot1 // 사용시간
+          list[i].seat = "-" // 좌석
+        }
+        this.studyList = list
+        console.log(this.studyList)
+      })
+    },
     routeCheck() {
       this.activeReset();
       if (this.$route.name === "adminuser") {

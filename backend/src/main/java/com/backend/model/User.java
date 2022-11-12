@@ -114,16 +114,16 @@ public class User {
 		this.roles = roles;
 	}
 
-	@Column(name = "join_yn")
-    private char join_yn;
+	// @Column(name = "join_yn")
+    // private char join_yn;
 
-	public char getJoin_yn() {
-		return join_yn;
-	}
+	// public char getJoin_yn() {
+	// 	return join_yn;
+	// }
 
-	public void setJoin_yn(char join_yn) {
-		this.join_yn = join_yn;
-	}
+	// public void setJoin_yn(char join_yn) {
+	// 	this.join_yn = join_yn;
+	// }
 
     // @Column(name = "div")
     // private String div;
@@ -136,72 +136,72 @@ public class User {
 	// 	this.div = div;
 	// }
 
-    @Column(name = "user_member_id")
-    private Long user_member_id;
+    // @Column(name = "user_member_id")
+    // private Long user_member_id;
 
-	public Long getUser_member_id() {
-		return user_member_id;
-	}
+	// public Long getUser_member_id() {
+	// 	return user_member_id;
+	// }
 
-	public void setUser_member_id(Long user_member_id) {
-		this.user_member_id = user_member_id;
-	}
+	// public void setUser_member_id(Long user_member_id) {
+	// 	this.user_member_id = user_member_id;
+	// }
 
-    @Column(name = "user_member_no")
-    private String user_member_no;
+    // @Column(name = "user_member_no")
+    // private String user_member_no;
 
-	public String getUser_member_no() {
-		return user_member_no;
-	}
+	// public String getUser_member_no() {
+	// 	return user_member_no;
+	// }
 
-	public void setUser_member_no(String user_member_no) {
-		this.user_member_no = user_member_no;
-	}
+	// public void setUser_member_no(String user_member_no) {
+	// 	this.user_member_no = user_member_no;
+	// }
 
-    @Column(name = "user_member_user_member_parent_id")
-    private Long user_member_user_member_parent_id;
+    // @Column(name = "user_member_user_member_parent_id")
+    // private Long user_member_user_member_parent_id;
 
-	public Long getUser_member_user_member_parent_id() {
-		return user_member_user_member_parent_id;
-	}
+	// public Long getUser_member_user_member_parent_id() {
+	// 	return user_member_user_member_parent_id;
+	// }
 
-	public void setUser_member_user_member_parent_id(Long user_member_user_member_parent_id) {
-		this.user_member_user_member_parent_id = user_member_user_member_parent_id;
-	}
+	// public void setUser_member_user_member_parent_id(Long user_member_user_member_parent_id) {
+	// 	this.user_member_user_member_parent_id = user_member_user_member_parent_id;
+	// }
 
-    @Column(name = "user_member_user_member_parent_no")
-    private String user_member_user_member_parent_no;
+    // @Column(name = "user_member_user_member_parent_no")
+    // private String user_member_user_member_parent_no;
 
-	public String getUser_member_user_member_parent_no() {
-		return user_member_user_member_parent_no;
-	}
+	// public String getUser_member_user_member_parent_no() {
+	// 	return user_member_user_member_parent_no;
+	// }
 
-	public void setUser_member_user_member_parent_no(String user_member_user_member_parent_no) {
-		this.user_member_user_member_parent_no = user_member_user_member_parent_no;
-	}
+	// public void setUser_member_user_member_parent_no(String user_member_user_member_parent_no) {
+	// 	this.user_member_user_member_parent_no = user_member_user_member_parent_no;
+	// }
 
-    @Column(name = "apply_join_id")
-    private int apply_join_id;
+    // @Column(name = "apply_join_id")
+    // private int apply_join_id;
 
-	public int getApply_join_id() {
-		return apply_join_id;
-	}
+	// public int getApply_join_id() {
+	// 	return apply_join_id;
+	// }
 
-	public void setApply_join_id(int apply_join_id) {
-		this.apply_join_id = apply_join_id;
-	}
+	// public void setApply_join_id(int apply_join_id) {
+	// 	this.apply_join_id = apply_join_id;
+	// }
 
-    @Column(name = "apply_join_apply_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    private Date apply_join_apply_date;
+    // @Column(name = "apply_join_apply_date")
+    // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+    // private Date apply_join_apply_date;
 
-	public Date getApply_join_apply_date() {
-		return apply_join_apply_date;
-	}
+	// public Date getApply_join_apply_date() {
+	// 	return apply_join_apply_date;
+	// }
 
-	public void setApply_join_apply_date(Date apply_join_apply_date) {
-		this.apply_join_apply_date = apply_join_apply_date;
-	}
+	// public void setApply_join_apply_date(Date apply_join_apply_date) {
+	// 	this.apply_join_apply_date = apply_join_apply_date;
+	// }
 
 	public User() {
 

@@ -19,12 +19,18 @@
       this.$route.name === 'adminlife'" :title="title">
       </PageTitle>
 
-      <Addbox v-if="this.$route.name === 'adminpointadd'" :con_title="point_con_title" :listTitle="pointTitle"></Addbox>
+      <!-- 추가 박스 컴포넌트 -->
+      <Addbox v-if="this.$route.name === 'adminuseradd'" :con_title="point_con_title" :listTitle="pointTitle"></Addbox>
+      <Addbox v-else-if="this.$route.name === 'adminpointadd'" :con_title="point_con_title" :listTitle="pointTitle"></Addbox>
       <Addbox v-else-if="this.$route.name === 'adminlife'" :con_title="life_con_title" :listTitle="lifeTitle"></Addbox>
 
-      <BoardList v-if="this.$route.name === 'adminuser' || this.$route.name === 'adminuseradd'" :listItem="userList"
+      <!-- 리스트 컴포넌트 -->
+      <BoardList v-if="this.$route.name === 'adminuser'" :listItem="userList"
         :listTitle="userTitle" :totaluser="totaluser">
       </BoardList>
+      <MiniBoardList v-if="this.$route.name === 'adminuseradd'" :listItem="userList" :listTitle="userTitle"
+        :totaluser="totaluser">
+      </MiniBoardList>
       <BoardList v-else-if="this.$route.name === 'adminpoint'" :listItem="pointList" :listTitle="pointTitle"
         :totaluser="totaluser">
       </BoardList>
@@ -58,8 +64,9 @@ import BoardList from "../../components/AdminBoardList.vue";
 import MiniBoardList from "../../components/AdminMiniBoardList.vue";
 import InoutCom from "../../components/AdminInoutCom.vue";
 
-import ApplySleepoutDataService from "@/services/ApplySleepoutDataService";
+import UserDataService from "@/services/UserDataService"
 import ApplyStudyroomDataService from "@/services/ApplyStudyroomDataService";
+
 
 
 export default {
@@ -68,17 +75,17 @@ export default {
       title: "String",
       pageName: "관리자페이지",
       side: [
-        { img: require("@/assets/admin_user.png"), title: "입사자 현황", path: "/admin/user" },
+        { img: require("@/assets/admin_user.png"), title: "사용자 관리", path: "/admin/user" },
         { img: require("@/assets/admin_point.png"), title: "상벌점 관리", path: "/admin/point" },
         { img: require("@/assets/admin_calendar.png"), title: "스터디룸 예약 관리", path: "/admin/study" },
         { img: require("@/assets/admin_night.png"), title: "외박 신청 현황", path: "/admin/sleep" },
         { img: require("@/assets/admin_inout.png"), title: "입사/퇴사 관리", path: "/admin/inout" },
         { img: require("@/assets/admin_counseling.png"), title: "상담 신청 현황", path: "/admin/consulting" },
-        { img: require("@/assets/admin_schedule.png"), title: "생활 일정 관리", path: "/admin/life" },
+        // { img: require("@/assets/admin_schedule.png"), title: "생활 일정 관리", path: "/admin/life" },
         { img: require("@/assets/admin_logout.png"), title: "로그아웃", path: "/logout" },
       ],
-      userManagement: "사용자 관리",
-      useradd: "사용자 추가",
+      userManagement: "사용자 추가",
+      useradd: "생성",
 
       pointManagement: "점수 관리",
       pointadd: "점수 부여",
@@ -89,41 +96,8 @@ export default {
       title_in: "입사 관리",
       title_out: "퇴사 관리",
 
-      userTitle: ["학번", "이름", "소속학과", "상벌점", "새로운 요청글", "거주 기숙사"],
-      userList: [
-        {
-          no: "20201234",
-          name: "홍길동",
-          dep: "전자공학과",
-          point: "5",
-          newwrite: "-",
-          live: "2관",
-        },
-        {
-          no: "20204237",
-          name: "김땡땡",
-          dep: "빅데이터학과",
-          point: "4",
-          newwrite: "-",
-          live: "5관",
-        },
-        {
-          no: "20191235",
-          name: "박모씨",
-          dep: "체육학과",
-          point: "10",
-          newwrite: "-",
-          live: "1관",
-        },
-        {
-          no: "20215236",
-          name: "최빵빵",
-          dep: "사회복지학과",
-          point: "7",
-          newwrite: "-",
-          live: "6관",
-        },
-      ],
+      userTitle: ["학번", "이름", "소속학과",  "새로운 요청글", "거주 기숙사", "사용자 권한"],
+      userList: [],
 
       pointTitle: ["학번", "이름", "소속학과", "상벌점", "상벌점 추가내역", "거주 기숙사"],
       pointList: [
@@ -330,6 +304,7 @@ export default {
           end: "2022-02-22",
         },
       ],
+      //listArr: []
     };
   },
   components: {
@@ -345,13 +320,32 @@ export default {
   },
   created() {
     this.routeCheck();
+    
+  },
+  mounted() {
     this.init();
   },
   methods: {
     init() {
-      ApplyStudyroomDataService.getAll().then(resolveData => {
+      UserDataService.getAll().then(resolveData => {
         let res = resolveData.data
         console.log(res)
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].no = res[i].studentno // 학번
+          list[i].name = res[i].name // 이름
+          list[i].dep = "-" // 학과
+          list[i].newwrite = "-" // 새로운 요청글
+          list[i].live = "-" // 거주 기숙사
+          list[i].auth = res[i].roles[0].name // 사용자 권한
+          //if(list[i].auth === "ROLE_USER_MEMBER")
+        }
+        this.userList = list
+      })
+      ApplyStudyroomDataService.getAll().then(resolveData => {
+        let res = resolveData.data
         let list = []
 
         for (let i=0; i<res.length; i++) {
@@ -365,13 +359,12 @@ export default {
           list[i].seat = "-" // 좌석
         }
         this.studyList = list
-        console.log(this.studyList)
       })
     },
     routeCheck() {
       this.activeReset();
       if (this.$route.name === "adminuser") {
-        this.title = "관리자페이지 > 입사자 현황";
+        this.title = "관리자페이지 > 사용자 관리";
         this.side[0].img = require("@/assets/admin_user_white.png");
         this.side[1].img = require("@/assets/admin_point.png");
         this.side[2].img = require("@/assets/admin_calendar.png");
@@ -381,7 +374,7 @@ export default {
         this.side[6].img = require("@/assets/admin_schedule.png");
         this.side[0].active = true;
       } else if (this.$route.name === "adminuseradd") {
-        this.title = "관리자페이지 > 입사자 현황  > 사용자 관리";
+        this.title = "관리자페이지 > 사용자 관리  > 사용자 추가";
         this.side[0].img = require("@/assets/admin_user_white.png");
         this.side[1].img = require("@/assets/admin_point.png");
         this.side[2].img = require("@/assets/admin_calendar.png");

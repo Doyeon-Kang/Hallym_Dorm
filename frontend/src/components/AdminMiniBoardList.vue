@@ -24,29 +24,31 @@
                 $route.name === 'adminlife'">종료일자순</button>
             </span>
         </div>
-        <table>
-            <thead>
-                <th><input type="checkbox" v-model="checkAll" value="all" /></th>
-                <th v-for="(title, index) in listTitle" :key="index">
-                    {{ title }}
-                </th>
-                <th></th>
-            </thead>
-            <tbody>
-                <tr v-for="item in listItem" :key="item.no" @click="this.$router.push(item.url)">
-                    <td><input type="checkbox" class="check" :value="item.no" v-model="selectList" /></td>
+        <div style="height: 92%; overflow: auto">
+            <table>
+                <thead>
+                    <th><input type="checkbox" v-model="checkAll" value="all" /></th>
+                    <th v-for="(title, index) in listTitle" :key="index">
+                        {{ title }}
+                    </th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr v-for="item in listItem" :key="item.no" @click="this.$router.push(item.url)">
+                        <td><input type="checkbox" class="check" :value="item.no" v-model="selectList" /></td>
 
-                    <td v-for="(text, index) in objectKey(item)" :key="index">
-                        {{ text }}
-                    </td>
-                    <td><input type="button" value="자세히" v-show="$route.name === 'adminuser' ||
-                    $route.name === 'adminuseradd' ||
-                    $route.name === 'adminpoint' ||
-                    $route.name === 'adminpointadd' ||
-                    $route.name === 'admininout'" /></td>
-                </tr>
-            </tbody>
-        </table>
+                        <td v-for="(text, index) in objectKey(item)" :key="index">
+                            {{ text }}
+                        </td>
+                        <td><input type="button" value="자세히" v-show="$route.name === 'adminuser' ||
+                        $route.name === 'adminuseradd' ||
+                        $route.name === 'adminpoint' ||
+                        $route.name === 'adminpointadd' ||
+                        $route.name === 'admininout'" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
     
@@ -257,11 +259,12 @@ export default {
     width: 100%;
     margin-left: 10px;
     background-color: #ededed;
-    height: 500px;
+    height: 60%;
 
     .top {
         display: flex;
         width: 100%;
+        height: 8%;
         color: #fff;
         font-size: 80%;
         background-color: #336EB4;
@@ -288,10 +291,10 @@ export default {
     table {
         width: 100%;
         font-size: 80%;
-
+        height: 92%;
         thead {
             background-color: #447EC3;
-
+            position: sticky;
             th {
                 color: #fff;
                 padding: 10px;
@@ -299,6 +302,10 @@ export default {
         }
 
         tbody {
+            //display: inline-block;
+            //width: 100vw;
+            overflow-y: scroll;
+            
             tr {
                 border-bottom: 1px solid #858585;
 

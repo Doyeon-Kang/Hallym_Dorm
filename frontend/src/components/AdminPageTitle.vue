@@ -9,7 +9,8 @@
       <button class="add" v-else @click="this.$router.push('/admin/user')" v-show="
       $route.name !== 'adminstudy' &&
       $route.name !== 'admininout' &&
-      $route.name !== 'adminlife'">{{add}}</button>
+      $route.name !== 'adminlife' &&
+      $route.name !== 'adminuseradd'">{{add}}</button>
       <button class="del">삭제</button>
     </div>
   </div>

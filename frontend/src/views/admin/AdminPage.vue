@@ -101,38 +101,14 @@ export default {
 
       pointTitle: ["학번", "이름", "소속학과", "상벌점", "상벌점 추가내역", "거주 기숙사"],
       pointList: [
-        {
-          no: "20201234",
-          name: "홍길동",
-          dep: "전자공학과",
-          point: "5",
-          addpoint: "-",
-          live: "2관",
-        },
-        {
-          no: "20204237",
-          name: "김땡땡",
-          dep: "빅데이터학과",
-          point: "4",
-          addpoint: "-",
-          live: "5관",
-        },
-        {
-          no: "20191235",
-          name: "박모씨",
-          dep: "체육학과",
-          point: "10",
-          addpoint: "-",
-          live: "1관",
-        },
-        {
-          no: "20215236",
-          name: "최빵빵",
-          dep: "사회복지학과",
-          point: "7",
-          addpoint: "-",
-          live: "6관",
-        },
+        // {
+        //   no: "20201234",
+        //   name: "홍길동",
+        //   dep: "전자공학과",
+        //   point: "5",
+        //   addpoint: "-",
+        //   live: "2관",
+        // }
       ],
 
       studyTitle: ["학번", "이름", "소속학과", "예약날짜", "예약시간", "선택좌석"],
@@ -304,7 +280,6 @@ export default {
           end: "2022-02-22",
         },
       ],
-      //listArr: []
     };
   },
   components: {
@@ -320,16 +295,12 @@ export default {
   },
   created() {
     this.routeCheck();
-    
-  },
-  mounted() {
     this.init();
   },
   methods: {
     init() {
       UserDataService.getAll().then(resolveData => {
         let res = resolveData.data
-        console.log(res)
         let list = []
 
         for (let i=0; i<res.length; i++) {
@@ -346,6 +317,7 @@ export default {
       })
       ApplyStudyroomDataService.getAll().then(resolveData => {
         let res = resolveData.data
+        console.log("study: ", res)
         let list = []
 
         for (let i=0; i<res.length; i++) {
@@ -354,8 +326,60 @@ export default {
           list[i].name = "-" // 이름
           list[i].dep = "-" // 학과
           list[i].date = res[i].date // 신청일자
-          for(let j=1; j<=3; j++)
-          list[i].time = res[i].timeslot1 // 사용시간
+          list[i].time = "" // 사용시간
+          if (res[i].timeslot1 === 1) {
+            list[i].time += "09:00~11:00"
+          } else if (res[i].timeslot1 === 2) {
+            list[i].time += "11:00~13:00"
+          } else if (res[i].timeslot1 === 3) {
+            list[i].time += "13:00~15:00"
+          } else if (res[i].timeslot1 === 4) {
+            list[i].time += "15:00~17:00"
+          } else if (res[i].timeslot1 === 5) {
+            list[i].time += "17:00~19:00"
+          } else if (res[i].timeslot1 === 6) {
+            list[i].time += "19:00~21:00"
+          } else if (res[i].timeslot1 === 7) {
+            list[i].time += "21:00~23:00"
+          } else {
+            list[i].time += ""
+          }
+
+          if (res[i].timeslot2 === 1) {
+            list[i].time += " | 09:00~11:00"
+          } else if (res[i].timeslot2 === 2) {
+            list[i].time += " | 11:00~13:00"
+          } else if (res[i].timeslot2 === 3) {
+            list[i].time += " | 13:00~15:00"
+          } else if (res[i].timeslot2 === 4) {
+            list[i].time += " | 15:00~17:00"
+          } else if (res[i].timeslot2 === 5) {
+            list[i].time += " | 17:00~19:00"
+          } else if (res[i].timeslot2 === 6) {
+            list[i].time += " | 19:00~21:00"
+          } else if (res[i].timeslot2 === 7) {
+            list[i].time += " | 21:00~23:00"
+          } else {
+            list[i].time += ""
+          }
+
+          if (res[i].timeslot3 === 1) {
+            list[i].time += " | 09:00~11:00"
+          } else if (res[i].timeslot3 === 2) {
+            list[i].time += " | 11:00~13:00"
+          } else if (res[i].timeslot3 === 3) {
+            list[i].time += " | 13:00~15:00"
+          } else if (res[i].timeslot3 === 4) {
+            list[i].time += " | 15:00~17:00"
+          } else if (res[i].timeslot3 === 5) {
+            list[i].time += " | 17:00~19:00"
+          } else if (res[i].timeslot3 === 6) {
+            list[i].time += " | 19:00~21:00"
+          } else if (res[i].timeslot3 === 7) {
+            list[i].time += " | 21:00~23:00"
+          } else {
+            list[i].time += ""
+          }
           list[i].seat = "-" // 좌석
         }
         this.studyList = list

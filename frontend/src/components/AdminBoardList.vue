@@ -55,7 +55,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="item in listSearch" :key="item.no" @click="this.$router.push(item.url)">
-                            <td><input type="checkbox" class="check" :value="item.no" v-model="selectList" /></td>
+                            <td><input type="checkbox" class="check" :value="item.no" v-model="selectList"/></td>
 
                             <td v-for="(text, index) in objectKey(item)" :key="index">
                                 {{ text }}
@@ -188,6 +188,9 @@ export default {
         },
     },
     watch: {
+        selectList() {
+            console.log(this.selectList)
+        },  
         sortedName() {
             this.listArray.sort(function (a, b) {
                 return a.name.localeCompare(b.name)

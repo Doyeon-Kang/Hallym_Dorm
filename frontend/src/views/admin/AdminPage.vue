@@ -487,9 +487,10 @@ export default {
   watch: {
     $route() {
       this.routeCheck();
-    },
-  },
+    }
+  }
 };
+
 </script>
   
 <style lang="less" scoped>

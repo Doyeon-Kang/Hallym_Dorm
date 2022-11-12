@@ -6,7 +6,7 @@
       </thead>
       <tbody>
         <tr v-for="item in paginatedData" :key="item.no" @click="this.$router.push(item.url)">
-          <td v-for="(text, index) in objectKey(item)" :key="index" @click="$router.push(this.$route.path + '/no')">
+          <td v-for="(text, index) in objectKey(item)" :key="index" @click="$router.push({path:this.$route.path + '/view', query: { no: item.no }})">
             {{ text }}
           </td>
         </tr>

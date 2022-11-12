@@ -67,7 +67,8 @@ import InoutCom from "../../components/AdminInoutCom.vue";
 import UserDataService from "@/services/UserDataService"
 import ApplyStudyroomDataService from "@/services/ApplyStudyroomDataService";
 import ApplySleepoutDataService from "@/services/ApplySleepoutDataService";
-
+import ApplyJoinDataService from "@/services/ApplyJoinDataService";
+import ApplyResignDataService from "@/services/ApplyResignDataService";
 
 
 export default {
@@ -97,7 +98,7 @@ export default {
       title_in: "입사 관리",
       title_out: "퇴사 관리",
 
-      userTitle: ["학번", "이름", "소속학과",  "새로운 요청글", "거주 기숙사", "사용자 권한"],
+      userTitle: ["학번", "이름", "소속학과", "거주 기숙사", "사용자 권한"],
       userList: [],
 
       pointTitle: ["학번", "이름", "소속학과", "상벌점", "상벌점 추가내역", "거주 기숙사"],
@@ -115,84 +116,22 @@ export default {
       studyTitle: ["학번", "이름", "소속학과", "예약날짜", "예약시간", "선택좌석"],
       studyList: [],
       sleepTitle: ["학번", "이름", "소속학과", "신청날짜", "외박 기간", "신청 사유", "승인 상태"],
-      sleepList: [
-        // {
-        //   no: "20201234",
-        //   name: "홍길동",
-        //   dep: "전자공학과",
-        //   date: "2022-07-07",
-        //   term: "2022-07-08 ~ 2022-07-09",
-        //   reason: "본가 방문",
-        //   status: "미승인",
-        // }
-      ],
+      sleepList: [],
 
       inTitle: ["학번", "학년", "이름", "소속학과", "상벌점", "희망 1순위"],
       inList: [
-        {
-          no: "20201234",
-          grade: "2",
-          name: "홍길동",
-          dep: "전자공학과",
-          point: "5",
-          hope: "2관",
-        },
-        {
-          no: "20204237",
-          grade: "3",
-          name: "김땡땡",
-          dep: "빅데이터학과",
-          point: "4",
-          hope: "8관",
-        },
-        {
-          no: "20191235",
-          grade: "4",
-          name: "박모씨",
-          dep: "체육학과",
-          point: "10",
-          hope: "6관",
-        },
-        {
-          no: "20215236",
-          grade: "1",
-          name: "최빵빵",
-          dep: "사회복지학과",
-          point: "7",
-          hope: "6관",
-        },
+        // {
+        //   no: "20201234",
+        //   grade: "2",
+        //   name: "홍길동",
+        //   dep: "전자공학과",
+        //   point: "5",
+        //   hope: "8관",
+        // }
       ],
 
       outTitle: ["학번", "이름", "소속학과", "거주 기숙사", "승인여부"],
       outList: [
-        {
-          no: "20201234",
-          name: "홍길동",
-          dep: "전자공학과",
-          live: "8관 518호",
-          status: "대기중",
-        },
-        {
-          no: "20204237",
-          name: "김땡땡",
-          dep: "빅데이터학과",
-          live: "5관 623호",
-          status: "대기중",
-        },
-        {
-          no: "20191235",
-          name: "박모씨",
-          dep: "체육학과",
-          live: "7관 905호",
-          status: "대기중",
-        },
-        {
-          no: "20215236",
-          name: "최빵빵",
-          dep: "사회복지학과",
-          live: "1관 1201호",
-          status: "대기중",
-        },
       ],
 
       consultingTitle: ["학번", "이름", "상담분야", "신청일자", "전화번호", "진행상태"],
@@ -282,7 +221,6 @@ export default {
           list[i].no = res[i].studentno // 학번
           list[i].name = res[i].name // 이름
           list[i].dep = "-" // 학과
-          list[i].newwrite = "-" // 새로운 요청글
           list[i].live = "-" // 거주 기숙사
           list[i].auth = res[i].roles[0].name // 사용자 권한
           //if(list[i].auth === "ROLE_USER_MEMBER")
@@ -359,7 +297,6 @@ export default {
       })
       ApplySleepoutDataService.getAll().then(resolveData => {
         let res = resolveData.data
-        console.log(res)
         let list = []
 
         for (let i=0; i<res.length; i++) {
@@ -378,6 +315,43 @@ export default {
           }
         }
         this.sleepList = list
+      })
+      ApplyJoinDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+        console.log("in: ", res)
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].no = "-"
+          list[i].grade = res[i].grade
+          list[i].name = "-"
+          list[i].dep = res[i].department
+          list[i].point = "-"
+          list[i].hope = res[i].hope_fac_1
+        }
+        this.inList = list
+        console.log(this.inList)
+      })
+      ApplyResignDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+        console.log("out: ", res)
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].no = "-"
+          list[i].name = "-"
+          list[i].dep = "-"
+          list[i].live = "-"
+          if (res[i].approved === true) {
+            list[i].status = "승인"
+          } else {
+            list[i].status = "대기중"
+          }
+        }
+        this.outList = list
+        console.log(this.outList)
       })
     },
     routeCheck() {

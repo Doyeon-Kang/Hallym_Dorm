@@ -588,6 +588,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import SidebarCom from '@/components/SidebarCom.vue';
 import PageTitle from "@/components/PageTitle.vue";
 import UserService from '@/services/UserInfoDataService';

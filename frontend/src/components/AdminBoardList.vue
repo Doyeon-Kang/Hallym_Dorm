@@ -118,7 +118,7 @@ export default {
     methods: {
         objectKey(ob) {
             let array = [];
-            for (let key in ob) {
+            for (const key in ob) {
                 if (key !== "url") array.push(ob[key]);
             }
             return array;

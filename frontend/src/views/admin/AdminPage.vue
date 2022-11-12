@@ -66,6 +66,7 @@ import InoutCom from "../../components/AdminInoutCom.vue";
 
 import UserDataService from "@/services/UserDataService"
 import ApplyStudyroomDataService from "@/services/ApplyStudyroomDataService";
+import ApplySleepoutDataService from "@/services/ApplySleepoutDataService";
 
 
 
@@ -115,42 +116,15 @@ export default {
       studyList: [],
       sleepTitle: ["학번", "이름", "소속학과", "신청날짜", "외박 기간", "신청 사유", "승인 상태"],
       sleepList: [
-        {
-          no: "20201234",
-          name: "홍길동",
-          dep: "전자공학과",
-          date: "2022-07-07",
-          term: "2022-07-08 ~ 2022-07-09",
-          reason: "본가 방문",
-          status: "미승인",
-        },
-        {
-          no: "20204237",
-          name: "김땡땡",
-          dep: "빅데이터학과",
-          date: "2022-06-19",
-          term: "2022-07-01 ~ 2022-07-03",
-          reason: "본가 방문",
-          status: "승인",
-        },
-        {
-          no: "20191235",
-          name: "박모씨",
-          dep: "체육학과",
-          date: "2022-07-21",
-          term: "2022-07-21 ~ 2022-07-22",
-          reason: "본가 방문",
-          status: "미승인",
-        },
-        {
-          no: "20215236",
-          name: "최빵빵",
-          dep: "사회복지학과",
-          date: "2022-07-21",
-          term: "2022-07-28 ~ 2022-07-30",
-          reason: "본가 방문",
-          status: "승인",
-        },
+        // {
+        //   no: "20201234",
+        //   name: "홍길동",
+        //   dep: "전자공학과",
+        //   date: "2022-07-07",
+        //   term: "2022-07-08 ~ 2022-07-09",
+        //   reason: "본가 방문",
+        //   status: "미승인",
+        // }
       ],
 
       inTitle: ["학번", "학년", "이름", "소속학과", "상벌점", "희망 1순위"],
@@ -317,7 +291,6 @@ export default {
       })
       ApplyStudyroomDataService.getAll().then(resolveData => {
         let res = resolveData.data
-        console.log("study: ", res)
         let list = []
 
         for (let i=0; i<res.length; i++) {
@@ -383,6 +356,28 @@ export default {
           list[i].seat = "-" // 좌석
         }
         this.studyList = list
+      })
+      ApplySleepoutDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+        console.log(res)
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          //list[i].id = res[i].id
+          list[i].no = "-"
+          list[i].name = "-"
+          list[i].dep = "-"
+          list[i].date = res[i].date
+          list[i].term = res[i].date_sleepout
+          list[i].reason = res[i].reason
+          if (res[i].approved === true) {
+            list[i].status = "승인"
+          } else {
+            list[i].status = "미승인"
+          }
+        }
+        this.sleepList = list
       })
     },
     routeCheck() {

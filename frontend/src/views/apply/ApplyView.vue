@@ -19,25 +19,9 @@
                             <tr>
                                 <td>연락처</td>
                                 <td>{{ this.userinfo.phone }}
-                                    <!-- <select name="phone1" required v-model="firstPhonenum">
-                                    <option value="010">010</option>
-                                    <option value="02">02</option>
-                                    <option value="031">031</option>
-                                    <option value="032">032</option>
-                                    <option value="033">033</option>
-                                    <option value="034">034</option>
-                                    <option value="035">035</option>
-                                    <option value="036">036</option>
-                                </select> -
-                                <input type='tel' name='phone2' required v-model="midPhonenum"/> -
-                                <input type='tel' name='phone3' required v-model="lastPhonenum"/> -->
                                 </td>
                                 <td>이메일</td>
                                 <td>{{ this.user.email }}
-                                    <!-- <input type="email"
-                                        pattern=".+@gmail\.com"
-                                        placeholder="example@gmail.com"
-                                        required v-model="lastPhonenum"> -->
                                 </td>
                             </tr>
                             <tr>
@@ -72,41 +56,41 @@
                                         </tr>
                                         <tr>
                                             <td>9~10</td>
-                                            <td><input type="radio" name="consult" id="m1" v-model="mon_timeslot"
+                                            <td><input type="checkbox" name="consult" id="m1" v-model="mon_timeslot"
                                                     value="1"></td>
-                                            <td><input type="radio" name="consult" id="t1" v-model="tue_timeslot"
+                                            <td><input type="checkbox" name="consult" id="t1" v-model="tue_timeslot"
                                                     value="1"></td>
-                                            <td><input type="radio" name="consult" id="w1" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w1" v-model="web_timeslot"
                                                     value="1"></td>
-                                            <td><input type="radio" name="consult" id="r1" v-model="thu_timeslot"
+                                            <td><input type="checkbox" name="consult" id="r1" v-model="thu_timeslot"
                                                     value="1"></td>
-                                            <td><input type="radio" name="consult" id="f1" v-model="fri_timeslot"
+                                            <td><input type="checkbox" name="consult" id="f1" v-model="fri_timeslot"
                                                     value="1"></td>
                                         </tr>
                                         <tr>
                                             <td>10~11</td>
-                                            <td><input type="radio" name="consult" id="m2" v-model="mon_timeslot"
+                                            <td><input type="checkbox" name="consult" id="m2" v-model="mon_timeslot"
                                                     value="2"></td>
-                                            <td><input type="radio" name="consult" id="t2" v-model="tue_timeslot"
+                                            <td><input type="checkbox" name="consult" id="t2" v-model="tue_timeslot"
                                                     value="2"></td>
-                                            <td><input type="radio" name="consult" id="w2" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w2" v-model="web_timeslot"
                                                     value="2"></td>
-                                            <td><input type="radio" name="consult" id="r2" v-model="thu_timeslot"
+                                            <td><input type="checkbox" name="consult" id="r2" v-model="thu_timeslot"
                                                     value="2"></td>
-                                            <td><input type="radio" name="consult" id="f2" v-model="fri_timeslot"
+                                            <td><input type="checkbox" name="consult" id="f2" v-model="fri_timeslot"
                                                     value="2"></td>
                                         </tr>
                                         <tr>
                                             <td>11~12</td>
-                                            <td><input type="radio" name="consult" id="m3" v-model="mon_timeslot"
+                                            <td><input type="checkbox" name="consult" id="m3" v-model="mon_timeslot"
                                                     value="3"></td>
-                                            <td><input type="radio" name="consult" id="t3" v-model="tue_timeslot"
+                                            <td><input type="checkbox" name="consult" id="t3" v-model="tue_timeslot"
                                                     value="3"></td>
-                                            <td><input type="radio" name="consult" id="w3" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w3" v-model="web_timeslot"
                                                     value="3"></td>
-                                            <td><input type="radio" name="consult" id="r3" v-model="thu_timeslot"
+                                            <td><input type="checkbox" name="consult" id="r3" v-model="thu_timeslot"
                                                     value="3"></td>
-                                            <td><input type="radio" name="consult" id="f3" v-model="fri_timeslot"
+                                            <td><input type="checkbox" name="consult" id="f3" v-model="fri_timeslot"
                                                     value="3"></td>
                                         </tr>
                                         <tr>
@@ -115,67 +99,67 @@
                                         </tr>
                                         <tr>
                                             <td>13~14</td>
-                                            <td><input type="radio" name="consult" id="m4" v-model="mon_timeslot"
+                                            <td><input type="checkbox" name="consult" id="m4" v-model="mon_timeslot"
                                                     value="4"></td>
-                                            <td><input type="radio" name="consult" id="t4" v-model="tue_timeslot"
+                                            <td><input type="checkbox" name="consult" id="t4" v-model="tue_timeslot"
                                                     value="4"></td>
-                                            <td><input type="radio" name="consult" id="w4" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w4" v-model="web_timeslot"
                                                     value="4"></td>
-                                            <td><input type="radio" name="consult" id="r4" v-model="thu_timeslot"
+                                            <td><input type="checkbox" name="consult" id="r4" v-model="thu_timeslot"
                                                     value="4"></td>
-                                            <td><input type="radio" name="consult" id="f4" v-model="fri_timeslot"
+                                            <td><input type="checkbox" name="consult" id="f4" v-model="fri_timeslot"
                                                     value="4"></td>
                                         </tr>
                                         <tr>
                                             <td>14~15</td>
-                                            <td><input type="radio" name="consult" id="m5" v-model="mon_timeslot"
+                                            <td><input type="checkbox" name="consult" id="m5" v-model="mon_timeslot"
                                                     value="5"></td>
-                                            <td><input type="radio" name="consult" id="t5" v-model="tue_timeslot"
+                                            <td><input type="checkbox" name="consult" id="t5" v-model="tue_timeslot"
                                                     value="5"></td>
-                                            <td><input type="radio" name="consult" id="w5" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w5" v-model="web_timeslot"
                                                     value="5"></td>
-                                            <td><input type="radio" name="consult" id="r5" v-model="thu_timeslot"
+                                            <td><input type="checkbox" name="consult" id="r5" v-model="thu_timeslot"
                                                     value="5"></td>
-                                            <td><input type="radio" name="consult" id="f5" v-model="fri_timeslot"
+                                            <td><input type="checkbox" name="consult" id="f5" v-model="fri_timeslot"
                                                     value="5"></td>
                                         </tr>
                                         <tr>
                                             <td>15~16</td>
-                                            <td><input type="radio" name="consult" id="m6" v-model="mon_timeslot"
+                                            <td><input type="checkbox" name="consult" id="m6" v-model="mon_timeslot"
                                                     value="6"></td>
-                                            <td><input type="radio" name="consult" id="t6" v-model="tue_timeslot"
+                                            <td><input type="checkbox" name="consult" id="t6" v-model="tue_timeslot"
                                                     value="6"></td>
-                                            <td><input type="radio" name="consult" id="w6" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w6" v-model="web_timeslot"
                                                     value="6"></td>
-                                            <td><input type="radio" name="consult" id="r6" v-model="thu_timeslot"
+                                            <td><input type="checkbox" name="consult" id="r6" v-model="thu_timeslot"
                                                     value="6"></td>
-                                            <td><input type="radio" name="consult" id="f6" v-model="fri_timeslot"
+                                            <td><input type="checkbox" name="consult" id="f6" v-model="fri_timeslot"
                                                     value="6"></td>
                                         </tr>
                                         <tr>
                                             <td>16~17</td>
-                                            <td><input type="radio" name="consult" id="m7" v-model="mon_timeslot"
+                                            <td><input type="checkbox" name="consult" id="m7" v-model="mon_timeslot"
                                                     value="7"></td>
-                                            <td><input type="radio" name="consult" id="t7" v-model="tue_timeslot"
+                                            <td><input type="checkbox" name="consult" id="t7" v-model="tue_timeslot"
                                                     value="7"></td>
-                                            <td><input type="radio" name="consult" id="w7" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w7" v-model="web_timeslot"
                                                     value="7"></td>
-                                            <td><input type="radio" name="consult" id="r7" v-model="thu_timeslot"
+                                            <td><input type="checkbox" name="consult" id="r7" v-model="thu_timeslot"
                                                     value="7"></td>
-                                            <td><input type="radio" name="consult" id="f7" v-model="fri_timeslot"
+                                            <td><input type="checkbox" name="consult" id="f7" v-model="fri_timeslot"
                                                     value="7"></td>
                                         </tr>
                                         <tr>
                                             <td>17~18</td>
-                                            <td><input type="radio" name="consult" id="m8" v-model="mon_timeslot"
+                                            <td><input type="checkbox" name="consult" id="m8" v-model="mon_timeslot"
                                                     value="8"></td>
-                                            <td><input type="radio" name="consult" id="t8" v-model="tue_timeslot"
+                                            <td><input type="checkbox" name="consult" id="t8" v-model="tue_timeslot"
                                                     value="8"></td>
-                                            <td><input type="radio" name="consult" id="w8" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w8" v-model="web_timeslot"
                                                     value="8"></td>
-                                            <td><input type="radio" name="consult" id="r8" v-model="thu_timeslot"
+                                            <td><input type="checkbox" name="consult" id="r8" v-model="thu_timeslot"
                                                     value="8"></td>
-                                            <td><input type="radio" name="consult" id="f8" v-model="fri_timeslot"
+                                            <td><input type="checkbox" name="consult" id="f8" v-model="fri_timeslot"
                                                     value="8"></td>
                                         </tr>
                                     </table>
@@ -201,47 +185,27 @@
                         <div class="title">
                             이용시간
                             <p>(하루 최대 이용 시간은 6시간입니다.)</p>
+                            <strong style="margin-left: 50px;">TODAY : {{today}}</strong>
                         </div>
 
-                        <div class="time_status">
-                            <input type="button" v-for="(timeslotList, index) in this.timeslotList"
-                                :key="timeslotList.time" class="timeslotList"
-                                :class="{ active: timeslotList.isActive, disable: !timeslotList.status }"
-                                @click="myFilterTime(index)" :disabled="!timeslotList.status"
-                                :value="timeslotList.time">
+                        <div v-if="this.seat[0].isActive == true">
+                            <div class="time_status">
+                                <input type="button" v-for="(timeslotList, index) in this.timeslotList"
+                                    :key="timeslotList.time" class="timeslotList"
+                                    :class="{ active: timeslotList.isActive, disable: !this.studyschedulelist[0].timeslot1_taken }"
+                                    @click="myFilterTime(index)" :disabled="!studyschedulelist[0].timeslot1_taken"
+                                    :value="timeslotList.time">
+                            </div>
                         </div>
-                        <!-- <select id="" required v-model="study_timeslot1">
-                        <option value="" disabled selected>시간 선택</option>
-                        <option value=1>09:00~11:00</option>
-                        <option value=2>11:00~13:00</option>
-                        <option value=3>13:00~15:00</option>
-                        <option value=4>15:00~17:00</option>
-                        <option value=5>17:00~19:00</option>
-                        <option value=6>19:00~21:00</option>
-                        <option value=7>21:00~23:00</option>
-                    </select>
-                    <select v-show="timeTable[1]" id="" v-model="study_timeslot2">
-                        <option value="" disabled selected>추가 시간 선택</option>
-                        <option value=1>09:00~11:00</option>
-                        <option value=2>11:00~13:00</option>
-                        <option value=3>13:00~15:00</option>
-                        <option value=4>15:00~17:00</option>
-                        <option value=5>17:00~19:00</option>
-                        <option value=6>19:00~21:00</option>
-                        <option value=7>21:00~23:00</option>
-                    </select>
-                    <select v-show="timeTable[2]" id="" v-model="study_timeslot3">
-                        <option value="" disabled selected>추가 시간 선택</option>
-                        <option value=1>09:00~11:00</option>
-                        <option value=2>11:00~13:00</option>
-                        <option value=3>13:00~15:00</option>
-                        <option value=4>15:00~17:00</option>
-                        <option value=5>17:00~19:00</option>
-                        <option value=6>19:00~21:00</option>
-                        <option value=7>21:00~23:00</option>
-                    </select>
-                    <input type="button" v-if="timeCount < 2" @click="addTime" value="+">
-                    <input type="button" v-if="timeCount >= 1" @click="subTime" value="-"> -->
+                        <div v-else-if="this.seat[1].isActive == true">
+                            <div class="time_status">
+                                <input type="button" v-for="(timeslotList, index) in this.timeslotList"
+                                    :key="timeslotList.time" class="timeslotList"
+                                    :class="{ active: timeslotList.isActive, disable: !studyschedulelist[0].timeslot4_taken }"
+                                    @click="myFilterTime(index)" :disabled="!studyschedulelist[0].timeslot4_taken"
+                                    :value="timeslotList.time">
+                            </div>
+                        </div>
                         <input class="submit_btn" type="button" value="예약하기" @click="reserveStudyroom()">
                     </form>
                 </div>
@@ -299,7 +263,7 @@
                                     <td class="title">학년/성별</td>
                                     <td class="content">
                                         <select name="grade" v-model="grade">
-                                            <option value=1 selected>1학년</option>
+                                            <option value=1>1학년</option>
                                             <option value=2>2학년</option>
                                             <option value=3>3학년</option>
                                             <option value=4>4학년</option>
@@ -642,7 +606,8 @@ import SidebarCom from '@/components/SidebarCom.vue';
 import PageTitle from "@/components/PageTitle.vue";
 import UserService from '@/services/UserInfoDataService';
 import ApplyConsultDataService from "@/services/ApplyConsultDataService";
-// import ApplyStudyroomDataService from "@/services/ApplyStudyroomDataService";
+import ApplyStudyroomDataService from "@/services/ApplyStudyroomDataService";
+import StudyroomScheduleGet from "@/services/StudyroomScheduleGet";
 import ApplyJoinDataService from "@/services/ApplyJoinDataService";
 import ApplyResignDataService from "@/services/ApplyResignDataService";
 import ApplySleepoutDataService from "@/services/ApplySleepoutDataService";
@@ -669,9 +634,8 @@ export default {
 
             ],
             timeCount: 0,
-            // timeTable: [true, false, false],
             seat: [
-                { no: 1, status: true, isActive: false },
+                { no: 1, status: true, isActive: true },
                 { no: 2, status: true, isActive: false },
                 { no: 3, status: true, isActive: false },
                 { no: 4, status: true, isActive: false },
@@ -696,12 +660,13 @@ export default {
             time_selected_list: [],
             seat_no: 0,
             userinfo: {},
+            studyschedulelist: [],
         }
     },
     components: { SidebarCom, PageTitle },
     created() {
         this.routeCheck()
-        this.getUserData()
+        this.init()
     },
     methods: {
         routeCheck() {
@@ -737,14 +702,6 @@ export default {
                 this.side[i].active = false;
             }
         },
-        // addTime() {
-        //     this.timeCount += 1;
-        //     this.timeTable[this.timeCount] = true;
-        // },
-        // subTime() {
-        //     this.timeTable[this.timeCount] = false;
-        //     this.timeCount -= 1;
-        // },
         myFilterSeat(index) {
             for (const item in this.seat) {
                 this.seat[item].isActive = false;
@@ -766,7 +723,6 @@ export default {
                     this.timeslotList[index].isActive = true;
                 }
             }
-            console.log(this.time_selected_list)
         },
         // 상담 신청
         reserveConsult() {
@@ -827,14 +783,14 @@ export default {
             // }
 
             data = {
-                timeslot1: this.time[0],
-                timeslot2: this.time[1],
-                timeslot3: this.time[2],
+                timeslot1: this.time_selected_list[0],
+                timeslot2: this.time_selected_list[1],
+                timeslot3: this.time_selected_list[2],
             }
             console.log(this.user.studentno)
             console.log(this.seat_no)
             console.log(data)
-            // ApplyStudyroomDataService.create(this.user.studentno, this.seat_no, data)
+            ApplyStudyroomDataService.create(this.user.studentno, this.seat_no, data)
             alert("신청 완료했습니다.");
         },
         // 입사 신청
@@ -867,8 +823,15 @@ export default {
                 accpm_ent: this.accpm_ent,
                 par_mes_yn: this.par_mes_yn
             }
-            ApplyJoinDataService.create(this.user.studentno, data)
-            alert("신청 완료했습니다.");
+            if(this.hope_fac_1 == this.hope_fac_2 || this.hope_fac_1 == this.hope_fac_3 || this.hope_fac_1 == this.hope_fac_4 || this.hope_fac_1 == this.hope_fac_5
+            || this.hope_fac_1 == this.hope_fac_6 || this.hope_fac_2 == this.hope_fac_3 || this.hope_fac_2 == this.hope_fac_4 || this.hope_fac_2 == this.hope_fac_5
+            || this.hope_fac_2 == this.hope_fac_6 || this.hope_fac_3 == this.hope_fac_4 || this.hope_fac_3 == this.hope_fac_5 || this.hope_fac_3 == this.hope_fac_6
+            || this.hope_fac_4 == this.hope_fac_5 || this.hope_fac_4 == this.hope_fac_6 || this.hope_fac_5 == this.hope_fac_6){
+                alert("희망 시설이 중복되었습니다.")
+            } else{
+                ApplyJoinDataService.create(this.user.studentno, data)
+                alert("신청 완료했습니다.");
+            }
         },
         // 퇴사 신청
         reserveResign() {
@@ -889,10 +852,10 @@ export default {
             alert("신청 완료했습니다.");
         },
 
-        getUserData() {
-            UserService.getInfo(this.user.studentno).then(resolveData => {
-                let res = resolveData.data
-                let getinfo = []
+        init(){
+            UserService.getInfo(this.user.studentno).then(item => {
+                let res = item.data
+                let getinfo = {}
 
                 getinfo.english_name = res.english_name
                 getinfo.chinese_name = res.chinese_name
@@ -913,6 +876,25 @@ export default {
                 getinfo.res_room = res.res_room
 
                 this.userinfo = getinfo
+            })
+
+            StudyroomScheduleGet.getAll().then(item => {
+                let res = item.data
+                let list = []
+
+                for (let i=0; i<res.length; i++) {
+                    list.push({})
+                    list[i].no = res[i].id
+                    list[i].seat = res[i].seat
+                    list[i].timeslot1_taken = res[i].timeslot1_taken
+                    list[i].timeslot2_taken = res[i].timeslot2_taken
+                    list[i].timeslot3_taken = res[i].timeslot3_taken
+                    list[i].timeslot4_taken = res[i].timeslot4_taken
+                    list[i].timeslot5_taken = res[i].timeslot5_taken
+                    list[i].timeslot6_taken = res[i].timeslot6_taken
+                    list[i].timeslot7_taken = res[i].timeslot7_taken
+                }
+                this.studyschedulelist = list
             })
         }
     },
@@ -1085,19 +1067,6 @@ export default {
                         }
                     }
 
-                    // select {
-                    //     padding: 14px;
-                    //     border: 1px solid #858585;
-                    //     border-radius: 0;
-                    //     color: #858585;
-                    //     margin-right: 3px;
-                    //     option {
-                    //         font-size: 16px;
-                    //         &[value=""][disabled] {
-                    //             display: none;
-                    //         }
-                    //     }
-                    // }
                     input[type="button"] {
                         border: 3px solid #336EB4;
                         border-radius: 5px;
@@ -1114,8 +1083,9 @@ export default {
                         }
 
                         &.timeslotList {
-                            padding: 20px 15px;
-                            margin: 10px 5px;
+                            background-color: #fff;
+                            padding: 25px 20px;
+                            margin: 10px 10px;
 
                             &.active {
                                 background-color: #336EB4;

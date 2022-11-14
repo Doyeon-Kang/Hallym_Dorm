@@ -126,40 +126,22 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dormitory`.`consult_schedule`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dormitory`.`apply_consult_schedule` (
-  `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
-  `day` VARCHAR(3) NOT NULL COMMENT '',
-  `timeslot1_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
-  `timeslot2_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
-  `timeslot3_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
-  `timeslot4_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
-  `timeslot5_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
-  `timeslot6_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
-  `timeslot7_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
-  `timeslot8_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
-  PRIMARY KEY(`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `dormitory`.`apply_consult`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`apply_consult` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
-  `date` DATETIME COMMENT '',
-  `timeslot1` INT NOT NULL COMMENT '',
-  `timeslot2` INT NOT NULL COMMENT '',
-  `timeslot3` INT NOT NULL COMMENT '',
-  `timeslot4` INT NOT NULL COMMENT '',
-  `timeslot5` INT NOT NULL COMMENT '',
-  `timeslot6` INT NOT NULL COMMENT '',
-  `timeslot7` INT NOT NULL COMMENT '',
-  `timeslot8` INT NOT NULL COMMENT '',
+  `day_of_week` VARCHAR(3) COMMENT '',
+  `timeslot1_okay` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot2_okay` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot3_okay` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot4_okay` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot5_okay` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot6_okay` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot7_okay` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot8_okay` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
   `topic` VARCHAR(20) NULL COMMENT '',
   `subject` VARCHAR(100) NULL COMMENT '',
-  `approved` BOOLEAN COMMENT '',
+  `date` DATETIME COMMENT '',
   PRIMARY KEY(`id`))
 ENGINE = InnoDB;
 
@@ -186,10 +168,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`apply_studyroom` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
-  `date` DATETIME COMMENT '',
+  `seat` INT NOT NULL COMMENT '',
   `timeslot1` INT NULL COMMENT '',
   `timeslot2` INT NULL COMMENT '',
   `timeslot3` INT NULL COMMENT '',
+  `date` DATETIME COMMENT '',
   PRIMARY KEY(`id`))
 ENGINE = InnoDB;
 
@@ -293,12 +276,6 @@ ENGINE = InnoDB;
 INSERT INTO role(name) VALUES('ROLE_USER');
 INSERT INTO role(name) VALUES('ROLE_USER_MEMBER');
 INSERT INTO role(name) VALUES('ROLE_ADMIN');
-
-INSERT INTO apply_consult_schedule(day) VALUES('MON');
-INSERT INTO apply_consult_schedule(day) VALUES('TUE');
-INSERT INTO apply_consult_schedule(day) VALUES('WED');
-INSERT INTO apply_consult_schedule(day) VALUES('THU');
-INSERT INTO apply_consult_schedule(day) VALUES('FRI');
 
 INSERT INTO apply_studyroom_schedule(seat) VALUES(1);
 INSERT INTO apply_studyroom_schedule(seat) VALUES(2);

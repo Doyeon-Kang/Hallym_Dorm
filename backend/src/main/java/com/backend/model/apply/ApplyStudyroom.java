@@ -58,7 +58,18 @@ public class ApplyStudyroom {
         this.date = date;
     }
 
-//   `timeslot` INT NOT NULL COMMENT '',
+    @Column(name="seat")
+    private int seat;
+
+    public int getSeat() {
+        return seat;
+    }
+
+    public void setSeat(int seat) {
+        this.seat = seat;
+    }
+
+    //   `timeslot` INT NOT NULL COMMENT '',
     @Column(name="timeslot1")
     private int timeslot1;
 
@@ -125,7 +136,8 @@ public class ApplyStudyroom {
 
     }
 
-    public ApplyStudyroom(int timeslot1, int timeslot2, int timeslot3) {
+    public ApplyStudyroom(int seat, int timeslot1, int timeslot2, int timeslot3) {
+        this.seat = seat;
         this.timeslot1 = timeslot1;
         this.timeslot2 = timeslot2;
         this.timeslot3 = timeslot3;

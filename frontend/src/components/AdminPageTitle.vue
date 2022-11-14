@@ -6,12 +6,14 @@
         @click="this.$router.push('/admin/user/add')">{{add}}</button>
       <button class="add" v-else-if="this.$route.name === 'adminpoint'"
         @click="this.$router.push('/admin/point/add')">{{add}}</button>
+        <button class="add" v-else-if="this.$route.name === 'adminpointadd'"
+        @click="this.$router.push('/admin/point/add')" style="display: none ">{{add}}</button>
       <button class="add" v-else @click="this.$router.push('/admin/user')" v-show="
       $route.name !== 'adminstudy' &&
       $route.name !== 'admininout' &&
       $route.name !== 'adminlife' &&
       $route.name !== 'adminuseradd'">{{add}}</button>
-      <button class="del" v-if="$route.name !== 'adminpoint'">삭제</button>
+      <button class="del" v-if="$route.name !== 'adminpoint' && this.$route.name !== 'adminpointadd'">삭제</button>
     </div>
   </div>
 </template>

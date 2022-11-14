@@ -301,10 +301,9 @@ export default {
 
         for (let i=0; i<res.length; i++) {
           list.push({})
-          //list[i].id = res[i].id
-          list[i].no = "-"
-          list[i].name = "-"
-          list[i].dep = "-"
+          list[i].no = res[i].studentNo
+          list[i].name = res[i].name
+          list[i].dep = res[i].department
           list[i].date = res[i].date
           list[i].term = res[i].date_sleepout
           list[i].reason = res[i].reason

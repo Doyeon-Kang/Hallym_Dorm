@@ -26,25 +26,25 @@
 
       <!-- 리스트 컴포넌트 -->
       <BoardList v-if="this.$route.name === 'adminuser'" :listItem="userList"
-        :listTitle="userTitle" :totaluser="totaluser">
+        :listTitle="userTitle">
       </BoardList>
       <MiniBoardList v-if="this.$route.name === 'adminuseradd'" :listItem="userList" :listTitle="userTitle"
-        :totaluser="totaluser">
+      >
       </MiniBoardList>
       <BoardList v-else-if="this.$route.name === 'adminpoint'" :listItem="pointList" :listTitle="pointTitle"
-        :totaluser="totaluser">
+      >
       </BoardList>
       <MiniBoardList v-if="this.$route.name === 'adminpointadd'" :listItem="pointList" :listTitle="pointTitle"
-        :totaluser="totaluser">
+      >
       </MiniBoardList>
       <BoardList v-else-if="$route.name === 'adminstudy'" :listItem="studyList" :listTitle="studyTitle"
-        :totaluser="totaluser">
+      >
       </BoardList>
       <BoardList v-else-if="$route.name === 'adminsleep'" :listItem="sleepList" :listTitle="sleepTitle"
-        :totaluser="totaluser">
+      >
       </BoardList>
       <BoardList v-else-if="$route.name === 'adminconsulting'" :listItem="consultingList" :listTitle="consultingTitle"
-        :totaluser="totaluser">
+      >
       </BoardList>
       <MiniBoardList v-else-if="$route.name === 'adminlife'" :listItem="lifeList" :listTitle="lifeTitle"
         :totallife="totallife">

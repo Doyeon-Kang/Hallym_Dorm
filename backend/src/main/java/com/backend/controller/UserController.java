@@ -20,7 +20,7 @@ public class UserController {
     UserRepository userRepository;
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping(path="/")
+    @GetMapping(path="")
     public ResponseEntity<List<User>> getAllUsers() {
         try {
             List<User> users = new ArrayList<User>();

@@ -69,10 +69,44 @@ public class ApplyConsult {
         this.timeslot = timeslot;
     }
 
-    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    // @JoinColumn(name = "consultSchedule", nullable = false)
-    // @OnDelete(action = OnDeleteAction.CASCADE)
-    // @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "applyConsultSchedule", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    ApplyConsultSchedule applyConsultSchedule;
+
+    public ApplyConsultSchedule getApplyConsultSchedule() {
+        return applyConsultSchedule;
+    }
+
+    public void setApplyConsultSchedule(ApplyConsultSchedule applyConsultSchedule) {
+        this.applyConsultSchedule = applyConsultSchedule;
+    }
+
+    // `topic` VARCHAR(20) NULL COMMENT '',
+    @Column(name="topic")
+    private String topic;
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    // `subject` VARCHAR(100) NULL COMMENT '',
+    @Column(name="subject")
+    private String subject;
+    
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
     @Column(name="approved")
     private boolean approved = false;
@@ -104,8 +138,10 @@ public class ApplyConsult {
 
     }
 
-    public ApplyConsult(int timeslot) {
+    public ApplyConsult(int timeslot, String topic, String subject) {
         this.timeslot = timeslot;
+        this.topic = topic;
+        this.subject = subject;
     }
     
 }

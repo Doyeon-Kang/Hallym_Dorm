@@ -33,6 +33,8 @@
     import NoticeDataService from "@/services/NoticeDataService";
     import NewsDataService from "@/services/NewsDataService";
     import RepairDataService from "@/services/RepairDataService";
+    import StoreDataService from "@/services/StoreDataService";
+    import LostDataService from "@/services/LostDataService";
     
     export default {
         data() {
@@ -70,6 +72,18 @@
                         this.title = res.title
                         this.content = res.content
                     })
+                }  else if (this.category == 5) {
+                    StoreDataService.get(this.no).then(data => {
+                        let res = data.data
+                        this.title = res.title
+                        this.content = res.content
+                    })
+                } else if (this.category == 6) {
+                    LostDataService.get(this.no).then(data => {
+                        let res = data.data
+                        this.title = res.title
+                        this.content = res.content
+                    })
                 } else {
                 }
             },
@@ -100,6 +114,16 @@
                     RepairDataService.update(this.no, data).then(res => {
                         alert("수정 완료되었습니다.")
                         this.$router.push(`/community/repair/view/?no=${this.no}`);
+                    })
+                } else if (this.category == 5) {
+                    StoreDataService.update(this.no, data).then(res => {
+                        alert("수정 완료되었습니다.")
+                        this.$router.push(`/community/market/view/?no=${this.no}`);
+                    })
+                } else if (this.category == 6) {
+                    LostDataService.update(this.no, data).then(res => {
+                        alert("수정 완료되었습니다.")
+                        this.$router.push(`/community/lost/view/?no=${this.no}`);
                     })
                 } else {
     

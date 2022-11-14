@@ -965,7 +965,6 @@ export default {
             StudyroomScheduleGet.getAll().then(item => {
                 let res = item.data
                 let list = []
-                let list2= []
 
                 for (let i=0; i<res.length; i++) {
                     list.push({})

@@ -4,7 +4,7 @@
       <SidebarCom :pageName="pageName" :listItem="side"></SidebarCom>
     </div>
     <div class="right_container">
-      <PageTitle v-if="this.$route.name === 'adminuser'" :title="title" :add="userManagement">
+      <PageTitle v-if="this.$route.name === 'adminuser' || this.$route.name === 'admindetail'" :title="title" :add="userManagement">
       </PageTitle>
       <PageTitle v-else-if="this.$route.name === 'adminuseradd'" :title="title" :add="useradd">
       </PageTitle>
@@ -24,6 +24,8 @@
       <Addbox v-else-if="this.$route.name === 'adminpointadd'" :con_title="point_con_title" :listTitle="pointTitle"></Addbox>
       <Addbox v-else-if="this.$route.name === 'adminlife'" :con_title="life_con_title" :listTitle="lifeTitle"></Addbox>
 
+      <AdminDetailBox v-if="this.$route.name === 'admindetail'"></AdminDetailBox>
+      
       <!-- 리스트 컴포넌트 -->
       <BoardList v-if="this.$route.name === 'adminuser'" :listItem="userList"
         :listTitle="userTitle">
@@ -63,6 +65,7 @@ import Addbox from "../../components/AdminAddBoxCom.vue";
 import BoardList from "../../components/AdminBoardList.vue";
 import MiniBoardList from "../../components/AdminMiniBoardList.vue";
 import InoutCom from "../../components/AdminInoutCom.vue";
+import AdminDetailBox from "@/components/AdminDetailBox.vue";
 
 import UserDataService from "@/services/UserDataService"
 import ApplyStudyroomDataService from "@/services/ApplyStudyroomDataService";
@@ -202,6 +205,7 @@ export default {
     BoardList,
     MiniBoardList,
     InoutCom,
+    AdminDetailBox
   },
   beforeCreate() {
     
@@ -449,7 +453,7 @@ export default {
         this.title = "관리자페이지 > 로그아웃";
         this.side[7].active = true;
       } else {
-        this.title = "Error Page";
+        this.title = "상세정보";
       }
     },
     activeReset() {

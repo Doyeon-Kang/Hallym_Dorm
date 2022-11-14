@@ -1,0 +1,172 @@
+<template>
+    <div>
+        <div class="con_box">
+            <div class="con_box_cont">
+                <div class="con_title">{{con_title}}사용자 정보</div>
+                <div class="container" :class="{'status': status}">
+                    <table>
+                        <tr v-for="(info, index) in user" :key="index">
+                            <th>{{ index }}</th>
+                            <td>{{ info }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </template>
+    
+    <script>
+    import UserInfoDataService from "@/services/UserInfoDataService"
+    export default {
+        name: 'admindetail',
+        data() {
+            return {
+                studentno: "",
+                role: "",
+                status: true,
+                user: {},
+                user2: {
+                    학번: "20195101",
+                    이름: "강도연",
+                    email: "a@naver.com",
+                    영어이름: "englishname",
+                    한자이름: "china",
+                    학년: 4,
+                    성별: "여성",
+                    국가: "korea",
+                    학과: "software",
+                    전공: "contentsIT",
+                    학적상태: "current",
+                    핸드폰: "010-1234-5678",
+                    주소: "hallym university domitory 8",
+                    부모님성함: "parent",
+                    부모님관계: "mother",
+                    부모님핸드폰: "010-8765-4321",
+                    전화번호: "033-1234-5678",
+                    상벌점: 0,
+                    거주관: 0,
+                    거주호실: 0
+                }
+            }
+        },
+        methods: {
+            init() {
+                if(this.role == 'ROLE_USER_MEMBER' || this.role == 'ROLE_ADMIN') {
+                    UserInfoDataService.getInfo(this.studentno).then(data => {
+                        let res = data.data
+                        this.user = res
+                    })
+                } else {
+                    this.user.status = "입사 신청이 완료되지 않은 계정입니다."
+                    this.status = false
+                }
+                
+            }
+        },  
+        created() {
+            this.studentno = this.$route.query.studentno
+            this.role = this.$route.query.role
+            this.init()
+        }
+    }
+    </script>
+    
+    <style lang="less" scoped>
+    .con_box {
+        width: 100%;
+    
+        .con_box_cont {
+            margin: 10px 0 10px 10px;
+            box-shadow: 0px 0px 8px 3px #cecece;
+    
+            .con_title {
+                background-color: #447EC3;
+                font-size: 14px;
+                color: #fff;
+                padding: 10px;
+            }
+    
+            .container {
+                width: 100%;
+                padding: 50px 70px;
+    
+                table {
+                    width: 60%
+                    ;
+                    th,
+                    td {
+                        padding: 8px 20px;
+                    }
+    
+                    th {
+                        border-right: 3px solid #C0C0C0;
+                        text-align: right;
+                        font-size: 14px;
+                        color: #222;
+                    }
+    
+                    td {
+                        width: 100%;
+                        display: flex;
+    
+                        form {
+                            width: 100%;
+                            display: flex;
+    
+                            select {
+                                border: 1px solid #cecece;
+                                padding: 0 10px;
+                                margin-right: 10px;
+                            }
+                        }
+    
+                        input {
+                            width: 100%;
+                            border: 0;
+                            padding: 7px;
+                            font-size: 11px;
+                            background-color: #DBECFF;
+                            color: #222;
+                        }
+    
+                        #colorbox {
+                            width: 100%;
+                            display: flex;
+    
+                            input[type=color] {
+                                width: 10%;
+                                margin-left: 2%;
+                                padding: 0 5px;
+                            }
+                        }
+    
+                        .smallbox{
+                            width: 28%;
+                        }
+    
+                        input[type=date] {
+                            width: 40%;
+                        }
+    
+                        input[type=submit] {
+                            width: 20%;
+                            border: 0;
+                            padding: 10px 0;
+                            color: #fff;
+                            text-align: center;
+                            font-weight: bold;
+                            font-size: 70%;
+                            background-color: #336EB4;
+    
+                            &:hover {
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    
+    }
+    </style>

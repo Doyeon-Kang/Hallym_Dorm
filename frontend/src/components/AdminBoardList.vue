@@ -63,7 +63,10 @@
                             <td><input type="button" value="자세히" v-show="$route.name === 'adminuser' ||
                             $route.name === 'adminuseradd' ||
                             $route.name === 'adminpoint' ||
-                            $route.name === 'adminpointadd'" /></td>
+                            $route.name === 'adminpointadd'" @click="$router.push({
+                                name: 'admindetail',
+                                query: { studentno: item.no, role: item.auth },
+                            })"/></td>
                         </tr>
                     </tbody>
                 </table>

@@ -3,7 +3,7 @@
         <div class="con_box">
             <div class="con_box_cont">
                 <div class="con_title">{{con_title}}사용자 정보</div>
-                <div class="container" :class="{'status': status}">
+                <div class="container" :class="{'status': !status}">
                     <table>
                         <tr v-for="(info, index) in user" :key="index">
                             <th>{{ index }}</th>
@@ -90,6 +90,11 @@
             .container {
                 width: 100%;
                 padding: 50px 70px;
+
+                &.status {
+                    padding: 100px 70px;
+                    margin-bottom: 600px;
+                }
     
                 table {
                     width: 60%

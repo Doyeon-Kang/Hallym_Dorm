@@ -192,8 +192,8 @@
                             <div class="time_status">
                                 <input type="button" v-for="(timeslotList, index) in this.timeslotList"
                                     :key="timeslotList.time" class="timeslotList"
-                                    :class="{ active: timeslotList.isActive, disable: !this.studyschedulelist[0].timeslot1_taken }"
-                                    @click="myFilterTime(index)" :disabled="!studyschedulelist[0].timeslot1_taken"
+                                    :class="{ active: timeslotList.isActive, disable: studyroom_status_list1[index] }"
+                                    @click="myFilterTime(index)" :disabled="studyroom_status_list1[index]"
                                     :value="timeslotList.time">
                             </div>
                         </div>
@@ -201,8 +201,80 @@
                             <div class="time_status">
                                 <input type="button" v-for="(timeslotList, index) in this.timeslotList"
                                     :key="timeslotList.time" class="timeslotList"
-                                    :class="{ active: timeslotList.isActive, disable: !studyschedulelist[0].timeslot4_taken }"
-                                    @click="myFilterTime(index)" :disabled="!studyschedulelist[0].timeslot4_taken"
+                                    :class="{ active: timeslotList.isActive, disable: studyroom_status_list2[index] }"
+                                    @click="myFilterTime(index)" :disabled="studyroom_status_list2[index]"
+                                    :value="timeslotList.time">
+                            </div>
+                        </div>
+                        <div v-else-if="this.seat[2].isActive == true">
+                            <div class="time_status">
+                                <input type="button" v-for="(timeslotList, index) in this.timeslotList"
+                                    :key="timeslotList.time" class="timeslotList"
+                                    :class="{ active: timeslotList.isActive, disable: studyroom_status_list3[index] }"
+                                    @click="myFilterTime(index)" :disabled="studyroom_status_list3[index]"
+                                    :value="timeslotList.time">
+                            </div>
+                        </div>
+                        <div v-else-if="this.seat[3].isActive == true">
+                            <div class="time_status">
+                                <input type="button" v-for="(timeslotList, index) in this.timeslotList"
+                                    :key="timeslotList.time" class="timeslotList"
+                                    :class="{ active: timeslotList.isActive, disable: studyroom_status_list4[index] }"
+                                    @click="myFilterTime(index)" :disabled="studyroom_status_list4[index]"
+                                    :value="timeslotList.time">
+                            </div>
+                        </div>
+                        <div v-else-if="this.seat[4].isActive == true">
+                            <div class="time_status">
+                                <input type="button" v-for="(timeslotList, index) in this.timeslotList"
+                                    :key="timeslotList.time" class="timeslotList"
+                                    :class="{ active: timeslotList.isActive, disable: studyroom_status_list5[index] }"
+                                    @click="myFilterTime(index)" :disabled="studyroom_status_list5[index]"
+                                    :value="timeslotList.time">
+                            </div>
+                        </div>
+                        <div v-else-if="this.seat[5].isActive == true">
+                            <div class="time_status">
+                                <input type="button" v-for="(timeslotList, index) in this.timeslotList"
+                                    :key="timeslotList.time" class="timeslotList"
+                                    :class="{ active: timeslotList.isActive, disable: studyroom_status_list6[index] }"
+                                    @click="myFilterTime(index)" :disabled="studyroom_status_list6[index]"
+                                    :value="timeslotList.time">
+                            </div>
+                        </div>
+                        <div v-else-if="this.seat[6].isActive == true">
+                            <div class="time_status">
+                                <input type="button" v-for="(timeslotList, index) in this.timeslotList"
+                                    :key="timeslotList.time" class="timeslotList"
+                                    :class="{ active: timeslotList.isActive, disable: studyroom_status_list7[index] }"
+                                    @click="myFilterTime(index)" :disabled="studyroom_status_list7[index]"
+                                    :value="timeslotList.time">
+                            </div>
+                        </div>
+                        <div v-else-if="this.seat[7].isActive == true">
+                            <div class="time_status">
+                                <input type="button" v-for="(timeslotList, index) in this.timeslotList"
+                                    :key="timeslotList.time" class="timeslotList"
+                                    :class="{ active: timeslotList.isActive, disable: studyroom_status_list8[index] }"
+                                    @click="myFilterTime(index)" :disabled="studyroom_status_list7[index]"
+                                    :value="timeslotList.time">
+                            </div>
+                        </div>
+                        <div v-else-if="this.seat[8].isActive == true">
+                            <div class="time_status">
+                                <input type="button" v-for="(timeslotList, index) in this.timeslotList"
+                                    :key="timeslotList.time" class="timeslotList"
+                                    :class="{ active: timeslotList.isActive, disable: studyroom_status_list9[index] }"
+                                    @click="myFilterTime(index)" :disabled="studyroom_status_list7[index]"
+                                    :value="timeslotList.time">
+                            </div>
+                        </div>
+                        <div v-else-if="this.seat[9].isActive == true">
+                            <div class="time_status">
+                                <input type="button" v-for="(timeslotList, index) in this.timeslotList"
+                                    :key="timeslotList.time" class="timeslotList"
+                                    :class="{ active: timeslotList.isActive, disable: studyroom_status_list10[index] }"
+                                    @click="myFilterTime(index)" :disabled="studyroom_status_list7[index]"
                                     :value="timeslotList.time">
                             </div>
                         </div>
@@ -661,6 +733,16 @@ export default {
             seat_no: 0,
             userinfo: {},
             studyschedulelist: [],
+            studyroom_status_list1: [],
+            studyroom_status_list2: [],
+            studyroom_status_list3: [],
+            studyroom_status_list4: [],
+            studyroom_status_list5: [],
+            studyroom_status_list6: [],
+            studyroom_status_list7: [],
+            studyroom_status_list8: [],
+            studyroom_status_list9: [],
+            studyroom_status_list10: [],
         }
     },
     components: { SidebarCom, PageTitle },
@@ -756,6 +838,7 @@ export default {
             }
             ApplyConsultDataService.create(this.user.studentno, day, data)
             alert("신청 완료했습니다.");
+            location.reload(true);
         },
         // 스터디룸 신청
         reserveStudyroom() {
@@ -787,11 +870,9 @@ export default {
                 timeslot2: this.time_selected_list[1],
                 timeslot3: this.time_selected_list[2],
             }
-            console.log(this.user.studentno)
-            console.log(this.seat_no)
-            console.log(data)
             ApplyStudyroomDataService.create(this.user.studentno, this.seat_no, data)
             alert("신청 완료했습니다.");
+            location.reload(true);
         },
         // 입사 신청
         reserveJoin() {
@@ -831,6 +912,7 @@ export default {
             } else{
                 ApplyJoinDataService.create(this.user.studentno, data)
                 alert("신청 완료했습니다.");
+                location.reload(true);
             }
         },
         // 퇴사 신청
@@ -841,6 +923,7 @@ export default {
             }
             ApplyResignDataService.create(this.user.studentno, data)
             alert("신청 완료했습니다.");
+            location.reload(true);
         },
         // 외박 신청
         reserveSleepout() {
@@ -850,6 +933,7 @@ export default {
             }
             ApplySleepoutDataService.create(this.user.studentno, data)
             alert("신청 완료했습니다.");
+            location.reload(true);
         },
 
         init(){
@@ -881,6 +965,7 @@ export default {
             StudyroomScheduleGet.getAll().then(item => {
                 let res = item.data
                 let list = []
+                let list2= []
 
                 for (let i=0; i<res.length; i++) {
                     list.push({})
@@ -893,6 +978,87 @@ export default {
                     list[i].timeslot5_taken = res[i].timeslot5_taken
                     list[i].timeslot6_taken = res[i].timeslot6_taken
                     list[i].timeslot7_taken = res[i].timeslot7_taken
+                    if(i==0){
+                        this.studyroom_status_list1.push(res[i].timeslot1_taken)
+                        this.studyroom_status_list1.push(res[i].timeslot2_taken)
+                        this.studyroom_status_list1.push(res[i].timeslot3_taken)
+                        this.studyroom_status_list1.push(res[i].timeslot4_taken)
+                        this.studyroom_status_list1.push(res[i].timeslot5_taken)
+                        this.studyroom_status_list1.push(res[i].timeslot6_taken)
+                        this.studyroom_status_list1.push(res[i].timeslot7_taken)
+                    } else if(i==1){
+                        this.studyroom_status_list2.push(res[i].timeslot1_taken)
+                        this.studyroom_status_list2.push(res[i].timeslot2_taken)
+                        this.studyroom_status_list2.push(res[i].timeslot3_taken)
+                        this.studyroom_status_list2.push(res[i].timeslot4_taken)
+                        this.studyroom_status_list2.push(res[i].timeslot5_taken)
+                        this.studyroom_status_list2.push(res[i].timeslot6_taken)
+                        this.studyroom_status_list2.push(res[i].timeslot7_taken)
+                    } else if(i==2){
+                        this.studyroom_status_list3.push(res[i].timeslot1_taken)
+                        this.studyroom_status_list3.push(res[i].timeslot2_taken)
+                        this.studyroom_status_list3.push(res[i].timeslot3_taken)
+                        this.studyroom_status_list3.push(res[i].timeslot4_taken)
+                        this.studyroom_status_list3.push(res[i].timeslot5_taken)
+                        this.studyroom_status_list3.push(res[i].timeslot6_taken)
+                        this.studyroom_status_list3.push(res[i].timeslot7_taken)
+                    } else if(i==3){
+                        this.studyroom_status_list4.push(res[i].timeslot1_taken)
+                        this.studyroom_status_list4.push(res[i].timeslot2_taken)
+                        this.studyroom_status_list4.push(res[i].timeslot3_taken)
+                        this.studyroom_status_list4.push(res[i].timeslot4_taken)
+                        this.studyroom_status_list4.push(res[i].timeslot5_taken)
+                        this.studyroom_status_list4.push(res[i].timeslot6_taken)
+                        this.studyroom_status_list4.push(res[i].timeslot7_taken)
+                    } else if(i==4){
+                        this.studyroom_status_list5.push(res[i].timeslot1_taken)
+                        this.studyroom_status_list5.push(res[i].timeslot2_taken)
+                        this.studyroom_status_list5.push(res[i].timeslot3_taken)
+                        this.studyroom_status_list5.push(res[i].timeslot4_taken)
+                        this.studyroom_status_list5.push(res[i].timeslot5_taken)
+                        this.studyroom_status_list5.push(res[i].timeslot6_taken)
+                        this.studyroom_status_list5.push(res[i].timeslot7_taken)
+                    } else if(i==5){
+                        this.studyroom_status_list6.push(res[i].timeslot1_taken)
+                        this.studyroom_status_list6.push(res[i].timeslot2_taken)
+                        this.studyroom_status_list6.push(res[i].timeslot3_taken)
+                        this.studyroom_status_list6.push(res[i].timeslot4_taken)
+                        this.studyroom_status_list6.push(res[i].timeslot5_taken)
+                        this.studyroom_status_list6.push(res[i].timeslot6_taken)
+                        this.studyroom_status_list6.push(res[i].timeslot7_taken)
+                    } else if(i==6){
+                        this.studyroom_status_list7.push(res[i].timeslot1_taken)
+                        this.studyroom_status_list7.push(res[i].timeslot2_taken)
+                        this.studyroom_status_list7.push(res[i].timeslot3_taken)
+                        this.studyroom_status_list7.push(res[i].timeslot4_taken)
+                        this.studyroom_status_list7.push(res[i].timeslot5_taken)
+                        this.studyroom_status_list7.push(res[i].timeslot6_taken)
+                        this.studyroom_status_list7.push(res[i].timeslot7_taken)
+                    } else if(i==7){
+                        this.studyroom_status_list8.push(res[i].timeslot1_taken)
+                        this.studyroom_status_list8.push(res[i].timeslot2_taken)
+                        this.studyroom_status_list8.push(res[i].timeslot3_taken)
+                        this.studyroom_status_list8.push(res[i].timeslot4_taken)
+                        this.studyroom_status_list8.push(res[i].timeslot5_taken)
+                        this.studyroom_status_list8.push(res[i].timeslot6_taken)
+                        this.studyroom_status_list8.push(res[i].timeslot7_taken)
+                    } else if(i==8){
+                        this.studyroom_status_list9.push(res[i].timeslot1_taken)
+                        this.studyroom_status_list9.push(res[i].timeslot2_taken)
+                        this.studyroom_status_list9.push(res[i].timeslot3_taken)
+                        this.studyroom_status_list9.push(res[i].timeslot4_taken)
+                        this.studyroom_status_list9.push(res[i].timeslot5_taken)
+                        this.studyroom_status_list9.push(res[i].timeslot6_taken)
+                        this.studyroom_status_list9.push(res[i].timeslot7_taken)
+                    } else {
+                        this.studyroom_status_list10.push(res[i].timeslot1_taken)
+                        this.studyroom_status_list10.push(res[i].timeslot2_taken)
+                        this.studyroom_status_list10.push(res[i].timeslot3_taken)
+                        this.studyroom_status_list10.push(res[i].timeslot4_taken)
+                        this.studyroom_status_list10.push(res[i].timeslot5_taken)
+                        this.studyroom_status_list10.push(res[i].timeslot6_taken)
+                        this.studyroom_status_list10.push(res[i].timeslot7_taken)
+                    }
                 }
                 this.studyschedulelist = list
             })

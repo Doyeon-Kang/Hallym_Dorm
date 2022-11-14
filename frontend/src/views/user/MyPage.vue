@@ -283,8 +283,18 @@ import UserInfoDataService from "@/services/UserInfoDataService";
                         list.push({})
                         list[i].no = res[i].id
                         list[i].reason = res[i].reason
-                        list[i].indate = res[i].date_sleepout
                         list[i].outdate = res[i].date_sleepout
+
+                        //들어올 날에 하루 더하기
+                        let sleepout_intdate = new Date(res[i].date_sleepout)
+                        let year = sleepout_intdate.getFullYear();
+                        let month = sleepout_intdate.getMonth() + 1;
+                        let day = sleepout_intdate.getDate() + 1;
+                        if(month < 10) month = '0' + month;
+                        if(day < 10) day = '0' + day;
+
+                        list[i].indate = year + '-' + month + '-' + day
+
                         if(res[i].approved){
                             list[i].approved = "승인 완료"
                         }else{

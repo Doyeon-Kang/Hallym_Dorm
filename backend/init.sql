@@ -168,10 +168,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`apply_studyroom` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
-  `date` DATETIME COMMENT '',
+  `seat` INT NOT NULL COMMENT '',
   `timeslot1` INT NULL COMMENT '',
   `timeslot2` INT NULL COMMENT '',
   `timeslot3` INT NULL COMMENT '',
+  `date` DATETIME COMMENT '',
   PRIMARY KEY(`id`))
 ENGINE = InnoDB;
 
@@ -275,12 +276,6 @@ ENGINE = InnoDB;
 INSERT INTO role(name) VALUES('ROLE_USER');
 INSERT INTO role(name) VALUES('ROLE_USER_MEMBER');
 INSERT INTO role(name) VALUES('ROLE_ADMIN');
-
-INSERT INTO apply_consult_schedule(day) VALUES('MON');
-INSERT INTO apply_consult_schedule(day) VALUES('TUE');
-INSERT INTO apply_consult_schedule(day) VALUES('WED');
-INSERT INTO apply_consult_schedule(day) VALUES('THU');
-INSERT INTO apply_consult_schedule(day) VALUES('FRI');
 
 INSERT INTO apply_studyroom_schedule(seat) VALUES(1);
 INSERT INTO apply_studyroom_schedule(seat) VALUES(2);

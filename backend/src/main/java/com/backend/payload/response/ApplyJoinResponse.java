@@ -314,7 +314,36 @@ public class ApplyJoinResponse {
     public void setPar_mes_yn(boolean par_mes_yn) {
         this.par_mes_yn = par_mes_yn;
     }
+
+    public boolean approved;
    
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    private int res_fac;
+    public int getRes_fac() {
+        return res_fac;
+    }
+
+    public void setRes_fac(int res_fac) {
+        this.res_fac = res_fac;
+    }
+
+    private int res_room;
+    public int getRes_room() {
+        return res_room;
+    }
+
+    public void setRes_room(int res_room) {
+        this.res_room = res_room;
+    }
+
+
     public ApplyJoinResponse() {
 
     }
@@ -324,7 +353,7 @@ public class ApplyJoinResponse {
                         String guardian_phone, String landline, LocalDateTime date, int hope_fac_1, int hope_fac_2,
                         int hope_fac_3, int hope_fac_4, int hope_fac_5, int hope_fac_6,
                         String period, LocalDate date_join, boolean single_yn, boolean pri_ent, boolean fgn_mate,
-                        String accpm_ent, boolean par_mes_yn) {
+                        String accpm_ent, boolean par_mes_yn, boolean approved, int res_fac, int res_room) {
         this.id = id;
         this.studentNo = studentNo;
         this.name = name;
@@ -356,6 +385,9 @@ public class ApplyJoinResponse {
         this.fgn_mate = fgn_mate;
         this.accpm_ent = accpm_ent;
         this.par_mes_yn = par_mes_yn;
+        this.approved = approved;
+        this.res_fac = res_fac;
+        this.res_room = res_room;
     }
 
 }

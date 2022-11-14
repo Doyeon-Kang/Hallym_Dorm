@@ -141,7 +141,6 @@ public class ApplyStudyroomController {
 
             if(_studyroomScheduleData.isPresent()) {
                 ApplyStudyroomSchedule _studyroomSchedule = _studyroomScheduleData.get();
-
                 int timeslot1 = applyStudyroom.getTimeslot1();
                 int timeslot2 = applyStudyroom.getTimeslot2();
                 int timeslot3 = applyStudyroom.getTimeslot3();

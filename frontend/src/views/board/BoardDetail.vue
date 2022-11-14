@@ -7,7 +7,7 @@
       <PageTitle :title="title"></PageTitle>
       <BoardList
         v-if="$route.name === 'community'"
-        :listItem="communityList"
+        :listItem="communityList" 
         :listTitle="communityTitle"
       ></BoardList>
       <BoardList
@@ -37,7 +37,10 @@
       <div v-else-if="$route.name === 'article'">
         <CreateArticle ></CreateArticle>
       </div>
-      <a v-show="$route.name !== 'faq' && $route.name !== 'article'"
+      <div v-else-if="$route.name === 'modify-article'">
+        <ModifyArticle></ModifyArticle>
+      </div>
+      <a v-show="$route.name !== 'faq' && $route.name !== 'article' && $route.name !== 'modify-article' && loggedIn"
       class="create_btn" href="/community/create-article">글쓰기</a>
     </div>
   </div>
@@ -50,6 +53,16 @@ import BoardList from "../../components/BoardList.vue";
 import FaqQuestion from "../../components/FaqQuestion.vue";
 import PhotoBoard from "@/components/PhotoBoard.vue";
 import CreateArticle from "@/components/CreateArticle.vue"
+import NoticeDataService from "@/services/NoticeDataService"
+import NewsDataService from "@/services/NewsDataService";
+import RepairDataService from "@/services/RepairDataService"
+import StoreDataService from "@/services/StoreDataService";
+import StorePhotoService from "@/services/StorePhotoService";
+import StoreCommentService from "@/services/StoreCommentService";
+import LostDataService from "@/services/LostDataService";
+import LostPhotoService from "@/services/LostPhotoService";
+import LostCommentService from "@/services/LostCommentService";
+import ModifyArticle from '../../components/ModifyArticle.vue';
 
 export default {
   data() {
@@ -75,143 +88,17 @@ export default {
       ],
       // 게시판 정보
       communityTitle: ["번호", "글제목", "작성일", "작성자", "조회수"],
-      communityList: [
-        {
-          no: 1,
-          title: "1학기 공지사항",
-          date: "2022.04.07",
-          writer: "홍길동",
-          read_cnt: 3,
-        }
-      ],
+      communityList: [],
       noticeTitle: ["번호", "글제목", "작성일", "작성자", "조회수", ""],
-      noticeList: [
-        {
-          no: 1,
-          title: "2학기 공지사항",
-          date: "2022.08.22",
-          writer: "박땡땡",
-          read_cnt: 5,
-        }
-      ],
-      dataTitle: ["번호", "글제목", "작성일자", "작성자", "조회수", ""],
-      dataList: [
-        {
-          no: 1,
-          title: "서식자료",
-          date: "2022.10.11",
-          writer: "김땡땡",
-          read_cnt: 14,
-        }
-      ],
+      noticeList: [],
+      dataTitle: ["번호", "글제목", "작성일", "작성자", "조회수", ""],
+      dataList: [],
       faqTitle: ["번호", "글제목", "진행상태", "처리일자"],
       faqList: [{}],
       repairTitle: ["번호", "분야", "글제목", "작성일자", "작성자", "진행상태"],
-      repairList: [
-        {
-          no: 1,
-          kind: "분야",
-          title: "고쳐주셈",
-          date: "2022.05.26",
-          writer: "박땡땡",
-          status: "진행중",
-        }
-      ],
-      marketList: [
-        {
-          photo: "샴푸린스.jpg",
-          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
-          writer: "홍길동",
-          date: "2022.07.18",
-          comment_cnt: 3,
-        },
-        {
-          photo: "banner.jpg",
-          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
-          writer: "홍길동",
-          date: "2022.07.18",
-          comment_cnt: 3,
-        },
-        {
-          photo: "샴푸린스.jpg",
-          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
-          writer: "홍길동",
-          date: "2022.07.18",
-          comment_cnt: 3,
-        },
-        {
-          photo: "샴푸린스.jpg",
-          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
-          writer: "홍길동",
-          date: "2022.07.18",
-          comment_cnt: 3,
-        },
-        {
-          photo: "샴푸린스.jpg",
-          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
-          writer: "홍길동",
-          date: "2022.07.18",
-          comment_cnt: 3,
-        },
-        {
-          photo: "샴푸린스.jpg",
-          title: "8관 여자 기숙사 샴푸, 린스 나눔합니다!",
-          writer: "홍길동",
-          date: "2022.07.18",
-          comment_cnt: 3,
-        },
-      ],
-      lostList: [
-        {
-          photo: "지갑.jpg",
-          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
-          writer: "김땡땡",
-          date: "2022.07.18",
-          comment_cnt: 5,
-        },
-        {
-          photo: "지갑.jpg",
-          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
-          writer: "김땡땡",
-          date: "2022.07.18",
-          comment_cnt: 5,
-        },
-        {
-          photo: "지갑.jpg",
-          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
-          writer: "김땡땡",
-          date: "2022.07.18",
-          comment_cnt: 5,
-        },
-        {
-          photo: "지갑.jpg",
-          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
-          writer: "김땡땡",
-          date: "2022.07.18",
-          comment_cnt: 5,
-        },
-        {
-          photo: "지갑.jpg",
-          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
-          writer: "김땡땡",
-          date: "2022.07.18",
-          comment_cnt: 5,
-        },
-        {
-          photo: "지갑.jpg",
-          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
-          writer: "김땡땡",
-          date: "2022.07.18",
-          comment_cnt: 5,
-        },
-        {
-          photo: "지갑.jpg",
-          title: "3관 1층에서 파란색 남성 지갑 분실하신분 찾습니다!!",
-          writer: "김땡땡",
-          date: "2022.07.18",
-          comment_cnt: 5,
-        },
-      ],
+      repairList: [],
+      marketList: [],
+      lostList: [],
     };
   },
   components: {
@@ -220,10 +107,12 @@ export default {
     BoardList,
     FaqQuestion,
     PhotoBoard,
-    CreateArticle
+    CreateArticle,
+    ModifyArticle
   },
   created() {
     this.routeCheck();
+    this.init()
   },
   methods: {
     routeCheck() {
@@ -258,8 +147,10 @@ export default {
         this.side[5].active = true;
       } else if (this.$route.name === "article") {
         this.title = "게시글 작성";
-        //this.side[5].active = true;
-      } else {
+      } else if (this.$route.name === "modify-article") {
+        this.title = "게시글 수정";
+      }
+      else {
         this.title = "Error Page";
       }
     },
@@ -267,6 +158,120 @@ export default {
       for (var i = 0; i < this.side.length; i++) {
         this.side[i].active = false;
       }
+    },
+    init() {
+      // 공지사항
+      NoticeDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].no = res[i].id // 번호
+          list[i].title = res[i].title // 글제목
+          list[i].date = res[i].date // 작성일
+          list[i].writer = res[i].writer_name // 작성자
+          list[i].views = res[i].views // 조회수
+        }
+        this.communityList = list
+      })
+      // 사생자치회
+      NoticeDataService.getAllNotice1().then(resolveData => {
+        let res = resolveData.data
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].no = res[i].id // 번호
+          list[i].title = res[i].title // 글제목
+          list[i].date = res[i].date // 작성일
+          list[i].writer = res[i].writer_name // 작성자
+          list[i].views = res[i].views // 조회수
+        }
+        this.noticeList = list
+      })
+      // 서식자료실
+      NewsDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].no = res[i].id // 번호
+          list[i].title = res[i].title // 글제목
+          list[i].date = res[i].date // 작성일
+          list[i].writer = res[i].writer_name // 작성자
+          list[i].views = res[i].views // 조회수
+        }
+        this.dataList = list
+      }
+      )
+      // 불편수리
+      RepairDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].no = res[i].id // 번호
+          list[i].category = '-'// 분야
+          list[i].date = res[i].title // 글제목
+          list[i].writer = res[i].date // 작성일자
+          list[i].views = res[i].writer_name // 작성자
+          list[i].progress = '-'//진행상태
+        }
+        this.repairList = list
+      }
+      )
+      // 나눔장터
+      StoreDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+
+        for (let i=0; i<res.length; i++) {
+          this.marketList.push({})
+          this.marketList[i].id = res[i].id
+          this.marketList[i].title = res[i].title // 글제목
+          this.marketList[i].date = res[i].date // 작성자
+          this.marketList[i].writer = res[i].writer_name // 작성일
+          this.marketList[i].views = res[i].views // 조회수
+          // 나눔장터 댓글수
+          StoreCommentService.getAll(this.marketList[i].id).then(res => {
+            this.marketList[i].comment_cnt = res.data.length
+          })
+          // 나눔장터 사진
+          StorePhotoService.getAll(this.marketList[i].id).then(photo_data => {
+            this.marketList[i].photo = photo_data.data[0].url
+          })
+        }
+      })
+      // 분실물
+      LostDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+
+        for (let i=0; i<res.length; i++) {
+          this.lostList.push({})
+          this.lostList[i].id = res[i].id
+          this.lostList[i].title = res[i].title // 글제목
+          this.lostList[i].date = res[i].date // 작성자
+          this.lostList[i].writer = res[i].writer_name // 작성일
+          this.lostList[i].views = res[i].views // 조회수
+          // 분실물 댓글수
+          LostCommentService.getAll(this.lostList[i].id).then(res => {
+            this.lostList[i].comment_cnt = res.data.length
+          })
+          // 분실물 사진
+          LostPhotoService.getAll(this.lostList[i].id).then(photo_data => {
+            this.lostList[i].photo = photo_data.data[0].url
+          })
+        }
+      })
+      
+      
+    }
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn
     },
   },
   watch: {

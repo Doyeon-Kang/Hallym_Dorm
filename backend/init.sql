@@ -21,30 +21,16 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`test_user` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `dormitory`.`user_member_parent`
--- -----------------------------------------------------
--- CREATE TABLE IF NOT EXISTS `dormitory`.`user_member_parent` (
---   `id` VARCHAR(200) NOT NULL,
---   `no` INT NOT NULL COMMENT '학번',
---   `par_name` VARCHAR(50) NULL COMMENT '보호자 이름',
---   `par_rel` VARCHAR(10) NULL COMMENT '보호자 관계',
---   `par_tel_no` VARCHAR(20) NULL COMMENT '보호자 연락처',
---   `home_tel_no` VARCHAR(20) NULL COMMENT '자택 전화',
---   PRIMARY KEY (`id`, `no`))
--- ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `dormitory`.`point`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`point` (
-  `id` VARCHAR(200) NOT NULL,
-  `no` INT NOT NULL COMMENT '학번',
-  `pt_reason` VARCHAR(40) NULL COMMENT '상/벌점 사유',
-  `proc_date` DATE NULL COMMENT '처리날짜',
-  `add_date` DATE NULL COMMENT '입력날짜',
-  `score` VARCHAR(10) NULL COMMENT '점수',
-  PRIMARY KEY (`id`, `no`))
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `reason` VARCHAR(40) NULL COMMENT '상/벌점 사유',
+  `date_receive` DATE NULL COMMENT '입력날짜',
+  `date` DATETIME NULL COMMENT '처리날짜',
+  `score` INT NULL COMMENT '점수',
+  PRIMARY KEY (`id`)
+)
 ENGINE = InnoDB;
 
 
@@ -140,6 +126,75 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `dormitory`.`consult_schedule`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dormitory`.`apply_consult_schedule` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
+  `day` VARCHAR(3) NOT NULL COMMENT '',
+  `timeslot1_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot2_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot3_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot4_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot5_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot6_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot7_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot8_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  PRIMARY KEY(`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dormitory`.`apply_consult`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dormitory`.`apply_consult` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
+  `date` DATETIME COMMENT '',
+  `timeslot1` INT NOT NULL COMMENT '',
+  `timeslot2` INT NOT NULL COMMENT '',
+  `timeslot3` INT NOT NULL COMMENT '',
+  `timeslot4` INT NOT NULL COMMENT '',
+  `timeslot5` INT NOT NULL COMMENT '',
+  `timeslot6` INT NOT NULL COMMENT '',
+  `timeslot7` INT NOT NULL COMMENT '',
+  `timeslot8` INT NOT NULL COMMENT '',
+  `topic` VARCHAR(20) NULL COMMENT '',
+  `subject` VARCHAR(100) NULL COMMENT '',
+  `approved` BOOLEAN COMMENT '',
+  PRIMARY KEY(`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dormitory`.`studyroom_schedule`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dormitory`.`apply_studyroom_schedule` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
+  `seat` INT NOT NULL COMMENT '',
+  `timeslot1_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot2_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot3_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot4_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot5_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot6_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  `timeslot7_taken` BOOLEAN NOT NULL DEFAULT 0 COMMENT '',
+  PRIMARY KEY(`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `dormitory`.`apply_studyroom`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dormitory`.`apply_studyroom` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
+  `date` DATETIME COMMENT '',
+  `timeslot1` INT NULL COMMENT '',
+  `timeslot2` INT NULL COMMENT '',
+  `timeslot3` INT NULL COMMENT '',
+  PRIMARY KEY(`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `dormitory`.`user`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`user` (
@@ -177,21 +232,6 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`board_notice` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `dormitory`.`board_notice_comments`
--- -----------------------------------------------------
--- CREATE TABLE IF NOT EXISTS `dormitory`.`board_notice_comments` (
---   `id` INT NOT NULL AUTO_INCREMENT COMMENT '댓글아이디',
---   `noticeid` INT NOT NULL COMMENT '게시글아이디',
---   `comment` VARCHAR(500) NULL COMMENT '댓글내용',
---   `writerid` VARCHAR(200) NOT NULL COMMENT '댓글 작성자 학번',
---   `writername` VARCHAR(200) NOT NULL COMMENT '댓글 작성자',
---   `date` DATETIME NULL COMMENT '댓글 작성일',
---   PRIMARY KEY (`id`, `noticeid`)
--- )
--- ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `dormitory`.`board_repair`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`board_repair` (
@@ -205,28 +245,6 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`board_repair` (
   PRIMARY KEY (`id`)
 )
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `dormitory`.`board_repair_comments`
--- -----------------------------------------------------
--- CREATE TABLE IF NOT EXISTS `dormitory`.`board_repair_comments` (
---   `comment_id` INT NOT NULL COMMENT '댓글아이디',
---   `post_id` INT NOT NULL COMMENT '게시판 아이디',
---   `comment` VARCHAR(500) NULL COMMENT '댓글내용',
---   `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
---   `date` DATE NULL COMMENT '댓글 작성일',
---   `parent_id` INT NULL COMMENT '부모글 아이디',
---   `board_repair_post_id` INT NOT NULL,
---   PRIMARY KEY (`post_id`, `comment_id`, `board_repair_post_id`),
---   INDEX `fk_board_repair_comments_board_repair1_idx` (`board_repair_post_id` ASC) VISIBLE,
---   CONSTRAINT `fk_board_repair_comments_board_repair1`
---     FOREIGN KEY (`board_repair_post_id`)
---     REFERENCES `dormitory`.`board_repair` (`post_id`)
---     ON DELETE NO ACTION
---     ON UPDATE NO ACTION)
--- ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `dormitory`.`board_store`
@@ -245,27 +263,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dormitory`.`board_store_comments`
--- -----------------------------------------------------
--- CREATE TABLE IF NOT EXISTS `dormitory`.`board_store_comments` (
---   `comment_id` INT NOT NULL COMMENT '댓글아이디',
---   `post_id` INT NOT NULL COMMENT '게시판 아이디',
---   `comment` VARCHAR(500) NULL COMMENT '댓글내용',
---   `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
---   `date` DATE NULL COMMENT '댓글 작성일',
---   `parent_id` INT NULL COMMENT '부모글 아이디',
---   `board_store_post_id` INT NOT NULL,
---   PRIMARY KEY (`post_id`, `comment_id`, `board_store_post_id`),
---   INDEX `fk_board_store_comments_board_store1_idx` (`board_store_post_id` ASC) VISIBLE,
---   CONSTRAINT `fk_board_store_comments_board_store1`
---     FOREIGN KEY (`board_store_post_id`)
---     REFERENCES `dormitory`.`board_store` (`id`)
---     ON DELETE NO ACTION
---     ON UPDATE NO ACTION)
--- ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `dormitory`.`board_lost`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`board_lost` (
@@ -279,82 +276,6 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`board_lost` (
   PRIMARY KEY (`id`)
 )
 ENGINE = InnoDB;
-
-
--- -- -----------------------------------------------------
--- -- Table `dormitory`.`board_lost_comments`
--- -- -----------------------------------------------------
--- CREATE TABLE IF NOT EXISTS `dormitory`.`board_lost_comments` (
---   `comment_id` INT NOT NULL COMMENT '댓글아이디',
---   `post_id` INT NOT NULL COMMENT '게시판 아이디',
---   `comment` VARCHAR(500) NULL COMMENT '댓글내용',
---   `writer_id` VARCHAR(200) NULL COMMENT '댓글 작성자',
---   `date` DATE NULL COMMENT '댓글 작성일',
---   `parent_id` INT NULL COMMENT '부모글 아이디',
---   `board_lost_post_id` INT NOT NULL,
---   PRIMARY KEY (`post_id`, `comment_id`, `board_lost_post_id`),
---   INDEX `fk_board_lost_comments_board_lost1_idx` (`board_lost_post_id` ASC) VISIBLE,
---   CONSTRAINT `fk_board_lost_comments_board_lost1`
---     FOREIGN KEY (`board_lost_post_id`)
---     REFERENCES `dormitory`.`board_lost` (`id`)
---     ON DELETE NO ACTION
---     ON UPDATE NO ACTION)
--- ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `dormitory`.`apply_consult_dtl`
--- -----------------------------------------------------
--- CREATE TABLE IF NOT EXISTS `dormitory`.`apply_consult_dtl` (
---   `cns_no` INT NOT NULL COMMENT '상담번호',
---   `no` INT NOT NULL COMMENT '신청자 학번',
---   `email` VARCHAR(100) NULL COMMENT '신청자 이메일',
---   `cns_field` VARCHAR(50) NULL COMMENT '상담분야',
---   `cns_contents` VARCHAR(1000) NULL COMMENT '상담내용',
---   `cns_ok_time` TIME NULL COMMENT '상담가능시간',
---   PRIMARY KEY (`cns_no`, `no`))
--- ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `dormitory`.`apply_consult`
--- -----------------------------------------------------
--- CREATE TABLE IF NOT EXISTS `dormitory`.`apply_consult` (
---   `cns_no` INT NOT NULL COMMENT '상담 번호',
---   `no` INT NOT NULL COMMENT '신청자 학번',
---   `name` VARCHAR(50) NULL COMMENT '신청자 이름',
---   `cns_field` VARCHAR(50) NULL COMMENT '상담분야',
---   `date` DATE NULL COMMENT '신청일자',
---   `progress` VARCHAR(20) NULL COMMENT '진행상태',
---   `apply_consult_dtl_cns_no` INT NOT NULL,
---   `apply_consult_dtl_no` INT NOT NULL,
---   `user_member_id` VARCHAR(200) NOT NULL,
---   `user_member_no` INT NOT NULL,
---   `user_member_user_member_parent_id` VARCHAR(200) NOT NULL,
---   `user_member_user_member_parent_no` INT NOT NULL,
---   `user_member_point_id` VARCHAR(200) NOT NULL,
---   `user_member_point_no` INT NOT NULL,
---   `user_member_apply_consult_cns_no` INT NOT NULL,
---   `user_member_apply_consult_no` INT NOT NULL,
---   `user_member_apply_studyroom_no1` INT NOT NULL,
---   `user_member_apply_sleepout_no` INT NOT NULL,
---   `user_member_apply_sleepout_date` DATE NOT NULL,
---   `user_member_apply_resign_no` INT NOT NULL,
---   `user_member_apply_resign_apply_date` DATE NOT NULL,
---   PRIMARY KEY (`cns_no`, `no`, `apply_consult_dtl_cns_no`, `apply_consult_dtl_no`, `user_member_id`, `user_member_no`, `user_member_point_id`, `user_member_point_no`, `user_member_apply_consult_cns_no`, `user_member_apply_consult_no`, `user_member_apply_studyroom_no1`, `user_member_apply_sleepout_no`, `user_member_apply_sleepout_date`, `user_member_apply_resign_no`, `user_member_apply_resign_apply_date`),
---   INDEX `fk_apply_consult_apply_consult_dtl1_idx` (`apply_consult_dtl_cns_no` ASC, `apply_consult_dtl_no` ASC) VISIBLE,
---   INDEX `fk_apply_consult_user_member1_idx` (`user_member_id` ASC, `user_member_no` ASC, `user_member_user_member_parent_id` ASC, `user_member_user_member_parent_no` ASC, `user_member_point_id` ASC, `user_member_point_no` ASC, `user_member_apply_consult_cns_no` ASC, `user_member_apply_consult_no` ASC, `user_member_apply_studyroom_no1` ASC, `user_member_apply_sleepout_no` ASC, `user_member_apply_sleepout_date` ASC, `user_member_apply_resign_no` ASC, `user_member_apply_resign_apply_date` ASC) VISIBLE,
---   CONSTRAINT `fk_apply_consult_apply_consult_dtl1`
---     FOREIGN KEY (`apply_consult_dtl_cns_no` , `apply_consult_dtl_no`)
---     REFERENCES `dormitory`.`apply_consult_dtl` (`cns_no` , `no`)
---     ON DELETE NO ACTION
---     ON UPDATE NO ACTION,
---   CONSTRAINT `fk_apply_consult_user_member1`
---     FOREIGN KEY (`user_member_id` , `user_member_no` , `user_member_user_member_parent_id` , `user_member_user_member_parent_no` , `user_member_point_id` , `user_member_point_no` , `user_member_apply_consult_cns_no` , `user_member_apply_consult_no` , `user_member_apply_studyroom_no1` , `user_member_apply_sleepout_no` , `user_member_apply_sleepout_date` , `user_member_apply_resign_no` , `user_member_apply_resign_apply_date`)
---     REFERENCES `dormitory`.`user_member` (`id` , `no` , `user_member_parent_id` , `user_member_parent_no` , `point_id` , `point_no` , `apply_consult_cns_no` , `apply_consult_no` , `apply_studyroom_no1` , `apply_sleepout_no` , `apply_sleepout_date` , `apply_resign_no` , `apply_resign_apply_date`)
---     ON DELETE NO ACTION
---     ON UPDATE NO ACTION)
--- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -373,39 +294,21 @@ INSERT INTO role(name) VALUES('ROLE_USER');
 INSERT INTO role(name) VALUES('ROLE_USER_MEMBER');
 INSERT INTO role(name) VALUES('ROLE_ADMIN');
 
--- -----------------------------------------------------
--- Table `dormitory`.`apply_studyroom`
--- -----------------------------------------------------
--- CREATE TABLE IF NOT EXISTS `dormitory`.`apply_studyroom` (
---   `no` INT NOT NULL COMMENT '학번',
---   `id` VARCHAR(200) NOT NULL,
---   `name` VARCHAR(50) NULL COMMENT '신청자 이름',
---   `dept` VARCHAR(50) NULL COMMENT '소속학과',
---   `seat_no` INT NULL COMMENT '좌석번호',
---   `date` DATE NULL COMMENT '예약날짜',
---   `time` TIME NULL COMMENT '이용시간',
---   `status` VARCHAR(20) NULL COMMENT '이용상태',
---   `user_member_id` VARCHAR(200) NOT NULL,
---   `user_member_no` INT NOT NULL,
---   `user_member_user_member_parent_id` VARCHAR(200) NOT NULL,
---   `user_member_user_member_parent_no` INT NOT NULL,
---   `user_member_point_id` VARCHAR(200) NOT NULL,
---   `user_member_point_no` INT NOT NULL,
---   `user_member_apply_consult_cns_no` INT NOT NULL,
---   `user_member_apply_consult_no` INT NOT NULL,
---   `user_member_apply_studyroom_no1` INT NOT NULL,
---   `user_member_apply_sleepout_no` INT NOT NULL,
---   `user_member_apply_sleepout_date` DATE NOT NULL,
---   `user_member_apply_resign_no` INT NOT NULL,
---   `user_member_apply_resign_apply_date` DATE NOT NULL,
---   PRIMARY KEY (`no`, `id`, `user_member_id`, `user_member_no`, `user_member_user_member_parent_id`, `user_member_user_member_parent_no`, `user_member_point_id`, `user_member_point_no`, `user_member_apply_consult_cns_no`, `user_member_apply_consult_no`, `user_member_apply_studyroom_no1`, `user_member_apply_sleepout_no`, `user_member_apply_sleepout_date`, `user_member_apply_resign_no`, `user_member_apply_resign_apply_date`),
---   INDEX `fk_apply_studyroom_user_member1_idx` (`user_member_id` ASC, `user_member_no` ASC, `user_member_user_member_parent_id` ASC, `user_member_user_member_parent_no` ASC, `user_member_point_id` ASC, `user_member_point_no` ASC, `user_member_apply_consult_cns_no` ASC, `user_member_apply_consult_no` ASC, `user_member_apply_studyroom_no1` ASC, `user_member_apply_sleepout_no` ASC, `user_member_apply_sleepout_date` ASC, `user_member_apply_resign_no` ASC, `user_member_apply_resign_apply_date` ASC) VISIBLE,
---   CONSTRAINT `fk_apply_studyroom_user_member1`
---     FOREIGN KEY (`user_member_id` , `user_member_no` , `user_member_user_member_parent_id` , `user_member_user_member_parent_no` , `user_member_point_id` , `user_member_point_no` , `user_member_apply_consult_cns_no` , `user_member_apply_consult_no` , `user_member_apply_studyroom_no1` , `user_member_apply_sleepout_no` , `user_member_apply_sleepout_date` , `user_member_apply_resign_no` , `user_member_apply_resign_apply_date`)
---     REFERENCES `dormitory`.`user_member` (`id` , `no` , `user_member_parent_id` , `user_member_parent_no` , `point_id` , `point_no` , `apply_consult_cns_no` , `apply_consult_no` , `apply_studyroom_no1` , `apply_sleepout_no` , `apply_sleepout_date` , `apply_resign_no` , `apply_resign_apply_date`)
---     ON DELETE NO ACTION
---     ON UPDATE NO ACTION)
--- ENGINE = InnoDB;
+INSERT INTO apply_consult_schedule(day) VALUES('MON');
+INSERT INTO apply_consult_schedule(day) VALUES('TUE');
+INSERT INTO apply_consult_schedule(day) VALUES('WED');
+INSERT INTO apply_consult_schedule(day) VALUES('THU');
+INSERT INTO apply_consult_schedule(day) VALUES('FRI');
+
+INSERT INTO apply_studyroom_schedule(seat) VALUES(1);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(2);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(3);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(4);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(5);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(6);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(7);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(8);
+INSERT INTO apply_studyroom_schedule(seat) VALUES(9);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

@@ -7,9 +7,9 @@
                     <div class="profile_title">내 프로필</div><br>
                     <img src="@/assets/profile.png" alt="이미지" />
                     <div class="pro_info">
-                        이름 : {{user.name}}<br>
-                        학번 : {{user.studentno}}<br>
-                        거주관 : X관 XXX호<br>
+                        이름 : {{this.user.name}}<br>
+                        학번 : {{this.user.studentno}}<br>
+                        거주관 : {{ this.userinfo.res_fac }}관 {{ this.userinfo.res_room }}호<br>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                         <img src="@/assets/pointplus.png" alt="이미지" />
                         상벌점 내역
                     </div>
-                    <a href="/mypage/mypoint" class="more_details">합계 : 5점</a>
+                    <a href="/mypage/mypoint" class="more_details">합계 : {{ this.userinfo.point }}점</a>
                 </div>
                 <div class="point_box box innerbox">
                     <div class="item"
@@ -120,12 +120,12 @@
                         <div class="inout">진행상태</div>
                     </div>
                     <div class="item"
-                        v-for="(item, index) in night_item"
+                        v-for="(item, index) in sleepout_item"
                         :key="index">
                             
                         <div class="indate">{{ item.indate }}</div>
                         <div class="outdate">{{ item.outdate }}</div>
-                        <div class="status">{{ item.status }}</div>
+                        <div class="status">{{ item.approved }}</div>
                     </div>
                 </div>
             </div>
@@ -134,16 +134,12 @@
   </template>
 
 <script>
+import UserInfoDataService from "@/services/UserInfoDataService";
+
     export default {
         name: "MyPageView",
         data() {
             return {
-                user: {
-                    studentno: '',
-                    name: '',
-                    password: '',
-                    email: ''
-                },
                 mywrite_item: [
                     {
                         category: "[분실물]",
@@ -232,48 +228,71 @@
                         date: "22/07/08 15:00",
                     },
                 ],
-                night_item: [
-                    {
-                        indate: "22/07/21",
-                        outdate: "22/07/19",
-                        status: "승인 대기 중",
-                    },
-                    {
-                        indate: "22/07/05",
-                        outdate: "22/07/04",
-                        status: "승인 완료",
-                    },
-                    {
-                        indate: "22/07/05",
-                        outdate: "22/07/04",
-                        status: "승인 완료",
-                    },
-                    {
-                        indate: "22/07/05",
-                        outdate: "22/07/04",
-                        status: "승인 완료",
-                    },
-                    {
-                        indate: "22/07/05",
-                        outdate: "22/07/04",
-                        status: "승인 완료",
-                    },
-                ],
+                sleepout_item: [],
+                userinfo: [],
             };
         },
         computed: {
-            loggedUser() {
+            user() {
                 return this.$store.state.auth.user;
             },
         },
         components: {},
         mounted () {
-            this.user = this.loggedUser;
+            // this.user = this.loggedUser;
+        },
+        created(){
+            this.init()
         },
         methods: {
             logOut() {
                 this.$store.dispatch('auth/logout');
                 this.$router.push('/login');
+            },
+            init(){
+                UserInfoDataService.getInfo(this.user.studentno).then(item => {
+                    let res = item.data
+                    let getinfo = {}
+
+                    getinfo.english_name = res.english_name
+                    getinfo.chinese_name = res.chinese_name
+                    getinfo.grade = res.grade
+                    getinfo.gender = res.gender
+                    getinfo.nationality = res.nationality
+                    getinfo.department = res.department
+                    getinfo.major = res.major
+                    getinfo.student_status = res.student_status
+                    getinfo.phone = res.phone
+                    getinfo.address = res.address
+                    getinfo.guardian_name = res.guardian_name
+                    getinfo.guardian_relation = res.guardian_relation
+                    getinfo.guardian_phone = res.guardian_phone
+                    getinfo.landline = res.landline
+                    getinfo.point = res.point
+                    getinfo.res_fac = res.res_fac
+                    getinfo.res_room = res.res_room
+
+                    this.userinfo = getinfo
+                })
+
+                UserInfoDataService.getSleepout(this.user.studentno).then(sleepooutData => {
+                    let res = sleepooutData.data
+                    let list = []
+
+                    for (let i=0; i<res.length; i++) {
+                        list.push({})
+                        list[i].no = res[i].id
+                        list[i].reason = res[i].reason
+                        list[i].indate = res[i].date_sleepout
+                        list[i].outdate = res[i].date_sleepout
+                        if(res[i].approved){
+                            list[i].approved = "승인 완료"
+                        }else{
+                            list[i].approved = "승인 중"
+                        }
+                    }
+                    this.sleepout_item = list
+                })
             }
         }
     };

@@ -11,7 +11,7 @@
       $route.name !== 'admininout' &&
       $route.name !== 'adminlife' &&
       $route.name !== 'adminuseradd'">{{add}}</button>
-      <button class="del">삭제</button>
+      <button class="del" v-if="$route.name !== 'adminpoint'">삭제</button>
     </div>
   </div>
 </template>
@@ -48,14 +48,15 @@ export default {
     margin: auto 0;
 
     button {
-      font-size: 13px;
+      font-size: 15px;
       border: 0;
       color: #fff;
-      padding: 5px 10px;
+      padding: 8px 10px;
     }
 
     .add {
       background-color: #00B6AD;
+      margin-right: 20px;
 
       &:hover {
         cursor: pointer;
@@ -63,7 +64,7 @@ export default {
     }
 
     .del {
-      margin: 0 10px;
+      margin-right: 10px;
       background-color: #DD6464;
 
       &:hover {

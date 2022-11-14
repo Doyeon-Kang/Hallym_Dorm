@@ -290,6 +290,19 @@ import UserInfoDataService from "@/services/UserInfoDataService";
                         let year = sleepout_intdate.getFullYear();
                         let month = sleepout_intdate.getMonth() + 1;
                         let day = sleepout_intdate.getDate() + 1;
+                        if(month==12&&day>31){
+                            year = sleepout_intdate.getFullYear() + 1;
+                            month = 1;
+                            day = 1;
+                        } else{
+                            if(((month==1||month==3||month==5||month==7||month==8||month==10||month==12)&&day>31)||(month==4||month==6||month==9||month==11)&&day>30){
+                                month = sleepout_intdate.getMonth() + 2;
+                                day = 1;
+                            } else {
+                                month = sleepout_intdate.getMonth() + 1;
+                                day = sleepout_intdate.getDate() + 1;
+                            }
+                        }
                         if(month < 10) month = '0' + month;
                         if(day < 10) day = '0' + day;
 

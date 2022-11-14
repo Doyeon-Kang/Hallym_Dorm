@@ -928,10 +928,11 @@ export default {
         // 외박 신청
         reserveSleepout() {
             let data = {
+                studentNo: this.user.studentno,
                 date_sleepout: this.date_sleepout,
                 reason: this.reason
             }
-            ApplySleepoutDataService.create(this.user.studentno, data)
+            ApplySleepoutDataService.create(data)
             alert("신청 완료했습니다.");
             location.reload(true);
         },

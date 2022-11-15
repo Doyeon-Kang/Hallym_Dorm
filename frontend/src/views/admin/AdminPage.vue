@@ -103,7 +103,7 @@ export default {
       title_in: "입사 관리",
       title_out: "퇴사 관리",
 
-      userTitle: ["학번", "이름", "소속학과", "거주 기숙사", "사용자 권한"],
+      userTitle: ["번호", "학번", "이름", "소속학과", "거주 기숙사", "사용자 권한"],
       userList: [],
 
       pointTitle: ["학번", "이름", "소속학과", "상벌점", "상벌점 추가내역", "거주 기숙사"],
@@ -179,7 +179,7 @@ export default {
         for (let i=0; i<res.length; i++) {
           list.push({})
           console.log(res[i])
-          //list[i].id = res[i].id
+          list[i].id = res[i].id
           list[i].no = res[i].studentno // 학번
           list[i].name = res[i].name // 이름
           list[i].dep = "-" // 학과

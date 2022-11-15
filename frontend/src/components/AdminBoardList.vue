@@ -115,7 +115,7 @@ export default {
     },
     mounted() {
         if (this.listItem) this.checkList = this.listItem.map(item => item.no);
-    },
+    },  
     methods: {
         objectKey(ob) {
             let array = [];

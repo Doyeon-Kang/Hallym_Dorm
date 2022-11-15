@@ -65,7 +65,6 @@ public class BoardStore {
     }
 
     @Column(name="content")
-    @Lob
     private String content;
     public String getContent() {
         return content;

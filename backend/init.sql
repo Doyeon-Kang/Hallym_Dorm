@@ -233,7 +233,7 @@ ENGINE = InnoDB;
 -- Table `dormitory`.`board_store`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dormitory`.`board_store` (
-  `id` INT NOT NULL AUTO_INCREMENT COMMENT '게시글 아이디',
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
   `writer_studentno` VARCHAR(200) NOT NULL COMMENT '작성자 학번',
   `writer_name` VARCHAR(200) NOT NULL COMMENT '작성자',
   `title` VARCHAR(200) NULL COMMENT '제목',

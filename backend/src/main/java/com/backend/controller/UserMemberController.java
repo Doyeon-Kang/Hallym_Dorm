@@ -1,5 +1,6 @@
 package com.backend.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,23 @@ public class UserMemberController {
     
     @Autowired
     ApplySleepoutRepository applySleepoutRepository;
+
+    @GetMapping(path="/info")
+    public ResponseEntity<List<UserMember>> getAllUserMember() {
+        try {
+          List<UserMember> userMember = new ArrayList<UserMember>();
+
+          userMemberRepository.findAll().forEach(userMember::add);
+          if(userMember.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+          }
+
+          return new ResponseEntity<>(userMember, HttpStatus.OK);
+        } catch (Exception e) {
+          return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @GetMapping(path="/info/{studentNo}")
     public ResponseEntity<UserMember> getGeneralInfo(@PathVariable(name="studentNo") String studentNo) {

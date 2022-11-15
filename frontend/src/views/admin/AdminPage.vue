@@ -179,6 +179,7 @@ export default {
         for (let i=0; i<res.length; i++) {
           list.push({})
           console.log(res[i])
+          //list[i].id = res[i].id
           list[i].no = res[i].studentno // 학번
           list[i].name = res[i].name // 이름
           list[i].dep = "-" // 학과

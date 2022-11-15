@@ -119,6 +119,7 @@ export default {
                 await StoreDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
                     id = res.data.id
+                    console.log(res)
                     // if (this.file !== []) {
                     //     StorePhotoService.create(res.data.id, this.file)
                     // }

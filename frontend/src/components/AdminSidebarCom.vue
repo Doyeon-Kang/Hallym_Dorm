@@ -6,7 +6,7 @@
             <div class="univ">| Dormitory</div>
         </div>
         <ul class="list_title">
-            <li v-for="(item, index) in listItem" :key="index" :class="{active: item.active}">
+            <li v-for="(item, index) in listItem" :key="index" :class="{active: item.active || item.path==='/admin/user' && $route.name==='admindetail'}">
                 <router-link :to="item.path">
                     <img class="item_img" :src="item.img" />
                     {{item.title}}

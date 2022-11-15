@@ -26,28 +26,6 @@
                 role: "",
                 status: true,
                 user: {},
-                user2: {
-                    학번: "20195101",
-                    이름: "강도연",
-                    email: "a@naver.com",
-                    영어이름: "englishname",
-                    한자이름: "china",
-                    학년: 4,
-                    성별: "여성",
-                    국가: "korea",
-                    학과: "software",
-                    전공: "contentsIT",
-                    학적상태: "current",
-                    핸드폰: "010-1234-5678",
-                    주소: "hallym university domitory 8",
-                    부모님성함: "parent",
-                    부모님관계: "mother",
-                    부모님핸드폰: "010-8765-4321",
-                    전화번호: "033-1234-5678",
-                    상벌점: 0,
-                    거주관: 0,
-                    거주호실: 0
-                }
             }
         },
         methods: {
@@ -93,7 +71,7 @@
 
                 &.status {
                     padding: 100px 70px;
-                    margin-bottom: 600px;
+                    margin-bottom: 700px;
                 }
     
                 table {

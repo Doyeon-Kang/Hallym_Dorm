@@ -65,7 +65,7 @@
                             $route.name === 'adminpoint' ||
                             $route.name === 'adminpointadd'" @click="$router.push({
                                 name: 'admindetail',
-                                query: { studentno: item.no, role: item.auth },
+                                query: { studentno: item.no, role: item.auth},
                             })"/></td>
                         </tr>
                     </tbody>

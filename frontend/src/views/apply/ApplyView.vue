@@ -867,17 +867,18 @@ export default {
             // }
 
             data = {
-                timeslot1: this.time_selected_list[0],
-                timeslot2: this.time_selected_list[1],
-                timeslot3: this.time_selected_list[2],
+                studentNo: this.user.studentno,
+                seatNo: this.seat_no,
+                timeslots: this.time_selected_list
             }
-            ApplyStudyroomDataService.create(this.user.studentno, this.seat_no, data)
+            ApplyStudyroomDataService.create(data)
             alert("신청 완료했습니다.");
             location.reload(true);
         },
         // 입사 신청
         reserveJoin() {
             let data = {
+                studentNo: this.user.studentno,
                 english_name: this.english_name,
                 chinese_name: this.chinese_name,
                 grade: this.grade,
@@ -911,7 +912,7 @@ export default {
             || this.hope_fac_4 == this.hope_fac_5 || this.hope_fac_4 == this.hope_fac_6 || this.hope_fac_5 == this.hope_fac_6){
                 alert("희망 시설이 중복되었습니다.")
             } else{
-                ApplyJoinDataService.create(this.user.studentno, data)
+                ApplyJoinDataService.create(data)
                 alert("신청 완료했습니다.");
                 location.reload(true);
             }

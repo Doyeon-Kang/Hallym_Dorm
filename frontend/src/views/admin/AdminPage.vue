@@ -51,7 +51,7 @@
       <MiniBoardList v-else-if="$route.name === 'adminlife'" :listItem="lifeList" :listTitle="lifeTitle"
         :totallife="totallife">
       </MiniBoardList>
-      <InoutCom v-show="$route.name === 'admininout'" :listItemin="inList" :listTitlein="inTitle" :listItemout="outList" :listTitleout="outTitle"
+      <InoutCom v-show="$route.name === 'admininout'" :listItemin="this.joinList" :listTitlein="inTitle" :listItemout="outList" :listTitleout="outTitle"
         :title_in="title_in" :title_out="title_out">
       </InoutCom>
     </div>
@@ -72,6 +72,7 @@ import ApplyStudyroomDataService from "@/services/ApplyStudyroomDataService";
 import ApplySleepoutDataService from "@/services/ApplySleepoutDataService";
 import ApplyJoinDataService from "@/services/ApplyJoinDataService";
 import ApplyResignDataService from "@/services/ApplyResignDataService";
+import UserInfoDataService from "@/services/UserInfoDataService";
 
 
 export default {
@@ -121,21 +122,11 @@ export default {
       sleepTitle: ["학번", "이름", "소속학과", "신청날짜", "외박 기간", "신청 사유", "승인 상태"],
       sleepList: [],
 
-      inTitle: ["학번", "학년", "이름", "소속학과", "상벌점", "희망 1순위"],
-      inList: [
-        // {
-        //   no: "20201234",
-        //   grade: "2",
-        //   name: "홍길동",
-        //   dep: "전자공학과",
-        //   point: "5",
-        //   hope: "8관",
-        // }
-      ],
+      inTitle: ["학번", "학년", "이름", "소속학과", "희망 1순위"],
+      joinList: [],
 
       outTitle: ["학번", "이름", "소속학과", "거주 기숙사", "승인여부"],
-      outList: [
-      ],
+      outList: [],
 
       consultingTitle: ["학번", "이름", "상담분야", "신청일자", "전화번호", "진행상태"],
       consultingList: [
@@ -211,6 +202,7 @@ export default {
     
   },
   created() {
+    //window.reload()
     this.routeCheck();
     this.init();
   },
@@ -222,12 +214,20 @@ export default {
 
         for (let i=0; i<res.length; i++) {
           list.push({})
+          console.log(res[i])
           list[i].no = res[i].studentno // 학번
           list[i].name = res[i].name // 이름
           list[i].dep = "-" // 학과
           list[i].live = "-" // 거주 기숙사
           list[i].auth = res[i].roles[0].name // 사용자 권한
-          //if(list[i].auth === "ROLE_USER_MEMBER")
+
+          // USER_MEMBER일 경우(이후 ADMIN 조건은 제거!)
+          if(list[i].auth === "ROLE_USER_MEMBER" || list[i].auth === "ROLE_ADMIN") {
+            UserInfoDataService.getInfo(res[i].studentno).then(res => {
+              list[i].dep = res.data.department
+              list[i].live = res.data.res_fac + "관 " +res.data.res_room +"호실"
+            })
+          }
         }
         this.userList = list
       })
@@ -237,9 +237,9 @@ export default {
 
         for (let i=0; i<res.length; i++) {
           list.push({})
-          list[i].no = "-" // 학번
-          list[i].name = "-" // 이름
-          list[i].dep = "-" // 학과
+          list[i].no = res[i].studentNo // 학번
+          list[i].name = res[i].name // 이름
+          list[i].dep = res[i].department // 학과
           list[i].date = res[i].date // 신청일자
           list[i].time = "" // 사용시간
           if (res[i].timeslot1 === 1) {
@@ -295,7 +295,7 @@ export default {
           } else {
             list[i].time += ""
           }
-          list[i].seat = "-" // 좌석
+          list[i].seat = res[i].seat +"번 좌석" // 좌석
         }
         this.studyList = list
       })
@@ -326,15 +326,16 @@ export default {
 
         for (let i=0; i<res.length; i++) {
           list.push({})
-          list[i].no = "-"
+          list[i].no = res[i].studentNo
           list[i].grade = res[i].grade
-          list[i].name = "-"
+          list[i].name = res[i].name
           list[i].dep = res[i].department
-          list[i].point = "-"
+          //list[i].point = "-"
           list[i].hope = res[i].hope_fac_1
         }
-        this.inList = list
-        console.log(this.inList)
+        this.joinList = list
+        console.log('list', list)
+        console.log('joinList', this.joinList)
       })
       ApplyResignDataService.getAll().then(resolveData => {
         let res = resolveData.data

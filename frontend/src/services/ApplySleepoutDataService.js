@@ -9,8 +9,8 @@ class ApplySleepoutDataService {
     return http.get(`/apply-sleepout/${id}`);
   }
 
-  create(studentNo, data) {
-    return http.post(`/apply-sleepout/${studentNo}`, data);
+  create(data) {
+    return http.post(`/apply-sleepout`, data);
   }
 
   update(sleepoutId, data) {

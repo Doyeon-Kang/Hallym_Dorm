@@ -1,4 +1,34 @@
 <template>
+<div>
+    <div class="con_box" v-show="$route.name === 'adminuseradd'">
+        <div class="con_box_cont">
+            <div class="con_title">{{con_title}}사용자 추가</div>
+            <div class="container">
+                <table>
+                    <tr>
+                        <th>이름</th>
+                        <td><input type="text" v-model="user.name" placeholder="Ex) 홍길동"></td>
+                    </tr>
+                    <tr>
+                        <th>아이디</th>
+                        <td><input type="text" v-model="user.studentno" placeholder="Ex) 20221234"></td>
+                    </tr>
+                    <tr>
+                        <th>비밀번호</th>
+                        <td><input type="text" v-model="user.password" placeholder="비밀번호는 8자리 이상"></td>
+                    </tr>
+                    <tr>
+                        <th>이메일</th>
+                        <td><input type="text" v-model="user.email" placeholder="a@naver.com"></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td><input type="submit" value="생성하기" @click="addUser(user)"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
     <div class="con_box" v-show="$route.name === 'adminpointadd'">
         <div class="con_box_cont">
             <div class="con_title">{{con_title}}상벌점 입력</div>
@@ -67,10 +97,50 @@
             </div>
         </div>
     </div>
+</div>
 </template>
 
 <script>
+export default {
+    data() {
+        return {
+            user: {
+                studentno: "",
+                name: "",
+                password: "",
+                email: ""
+            }
+        }
+    },
+    methods: {
+        addUser(user) {
+            console.log(user)
+            this.message = ''
+            this.successful = false
+            this.loading = true
 
+            this.$store.dispatch("auth/register", user).then(
+                (data) => {
+                    this.message = data.message
+                    this.successful = true
+                    this.loading = false
+                    alert("정상적으로 추가되었습니다.")
+                    this.$router.go("")
+                },
+                (error) => {
+                    this.message =
+                        (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                        error.message ||
+                        error.toString()
+                    this.successful = false
+                    this.loading = false
+                }
+            )
+        }
+    },
+}
 </script>
 
 <style lang="less" scoped>

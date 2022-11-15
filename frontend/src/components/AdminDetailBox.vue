@@ -19,7 +19,8 @@
     <script>
     import UserInfoDataService from "@/services/UserInfoDataService"
     export default {
-        name: 'admindetail',
+        // eslint-disable-next-line
+        name: 'admindetail', 
         data() {
             return {
                 studentno: "",

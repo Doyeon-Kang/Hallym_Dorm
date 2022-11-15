@@ -60,7 +60,7 @@
                                                     value="1"></td>
                                             <td><input type="checkbox" name="consult" id="t1" v-model="tue_timeslot"
                                                     value="1"></td>
-                                            <td><input type="checkbox" name="consult" id="w1" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w1" v-model="wed_timeslot"
                                                     value="1"></td>
                                             <td><input type="checkbox" name="consult" id="r1" v-model="thu_timeslot"
                                                     value="1"></td>
@@ -73,7 +73,7 @@
                                                     value="2"></td>
                                             <td><input type="checkbox" name="consult" id="t2" v-model="tue_timeslot"
                                                     value="2"></td>
-                                            <td><input type="checkbox" name="consult" id="w2" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w2" v-model="wed_timeslot"
                                                     value="2"></td>
                                             <td><input type="checkbox" name="consult" id="r2" v-model="thu_timeslot"
                                                     value="2"></td>
@@ -86,7 +86,7 @@
                                                     value="3"></td>
                                             <td><input type="checkbox" name="consult" id="t3" v-model="tue_timeslot"
                                                     value="3"></td>
-                                            <td><input type="checkbox" name="consult" id="w3" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w3" v-model="wed_timeslot"
                                                     value="3"></td>
                                             <td><input type="checkbox" name="consult" id="r3" v-model="thu_timeslot"
                                                     value="3"></td>
@@ -103,7 +103,7 @@
                                                     value="4"></td>
                                             <td><input type="checkbox" name="consult" id="t4" v-model="tue_timeslot"
                                                     value="4"></td>
-                                            <td><input type="checkbox" name="consult" id="w4" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w4" v-model="wed_timeslot"
                                                     value="4"></td>
                                             <td><input type="checkbox" name="consult" id="r4" v-model="thu_timeslot"
                                                     value="4"></td>
@@ -116,7 +116,7 @@
                                                     value="5"></td>
                                             <td><input type="checkbox" name="consult" id="t5" v-model="tue_timeslot"
                                                     value="5"></td>
-                                            <td><input type="checkbox" name="consult" id="w5" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w5" v-model="wed_timeslot"
                                                     value="5"></td>
                                             <td><input type="checkbox" name="consult" id="r5" v-model="thu_timeslot"
                                                     value="5"></td>
@@ -129,7 +129,7 @@
                                                     value="6"></td>
                                             <td><input type="checkbox" name="consult" id="t6" v-model="tue_timeslot"
                                                     value="6"></td>
-                                            <td><input type="checkbox" name="consult" id="w6" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w6" v-model="wed_timeslot"
                                                     value="6"></td>
                                             <td><input type="checkbox" name="consult" id="r6" v-model="thu_timeslot"
                                                     value="6"></td>
@@ -142,7 +142,7 @@
                                                     value="7"></td>
                                             <td><input type="checkbox" name="consult" id="t7" v-model="tue_timeslot"
                                                     value="7"></td>
-                                            <td><input type="checkbox" name="consult" id="w7" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w7" v-model="wed_timeslot"
                                                     value="7"></td>
                                             <td><input type="checkbox" name="consult" id="r7" v-model="thu_timeslot"
                                                     value="7"></td>
@@ -155,7 +155,7 @@
                                                     value="8"></td>
                                             <td><input type="checkbox" name="consult" id="t8" v-model="tue_timeslot"
                                                     value="8"></td>
-                                            <td><input type="checkbox" name="consult" id="w8" v-model="web_timeslot"
+                                            <td><input type="checkbox" name="consult" id="w8" v-model="wed_timeslot"
                                                     value="8"></td>
                                             <td><input type="checkbox" name="consult" id="r8" v-model="thu_timeslot"
                                                     value="8"></td>
@@ -719,6 +719,13 @@ export default {
                 { no: 9, status: true, isActive: false },
                 { no: 10, status: true, isActive: false },
             ],
+            mon_timeslot: [],
+            tue_timeslot: [],
+            wed_timeslot: [],
+            thu_timeslot: [],
+            fri_timeslot: [],
+            consult_subject: "",
+            consult_topic: "",
             timeslotList: [
                 { time: "09:00~11:00", part:1, status: true, isActive: false },
                 { time: "11:00~13:00", part:2, status: true, isActive: false },
@@ -816,9 +823,9 @@ export default {
             } else if (this.tue_timeslot) {
                 day = "TUE"
                 timeslot_value = this.tue_timeslot
-            } else if (this.web_timeslot) {
-                day = "WEB"
-                timeslot_value = this.web_timeslot
+            } else if (this.wed_timeslot) {
+                day = "WED"
+                timeslot_value = this.wed_timeslot
             } else if (this.thu_timeslot) {
                 day = "THU"
                 timeslot_value = this.thu_timeslot
@@ -827,17 +834,14 @@ export default {
                 timeslot_value = this.fri_timeslot
             }
 
-            console.log(day)
-            console.log(timeslot_value)
-            console.log(this.consult_topic)
-            console.log(this.consult_subject)
-
             let data = {
+                studentNo: this.user.studentno,
+                dayOfWeek: day,
                 timeslot: this.timeslot_value,
                 topic: this.consult_topic,
                 subject: this.consult_subject
             }
-            ApplyConsultDataService.create(this.user.studentno, day, data)
+            ApplyConsultDataService.create(data)
             alert("신청 완료했습니다.");
             location.reload(true);
         },
@@ -1317,7 +1321,7 @@ export default {
                                     text-align: center;
                                 }
 
-                                &:focus::-webkit-input-placeholder {
+                                &:focus::-wedkit-input-placeholder {
                                     color: transparent;
                                 }
                             }
@@ -1449,7 +1453,7 @@ export default {
                                 text-align: center;
                             }
 
-                            &:focus::-webkit-input-placeholder {
+                            &:focus::-wedkit-input-placeholder {
                                 color: transparent;
                             }
                         }

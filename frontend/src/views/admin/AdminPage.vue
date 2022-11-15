@@ -72,6 +72,7 @@ import ApplyStudyroomDataService from "@/services/ApplyStudyroomDataService";
 import ApplySleepoutDataService from "@/services/ApplySleepoutDataService";
 import ApplyJoinDataService from "@/services/ApplyJoinDataService";
 import ApplyResignDataService from "@/services/ApplyResignDataService";
+import ApplyConsultDataService from "@/services/ApplyConsultDataService";
 import UserInfoDataService from "@/services/UserInfoDataService";
 
 
@@ -128,41 +129,8 @@ export default {
       outTitle: ["학번", "이름", "소속학과", "거주 기숙사", "승인여부"],
       outList: [],
 
-      consultingTitle: ["학번", "이름", "상담분야", "신청일자", "전화번호", "진행상태"],
+      consultingTitle: ["학번", "이름", "상담분야", "신청일자", "전화번호"],
       consultingList: [
-        {
-          no: "20201234",
-          name: "홍길동",
-          find: "심리 상담",
-          date: "2022-08-17",
-          phone: "010-1234-5678",
-          status: "예약 대기 중",
-        },
-        {
-          no: "20204237",
-          name: "김땡땡",
-          find: "진로 상담",
-          date: "2022-08-15",
-          phone: "010-7575-6464",
-          status: "예약 완료",
-        },
-        {
-          no: "20191235",
-          name: "박모씨",
-          find: "진로 상담",
-          date: "2022-07-28",
-          phone: "010-2424-9292",
-          status: "예약 완료",
-        },
-        {
-          no: "20215236",
-          name: "최빵빵",
-          find: "개인 상담",
-          date: "2022-07-12",
-          phone: "010-8282-1313",
-          status: "예약 완료",
-        },
-        
       ],
 
       life_con_title: "생활 일정 추가",
@@ -198,11 +166,7 @@ export default {
     InoutCom,
     AdminDetailBox
   },
-  beforeCreate() {
-    
-  },
   created() {
-    //window.reload()
     this.routeCheck();
     this.init();
   },
@@ -334,8 +298,6 @@ export default {
           list[i].hope = res[i].hope_fac_1
         }
         this.joinList = list
-        console.log('list', list)
-        console.log('joinList', this.joinList)
       })
       ApplyResignDataService.getAll().then(resolveData => {
         let res = resolveData.data
@@ -356,6 +318,21 @@ export default {
         }
         this.outList = list
         console.log(this.outList)
+      })
+      ApplyConsultDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+        console.log("con", res)
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].no = res[i].studentNo // 학번
+          list[i].name = res[i].name // 이름
+          list[i].find = res[i].subject // 상담분야
+          list[i].date = res[i].date // 신청일자
+          list[i].phone = "-" // 전화번호
+        }
+        this.consultingList = list
       })
     },
     routeCheck() {

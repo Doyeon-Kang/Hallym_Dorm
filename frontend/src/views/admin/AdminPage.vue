@@ -113,7 +113,8 @@ export default {
 
       studyTitle: ["번호", "학번", "이름", "소속학과", "예약날짜", "예약시간", "선택좌석"],
       studyList: [],
-      sleepTitle: ["학번", "이름", "소속학과", "신청날짜", "외박 기간", "신청 사유", "승인 상태"],
+
+      sleepTitle: ["번호", "학번", "이름", "소속학과", "신청날짜", "외박 기간", "신청 사유", "승인 상태"],
       sleepList: [],
 
       inTitle: ["학번", "학년", "이름", "소속학과", "희망 1순위"],
@@ -172,7 +173,7 @@ export default {
       if (list.length == 0) { // 리스트 행 없을 경우
           alert("삭제할 리스트 행을 선택해주세요.")
       } else { // 리스트 행 있는 경우
-        if(this.$route.name === 'adminuser') {
+        if(this.$route.name === 'adminuser') { // 사용자 관리
           for (let i=0; i<list.length; i++) {
               UserDataService.delete(list[i].id).then(res => {    
                   console.log(res)
@@ -180,14 +181,22 @@ export default {
           }
           alert('삭제 완료되었습니다.')
           window.location.reload(true)
-        } else if(this.$route.name === 'adminstudy') {
+        e} else if(this.$route.name === 'adminstudy') { // 스터디룸 예약
           for (let i=0; i<list.length; i++) {
                 ApplyStudyroomDataService.delete(list[i].id).then(res => {   
                     console.log(res)
                 })
             }
             alert('삭제 완료되었습니다.')
-            //window.location.reload(true)
+            window.location.reload(true)
+          } else if(this.$route.name === 'adminsleep') { // 외박 신청
+          for (let i=0; i<list.length; i++) {
+            ApplySleepoutDataService.delete(list[i].id).then(res => {   
+                    console.log(res)
+                })
+            }
+            alert('삭제 완료되었습니다.')
+            window.location.reload(true)
         }
       }    
     },
@@ -290,6 +299,7 @@ export default {
 
         for (let i=0; i<res.length; i++) {
           list.push({})
+          list[i].id = res[i].id
           list[i].no = res[i].studentNo
           list[i].name = res[i].name
           list[i].dep = res[i].department

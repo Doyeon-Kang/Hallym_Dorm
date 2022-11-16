@@ -73,7 +73,6 @@
 </template>
     
 <script>
-import UserDataService from '@/services/UserDataService';
 export default {
     data() {
         return {

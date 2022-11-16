@@ -123,7 +123,7 @@ export default {
       outTitle: ["학번", "이름", "소속학과", "거주 기숙사", "승인여부"],
       outList: [],
 
-      consultingTitle: ["학번", "이름", "상담분야", "신청일자", "전화번호"],
+      consultingTitle: ["번호", "학번", "이름", "상담분야", "신청일자", "전화번호"],
       consultingList: [
       ],
 
@@ -192,6 +192,14 @@ export default {
           } else if(this.$route.name === 'adminsleep') { // 외박 신청
           for (let i=0; i<list.length; i++) {
             ApplySleepoutDataService.delete(list[i].id).then(res => {   
+                    console.log(res)
+                })
+            }
+            alert('삭제 완료되었습니다.')
+            window.location.reload(true)
+        } else if(this.$route.name === 'adminconsulting') { // 상담 신청
+          for (let i=0; i<list.length; i++) {
+            ApplyConsultDataService.delete(list[i].id).then(res => {   
                     console.log(res)
                 })
             }
@@ -353,6 +361,7 @@ export default {
 
         for (let i=0; i<res.length; i++) {
           list.push({})
+          list[i].id = res[i].id // 번호
           list[i].no = res[i].studentNo // 학번
           list[i].name = res[i].name // 이름
           list[i].find = res[i].subject // 상담분야

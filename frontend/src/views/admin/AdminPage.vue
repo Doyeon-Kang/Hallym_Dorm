@@ -166,8 +166,31 @@ export default {
   methods: {
     setList(data) {
       this.selectList = data
-      console.log(Object.values(this.selectList))
+      console.log(this.selectList)
     },  
+    deleteUser(list) {
+      if (list.length == 0) { // 리스트 행 없을 경우
+          alert("삭제할 리스트 행을 선택해주세요.")
+      } else { // 리스트 행 있는 경우
+        if(this.$route.name === 'adminuser') {
+          for (let i=0; i<list.length; i++) {
+              UserDataService.delete(list[i].id).then(res => {    
+                  console.log(res)
+              })
+          }
+          alert('삭제 완료되었습니다.')
+          window.location.reload(true)
+        } else if(this.$route.name === 'adminstudy') {
+          for (let i=0; i<list.length; i++) {
+                ApplyStudyroomDataService.delete(list[i].no).then(res => {   
+                    console.log(res)
+                })
+            }
+            alert('삭제 완료되었습니다.')
+            //window.location.reload(true)
+        }
+      }    
+    },
     async init() {
       await UserDataService.getAll().then(resolveData => {
         let res = resolveData.data
@@ -327,20 +350,6 @@ export default {
         }
         this.consultingList = list
       })
-    },
-    deleteUser(list) {
-        if (list.length == 0) {
-            alert("삭제할 리스트 행을 선택해주세요.")
-        } else {
-            for (let i=0; i<list.length; i++) {
-                console.log('id', list[i])
-                UserDataService.delete(list[i]).then(res => {    
-                    console.log(res)
-                })
-            }
-            alert('삭제 완료되었습니다.')
-            window.location.reload(true)
-        }
     },
     routeCheck() {
       this.activeReset();

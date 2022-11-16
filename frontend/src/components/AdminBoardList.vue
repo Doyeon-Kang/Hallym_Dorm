@@ -9,7 +9,7 @@
         
         <div class="container">
             <div class="top">
-                <span>전체 사용자 {{this.checkList.length}}명</span>
+                <span>Total: {{this.checkList.length}}</span>
                 <span>정렬
                     <button @click="sortName()">이름순</button>
                     <button @click="sortNo()">학번순</button>
@@ -559,7 +559,7 @@ export default {
         span {
             line-height: 20px;
             display: flex;
-            padding: 13px 0px 13px 40px;
+            padding: 13px 0px 13px 30px;
 
             button{
                 color: #fff;

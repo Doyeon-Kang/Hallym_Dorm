@@ -111,7 +111,7 @@ export default {
         // }
       ],
 
-      studyTitle: ["학번", "이름", "소속학과", "예약날짜", "예약시간", "선택좌석"],
+      studyTitle: ["번호", "학번", "이름", "소속학과", "예약날짜", "예약시간", "선택좌석"],
       studyList: [],
       sleepTitle: ["학번", "이름", "소속학과", "신청날짜", "외박 기간", "신청 사유", "승인 상태"],
       sleepList: [],
@@ -182,7 +182,7 @@ export default {
           window.location.reload(true)
         } else if(this.$route.name === 'adminstudy') {
           for (let i=0; i<list.length; i++) {
-                ApplyStudyroomDataService.delete(list[i].no).then(res => {   
+                ApplyStudyroomDataService.delete(list[i].id).then(res => {   
                     console.log(res)
                 })
             }
@@ -221,6 +221,7 @@ export default {
 
         for (let i=0; i<res.length; i++) {
           list.push({})
+          list[i].id = res[i].id // 번호
           list[i].no = res[i].studentNo // 학번
           list[i].name = res[i].name // 이름
           list[i].dep = res[i].department // 학과

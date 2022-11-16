@@ -62,17 +62,20 @@
             },
             consultInit() {
                 ApplyConsultDataService.get(this.id).then(data => {
-                    let res = data.data[0]
+                    console.log(data)
+                    console.log('id', this.id)
+                    let res = data.data
                     this.consult = res
                 })
             }
         },  
         created() {
-            this.studentno = this.$route.query.studentno
-            this.role = this.$route.query.role
             if(this.$route.name === 'admindetail') {
+                this.studentno = this.$route.query.studentno
+                this.role = this.$route.query.role
                 this.userInit()
             } else {
+                this.id = this.$route.query.id
                 this.consultInit()
             }
             

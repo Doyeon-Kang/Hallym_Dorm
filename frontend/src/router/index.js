@@ -68,7 +68,12 @@ const routes = [
     component: () => import("../views/admin/AdminPage.vue"),
   },
   {
-    path: "/admin/user/detail",
+    path: "/admin/consulting/detail",
+    name: "consultdetail",
+    component: () => import("../views/admin/AdminPage.vue")
+  },
+  {
+    path: "/admin/user/detail" || "/admin/consulting/detail",
     name: "admindetail",
     component: () => import("../views/admin/AdminPage.vue")
   },

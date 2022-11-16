@@ -22,7 +22,7 @@
       <Addbox v-else-if="this.$route.name === 'adminpointadd'" :con_title="point_con_title" :listTitle="pointTitle"></Addbox>
       <Addbox v-else-if="this.$route.name === 'adminlife'" :con_title="life_con_title" :listTitle="lifeTitle"></Addbox>
 
-      <AdminDetailBox v-if="this.$route.name === 'admindetail'"></AdminDetailBox>
+      <AdminDetailBox v-if="this.$route.name === 'admindetail' || this.$route.name === 'consultdetail'"></AdminDetailBox>
       
       <!-- 리스트 컴포넌트 -->
       <BoardList v-if="this.$route.name === 'adminuser'" :listItem="userList" :listTitle="userTitle" @setList="setList">
@@ -61,6 +61,7 @@ import BoardList from "../../components/AdminBoardList.vue";
 import MiniBoardList from "../../components/AdminMiniBoardList.vue";
 import InoutCom from "../../components/AdminInoutCom.vue";
 import AdminDetailBox from "@/components/AdminDetailBox.vue";
+
 
 import UserDataService from "@/services/UserDataService"
 import ApplyStudyroomDataService from "@/services/ApplyStudyroomDataService";
@@ -179,15 +180,15 @@ export default {
         if(this.$route.name === 'adminuser') { // 사용자 관리
           for (let i=0; i<list.length; i++) {
               UserDataService.delete(list[i].id).then(res => {    
-                  //console.log(res)
+                  console.log(res)
               })
           }
           alert('삭제 완료되었습니다.')
           window.location.reload(true)
-        e} else if(this.$route.name === 'adminstudy') { // 스터디룸 예약
+        } else if(this.$route.name === 'adminstudy') { // 스터디룸 예약
           for (let i=0; i<list.length; i++) {
                 ApplyStudyroomDataService.delete(list[i].id).then(res => {   
-                    //console.log(res)
+                    console.log(res)
                 })
             }
             alert('삭제 완료되었습니다.')
@@ -195,7 +196,7 @@ export default {
           } else if(this.$route.name === 'adminsleep') { // 외박 신청
           for (let i=0; i<list.length; i++) {
             ApplySleepoutDataService.delete(list[i].id).then(res => {   
-                    //console.log(res)
+                    console.log(res)
                 })
             }
             alert('삭제 완료되었습니다.')
@@ -203,7 +204,7 @@ export default {
         } else if(this.$route.name === 'adminconsulting') { // 상담 신청
           for (let i=0; i<list.length; i++) {
             ApplyConsultDataService.delete(list[i].id).then(res => {   
-                    //console.log(res)
+                    console.log(res)
                 })
             }
             alert('삭제 완료되었습니다.')
@@ -219,7 +220,7 @@ export default {
       } else {
         for(let i=0; i<list.length; i++) {
           ApplySleepoutDataService.updateApprove(list[i].id).then(res => {
-            //console.log(res)
+            console.log(res)
             cnt++
           })
         }

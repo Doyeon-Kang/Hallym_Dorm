@@ -1,6 +1,7 @@
 <template>
     <div>
-        <div class="con_box">
+        <!--사용자 관리 자세히-->
+        <div v-if="$route.path !== '/admin/consulting/detail'" class="con_box" > 
             <div class="con_box_cont">
                 <div class="con_title">{{con_title}}사용자 정보</div>
                 <div class="container" :class="{'status': !status}">
@@ -13,11 +14,27 @@
                 </div>
             </div>
         </div>
+        <!--상담 신청 현황 자세히-->
+        <div v-else class="con_box">
+            <div class="con_box_cont">
+                <div class="con_title">{{con_title}}상담 신청 정보</div>
+                <div class="container">
+                    <table>
+                        <tr v-for="(info, index) in consult" :key="index">
+                            <th>{{ index }}</th>
+                            <td>{{ info }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
     </template>
     
     <script>
     import UserInfoDataService from "@/services/UserInfoDataService"
+    import ApplyConsultDataService from "@/services/ApplyConsultDataService"
+
     export default {
         // eslint-disable-next-line
         name: 'admindetail', 
@@ -25,12 +42,14 @@
             return {
                 studentno: "",
                 role: "",
+                id: "",
                 status: true,
                 user: {},
+                consult: {}
             }
         },
         methods: {
-            init() {
+            userInit() {
                 if(this.role == 'ROLE_USER_MEMBER' || this.role == 'ROLE_ADMIN') {
                     UserInfoDataService.getInfo(this.studentno).then(data => {
                         let res = data.data
@@ -40,13 +59,23 @@
                     this.user.status = "입사 신청이 완료되지 않은 계정입니다."
                     this.status = false
                 }
-                
+            },
+            consultInit() {
+                ApplyConsultDataService.get(this.id).then(data => {
+                    let res = data.data[0]
+                    this.consult = res
+                })
             }
         },  
         created() {
             this.studentno = this.$route.query.studentno
             this.role = this.$route.query.role
-            this.init()
+            if(this.$route.name === 'admindetail') {
+                this.userInit()
+            } else {
+                this.consultInit()
+            }
+            
         }
     }
     </script>

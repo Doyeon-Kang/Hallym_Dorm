@@ -57,12 +57,16 @@
                             <td v-for="(text, index) in objectKey(item)" :key="index">
                                 {{ text }}
                             </td>
-                            <td><input type="button" value="자세히" v-show="$route.name === 'adminuser' ||
+                            <td v-show="$route.name === 'adminuser' ||
                             $route.name === 'adminuseradd' ||
                             $route.name === 'adminpoint' ||
                             $route.name === 'adminpointadd'" @click="$router.push({
                                 name: 'admindetail',
                                 query: { studentno: item.no, role: item.auth},
+                            })"><input type="button" value="자세히" /></td>
+                            <td v-show="$route.name === 'adminconsulting'"><input type="button" value="자세히" @click="$router.push({
+                                name: 'consultdetail',
+                                query: { id: item.id}
                             })"/></td>
                         </tr>
                     </tbody>

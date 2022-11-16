@@ -468,7 +468,7 @@ export default {
         this.side[5].img = require("@/assets/admin_counseling.png");
         this.side[6].img = require("@/assets/admin_schedule.png");
         this.side[4].active = true;
-      } else if (this.$route.name === "adminconsulting") {
+      } else if (this.$route.name === "adminconsulting" || this.$route.name === 'consultdetail') {
         this.title = "관리자페이지 > 상담 신청 현황";
         this.side[0].img = require("@/assets/admin_user.png");
         this.side[1].img = require("@/assets/admin_point.png");

@@ -37,8 +37,6 @@ export const auth = {
       return AuthService.register(user).then(
         response => {
           commit('registerSuccess');
-          alert("회원가입이 완료되었습니다.")
-          window.location.href = '/login';
           return Promise.resolve(response.data);
         },
         error => {

@@ -8,8 +8,8 @@ class ApplyConsultDataService {
   get(id) {
     return http.get(`/apply-consult/${id}`);
   }
-  create(studentNo, day, data) {
-    return http.post(`/apply-consult/${studentNo}-${day}`, data);
+  create(data) {
+    return http.post(`/apply-consult`, data);
   }
 
   update(joinId, data) {

@@ -61,10 +61,16 @@ const routes = [
     name: "mypoint",
     component: () => import("../views/user/MyPageDetail.vue"),
   },
+  // 관리자 페이지
   {
     path: "/admin/user",
     name: "adminuser",
     component: () => import("../views/admin/AdminPage.vue"),
+  },
+  {
+    path: "/admin/user/detail",
+    name: "admindetail",
+    component: () => import("../views/admin/AdminPage.vue")
   },
   {
     path: "/admin/user/add",
@@ -148,36 +154,9 @@ const routes = [
     component: () => import("../views/board/BoardDetail.vue"),
   },
   {
-    path: "/reserve",
-    name: "consult",
-    component: () => import("../views/apply/ApplyView.vue"),
-  },
-  {
-
     path: "/community/article/no", // 글넘버
     name: "articleNo",
     component: () => import("../views/board/BoardDetail.vue")
-  },
-  {
-    path: "/reserve/study",
-    name: "study",
-    component: () => import("../views/apply/ApplyView.vue"),
-  },
-  {
-    path: "/reserve/in",
-    name: "in",
-    component: () => import("../views/apply/ApplyView.vue"),
-  },
-  {
-    path: "/reserve/out",
-    name: "out",
-    component: () => import("../views/apply/ApplyView.vue"),
-  },
-  {
-    path: "/reserve/sleep",
-    name: "sleep",
-  
-    component: () => import("../views/apply/ApplyView.vue")
   },
   {
     path: "/community/create-article",
@@ -224,7 +203,34 @@ const routes = [
     name: "lostNo",
     component: () => import("../views/board/ViewDetail.vue"),
   },
-
+  // 신청 및 예약
+  {
+    path: "/reserve",
+    name: "consult",
+    component: () => import("../views/apply/ApplyView.vue"),
+  },
+  
+  {
+    path: "/reserve/study",
+    name: "study",
+    component: () => import("../views/apply/ApplyView.vue"),
+  },
+  {
+    path: "/reserve/in",
+    name: "in",
+    component: () => import("../views/apply/ApplyView.vue"),
+  },
+  {
+    path: "/reserve/out",
+    name: "out",
+    component: () => import("../views/apply/ApplyView.vue"),
+  },
+  {
+    path: "/reserve/sleep",
+    name: "sleep",
+  
+    component: () => import("../views/apply/ApplyView.vue")
+  },
 ];
 
 const router = createRouter({

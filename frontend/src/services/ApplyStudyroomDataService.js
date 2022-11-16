@@ -8,8 +8,8 @@ class ApplyStudyroomDataService {
   get(id) {
     return http.get(`/apply-studyroom/${id}`);
   }
-  create(studentNo, seatNo, data) {
-    return http.post(`/apply-studyroom/${studentNo}-${seatNo}`, data);
+  create(data) {
+    return http.post(`/apply-studyroom`, data);
   }
 
   update(joinId, data) {

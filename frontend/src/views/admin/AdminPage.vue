@@ -8,9 +8,11 @@
         <h1>{{ title }}</h1>
         <div class="btn">
           <button class="add" v-if="this.$route.name === 'adminuser'"
-            @click="this.$router.push('/admin/user/add')">{{userManagement}}</button>
+            @click="this.$router.push('/admin/user/add')">{{ userManagement }}</button>
           <button class="add" v-else-if="this.$route.name === 'adminpoint'"
-            @click="this.$router.push('/admin/point/add')">{{pointManagement}}</button>
+            @click="this.$router.push('/admin/point/add')">{{ pointManagement }}</button>
+            <button class="add" v-else-if="this.$route.name === 'adminsleep'"
+            @click="approveList(selectList)">{{ sleepApprove }}</button>
           <button class="del" v-if="$route.name !== 'adminpoint' && this.$route.name !== 'adminpointadd'" @click="deleteUser(selectList)">삭제</button>
         </div>
       </div>
@@ -90,6 +92,8 @@ export default {
       pointManagement: "점수 관리",
       pointadd: "점수 부여",
 
+      sleepApprove: "승인",
+
       searchtotal: "전체 사용자 검색",
       searchtitle: "제목 검색",
 
@@ -167,7 +171,6 @@ export default {
   methods: {
     setList(data) {
       this.selectList = data
-      console.log(this.selectList)
     },  
     deleteUser(list) {
       if (list.length == 0) { // 리스트 행 없을 경우
@@ -176,7 +179,7 @@ export default {
         if(this.$route.name === 'adminuser') { // 사용자 관리
           for (let i=0; i<list.length; i++) {
               UserDataService.delete(list[i].id).then(res => {    
-                  console.log(res)
+                  //console.log(res)
               })
           }
           alert('삭제 완료되었습니다.')
@@ -184,7 +187,7 @@ export default {
         e} else if(this.$route.name === 'adminstudy') { // 스터디룸 예약
           for (let i=0; i<list.length; i++) {
                 ApplyStudyroomDataService.delete(list[i].id).then(res => {   
-                    console.log(res)
+                    //console.log(res)
                 })
             }
             alert('삭제 완료되었습니다.')
@@ -192,7 +195,7 @@ export default {
           } else if(this.$route.name === 'adminsleep') { // 외박 신청
           for (let i=0; i<list.length; i++) {
             ApplySleepoutDataService.delete(list[i].id).then(res => {   
-                    console.log(res)
+                    //console.log(res)
                 })
             }
             alert('삭제 완료되었습니다.')
@@ -200,13 +203,34 @@ export default {
         } else if(this.$route.name === 'adminconsulting') { // 상담 신청
           for (let i=0; i<list.length; i++) {
             ApplyConsultDataService.delete(list[i].id).then(res => {   
-                    console.log(res)
+                    //console.log(res)
                 })
             }
             alert('삭제 완료되었습니다.')
             window.location.reload(true)
         }
       }    
+    },
+    approveList(list) {
+      let cnt = 0;
+
+      if (list.length == 0) { // 리스트 행 없을 경우
+          alert("삭제할 리스트 행을 선택해주세요.")
+      } else {
+        for(let i=0; i<list.length; i++) {
+          ApplySleepoutDataService.updateApprove(list[i].id).then(res => {
+            //console.log(res)
+            cnt++
+          })
+        }
+        if(cnt == 0) {
+          alert('이미 모두 승인 처리되어 있습니다.')
+        } else {
+          alert(cnt+'건이 승인 처리되었습니다.')
+          window.location.reload(true)
+        }
+      }
+      
     },
     async init() {
       await UserDataService.getAll().then(resolveData => {

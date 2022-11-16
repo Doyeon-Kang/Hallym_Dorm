@@ -115,22 +115,34 @@ export default {
                     //this.$router.push('/community/repair');
                 })
             } else if (this.category === 'store') {
+                var id;
                 await StoreDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    if (this.file !== []) {
-                        StorePhotoService.create(res.data.id, this.file);
-                    }
+                    id = res.data.id
+                    console.log(res)
+                    // if (this.file !== []) {
+                    //     StorePhotoService.create(res.data.id, this.file)
+                    // }
                     //this.$router.push('/community/market');
                 })
-                
+                if (this.file !== []) {
+                    await StorePhotoService.create(id, this.file).then(res => {
+                        console.log(res);
+                    })
+                }  
             } else if (this.category === 'lost') {
+                var id
                 await LostDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
-                    if (this.file !== []) {
-                        LostPhotoService.create(res.data.id, this.file)
-                    }
+                    id = res.data.id
+                    // if (this.file !== []) {
+                    //     LostPhotoService.create(res.data.id, this.file)
+                    // }
                     //this.$router.push('/community/lost');
                 })
+                if (this.file !== []) {
+                    await LostPhotoService.create(id, this.file)
+                }
             } else {
 
             }

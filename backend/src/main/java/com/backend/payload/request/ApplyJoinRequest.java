@@ -281,6 +281,34 @@ public class ApplyJoinRequest {
 
     public void setPar_mes_yn(boolean par_mes_yn) {
         this.par_mes_yn = par_mes_yn;
-    }    
+    }
+    
+    private boolean approved;
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    private int res_fac;
+    public int getRes_fac() {
+        return res_fac;
+    }
+
+    public void setRes_fac(int res_fac) {
+        this.res_fac = res_fac;
+    }
+
+    private int res_room;
+    public int getRes_room() {
+        return res_room;
+    }
+
+    public void setRes_room(int res_room) {
+        this.res_room = res_room;
+    }
 
 }

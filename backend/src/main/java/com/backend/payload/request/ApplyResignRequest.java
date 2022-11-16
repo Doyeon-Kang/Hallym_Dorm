@@ -33,4 +33,14 @@ public class ApplyResignRequest {
     public void setRes_reason(String res_reason) {
         this.res_reason = res_reason;
     }
+
+    private boolean approved;
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
 }

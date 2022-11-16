@@ -39,48 +39,104 @@ public class ApplyConsult {
         this.id = id;
     }
 
-//   `date` DATETIME COMMENT '',
-    @Basic(optional=false)
-    @Column(name="date", updatable = false)
-    @JsonFormat(pattern="yyyy-MM-dd")
-    private LocalDateTime date;
+    @Column(name="day_of_week")
+    private String day_of_week;
 
-    @PrePersist
-    private void onCreate() {   
-        this.date = LocalDateTime.now();
+    public String getDay_of_week() {
+        return day_of_week;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public void setDay_of_week(String day_of_week) {
+        this.day_of_week = day_of_week;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    //   `timeslot` INT NOT NULL COMMENT '',
+    @Column(name="timeslot1_okay")
+    private boolean timeslot1_okay;
+
+    public boolean isTimeslot1_okay() {
+        return timeslot1_okay;
     }
 
-//   `timeslot` INT NOT NULL COMMENT '',
-    @Column(name="timeslot")
-    private int timeslot;
-    public int getTimeslot() {
-        return timeslot;
+    public void setTimeslot1_okay(boolean timeslot1_okay) {
+        this.timeslot1_okay = timeslot1_okay;
     }
 
-    public void setTimeslot(int timeslot) {
-        this.timeslot = timeslot;
+    @Column(name="timeslot2_okay")
+    private boolean timeslot2_okay;
+
+    public boolean isTimeslot2_okay() {
+        return timeslot2_okay;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "applyConsultSchedule", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    ApplyConsultSchedule applyConsultSchedule;
-
-    public ApplyConsultSchedule getApplyConsultSchedule() {
-        return applyConsultSchedule;
+    public void setTimeslot2_okay(boolean timeslot2_okay) {
+        this.timeslot2_okay = timeslot2_okay;
     }
 
-    public void setApplyConsultSchedule(ApplyConsultSchedule applyConsultSchedule) {
-        this.applyConsultSchedule = applyConsultSchedule;
+    @Column(name="timeslot3_okay")
+    private boolean timeslot3_okay;
+
+    public boolean isTimeslot3_okay() {
+        return timeslot3_okay;
+    }
+
+    public void setTimeslot3_okay(boolean timeslot3_okay) {
+        this.timeslot3_okay = timeslot3_okay;
+    }
+
+    @Column(name="timeslot4_okay")
+    private boolean timeslot4_okay;
+
+    public boolean isTimeslot4_okay() {
+        return timeslot4_okay;
+    }
+
+    public void setTimeslot4_okay(boolean timeslot4_okay) {
+        this.timeslot4_okay = timeslot4_okay;
+    }
+
+    @Column(name="timeslot5_okay")
+    private boolean timeslot5_okay;
+
+    public boolean isTimeslot5_okay() {
+        return timeslot5_okay;
+    }
+
+    public void setTimeslot5_okay(boolean timeslot5_okay) {
+        this.timeslot5_okay = timeslot5_okay;
+    }
+
+    @Column(name="timeslot6_okay")
+    private boolean timeslot6_okay;
+
+    public boolean isTimeslot6_okay() {
+        return timeslot6_okay;
+    }
+
+    public void setTimeslot6_okay(boolean timeslot6_okay) {
+        this.timeslot6_okay = timeslot6_okay;
+    }
+
+    @Column(name="timeslot7_okay")
+    private boolean timeslot7_okay;
+
+    public boolean isTimeslot7_okay() {
+        return timeslot7_okay;
+    }
+
+    public void setTimeslot7_okay(boolean timeslot7_okay) {
+        this.timeslot7_okay = timeslot7_okay;
+    }
+
+    @Column(name="timeslot8_okay")
+    private boolean timeslot8_okay;
+
+    public boolean isTimeslot8_okay() {
+        return timeslot8_okay;
+    }
+
+    public void setTimeslot8_okay(boolean timeslot8_okay) {
+        this.timeslot8_okay = timeslot8_okay;
     }
 
     // `topic` VARCHAR(20) NULL COMMENT '',
@@ -108,15 +164,23 @@ public class ApplyConsult {
         this.subject = subject;
     }
 
-    @Column(name="approved")
-    private boolean approved = false;
+    //   `date` DATETIME COMMENT '',
+    @Basic(optional=false)
+    @Column(name="date", updatable = false)
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDateTime date;
 
-    public boolean isApproved() {
-        return approved;
+    @PrePersist
+    private void onCreate() {   
+        this.date = LocalDateTime.now();
     }
 
-    public void setApproved(boolean approved) {
-        this.approved = approved;
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -138,8 +202,7 @@ public class ApplyConsult {
 
     }
 
-    public ApplyConsult(int timeslot, String topic, String subject) {
-        this.timeslot = timeslot;
+    public ApplyConsult(String topic, String subject) {
         this.topic = topic;
         this.subject = subject;
     }

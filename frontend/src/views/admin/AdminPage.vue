@@ -13,7 +13,7 @@
             @click="this.$router.push('/admin/point/add')">{{ pointManagement }}</button>
             <button class="add" v-else-if="this.$route.name === 'adminsleep'"
             @click="approveList(selectList)">{{ sleepApprove }}</button>
-          <button class="del" v-if="$route.name !== 'adminpoint' && this.$route.name !== 'adminpointadd'" @click="deleteUser(selectList)">삭제</button>
+          <button class="del" v-if="$route.name !== 'adminpoint' && this.$route.name !== 'adminpointadd' && this.$route.name !== 'adminuseradd'" @click="deleteUser(selectList)">삭제</button>
         </div>
       </div>
 

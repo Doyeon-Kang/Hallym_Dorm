@@ -4,20 +4,16 @@
       <SidebarCom :pageName="pageName" :listItem="side"></SidebarCom>
     </div>
     <div class="right_container">
-      <PageTitle v-if="this.$route.name === 'adminuser' || this.$route.name === 'admindetail'" :title="title" :add="userManagement">
-      </PageTitle>
-      <PageTitle v-else-if="this.$route.name === 'adminuseradd'" :title="title" :add="useradd">
-      </PageTitle>
-      <PageTitle v-else-if="this.$route.name === 'adminpoint'" :title="title" :add="pointManagement">
-      </PageTitle>
-      <PageTitle v-else-if="this.$route.name === 'adminpointadd'" :title="title" :add="pointadd">
-      </PageTitle>
-      <PageTitle v-else-if="this.$route.name === 'adminstudy' ||
-      this.$route.name === 'adminsleep' ||
-      this.$route.name === 'admininout' ||
-      this.$route.name === 'adminconsulting' ||
-      this.$route.name === 'adminlife'" :title="title">
-      </PageTitle>
+      <div class="titlebox">
+        <h1>{{ title }}</h1>
+        <div class="btn">
+          <button class="add" v-if="this.$route.name === 'adminuser'"
+            @click="this.$router.push('/admin/user/add')">{{userManagement}}</button>
+          <button class="add" v-else-if="this.$route.name === 'adminpoint'"
+            @click="this.$router.push('/admin/point/add')">{{pointManagement}}</button>
+          <button class="del" v-if="$route.name !== 'adminpoint' && this.$route.name !== 'adminpointadd'" @click="deleteUser(selectList)">삭제</button>
+        </div>
+      </div>
 
       <!-- 추가 박스 컴포넌트 -->
       <Addbox v-if="this.$route.name === 'adminuseradd'" :con_title="point_con_title" :listTitle="pointTitle"></Addbox>
@@ -27,26 +23,24 @@
       <AdminDetailBox v-if="this.$route.name === 'admindetail'"></AdminDetailBox>
       
       <!-- 리스트 컴포넌트 -->
-      <BoardList v-if="this.$route.name === 'adminuser'" :listItem="userList"
-        :listTitle="userTitle">
+      <BoardList v-if="this.$route.name === 'adminuser'" :listItem="userList" :listTitle="userTitle" @setList="setList">
       </BoardList>
       <MiniBoardList v-if="this.$route.name === 'adminuseradd'" :listItem="userList" :listTitle="userTitle"
       >
       </MiniBoardList>
-      <BoardList v-else-if="this.$route.name === 'adminpoint'" :listItem="pointList" :listTitle="pointTitle"
-      >
+      <BoardList v-else-if="this.$route.name === 'adminpoint'" :listItem="pointList" :listTitle="pointTitle" @setList="setList">
       </BoardList>
       <MiniBoardList v-if="this.$route.name === 'adminpointadd'" :listItem="pointList" :listTitle="pointTitle"
       >
       </MiniBoardList>
       <BoardList v-else-if="$route.name === 'adminstudy'" :listItem="studyList" :listTitle="studyTitle"
-      >
+      @setList="setList">
       </BoardList>
       <BoardList v-else-if="$route.name === 'adminsleep'" :listItem="sleepList" :listTitle="sleepTitle"
-      >
+      @setList="setList">
       </BoardList>
       <BoardList v-else-if="$route.name === 'adminconsulting'" :listItem="consultingList" :listTitle="consultingTitle"
-      >
+      @setList="setList">
       </BoardList>
       <MiniBoardList v-else-if="$route.name === 'adminlife'" :listItem="lifeList" :listTitle="lifeTitle"
         :totallife="totallife">
@@ -59,7 +53,6 @@
 </template>
   
 <script>
-import PageTitle from "@/components/AdminPageTitle.vue";
 import SidebarCom from "../../components/AdminSidebarCom.vue";
 import Addbox from "../../components/AdminAddBoxCom.vue";
 import BoardList from "../../components/AdminBoardList.vue";
@@ -155,10 +148,10 @@ export default {
           end: "2022-02-22",
         },
       ],
+      selectList: []
     };
   },
   components: {
-    PageTitle,
     SidebarCom,
     Addbox,
     BoardList,
@@ -171,14 +164,17 @@ export default {
     this.init();
   },
   methods: {
-    init() {
-      UserDataService.getAll().then(resolveData => {
+    setList(data) {
+      this.selectList = data
+      console.log(Object.values(this.selectList))
+    },  
+    async init() {
+      await UserDataService.getAll().then(resolveData => {
         let res = resolveData.data
         let list = []
 
         for (let i=0; i<res.length; i++) {
           list.push({})
-          console.log(res[i])
           list[i].id = res[i].id
           list[i].no = res[i].studentno // 학번
           list[i].name = res[i].name // 이름
@@ -196,7 +192,7 @@ export default {
         }
         this.userList = list
       })
-      ApplyStudyroomDataService.getAll().then(resolveData => {
+      await ApplyStudyroomDataService.getAll().then(resolveData => {
         let res = resolveData.data
         let list = []
 
@@ -264,7 +260,7 @@ export default {
         }
         this.studyList = list
       })
-      ApplySleepoutDataService.getAll().then(resolveData => {
+      await ApplySleepoutDataService.getAll().then(resolveData => {
         let res = resolveData.data
         let list = []
 
@@ -284,9 +280,8 @@ export default {
         }
         this.sleepList = list
       })
-      ApplyJoinDataService.getAll().then(resolveData => {
+      await ApplyJoinDataService.getAll().then(resolveData => {
         let res = resolveData.data
-        console.log("in: ", res)
         let list = []
 
         for (let i=0; i<res.length; i++) {
@@ -300,9 +295,8 @@ export default {
         }
         this.joinList = list
       })
-      ApplyResignDataService.getAll().then(resolveData => {
+      await ApplyResignDataService.getAll().then(resolveData => {
         let res = resolveData.data
-        console.log("out: ", res)
         let list = []
 
         for (let i=0; i<res.length; i++) {
@@ -318,11 +312,9 @@ export default {
           }
         }
         this.outList = list
-        console.log(this.outList)
       })
-      ApplyConsultDataService.getAll().then(resolveData => {
+      await ApplyConsultDataService.getAll().then(resolveData => {
         let res = resolveData.data
-        console.log("con", res)
         let list = []
 
         for (let i=0; i<res.length; i++) {
@@ -335,6 +327,20 @@ export default {
         }
         this.consultingList = list
       })
+    },
+    deleteUser(list) {
+        if (list.length == 0) {
+            alert("삭제할 리스트 행을 선택해주세요.")
+        } else {
+            for (let i=0; i<list.length; i++) {
+                console.log('id', list[i])
+                UserDataService.delete(list[i]).then(res => {    
+                    console.log(res)
+                })
+            }
+            alert('삭제 완료되었습니다.')
+            window.location.reload(true)
+        }
     },
     routeCheck() {
       this.activeReset();
@@ -463,5 +469,48 @@ export default {
     z-index: 1;
     width: 100%;
   }
+}
+
+.titlebox {
+  justify-content: space-between;
+  display: flex;
+  border-bottom: solid 2px #e2e2e2;
+
+  h1 {
+    margin: 0;
+    color: #222;
+    padding: 17px 30px;
+    font-size: 22px;
+  }
+
+  .btn {
+    margin: auto 0;
+
+    button {
+      font-size: 15px;
+      border: 0;
+      color: #fff;
+      padding: 8px 10px;
+    }
+
+    .add {
+      background-color: #00B6AD;
+      margin-right: 20px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .del {
+      margin-right: 10px;
+      background-color: #DD6464;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
 }
 </style>

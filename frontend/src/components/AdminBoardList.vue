@@ -6,7 +6,7 @@
                 <input type="text" v-model="keyword" placeholder="전체 사용자 검색"/>
             </div>
         </div>
-        <!-- <button @click="deleteUser(this.selectList)">삭제</button> -->
+        
         <div class="container">
             <div class="top">
                 <span>전체 사용자 {{this.checkList.length}}명</span>
@@ -172,19 +172,7 @@ export default {
         sortEnd() {
             this.sortedEnd = 0
         },
-        deleteUser(list) {
-            if (list.length == 0) {
-                alert("삭제할 리스트 행을 선택해주세요.")
-            } else {
-                for (const id in list) {
-                    UserDataService.delete(id).then(res => {    
-                        console.log(res)
-                    })
-                }
-                alert('삭제 완료되었습니다.')
-                window.reload(true)
-            }
-        }
+        
     },
     computed: {
         checkAll: {
@@ -202,8 +190,8 @@ export default {
         },
     },
     watch: {
-        selectList() {
-            console.log(this.selectList)    
+        selectList() { 
+            this.$emit("setList", this.selectList); 
         },  
         sortedName() {
             this.listArray.sort(function (a, b) {

@@ -28,7 +28,8 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`point` (
   `reason` VARCHAR(40) NULL COMMENT '상/벌점 사유',
   `date_receive` DATE NULL COMMENT '입력날짜',
   `date` DATETIME NULL COMMENT '처리날짜',
-  `score` INT NULL COMMENT '점수',
+  `plusPoint` INT NULL COMMENT '상점',
+  `minusPoint` INT NULL COMMENT '벌점',
   PRIMARY KEY (`id`)
 )
 ENGINE = InnoDB;
@@ -53,7 +54,8 @@ CREATE TABLE IF NOT EXISTS `dormitory`.`user_member` (
   `guardian_relation` VARCHAR(15) COMMENT '보호자 관계',
   `guardian_phone` VARCHAR(20) COMMENT '보호자 연락처',
   `landline` VARCHAR(20) COMMENT '자택 전화',
-  `point` INT NULL COMMENT '상/벌점',
+  `plusPoint` INT NULL COMMENT '상점',
+  `minusPoint` INT NULL COMMENT '벌점',
   `res_fac` INT NULL COMMENT '거주관',
   `res_room` INT NULL COMMENT '거주호실',
   PRIMARY KEY (`id`)

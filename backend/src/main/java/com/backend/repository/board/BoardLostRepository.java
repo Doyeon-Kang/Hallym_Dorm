@@ -9,4 +9,5 @@ import com.backend.model.board.BoardLost;
 
 public interface BoardLostRepository extends JpaRepository<BoardLost, Long>  {
     List<BoardLost> findByTitleContaining(String title);
+    List<BoardLost> findByWriterStudentNo(String studentNo);  
 }

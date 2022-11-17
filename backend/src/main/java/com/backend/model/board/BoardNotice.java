@@ -114,8 +114,8 @@ public class BoardNotice {
 
     }
 
-    public BoardNotice(String writer_studentno, String writer_name, String title, String content, boolean notice1) {
-        this.writerStudentNo = writer_studentno;
+    public BoardNotice(String writerStudentNo, String writer_name, String title, String content, boolean notice1) {
+        this.writerStudentNo = writerStudentNo;
         this.writer_name = writer_name;
         this.title = title;
         this.content = content;

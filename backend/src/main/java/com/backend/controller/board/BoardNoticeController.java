@@ -73,11 +73,11 @@ public class BoardNoticeController {
     }
 
     @GetMapping("/board-notice/my-notice")
-    public ResponseEntity<List<BoardNotice>> getMyBoardNotice(@RequestBody BoardRequest boardRequest) {
-      try {
+    public ResponseEntity<List<BoardNotice>> getMyBoardNotice (@RequestBody BoardRequest boardRequest) {
+      try{
         List <BoardNotice> myNotices = boardNoticeRepository.findByWriterStudentNoAndNotice1False(boardRequest.getStudentNo());
 
-        if(myNotices.isEmpty()) {
+        if(myNotices.isEmpty()){
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(myNotices, HttpStatus.OK);
@@ -87,18 +87,19 @@ public class BoardNoticeController {
     }
 
     @GetMapping("/board-notice1/my-notice")
-    public ResponseEntity<List<BoardNotice>> getMyBoardNotice1(@RequestBody BoardRequest boardRequest) {
-      try {
+    public ResponseEntity<List<BoardNotice>> getMyBoardNotice1 (@RequestBody BoardRequest boardRequest) {
+      try{
         List <BoardNotice> myNotices = boardNoticeRepository.findByWriterStudentNoAndNotice1True(boardRequest.getStudentNo());
 
-        if(myNotices.isEmpty()) {
+        if(myNotices.isEmpty()){
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(myNotices, HttpStatus.OK);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
-    }
+    }    
+
 
     @PostMapping("/board-notice")
     public ResponseEntity<BoardNotice> createBoardNotice(@RequestBody BoardNotice boardNotice) {

@@ -11,5 +11,5 @@ public interface BoardNoticeRepository extends JpaRepository<BoardNotice, Long> 
     List<BoardNotice> findByNotice1True();
     List<BoardNotice> findByNotice1False();
     List<BoardNotice> findByWriterStudentNoAndNotice1False(String studentNo);
-    List<BoardNotice> findByWriterStudentNoAndNotice1True(String studentNo);
+    List<BoardNotice> findByWriterStudentNoAndNotice1True(String studentNo);    
 }

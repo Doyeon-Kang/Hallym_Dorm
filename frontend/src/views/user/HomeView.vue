@@ -12,7 +12,7 @@
           <div class="item_list">
             <div class="item" v-for="(item, index) in communityList" :key="index"
               @click="$router.push({ path: this.$route.path + 'community/view', query: { no: item.no } })">
-              <div class="title">{{ item.title }}</div>
+              <div class="title">[공지] {{ item.title }}</div>
               <div class="date">{{ item.date }}</div>
             </div>
           </div>
@@ -25,7 +25,7 @@
           <div class="item_list">
             <div class="item" v-for="(item, index) in noticeList" :key="index"
               @click="$router.push({ path: this.$route.path + 'community/notice1/view', query: { no: item.no } })">
-              <div class="title">{{ item.title }}</div>
+              <div class="title">[사생] {{ item.title }}</div>
               <div class="date">{{ item.date }}</div>
             </div>
           </div>
@@ -35,6 +35,9 @@
         <div class="food_plan">
           <div class="title">학식표</div>
           <div class="content">
+            <div class="item" v-for="(item, index) in foodList" :key="index">
+              [학식표] {{ item.title }}
+            </div>
             <div class="plus"><a href="/">자세히 ></a></div>
           </div>
         </div>
@@ -43,7 +46,7 @@
           <div class="content">
             <div class="item" v-for="(item, index) in marketList" :key="index"
               @click="$router.push({ path: this.$route.path + 'community/market/view', query: { no: item.id } })">
-              {{ item.title }}
+              [나눔] {{ item.title }}
             </div>
             <div class="plus"><a href="/community/market">자세히 ></a></div>
           </div>
@@ -53,6 +56,9 @@
         <div class="calendar_box">
           <div class="title">캘린더</div>
           <div class="content">
+            <div class="item" v-for="(item, index) in calendarList" :key="index">
+              [캘린더] {{ item.title }}
+            </div>
             <div class="plus"><a href="/life">자세히 ></a></div>
           </div>
         </div>
@@ -61,7 +67,7 @@
           <div class="content">
             <div class="item" v-for="(item, index) in lostList" :key="index"
               @click="$router.push({ path: this.$route.path + 'community/lost/view', query: { no: item.id } })">
-              <img :src="item.photo" alt="미리보기" />
+              [분실물] {{ item.title }}
             </div>
             <div class="plus"><a href="/community/lost">자세히 ></a></div>
           </div>
@@ -91,15 +97,15 @@
             <span class="plus" @click="this.$router.push('/mypage')">+</span>
           </div>
           <div class="list">
-            <span class="mint">상점/벌점:</span>
+            <span class="mint">상점/벌점 : </span>
             <span class="black">{{ this.userinfo.point }}</span>
           </div>
           <div class="list">
-            <span class="mint">최근 외박 신청일자:</span>
+            <span class="mint">최근 외박 신청일자 : </span>
             <span class="black">{{ this.lastSleepout }}</span>
           </div>
           <div class="list">
-            <span class="mint">최근 상담 신청일자:</span>
+            <span class="mint">최근 상담 신청일자 : </span>
             <span class="black">{{ this.lastConsult }}</span>
           </div>
         </div>
@@ -180,7 +186,16 @@ export default {
     return {
       communityList: [],
       noticeList: [],
+      foodList: [
+        {title: "오늘의 점심 (2022.11.10)"},
+        {title: "오늘의 점심 (2022.11.12)"},
+        {title: "오늘의 점심 (2022.11.13)"},],
       marketList: [],
+      calendarList: [
+        {title: "일정 안내 1"},
+        {title: "일정 안내 2"},
+        {title: "일정 안내 3"},
+      ],
       lostList: [],
       userinfo: [],
       sleepout_item: [],
@@ -249,9 +264,9 @@ export default {
           this.marketList[i].writer = res[i].writer_name // 작성일
           this.marketList[i].views = res[i].views // 조회수
           // 나눔장터 사진
-          StorePhotoService.getAll(this.marketList[i].id).then(photo_data => {
-            this.marketList[i].photo = photo_data.data[0].url
-          })
+          // StorePhotoService.getAll(this.marketList[i].id).then(photo_data => {
+          //   this.marketList[i].photo = photo_data.data[0].url
+          // })
         }
       })
       // 분실물
@@ -266,13 +281,13 @@ export default {
           this.lostList[i].writer = res[i].writer_name // 작성일
           this.lostList[i].views = res[i].views // 조회수
           // 분실물 사진
-          LostPhotoService.getAll(this.lostList[i].id).then(photo_data => {
-            this.lostList[i].photo = photo_data.data[0].url
-          })
+          // LostPhotoService.getAll(this.lostList[i].id).then(photo_data => {
+          //   this.lostList[i].photo = photo_data.data[0].url
+          // })
         }
       })
 
-
+      // 사용자 정보 가져오기
       UserInfoDataService.getInfo(this.user.studentno).then(item => {
         let res = item.data
         let getinfo = {}
@@ -298,6 +313,7 @@ export default {
         this.userinfo = getinfo
       })
 
+      // 사용자 외박 정보 가져오기
       UserInfoDataService.getSleepout(this.user.studentno).then(sleepooutData => {
         let res = sleepooutData.data
         let list = []
@@ -318,33 +334,16 @@ export default {
         this.lastSleepout = list[res.length - 1].date
       })
 
+      // 사용자 상담 정보 가져오기
       ApplyConsultDataService.getAll().then(consultData => {
         let res = consultData.data
 
         for (let i = 0; i < res.length; i++) {
           if(this.user.studentno == res[i].studentNo){
-            this.lastConsult = res[i].date
+            this.lastConsult = res[i].date.slice(0,10)
           }
         }
       })
-
-      // NoticeDataService.getAll()
-      //   .then(response => {
-      //     this.notices = response.data.slice(0, 5);
-      //     console.log(this.notices);
-      //   })
-      //   .catch(e => {
-      //     console.log(e);
-      //   });
-
-      // NoticeDataService.getAllNotice1()
-      //   .then(response => {
-      //     this.notice2_item = response.data.slice(0, 5);
-      //     console.log(this.notice2_item)
-      //   })
-      //   .catch(e => {
-      //     console.log(e);
-      //   })
     }
   }
 };
@@ -516,6 +515,19 @@ export default {
 
         .content {
           padding: 10px;
+          .item {
+            border: solid 1px #e37a74;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 10px 15px;
+            font-size: 13px;
+            color: #858585;
+
+            &:hover {
+              cursor: pointer;
+              color: #e37a74;
+            }
+          }
 
           .plus {
             position: absolute;
@@ -555,8 +567,9 @@ export default {
           .item {
             border: solid 1px #fade85;
             border-radius: 10px;
-            margin: 5px 10px;
-            padding: 5px 15px;
+            margin: 10px;
+            padding: 10px 15px;
+            font-size: 13px;
             color: #858585;
 
             &:hover {
@@ -610,16 +623,14 @@ export default {
           .item {
             border: solid 1px #8794f2;
             border-radius: 10px;
-            margin: 5px 10px;
-            padding: 5px 15px;
+            margin: 10px;
+            padding: 10px 15px;
+            font-size: 13px;
             color: #858585;
 
             &:hover {
               cursor: pointer;
-
-              & .title {
-                color: #8794f2;
-              }
+              color: #8794f2;
             }
           }
 
@@ -659,10 +670,11 @@ export default {
           padding: 10px;
 
           .item {
-            border: none;
+            border: solid 1px #91e0b1;
             border-radius: 10px;
-            margin: 5px 10px;
-            padding: 5px 15px;
+            margin: 10px;
+            padding: 10px 15px;
+            font-size: 13px;
             color: #858585;
 
             &:hover {
@@ -838,7 +850,7 @@ export default {
         margin-top: 5px;
         padding: 10px;
         border-radius: 10px;
-        font-size: 16px;
+        font-size: 14px;
 
         .mint {
           color: #54AEAD;

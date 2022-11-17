@@ -115,16 +115,16 @@
                 </div>
                 <div class="night_box box innerbox">
                     <div class="subtitle_container">
-                        <div class="inout">들어올날</div>
                         <div class="inout">나가는날</div>
+                        <div class="inout">들어올날</div>
                         <div class="inout">진행상태</div>
                     </div>
                     <div class="item"
                         v-for="(item, index) in sleepout_item"
                         :key="index">
                             
-                        <div class="indate">{{ item.indate }}</div>
                         <div class="outdate">{{ item.outdate }}</div>
+                        <div class="indate">{{ item.indate }}</div>
                         <div class="status">{{ item.approved }}</div>
                     </div>
                 </div>
@@ -311,7 +311,7 @@ import UserInfoDataService from "@/services/UserInfoDataService";
                         if(res[i].approved){
                             list[i].approved = "승인 완료"
                         }else{
-                            list[i].approved = "승인 중"
+                            list[i].approved = "승인 대기"
                         }
                     }
                     this.sleepout_item = list

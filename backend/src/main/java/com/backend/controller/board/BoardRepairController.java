@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardRepair;
+import com.backend.payload.request.BoardRequest;
 import com.backend.repository.board.BoardRepairRepository;
 
 @RestController

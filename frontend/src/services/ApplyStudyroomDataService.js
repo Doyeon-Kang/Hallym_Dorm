@@ -12,16 +12,16 @@ class ApplyStudyroomDataService {
     return http.post(`/apply-studyroom`, data);
   }
 
-  update(joinId, data) {
-    return http.put(`/apply-studyroom/${joinId}`, data);
+  update(id, data) {
+    return http.put(`/apply-studyroom/${id}`, data);
   }
 
-  updateApprove(joinId, data) {
-    return http.put(`/apply-studyroom/${joinId}/approve`, data);
+  updateApprove(id, data) {
+    return http.put(`/apply-studyroom/${id}/approve`, data);
   }
 
-  delete(joinId) {
-    return http.delete(`/apply-studyroom/${joinId}`);
+  delete(id) {
+    return http.delete(`/apply-studyroom/${id}`);
   }
 
   deleteAll() {

@@ -739,7 +739,7 @@ export default {
                 { time: "19:00~21:00", part:6, status: true, isActive: false },
                 { time: "21:00~23:00", part:7, status: true, isActive: false },
             ],
-            time_selected_cnt: 0,
+            time_selected_cnt: '',
             time_selected_limit: 3,
             time_selected_list: [],
             seat_no: 0,
@@ -798,9 +798,6 @@ export default {
                 this.side[i].active = false;
             }
         },
-        // mySelectedTime(index) {
-        //     console.log(this.mon_timeslot)
-        // },
         myFilterSeat(index) {
             for(const item in this.seat) {
                 this.seat[item].isActive = false;
@@ -995,6 +992,7 @@ export default {
             //     }
             // })
 
+            //사용자 정보 가져오기
             UserService.getInfo(this.user.studentno).then(item => {
                 let res = item.data
                 let getinfo = {}
@@ -1020,6 +1018,31 @@ export default {
                 this.userinfo = getinfo
             })
 
+            //사용자 선택 좌석 개수 가져오기
+            ApplyStudyroomDataService.getAll().then(item => {
+                let res = item.data
+                let list = []
+
+                for (let i=0; i<res.length; i++) {
+                    if(res[i].studentNo==this.user.studentno){
+                        if(res[i].timeslot1){
+                            list.push(res[i].timeslot1)
+                        } if(res[i].timeslot2){
+                            list.push(res[i].timeslot2)
+                        } if(res[i].timeslot3){
+                            list.push(res[i].timeslot3)
+                        }
+                    }
+                }
+                
+                if(list.length>0){
+                    this.time_selected_cnt = list.length
+                } else {
+                    this.time_selected_cnt = 0
+                }
+            })
+
+            //현재 스터디룸 좌석 정보 가져오기
             StudyroomScheduleGet.getAll().then(item => {
                 let res = item.data
                 let list = []

@@ -72,6 +72,10 @@ public class BoardNoticeController {
       }
     }
 
+
+    
+
+
     @PostMapping("/board-notice")
     public ResponseEntity<BoardNotice> createBoardNotice(@RequestBody BoardNotice boardNotice) {
       try {

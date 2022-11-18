@@ -22,7 +22,7 @@
                     <a href="/mypage/myassey" class="more_details">더보기 ▶</a>
                 </div>
                 <div class="mywrite_box box innerbox">
-                    <div class="item" v-for="(item, index) in mywrite_item" :key="index">
+                    <div class="item" v-for="item in mywrite_Data" :key="index">
 
                         <div class="catetitle">
                             <div class="category">{{ item.category }}</div>
@@ -38,10 +38,10 @@
                         <img src="@/assets/pointplus.png" alt="이미지" />
                         상벌점 내역
                     </div>
-                    <a href="/mypage/mypoint" class="more_details">합계 : {{ this.userinfo.point }}점</a>
+                    <a href="/mypage/mypoint" class="more_details">합계 : {{ this.userinfo.plusPoint + this.userinfo.minusPoint }}점</a>
                 </div>
                 <div class="point_box box innerbox">
-                    <div class="item" v-for="(item, index) in point_item" :key="index">
+                    <div class="item" v-for="(item, index) in point_Data" :key="index">
 
                         <div class="catetitle">
                             <div class="point">{{ item.point }}</div>
@@ -67,7 +67,7 @@
                             <a href="/mypage/mystudy" class="more_details">더보기 ▶</a>
                         </div>
                         <div class="studyroom">
-                            <div class="item" v-for="(item, index) in studyroom_item" :key="index">
+                            <div class="item" v-for="item in studyroom_Data" :key="index">
 
                                 <div class="catetitle">
                                     <div class="date">{{ item.date }}</div>
@@ -85,7 +85,7 @@
                             <a href="/mypage/myconsulting" class="more_details">더보기 ▶</a>
                         </div>
                         <div class="counseling">
-                            <div class="item" v-for="(item, index) in consult_item" :key="index">
+                            <div class="item" v-for="item in consult_Data" :key="index">
 
                                 <div class="catetitle">
                                     <div class="title">{{ item.topic }}</div>
@@ -110,7 +110,7 @@
                         <div class="inout">들어올날</div>
                         <div class="inout">진행상태</div>
                     </div>
-                    <div class="item" v-for="(item, index) in sleepout_item" :key="index">
+                    <div class="item" v-for="item in sleepout_Data" :key="index">
 
                         <div class="outdate">{{ item.outdate }}</div>
                         <div class="indate">{{ item.indate }}</div>
@@ -162,6 +162,21 @@ export default {
                     title: "가방 두고 가신 분",
                     date: "2022.05.15",
                 },
+                {
+                    category: "[분실물]",
+                    title: "가방 두고 가신 분",
+                    date: "2022.05.15",
+                },
+                {
+                    category: "[분실물]",
+                    title: "가방 두고 가신 분",
+                    date: "2022.05.15",
+                },
+                {
+                    category: "[분실물]",
+                    title: "가방 두고 가신 분",
+                    date: "2022.05.15",
+                },
             ],
             point_item: [
                 {
@@ -184,6 +199,21 @@ export default {
                     title: "프로그램 참가",
                     date: "2022.05.10",
                 },
+                {
+                    point: "+3",
+                    title: "프로그램 참가",
+                    date: "2022.05.10",
+                },
+                {
+                    point: "+3",
+                    title: "프로그램 참가",
+                    date: "2022.05.10",
+                },
+                {
+                    point: "+3",
+                    title: "프로그램 참가",
+                    date: "2022.05.10",
+                },
             ],
             studyroom_item: [],
             consult_item: [],
@@ -194,6 +224,21 @@ export default {
     computed: {
         user() {
             return this.$store.state.auth.user;
+        },
+        mywrite_Data() {
+            return this.mywrite_item.slice(-7);
+        },
+        point_Data() {
+            return this.point_item.slice(-5);
+        },
+        studyroom_Data() {
+            return this.studyroom_item.slice(-3);
+        },
+        consult_Data() {
+            return this.consult_item.slice(-3);
+        },
+        sleepout_Data() {
+            return this.sleepout_item.slice(-7);
         },
     },
     components: {},
@@ -228,7 +273,8 @@ export default {
                 getinfo.guardian_relation = res.guardian_relation
                 getinfo.guardian_phone = res.guardian_phone
                 getinfo.landline = res.landline
-                getinfo.point = res.point
+                getinfo.plusPoint = res.plusPoint
+                getinfo.minusPoint = res.minusPoint
                 getinfo.res_fac = res.res_fac
                 getinfo.res_room = res.res_room
 
@@ -325,52 +371,24 @@ export default {
                 let list = [], resindex = 0
 
                 for (let i = 0; i < res.length; i++) {
-                    list.push({})
-                    if (this.user.studentno == res[i].studentNo) {
-                        if(i>0) {
-                            if(i>res.length-3){
-                                if(i>res.length-2){
-                                    if(res[i].date==res[i-1].date){
-                                        continue
-                                    } else {
-                                        list[resindex].topic = res[i].topic
-                                        list[resindex].date = res[i].date.slice(0,10)
-                                        resindex++
-                                    }
-                                } else {
-                                    if(res[i].date==res[i+1].date){
-                                        if(res[i].date==res[i-1].date){
-                                            continue
-                                        }
-                                    } else {
-                                        list[resindex].topic = res[i].topic
-                                        list[resindex].date = res[i].date.slice(0,10)
-                                        resindex++
-                                    }
-                                }
-                            } else{
-                                if(res[i].date == res[i+1].date || res[i].date == res[i+2].date){
-                                    if(res[i].date==res[i-1].date){
-                                        continue
-                                    } else {
-                                        list[resindex].topic = res[i].topic
-                                        list[resindex].date = res[i].date.slice(0,10)
-                                        resindex++
-                                    }
-                                } else {
-                                    list[resindex].topic = res[i].topic
-                                    list[resindex].date = res[i].date.slice(0,10)
-                                    resindex++
-                                }
-                            }
-                        } else {
+                    if(this.user.studentno == res[i].studentNo){
+                        if(list.length==0){
+                            list.push({})
                             list[resindex].topic = res[i].topic
                             list[resindex].date = res[i].date.slice(0,10)
                             resindex++
+                        } else {
+                            if(res[i].date==res[i-1].date && res[i].studentNo==res[i-1].studentNo){
+                                continue
+                            } else {
+                                list.push({})
+                                list[resindex].topic = res[i].topic
+                                list[resindex].date = res[i].date.slice(0,10)
+                                resindex++
+                            }
                         }
                     }
                 }
-
                 this.consult_item = list
             })
         }
@@ -508,8 +526,7 @@ export default {
                 .item {
                     display: flex;
                     justify-content: space-between;
-                    padding: 8px 10px;
-                    margin-top: 5px;
+                    padding: 15px 10px;
                     font-size: 15px;
 
                     .catetitle {

@@ -98,7 +98,7 @@
           </div>
           <div class="list">
             <span class="mint">상점/벌점 : </span>
-            <span class="black">{{ this.userinfo.point }}</span>
+            <span class="black">{{ this.userinfo.plusPoint }} / {{ this.userinfo.minusPoint }}</span>
           </div>
           <div class="list">
             <span class="mint">최근 외박 신청일자 : </span>
@@ -187,14 +187,14 @@ export default {
       communityList: [],
       noticeList: [],
       foodList: [
-        {title: "오늘의 점심 (2022.11.10)"},
-        {title: "오늘의 점심 (2022.11.12)"},
-        {title: "오늘의 점심 (2022.11.13)"},],
+        { title: "오늘의 점심 (2022.11.10)" },
+        { title: "오늘의 점심 (2022.11.12)" },
+        { title: "오늘의 점심 (2022.11.13)" },],
       marketList: [],
       calendarList: [
-        {title: "일정 안내 1"},
-        {title: "일정 안내 2"},
-        {title: "일정 안내 3"},
+        { title: "일정 안내 1" },
+        { title: "일정 안내 2" },
+        { title: "일정 안내 3" },
       ],
       lostList: [],
       userinfo: [],
@@ -287,63 +287,66 @@ export default {
         }
       })
 
-      // 사용자 정보 가져오기
-      UserInfoDataService.getInfo(this.user.studentno).then(item => {
-        let res = item.data
-        let getinfo = {}
+      if (this.loggedIn) {
+        // 사용자 정보 가져오기
+        UserInfoDataService.getInfo(this.user.studentno).then(item => {
+          let res = item.data
+          let getinfo = {}
 
-        getinfo.english_name = res.english_name
-        getinfo.chinese_name = res.chinese_name
-        getinfo.grade = res.grade
-        getinfo.gender = res.gender
-        getinfo.nationality = res.nationality
-        getinfo.department = res.department
-        getinfo.major = res.major
-        getinfo.student_status = res.student_status
-        getinfo.phone = res.phone
-        getinfo.address = res.address
-        getinfo.guardian_name = res.guardian_name
-        getinfo.guardian_relation = res.guardian_relation
-        getinfo.guardian_phone = res.guardian_phone
-        getinfo.landline = res.landline
-        getinfo.point = res.point
-        getinfo.res_fac = res.res_fac
-        getinfo.res_room = res.res_room
+          getinfo.english_name = res.english_name
+          getinfo.chinese_name = res.chinese_name
+          getinfo.grade = res.grade
+          getinfo.gender = res.gender
+          getinfo.nationality = res.nationality
+          getinfo.department = res.department
+          getinfo.major = res.major
+          getinfo.student_status = res.student_status
+          getinfo.phone = res.phone
+          getinfo.address = res.address
+          getinfo.guardian_name = res.guardian_name
+          getinfo.guardian_relation = res.guardian_relation
+          getinfo.guardian_phone = res.guardian_phone
+          getinfo.landline = res.landline
+          getinfo.plusPoint = res.plusPoint
+          getinfo.minusPoint = res.minusPoint
+          getinfo.res_fac = res.res_fac
+          getinfo.res_room = res.res_room
 
-        this.userinfo = getinfo
-      })
+          this.userinfo = getinfo
+        })
 
-      // 사용자 외박 정보 가져오기
-      UserInfoDataService.getSleepout(this.user.studentno).then(sleepooutData => {
-        let res = sleepooutData.data
-        let list = []
+        // 사용자 외박 정보 가져오기
+        UserInfoDataService.getSleepout(this.user.studentno).then(sleepooutData => {
+          let res = sleepooutData.data
+          let list = []
 
-        for (let i = 0; i < res.length; i++) {
-          list.push({})
-          list[i].no = res[i].id
-          list[i].reason = res[i].reason
-          list[i].outdate = res[i].date_sleepout
-          list[i].date = res[i].date
-          if (res[i].approved) {
-            list[i].approved = "승인 완료"
-          } else {
-            list[i].approved = "승인 중"
+          for (let i = 0; i < res.length; i++) {
+            list.push({})
+            list[i].no = res[i].id
+            list[i].reason = res[i].reason
+            list[i].outdate = res[i].date_sleepout
+            list[i].date = res[i].date
+            if (res[i].approved) {
+              list[i].approved = "승인 완료"
+            } else {
+              list[i].approved = "승인 중"
+            }
           }
-        }
-        
-        this.lastSleepout = list[res.length - 1].date
-      })
 
-      // 사용자 상담 정보 가져오기
-      ApplyConsultDataService.getAll().then(consultData => {
-        let res = consultData.data
+          this.lastSleepout = list[res.length - 1].date
+        })
 
-        for (let i = 0; i < res.length; i++) {
-          if(this.user.studentno == res[i].studentNo){
-            this.lastConsult = res[i].date.slice(0,10)
+        // 사용자 상담 정보 가져오기
+        ApplyConsultDataService.getAll().then(consultData => {
+          let res = consultData.data
+
+          for (let i = 0; i < res.length; i++) {
+            if (this.user.studentno == res[i].studentNo) {
+              this.lastConsult = res[i].date.slice(0, 10)
+            }
           }
-        }
-      })
+        })
+      }
     }
   }
 };
@@ -515,6 +518,7 @@ export default {
 
         .content {
           padding: 10px;
+
           .item {
             border: solid 1px #e37a74;
             border-radius: 10px;

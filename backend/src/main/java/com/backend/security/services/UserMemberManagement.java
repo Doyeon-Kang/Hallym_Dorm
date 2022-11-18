@@ -2,16 +2,20 @@ package com.backend.security.services;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.backend.model.ERole;
+import com.backend.model.Role;
 import com.backend.model.User;
 import com.backend.model.UserMember;
 import com.backend.model.apply.ApplyJoin;
 import com.backend.model.apply.ApplyResign;
+import com.backend.repository.RoleRepository;
 import com.backend.repository.UserMemberRepository;
 import com.backend.repository.UserRepository;
 import com.backend.repository.apply.ApplyJoinRepository;
@@ -24,6 +28,9 @@ public class UserMemberManagement {
 
     @Autowired
     UserMemberRepository userMemberRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
 
     @Autowired
     ApplyJoinRepository applyJoinRepository;
@@ -42,6 +49,14 @@ public class UserMemberManagement {
                 if((_applyResign.getRes_date().isBefore(LocalDate.now()) || _applyResign.getRes_date().isEqual(LocalDate.now()))
                     && (_applyResign.isApproved())) {
                         userMemberRepository.deleteById(_userMember.getId());
+                        // detele user_member from roles
+
+                        Set<Role> roles = user.getRoles();
+                        
+                        roles.removeIf(role -> role.getName() == ERole.ROLE_USER_MEMBER);
+                        user.setRoles(roles);
+                        userRepository.save(user);
+
                         return false;
                 } else {
                     return true;
@@ -75,6 +90,15 @@ public class UserMemberManagement {
                     _userMember.setRes_room(_applyJoin.getRes_room());
 
                     userMemberRepository.save(_userMember);
+
+                    Set<Role> roles = user.getRoles();
+                    Role userMemberRole = roleRepository.findByName(ERole.ROLE_USER_MEMBER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    roles.add(userMemberRole);
+                    user.setRoles(roles);
+
+                    userRepository.save(user);
+
                     return true;
                 } else return false;
             } else return false;

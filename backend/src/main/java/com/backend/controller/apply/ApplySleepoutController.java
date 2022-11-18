@@ -20,6 +20,7 @@ import com.backend.model.User;
 import com.backend.model.UserMember;
 import com.backend.model.apply.ApplySleepout;
 import com.backend.payload.request.ApplySleepoutRequest;
+import com.backend.payload.request.BoardRequest;
 import com.backend.payload.response.ApplySleepoutResponse;
 import com.backend.repository.UserMemberRepository;
 import com.backend.repository.UserRepository;
@@ -87,6 +88,43 @@ public class ApplySleepoutController {
         return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
+    }
+
+    @GetMapping(path="/apply-sleepout/my-sleepout")
+    public ResponseEntity<List<ApplySleepoutResponse>> getMySleepout(@RequestBody BoardRequest boardRequest) {
+      try {
+        Optional<User> _userData = userRepository.findByStudentno(boardRequest.getStudentNo());
+        if(_userData.isPresent()) {
+          User _user = _userData.get();
+          Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+          if(_userMemberData.isPresent()) {
+            UserMember _userMember = _userMemberData.get();
+
+            List<ApplySleepout> sleepouts = applySleepoutRepository.findByUserMemberId(_userMember.getId());
+            
+            if(sleepouts.isEmpty()) {
+              return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            }
+
+            List<ApplySleepoutResponse> sleepoutResponses = new ArrayList<ApplySleepoutResponse>();
+            
+            sleepouts.forEach(_applySleepout -> {
+              sleepoutResponses.add(new ApplySleepoutResponse(_applySleepout.getId(),
+                                  _user.getStudentno(), _user.getName(), _userMember.getDepartment(),
+                                  _applySleepout.getDate_sleepout(), _applySleepout.getReason(), _applySleepout.getDate(),
+                                  _applySleepout.isApproved()));
+            });
+
+            return new ResponseEntity<List<ApplySleepoutResponse>>(sleepoutResponses, HttpStatus.OK);  
+          } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+          }
+        } else {
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
 

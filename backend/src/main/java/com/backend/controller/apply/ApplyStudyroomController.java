@@ -20,6 +20,7 @@ import com.backend.model.UserMember;
 import com.backend.model.apply.ApplyStudyroom;
 import com.backend.model.apply.ApplyStudyroomSchedule;
 import com.backend.payload.request.ApplyStudyroomRequest;
+import com.backend.payload.request.BoardRequest;
 import com.backend.payload.response.ApplyStudyroomResponse;
 import com.backend.repository.UserMemberRepository;
 import com.backend.repository.UserRepository;
@@ -86,6 +87,42 @@ public class ApplyStudyroomController {
         return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
+    }
+
+    @GetMapping(path="/apply-studyroom/my-studyroom")
+    public ResponseEntity<List<ApplyStudyroomResponse>> getMySleepout(@RequestBody BoardRequest boardRequest) {
+      try {
+        Optional<User> _userData = userRepository.findByStudentno(boardRequest.getStudentNo());
+        if(_userData.isPresent()) {
+          User _user = _userData.get();
+          Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+          if(_userMemberData.isPresent()) {
+            UserMember _userMember = _userMemberData.get();
+
+            List<ApplyStudyroom> studyrooms = applyStudyroomRepository.findByUserMemberId(_userMember.getId());
+            
+            if(studyrooms.isEmpty()) {
+              return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            }
+
+            List<ApplyStudyroomResponse> studyroomResponses = new ArrayList<ApplyStudyroomResponse>();
+            
+            studyrooms.forEach(_applyStudyroom -> {
+              studyroomResponses.add(new ApplyStudyroomResponse(_applyStudyroom.getId(), _user.getStudentno(), _user.getName(),
+                                  _userMember.getDepartment(), _applyStudyroom.getSeat(), _applyStudyroom.getTimeslot1(),
+                                  _applyStudyroom.getTimeslot2(), _applyStudyroom.getTimeslot3(), _applyStudyroom.getDate()));
+            });
+
+            return new ResponseEntity<List<ApplyStudyroomResponse>>(studyroomResponses, HttpStatus.OK);  
+          } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+          }
+        } else {
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
 

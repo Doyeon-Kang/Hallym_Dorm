@@ -89,7 +89,7 @@
             },
             modifyArticle() {
                 let data = {
-                    writer_studentno: this.user.studentno,
+                    writerStudentNo: this.user.studentno,
                     writer_name: this.user.name,
                     title: this.title,
                     content: this.content

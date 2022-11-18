@@ -88,7 +88,7 @@ export default {
         },
         async createArticle() {
             let data = {
-                writer_studentno: this.user.studentno,
+                writerStudentNo: this.user.studentno,
                 writer_name: this.user.name,
                 title: this.title,
                 content: this.content
@@ -116,6 +116,7 @@ export default {
                 })
             } else if (this.category === 'store') {
                 var id;
+                console.log(data)
                 await StoreDataService.create(data).then(res => {
                     alert("작성 완료되었습니다.")
                     id = res.data.id

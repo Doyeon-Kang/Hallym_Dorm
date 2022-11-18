@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.User;
@@ -20,7 +21,6 @@ import com.backend.model.UserMember;
 import com.backend.model.apply.ApplyStudyroom;
 import com.backend.model.apply.ApplyStudyroomSchedule;
 import com.backend.payload.request.ApplyStudyroomRequest;
-import com.backend.payload.request.BoardRequest;
 import com.backend.payload.response.ApplyStudyroomResponse;
 import com.backend.repository.UserMemberRepository;
 import com.backend.repository.UserRepository;
@@ -91,9 +91,9 @@ public class ApplyStudyroomController {
     }
 
     @GetMapping(path="/apply-studyroom/my-studyroom")
-    public ResponseEntity<List<ApplyStudyroomResponse>> getMySleepout(@RequestBody BoardRequest boardRequest) {
+    public ResponseEntity<List<ApplyStudyroomResponse>> getMySleepout(@RequestParam("studentNo") String studentNo) {
       try {
-        Optional<User> _userData = userRepository.findByStudentno(boardRequest.getStudentNo());
+        Optional<User> _userData = userRepository.findByStudentno(studentNo);
         if(_userData.isPresent()) {
           User _user = _userData.get();
           Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());

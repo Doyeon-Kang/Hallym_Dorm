@@ -70,7 +70,7 @@ public class ApplySleepoutController {
     }
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/apply-sleepout/{id}")
+    @GetMapping(path="/apply-sleepout/{id}")
     public ResponseEntity<ApplySleepoutResponse> getApplySleepoutById(@PathVariable("id") long id) {
       Optional<ApplySleepout> sleepoutData = applySleepoutRepository.findById(id);
 
@@ -90,7 +90,7 @@ public class ApplySleepoutController {
       }
     }
 
-    @PostMapping("/apply-sleepout")
+    @PostMapping(path="/apply-sleepout")
     public ResponseEntity<ApplySleepoutResponse> createApplySleepout(@RequestBody ApplySleepoutRequest applySleepout) {
       try {
         Optional<User> _userData = userRepository.findByStudentno(applySleepout.getStudentNo());
@@ -120,7 +120,7 @@ public class ApplySleepoutController {
     }
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/apply-sleepout/{sleepoutId}")
+    @PutMapping(path="/apply-sleepout/{sleepoutId}")
     public ResponseEntity<ApplySleepoutResponse> updateApplySleepout(@PathVariable("sleepoutId") long sleepoutId, @RequestBody ApplySleepout applySleepout) {
       Optional<ApplySleepout> sleepoutData = applySleepoutRepository.findById(sleepoutId);
       if (sleepoutData.isPresent()) {
@@ -145,7 +145,7 @@ public class ApplySleepoutController {
     }
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/apply-sleepout/{sleepoutId}/approve")
+    @PutMapping(path="/apply-sleepout/{sleepoutId}/approve")
     public ResponseEntity<ApplySleepoutResponse> approveApplySleepout(@PathVariable(name="sleepoutId") Long sleepoutId) {
       Optional<ApplySleepout> sleepoutData = applySleepoutRepository.findById(sleepoutId);
 
@@ -169,7 +169,7 @@ public class ApplySleepoutController {
     }
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/apply-sleepout/{sleepoutId}")
+    @DeleteMapping(path="/apply-sleepout/{sleepoutId}")
     public ResponseEntity<HttpStatus> deleteApplySleepout(@PathVariable("sleepoutId") long sleepoutId) {
       try {
         applySleepoutRepository.deleteById(sleepoutId);
@@ -180,7 +180,7 @@ public class ApplySleepoutController {
     }
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/apply-sleepout")
+    @DeleteMapping(path="/apply-sleepout")
     public ResponseEntity<HttpStatus> deleteAllApplySleepouts() {
       try {
         applySleepoutRepository.deleteAll();

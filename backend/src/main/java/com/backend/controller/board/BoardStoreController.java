@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardStore;
+import com.backend.payload.request.BoardRequest;
 import com.backend.repository.board.BoardStoreRepository;
 
 
@@ -57,11 +58,25 @@ public class BoardStoreController {
       }
     }
 
+    @GetMapping("/board-store/my-store")
+    public ResponseEntity<List<BoardStore>> getMyBoardStore (@RequestBody BoardRequest boardRequest) {
+      try{
+        List <BoardStore> myStores = boardStoreRepository.findByWriterStudentNo(boardRequest.getStudentNo());
+
+        if(myStores.isEmpty()){
+          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(myStores, HttpStatus.OK);
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }  
+
     @PostMapping("/board-store")
     public ResponseEntity<BoardStore> createBoardStore(@RequestBody BoardStore boardStore) {
       try {
         BoardStore _boardStore = boardStoreRepository
-                    .save(new BoardStore(boardStore.getWriter_studentno(), boardStore.getWriter_name(), boardStore.getTitle(), boardStore.getContent()));
+                    .save(new BoardStore(boardStore.getWriterStudentNo(), boardStore.getWriter_name(), boardStore.getTitle(), boardStore.getContent()));
         return new ResponseEntity<>(_boardStore, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -73,7 +88,7 @@ public class BoardStoreController {
 
       if (storeData.isPresent()) {
         BoardStore _boardStore = storeData.get();
-        _boardStore.setWriter_studentno(boardStore.getWriter_studentno());
+        _boardStore.setWriterStudentNo(boardStore.getWriterStudentNo());
         _boardStore.setWriter_name(boardStore.getWriter_name());
         _boardStore.setTitle(boardStore.getTitle());
         _boardStore.setContent(boardStore.getContent());

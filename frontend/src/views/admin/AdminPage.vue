@@ -374,9 +374,9 @@ export default {
 
         for (let i=0; i<res.length; i++) {
           list.push({})
-          list[i].no = "-"
-          list[i].name = "-"
-          list[i].dep = "-"
+          list[i].no = res[i].studentNo
+          list[i].name = res[i].name
+          list[i].dep = res[i].department
           list[i].live = "-"
           if (res[i].approved === true) {
             list[i].status = "승인"

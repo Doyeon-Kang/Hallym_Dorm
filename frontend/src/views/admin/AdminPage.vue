@@ -13,7 +13,10 @@
             @click="this.$router.push('/admin/point/add')">{{ pointManagement }}</button>
             <button class="add" v-else-if="this.$route.name === 'adminsleep'"
             @click="approveList(selectList)">{{ sleepApprove }}</button>
-          <button class="del" v-if="$route.name !== 'adminpoint' && this.$route.name !== 'adminpointadd' && this.$route.name !== 'adminuseradd'" @click="deleteUser(selectList)">삭제</button>
+          <button class="del" v-if="$route.name !== 'adminpoint' && this.$route.name !== 'adminpointadd' && this.$route.name !== 'adminuseradd' && this.$route.name !== 'admininout'" @click="deleteUser(selectList)">삭제</button>
+          <button class="del" v-else-if="$route.name === 'admininout' && this.selectListIn.length !== 0" @click="deleteIn(selectListIn)">삭제</button>
+          <button class="del" v-else-if="$route.name === 'admininout' && this.selectListOut.length !== 0" @click="deleteOut(selectListOut)">삭제</button>
+          <button class="del" v-show="$route.name === 'admininout' && this.selectListIn.length === 0 && this.selectListOut.length === 0">삭제</button>
         </div>
       </div>
 
@@ -46,7 +49,7 @@
         :totallife="totallife">
       </MiniBoardList>
       <InoutCom v-show="$route.name === 'admininout'" :listItemin="joinList" :listTitlein="inTitle" :listItemout="outList" :listTitleout="outTitle"
-        :title_in="title_in" :title_out="title_out" :key="componentKey4">
+        :title_in="title_in" :title_out="title_out" :key="componentKey4" @setListIn="setListIn" @setListOut="setListOut">
       </InoutCom>
     </div>
   </div>
@@ -125,10 +128,10 @@ export default {
       sleepTitle: ["번호", "학번", "이름", "소속학과", "신청날짜", "외박 기간", "신청 사유", "승인 상태"],
       sleepList: [],
 
-      inTitle: ["학번", "학년", "이름", "소속학과", "희망 1순위"],
+      inTitle: ["번호", "학번", "학년", "이름", "소속학과", "희망 1순위", "승인여부"],
       joinList: [],
 
-      outTitle: ["학번", "이름", "소속학과", "거주 기숙사", "승인여부"],
+      outTitle: ["번호", "학번", "이름", "소속학과", "승인여부"],
       outList: [],
 
       consultingTitle: ["번호", "학번", "이름", "상담분야", "신청일자", "전화번호"],
@@ -157,7 +160,9 @@ export default {
           end: "2022-02-22",
         },
       ],
-      selectList: []
+      selectList: [],
+      selectListIn: [],
+      selectListOut: []
     };
   },
   components: {
@@ -173,8 +178,12 @@ export default {
     this.init();
   },
   methods: {
-    setList(data) {
-      this.selectList = data
+    setListIn(data) {
+      this.selectListIn = data
+    },
+    setListOut(data) {
+      console.log(data)
+      this.selectListOut = data
     },  
     deleteUser(list) {
       if (list.length == 0) { // 리스트 행 없을 경우
@@ -215,6 +224,32 @@ export default {
         }
       }    
     },
+    deleteIn(list) {
+      if (list.length == 0) { // 리스트 행 없을 경우
+        alert("삭제할 리스트 행을 선택해주세요.")
+      } else { // 리스트 행 있는 경우 
+        for (let i=0; i<list.length; i++) {
+          ApplyJoinDataService.delete(list[i]).then(res => {    
+                console.log(res)
+          })
+        }
+        alert('삭제 완료되었습니다.')
+        window.location.reload(true)
+      }
+    },
+    deleteOut(list) {
+      if (list.length == 0) { // 리스트 행 없을 경우
+        alert("삭제할 리스트 행을 선택해주세요.")
+      } else { // 리스트 행 있는 경우 
+        for (let i=0; i<list.length; i++) {
+          ApplyResignDataService.delete(list[i]).then(res => {    
+                console.log(res)
+          })
+        }
+        alert('삭제 완료되었습니다.')
+        window.location.reload(true)
+      }
+    },
     approveList(list) {
       let cnt = 0;
 
@@ -234,7 +269,6 @@ export default {
           window.location.reload(true)
         }
       }
-      
     },
     async init() {
       await UserDataService.getAll().then(resolveData => {
@@ -357,14 +391,21 @@ export default {
       await ApplyJoinDataService.getAll().then(resolveData => {
         let res = resolveData.data
         let list = []
+        console.log(res)
 
         for (let i=0; i<res.length; i++) {
           list.push({})
+          list[i].id = res[i].id
           list[i].no = res[i].studentNo
           list[i].grade = res[i].grade
           list[i].name = res[i].name
           list[i].dep = res[i].department
           list[i].hope = res[i].hope_fac_1
+          if (res[i].approved === true) {
+            list[i].status = "승인"
+          } else {
+            list[i].status = "미승인"
+          }
         }
         this.joinList = list
         this.componentKey4 += 1
@@ -375,10 +416,11 @@ export default {
 
         for (let i=0; i<res.length; i++) {
           list.push({})
+          list[i].id = res[i].id
           list[i].no = res[i].studentNo
           list[i].name = res[i].name
           list[i].dep = res[i].department
-          list[i].live = "-"
+          //list[i].live = "-"
           if (res[i].approved === true) {
             list[i].status = "승인"
           } else {

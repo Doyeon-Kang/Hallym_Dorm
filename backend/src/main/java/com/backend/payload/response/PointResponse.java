@@ -3,6 +3,8 @@ package com.backend.payload.response;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class PointResponse {
     private Long id;
 
@@ -65,6 +67,7 @@ public class PointResponse {
         this.date_receive = date_receive;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime date;
 
     public LocalDateTime getDate() {
@@ -75,14 +78,24 @@ public class PointResponse {
         this.date = date;
     }
 
-    private int score;
+    private int plusPoint;
 
-    public int getScore() {
-        return score;
+    public int getPlusPoint() {
+        return plusPoint;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setPlusPoint(int plusPoint) {
+        this.plusPoint = plusPoint;
+    }
+
+    private int minusPoint;
+
+    public int getMinusPoint() {
+        return minusPoint;
+    }
+
+    public void setMinusPoint(int minusPoint) {
+        this.minusPoint = minusPoint;
     }
 
     public PointResponse() {
@@ -90,7 +103,7 @@ public class PointResponse {
     }
 
     public PointResponse(Long id, String studentNo, String name, String department,
-                                String reason, LocalDate date_receive, LocalDateTime date, int score) {
+                                String reason, LocalDate date_receive, LocalDateTime date, int plusPoint, int minusPoint) {
         this.id = id;
         this.studentNo = studentNo;
         this.name = name;
@@ -98,6 +111,7 @@ public class PointResponse {
         this.reason = reason;
         this.date_receive = date_receive;
         this.date = date;
-        this.score = score;
+        this.plusPoint = plusPoint;
+        this.minusPoint = minusPoint;
     }
 }

@@ -1,7 +1,8 @@
 package com.backend.model;
 
-import java.time.LocalDateTime;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +19,6 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.backend.model.UserMember;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -51,6 +51,7 @@ public class Point {
     }
 
     @Column(name="date_receive")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate date_receive;
     public LocalDate getDate_receive() {
         return date_receive;
@@ -78,22 +79,34 @@ public class Point {
         this.date = date;
     }
 
-    @Column(name="score")
-    private int score;
+    @Column(name="plusPoint")
+    private int plusPoint;
 
-    public int getScore() {
-        return score;
+
+    public int getPlusPoint() {
+        return plusPoint;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setPlusPoint(int plusPoint) {
+        this.plusPoint = plusPoint;
+    }
+
+    @Column(name="minusPoint")
+    private int minusPoint;
+
+    public int getMinusPoint() {
+        return minusPoint;
+    }
+
+    public void setMinusPoint(int minusPoint) {
+        this.minusPoint = minusPoint;
     }
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "userMember", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    UserMember userMember;
+    private UserMember userMember;
     
     public UserMember getUserMember() {
         return userMember;
@@ -108,10 +121,11 @@ public class Point {
 
     }
 
-    public Point(String reason, LocalDate date_receive, int score) {
+    public Point(String reason, LocalDate date_receive, int plusPoint, int minusPoint) {
         this.reason = reason;
         this.date_receive = date_receive;
-        this.score = score;
+        this.plusPoint = plusPoint;
+        this.minusPoint = minusPoint;
     }
     
 }

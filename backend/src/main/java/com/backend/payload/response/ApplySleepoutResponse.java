@@ -3,6 +3,8 @@ package com.backend.payload.response;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ApplySleepoutResponse {
     private Long id;
 
@@ -64,6 +66,7 @@ public class ApplySleepoutResponse {
         this.reason = reason;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime date;
 
     public LocalDateTime getDate() {

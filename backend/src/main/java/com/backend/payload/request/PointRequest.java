@@ -35,14 +35,24 @@ public class PointRequest {
         this.date_receive = date_receive;
     }
 
-    private int score;
+    private int plusPoint;
 
-    public int getScore() {
-        return score;
+    public int getPlusPoint() {
+        return plusPoint;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setPlusPoint(int plusPoint) {
+        this.plusPoint = plusPoint;
+    }
+
+    private int minusPoint;
+
+    public int getMinusPoint() {
+        return minusPoint;
+    }
+
+    public void setMinusPoint(int minusPoint) {
+        this.minusPoint = minusPoint;
     }
 
 }

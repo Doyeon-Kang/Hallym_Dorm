@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardLost;
+import com.backend.payload.request.BoardRequest;
 import com.backend.repository.board.BoardLostRepository;
 
 @RestController
@@ -56,11 +57,26 @@ public class BoardLostController {
       }
     }
 
+    @GetMapping("/board-lost/my-lost")
+    public ResponseEntity<List<BoardLost>> getMyBoardLost (@RequestBody BoardRequest boardRequest) {
+      try{
+        List <BoardLost> myLosts = boardLostRepository.findByWriterStudentNo(boardRequest.getStudentNo());
+
+        if(myLosts.isEmpty()){
+          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(myLosts, HttpStatus.OK);
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }        
+
+
     @PostMapping("/board-lost")
     public ResponseEntity<BoardLost> createBoardLost(@RequestBody BoardLost boardLost) {
       try {
         BoardLost _boardLost = boardLostRepository
-                    .save(new BoardLost(boardLost.getWriter_studentno(), boardLost.getWriter_name(), boardLost.getTitle(), boardLost.getContent()));
+                    .save(new BoardLost(boardLost.getWriterStudentNo(), boardLost.getWriter_name(), boardLost.getTitle(), boardLost.getContent()));
         return new ResponseEntity<>(_boardLost, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -72,7 +88,7 @@ public class BoardLostController {
 
       if (lostData.isPresent()) {
         BoardLost _boardLost = lostData.get();
-        _boardLost.setWriter_studentno(boardLost.getWriter_studentno());
+        _boardLost.setWriterStudentNo(boardLost.getWriterStudentNo());
         _boardLost.setWriter_name(boardLost.getWriter_name());
         _boardLost.setTitle(boardLost.getTitle());
         _boardLost.setContent(boardLost.getContent());

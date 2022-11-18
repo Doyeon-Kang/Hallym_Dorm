@@ -147,13 +147,12 @@ export default {
             let cnt = 0;
 
             if (list.length == 0) { // 리스트 행 없을 경우
-                alert("삭제할 리스트 행을 선택해주세요.")
+                alert("승인할 리스트 행을 선택해주세요.")
             } else {
                 for(let i=0; i<list.length; i++) {
                     await ApplyJoinDataService.updateApprove(list[i]).then(res => {
                         console.log(res)
                         ++cnt
-                        console.log(cnt)
                     })
                 }
                 if(cnt === 0) {
@@ -168,7 +167,7 @@ export default {
             let cnt = 0;
 
             if (list.length == 0) { // 리스트 행 없을 경우
-                alert("삭제할 리스트 행을 선택해주세요.")
+                alert("승인할 리스트 행을 선택해주세요.")
             } else {
                 for(let i=0; i<list.length; i++) {
                     await ApplyResignDataService.updateApprove(list[i]).then(res => {

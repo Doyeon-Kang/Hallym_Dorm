@@ -195,6 +195,7 @@ export default {
     watch: {
         selectList() { 
             this.$emit("setList", this.selectList); 
+            console.log(this.selectList)
         },  
         sortedName() {
             this.listArray.sort(function (a, b) {

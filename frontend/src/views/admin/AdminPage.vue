@@ -3,20 +3,24 @@
     <div class="left_container">
       <SidebarCom :pageName="pageName" :listItem="side"></SidebarCom>
     </div>
-    <div class="right_container">
+    <div class="right_container" :key="componentKey0">
       <div class="titlebox">
         <h1>{{ title }}</h1>
         <div class="btn">
+          <!--승인 및 관리 버튼-->
           <button class="add" v-if="this.$route.name === 'adminuser'"
-            @click="this.$router.push('/admin/user/add')">{{ userManagement }}</button>
+          @click="this.$router.push('/admin/user/add')">{{ userManagement }}</button>
           <button class="add" v-else-if="this.$route.name === 'adminpoint'"
-            @click="this.$router.push('/admin/point/add')">{{ pointManagement }}</button>
-            <button class="add" v-else-if="this.$route.name === 'adminsleep'"
-            @click="approveList(selectList)">{{ sleepApprove }}</button>
-          <button class="del" v-if="$route.name !== 'adminpoint' && this.$route.name !== 'adminpointadd' && this.$route.name !== 'adminuseradd' && this.$route.name !== 'admininout'" @click="deleteUser(selectList)">삭제</button>
+          @click="this.$router.push('/admin/point/add')">{{ pointManagement }}</button>
+          <button class="add" v-else-if="this.$route.name === 'adminsleep'"
+          @click="approveList(selectList)">{{ sleepApprove }}</button>
+
+          <!--삭제 버튼-->
+          <button class="del" v-if="$route.name !== 'adminpoint' && this.$route.name !== 'adminpointadd' && this.$route.name !== 'adminuseradd' && this.$route.name !== 'admininout' && this.$route.name !== 'adminconsulting'" @click="deleteUser(selectList)">삭제</button>
+          <button class="del" v-else-if="$route.name === 'adminconsulting'">삭제</button>
           <button class="del" v-else-if="$route.name === 'admininout' && this.selectListIn.length !== 0" @click="deleteIn(selectListIn)">삭제</button>
           <button class="del" v-else-if="$route.name === 'admininout' && this.selectListOut.length !== 0" @click="deleteOut(selectListOut)">삭제</button>
-          <button class="del" v-show="$route.name === 'admininout' && this.selectListIn.length === 0 && this.selectListOut.length === 0">삭제</button>
+          <button class="del" v-if="$route.name === 'admininout' && this.selectListIn.length === 0 && this.selectListOut.length === 0">삭제</button>
         </div>
       </div>
 
@@ -30,15 +34,15 @@
       <!-- 리스트 컴포넌트 -->
       <BoardList v-if="this.$route.name === 'adminuser'" :listItem="userList" :listTitle="userTitle" @setList="setList" :key="componentKey">
       </BoardList>
+      <BoardList v-else-if="$route.name === 'adminstudy'" :listItem="studyList" :listTitle="studyTitle"
+      @setList="setList" :key="componentKey1">
+      </BoardList>
       <MiniBoardList v-if="this.$route.name === 'adminuseradd'" :listItem="userList" :listTitle="userTitle" :key="componentKey">
       </MiniBoardList>
       <BoardList v-else-if="this.$route.name === 'adminpoint'" :listItem="pointList" :listTitle="pointTitle" @setList="setList" >
       </BoardList>
       <MiniBoardList v-if="this.$route.name === 'adminpointadd'" :listItem="pointList" :listTitle="pointTitle" >
       </MiniBoardList>
-      <BoardList v-else-if="$route.name === 'adminstudy'" :listItem="studyList" :listTitle="studyTitle"
-      @setList="setList" :key="componentKey1">
-      </BoardList>
       <BoardList v-else-if="$route.name === 'adminsleep'" :listItem="sleepList" :listTitle="sleepTitle"
       @setList="setList" :key="componentKey2" >
       </BoardList>
@@ -87,6 +91,7 @@ export default {
         // { img: require("@/assets/admin_schedule.png"), title: "생활 일정 관리", path: "/admin/life" },
         { img: require("@/assets/admin_logout.png"), title: "로그아웃", path: "/logout" },
       ],
+      componentKey0: 0,
       componentKey: 0,
       componentKey1: 0,
       componentKey2: 0,
@@ -178,11 +183,13 @@ export default {
     this.init();
   },
   methods: {
+    setList(data) {
+      this.selectList = data
+    },
     setListIn(data) {
       this.selectListIn = data
     },
     setListOut(data) {
-      console.log(data)
       this.selectListOut = data
     },  
     deleteUser(list) {
@@ -254,7 +261,7 @@ export default {
       let cnt = 0;
 
       if (list.length == 0) { // 리스트 행 없을 경우
-          alert("삭제할 리스트 행을 선택해주세요.")
+          alert("승인할 리스트 행을 선택해주세요.")
       } else {
         for(let i=0; i<list.length; i++) {
           ApplySleepoutDataService.updateApprove(list[i].id).then(res => {
@@ -289,6 +296,7 @@ export default {
             UserInfoDataService.getInfo(res[i].studentno).then(res => {
               list[i].dep = res.data.department
               list[i].live = res.data.res_fac + "관 " +res.data.res_room +"호실"
+              this.componentKey += 1
             })
           }
           this.componentKey += 1
@@ -379,7 +387,7 @@ export default {
           list[i].date = res[i].date
           list[i].term = res[i].date_sleepout
           list[i].reason = res[i].reason
-          if (res[i].approved === true) {
+          if (res[i].approved === true) { 
             list[i].status = "승인"
           } else {
             list[i].status = "미승인"
@@ -391,7 +399,6 @@ export default {
       await ApplyJoinDataService.getAll().then(resolveData => {
         let res = resolveData.data
         let list = []
-        console.log(res)
 
         for (let i=0; i<res.length; i++) {
           list.push({})

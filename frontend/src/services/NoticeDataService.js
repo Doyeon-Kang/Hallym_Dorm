@@ -13,6 +13,14 @@ class NoticeDataService {
     return http.get(`/board-notice/${id}`);
   }
 
+  getMy(studentNo) {
+    return http.get(`/board-notice/my-notice`, studentNo);
+  }
+  
+  getMy1(studentNo) {
+    return http.get(`/board-notice1/my-notice`, studentNo);
+  }
+
   create(data) {
     return http.post("/board-notice", data);
   }

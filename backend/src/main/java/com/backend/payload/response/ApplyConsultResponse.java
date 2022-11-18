@@ -2,6 +2,8 @@ package com.backend.payload.response;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ApplyConsultResponse {
     // `id` INT NOT NULL AUTO_INCREMENT COMMENT '아이디',
     private Long id;
@@ -166,6 +168,7 @@ public class ApplyConsultResponse {
     }
 
     // `date` DATETIME COMMENT '',
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime date;
 
     public LocalDateTime getDate() {

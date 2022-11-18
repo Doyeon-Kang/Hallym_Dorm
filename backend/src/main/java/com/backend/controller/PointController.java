@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.model.Point;
 import com.backend.model.User;
 import com.backend.model.UserMember;
+import com.backend.payload.request.BoardRequest;
 import com.backend.payload.request.PointRequest;
 import com.backend.payload.response.PointResponse;
 import com.backend.repository.PointRepository;
@@ -78,6 +79,42 @@ public class PointController {
                 _userMember.getDepartment(), point.getReason(), point.getDate_receive(), point.getDate(), point.getPlusPoint(), point.getMinusPoint());
 
                 return new ResponseEntity<PointResponse>(response, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(path="/my-point")
+    public ResponseEntity<List<PointResponse>> getMyPoints(@RequestBody BoardRequest boardRequest) {
+        try {
+            Optional<User> _userData = userRepository.findByStudentno(boardRequest.getStudentNo());
+            if(_userData.isPresent()) {
+                User _user = _userData.get();
+                Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+                if(_userMemberData.isPresent()) {
+                    UserMember _userMember = _userMemberData.get();
+
+                    List<Point> myPoints = pointRepository.findByUserMemberId(_userMember.getId());
+
+                    if(myPoints.isEmpty()) {
+                        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+                    }
+
+                    List<PointResponse> responses = new ArrayList<PointResponse>();
+
+                    myPoints.forEach(point -> {
+                        responses.add(new PointResponse(point.getId(), _user.getStudentno(), _user.getName(), 
+                        _userMember.getDepartment(), point.getReason(), point.getDate_receive(), point.getDate(), 
+                        point.getPlusPoint(), point.getMinusPoint()));
+                    });
+
+                    return new ResponseEntity<List<PointResponse>>(responses, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                }
             } else {
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             }

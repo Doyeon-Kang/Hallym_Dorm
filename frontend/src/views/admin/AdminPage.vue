@@ -251,7 +251,7 @@ export default {
           list[i].auth = res[i].roles[0].name // 사용자 권한
 
           // USER_MEMBER일 경우(이후 ADMIN 조건은 제거!)
-          if(list[i].auth === "ROLE_USER_MEMBER" || list[i].auth === "ROLE_ADMIN") {
+          if(list[i].auth === "ROLE_USER_MEMBER") {
             UserInfoDataService.getInfo(res[i].studentno).then(res => {
               list[i].dep = res.data.department
               list[i].live = res.data.res_fac + "관 " +res.data.res_room +"호실"
@@ -260,6 +260,7 @@ export default {
           this.componentKey += 1
         }
         this.userList = list
+        this.componentKey += 1
       })
       await ApplyStudyroomDataService.getAll().then(resolveData => {
         let res = resolveData.data

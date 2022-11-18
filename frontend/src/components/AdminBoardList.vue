@@ -63,7 +63,7 @@
                             $route.name === 'adminpointadd'" @click="$router.push({
                                 name: 'admindetail',
                                 query: { studentno: item.no, role: item.auth},
-                            })"><input type="button" value="자세히" /></td>
+                            })"><input v-show="item.auth !== 'ROLE_ADMIN'" type="button" value="자세히" /></td>
                             <td v-show="$route.name === 'adminconsulting'"><input type="button" value="자세히" @click="$router.push({
                                 name: 'consultdetail',
                                 query: { id: item.id}

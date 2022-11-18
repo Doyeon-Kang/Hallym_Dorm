@@ -31,7 +31,7 @@
                             <td><input type="checkbox" class="check" :value="item.no" v-model="selectListin" /></td>
 
                             <td v-for="(text, index) in objectKey(item)" :key="index">
-                                {{ text }} {{item}}
+                                {{ text }}
                             </td>
 
                             <td><input type="button" value="자세히" /></td>

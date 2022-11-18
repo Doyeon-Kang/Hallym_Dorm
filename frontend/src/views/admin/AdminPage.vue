@@ -25,30 +25,28 @@
       <AdminDetailBox v-if="this.$route.name === 'admindetail' || this.$route.name === 'consultdetail'"></AdminDetailBox>
       
       <!-- 리스트 컴포넌트 -->
-      <BoardList v-if="this.$route.name === 'adminuser'" :listItem="userList" :listTitle="userTitle" @setList="setList">
+      <BoardList v-if="this.$route.name === 'adminuser'" :listItem="userList" :listTitle="userTitle" @setList="setList" :key="componentKey">
       </BoardList>
-      <MiniBoardList v-if="this.$route.name === 'adminuseradd'" :listItem="userList" :listTitle="userTitle"
-      >
+      <MiniBoardList v-if="this.$route.name === 'adminuseradd'" :listItem="userList" :listTitle="userTitle" :key="componentKey">
       </MiniBoardList>
-      <BoardList v-else-if="this.$route.name === 'adminpoint'" :listItem="pointList" :listTitle="pointTitle" @setList="setList">
+      <BoardList v-else-if="this.$route.name === 'adminpoint'" :listItem="pointList" :listTitle="pointTitle" @setList="setList" >
       </BoardList>
-      <MiniBoardList v-if="this.$route.name === 'adminpointadd'" :listItem="pointList" :listTitle="pointTitle"
-      >
+      <MiniBoardList v-if="this.$route.name === 'adminpointadd'" :listItem="pointList" :listTitle="pointTitle" >
       </MiniBoardList>
       <BoardList v-else-if="$route.name === 'adminstudy'" :listItem="studyList" :listTitle="studyTitle"
-      @setList="setList">
+      @setList="setList" :key="componentKey1">
       </BoardList>
       <BoardList v-else-if="$route.name === 'adminsleep'" :listItem="sleepList" :listTitle="sleepTitle"
-      @setList="setList">
+      @setList="setList" :key="componentKey2" >
       </BoardList>
       <BoardList v-else-if="$route.name === 'adminconsulting'" :listItem="consultingList" :listTitle="consultingTitle"
-      @setList="setList">
+      @setList="setList" :key="componentKey3">
       </BoardList>
       <MiniBoardList v-else-if="$route.name === 'adminlife'" :listItem="lifeList" :listTitle="lifeTitle"
         :totallife="totallife">
       </MiniBoardList>
-      <InoutCom v-show="$route.name === 'admininout'" :listItemin="this.joinList" :listTitlein="inTitle" :listItemout="outList" :listTitleout="outTitle"
-        :title_in="title_in" :title_out="title_out">
+      <InoutCom v-show="$route.name === 'admininout'" :listItemin="joinList" :listTitlein="inTitle" :listItemout="outList" :listTitleout="outTitle"
+        :title_in="title_in" :title_out="title_out" :key="componentKey4">
       </InoutCom>
     </div>
   </div>
@@ -59,7 +57,6 @@ import SidebarCom from "../../components/AdminSidebarCom.vue";
 import Addbox from "../../components/AdminAddBoxCom.vue";
 import BoardList from "../../components/AdminBoardList.vue";
 import MiniBoardList from "../../components/AdminMiniBoardList.vue";
-import InoutCom from "../../components/AdminInoutCom.vue";
 import AdminDetailBox from "@/components/AdminDetailBox.vue";
 
 
@@ -70,7 +67,7 @@ import ApplyJoinDataService from "@/services/ApplyJoinDataService";
 import ApplyResignDataService from "@/services/ApplyResignDataService";
 import ApplyConsultDataService from "@/services/ApplyConsultDataService";
 import UserInfoDataService from "@/services/UserInfoDataService";
-
+import InoutCom from "../../components/AdminInoutCom.vue";
 
 export default {
   data() {
@@ -87,6 +84,12 @@ export default {
         // { img: require("@/assets/admin_schedule.png"), title: "생활 일정 관리", path: "/admin/life" },
         { img: require("@/assets/admin_logout.png"), title: "로그아웃", path: "/logout" },
       ],
+      componentKey: 0,
+      componentKey1: 0,
+      componentKey2: 0,
+      componentKey3: 0,
+      componentKey4: 0,
+      componentKey5: 0,
       userManagement: "사용자 추가",
       useradd: "생성",
 
@@ -254,6 +257,7 @@ export default {
               list[i].live = res.data.res_fac + "관 " +res.data.res_room +"호실"
             })
           }
+          this.componentKey += 1
         }
         this.userList = list
       })
@@ -325,6 +329,7 @@ export default {
           list[i].seat = res[i].seat +"번 좌석" // 좌석
         }
         this.studyList = list
+        this.componentKey1 += 1
       })
       await ApplySleepoutDataService.getAll().then(resolveData => {
         let res = resolveData.data
@@ -346,6 +351,7 @@ export default {
           }
         }
         this.sleepList = list
+        this.componentKey2 += 1
       })
       await ApplyJoinDataService.getAll().then(resolveData => {
         let res = resolveData.data
@@ -357,10 +363,10 @@ export default {
           list[i].grade = res[i].grade
           list[i].name = res[i].name
           list[i].dep = res[i].department
-          //list[i].point = "-"
           list[i].hope = res[i].hope_fac_1
         }
         this.joinList = list
+        this.componentKey4 += 1
       })
       await ApplyResignDataService.getAll().then(resolveData => {
         let res = resolveData.data
@@ -379,6 +385,7 @@ export default {
           }
         }
         this.outList = list
+        this.componentKey4 += 1
       })
       await ApplyConsultDataService.getAll().then(resolveData => {
         let res = resolveData.data
@@ -394,6 +401,7 @@ export default {
           list[i].phone = "-" // 전화번호
         }
         this.consultingList = list
+        this.componentKey3 += 1
       })
     },
     routeCheck() {

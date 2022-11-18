@@ -431,7 +431,7 @@ export default {
           if (res[i].approved === true) {
             list[i].status = "승인"
           } else {
-            list[i].status = "대기중"
+            list[i].status = "미승인"
           }
         }
         this.outList = list

@@ -10,7 +10,7 @@ class StoreDataService {
   }
 
   getMy(studentNo) {
-    return http.get(`/board-store/my-store`, studentNo);
+    return http.get(`/board-store/my-store?studentNo=`, studentNo);
   }
 
   create(data) {

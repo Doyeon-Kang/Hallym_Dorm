@@ -256,6 +256,7 @@ export default {
                 }
                 this.mywrite_item += list
             })
+            
             // 사생자치회
             NoticeDataService.getMy1(this.user.studentno).then(resolveData => {
                 let res = resolveData.data

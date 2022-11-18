@@ -327,7 +327,7 @@ export default {
           if (res[i].approved) {
             list[i].approved = "승인 완료"
           } else {
-            list[i].approved = "승인 중"
+            list[i].approved = "승인 대기"
           }
         }
         

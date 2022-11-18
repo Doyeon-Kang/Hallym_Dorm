@@ -307,9 +307,9 @@ export default {
                             }
                         } if(res[i].timeslot2){
                             if(res[i].timeslot3){
-                                list[studyIndex].status += " 외 (2) 이용"
+                                list[studyIndex].status += " 외 2건"
                             } else {
-                                list[studyIndex].status += " 외 (1) 이용"
+                                list[studyIndex].status += " 외 1건"
                             }
                         }
                         studyIndex++

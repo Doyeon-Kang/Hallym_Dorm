@@ -175,9 +175,7 @@
 import UserInfoDataService from "@/services/UserInfoDataService";
 import NoticeDataService from '@/services/NoticeDataService';
 import StoreDataService from "@/services/StoreDataService";
-import StorePhotoService from "@/services/StorePhotoService";
 import LostDataService from "@/services/LostDataService";
-import LostPhotoService from "@/services/LostPhotoService";
 import ApplyConsultDataService from "@/services/ApplyConsultDataService";
 
 export default {

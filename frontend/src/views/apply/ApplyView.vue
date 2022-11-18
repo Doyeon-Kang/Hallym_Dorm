@@ -973,27 +973,6 @@ export default {
         },
 
         init(){
-            // ApplyJoinDataService.get(this.user.id).then(item => {
-            //     let res = item.data
-
-            //     if(res.approved)
-            //         this.user_approved = res.approved
-            //     else
-            //         this.user_approved = false
-            // })
-            // UserDataService.getAll().then(item => {
-            //     let res = item.data
-            //     let userGet = {}
-                
-            //     for (let i=0; i<res.length; i++) {
-            //         userGet[i].id = res[i].id
-            //         userGet[i].studentno = res[i].studentno
-            //         userGet[i].name = res[i].name
-            //         userGet[i].email = res[i].email
-            //         userGet[i].roles = res[i].roles
-            //     }
-            // })
-
             //사용자 정보 가져오기
             UserService.getInfo(this.user.studentno).then(item => {
                 let res = item.data

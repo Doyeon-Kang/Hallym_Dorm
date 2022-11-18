@@ -9,6 +9,10 @@ class LostDataService {
     return http.get(`/board-lost/${id}`);
   }
 
+  getMy() {
+    return http.get(`/board-lost/my-lost`, );
+  }
+
   create(data) {
     return http.post("/board-lost", data);
   }

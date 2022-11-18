@@ -9,6 +9,10 @@ class StoreDataService {
     return http.get(`/board-store/${id}`);
   }
 
+  getMy() {
+    return http.get(`/board-store/my-store`);
+  }
+
   create(data) {
     return http.post(`/board-store`, data);
   }

@@ -22,10 +22,10 @@
                     <a href="/mypage/myassey" class="more_details">더보기 ▶</a>
                 </div>
                 <div class="mywrite_box box innerbox">
-                    <div class="item" v-for="item in mywrite_Data" :key="index">
+                    <div class="item" v-for="item in mywrite_Data">
 
                         <div class="catetitle">
-                            <div class="category">{{ item.category }}</div>
+                            <!-- <div class="category">{{ item.category }}</div> -->
                             <div class="title">{{ item.title }}</div>
                         </div>
                         <div class="date">{{ item.date }}</div>
@@ -38,10 +38,12 @@
                         <img src="@/assets/pointplus.png" alt="이미지" />
                         상벌점 내역
                     </div>
-                    <a href="/mypage/mypoint" class="more_details">합계 : {{ this.userinfo.plusPoint + this.userinfo.minusPoint }}점</a>
+                    <a href="/mypage/mypoint" class="more_details">합계 : {{ this.userinfo.plusPoint +
+                            this.userinfo.minusPoint
+                    }}점</a>
                 </div>
                 <div class="point_box box innerbox">
-                    <div class="item" v-for="(item, index) in point_Data" :key="index">
+                    <div class="item" v-for="item in point_Data">
 
                         <div class="catetitle">
                             <div class="point">{{ item.point }}</div>
@@ -67,7 +69,7 @@
                             <a href="/mypage/mystudy" class="more_details">더보기 ▶</a>
                         </div>
                         <div class="studyroom">
-                            <div class="item" v-for="item in studyroom_Data" :key="index">
+                            <div class="item" v-for="item in studyroom_Data">
 
                                 <div class="catetitle">
                                     <div class="date">{{ item.date }}</div>
@@ -85,7 +87,7 @@
                             <a href="/mypage/myconsulting" class="more_details">더보기 ▶</a>
                         </div>
                         <div class="counseling">
-                            <div class="item" v-for="item in consult_Data" :key="index">
+                            <div class="item" v-for="item in consult_Data">
 
                                 <div class="catetitle">
                                     <div class="title">{{ item.topic }}</div>
@@ -110,7 +112,7 @@
                         <div class="inout">들어올날</div>
                         <div class="inout">진행상태</div>
                     </div>
-                    <div class="item" v-for="item in sleepout_Data" :key="index">
+                    <div class="item" v-for="item in sleepout_Data">
 
                         <div class="outdate">{{ item.outdate }}</div>
                         <div class="indate">{{ item.indate }}</div>
@@ -124,6 +126,9 @@
 
 <script>
 import UserInfoDataService from "@/services/UserInfoDataService";
+import NoticeDataService from '@/services/NoticeDataService';
+import StoreDataService from "@/services/StoreDataService";
+import LostDataService from "@/services/LostDataService";
 import ApplyConsultDataService from "@/services/ApplyConsultDataService";
 import ApplyStudyroomDataService from "@/services/ApplyStudyroomDataService";
 
@@ -131,53 +136,7 @@ export default {
     name: "MyPageView",
     data() {
         return {
-            mywrite_item: [
-                {
-                    category: "[분실물]",
-                    title: "공책 잃어 버리신 분",
-                    date: "2022.07.22",
-                },
-                {
-                    category: "[나눔장터]",
-                    title: "샴푸 필요하신 분",
-                    date: "2022.07.03",
-                },
-                {
-                    category: "[나눔장터]",
-                    title: "필기구 남는 거 나눔합니다",
-                    date: "2022.07.01",
-                },
-                {
-                    category: "[분실물]",
-                    title: "식당에서 보조 배터리 잃어 버리신 분",
-                    date: "2022.06.28",
-                },
-                {
-                    category: "[나눔장터]",
-                    title: "쿠키 드실 분 있나요?",
-                    date: "2022.06.05",
-                },
-                {
-                    category: "[분실물]",
-                    title: "가방 두고 가신 분",
-                    date: "2022.05.15",
-                },
-                {
-                    category: "[분실물]",
-                    title: "가방 두고 가신 분",
-                    date: "2022.05.15",
-                },
-                {
-                    category: "[분실물]",
-                    title: "가방 두고 가신 분",
-                    date: "2022.05.15",
-                },
-                {
-                    category: "[분실물]",
-                    title: "가방 두고 가신 분",
-                    date: "2022.05.15",
-                },
-            ],
+            mywrite_item: [],
             point_item: [
                 {
                     point: "+3",
@@ -281,6 +240,67 @@ export default {
                 this.userinfo = getinfo
             })
 
+            // // 공지사항
+            // NoticeDataService.getMy(this.user.studentno).then(resolveData => {
+            //     let res = resolveData.data
+            //     let list = []
+
+            //     for (let i = 0; i < res.length; i++) {
+            //         if(this.user.studentno == res[i].writerStudentNo){
+            //             list.push({})
+            //             list[i].no = res[i].id
+            //             list[i].title = res[i].title
+            //             list[i].date = res[i].date
+            //         }
+            //     }
+            //     this.mywrite_item += list
+            // })
+            // // 사생자치회
+            // NoticeDataService.getMy1().then(resolveData => {
+            //     let res = resolveData.data
+            //     let list = []
+
+            //     for (let i = 0; i < res.length; i++) {
+            //         if(this.user.studentno == res[i].writerStudentNo){
+            //             list.push({})
+            //             list[i].no = res[i].id
+            //             list[i].title = res[i].title
+            //             list[i].date = res[i].date
+            //         }
+            //     }
+            //     this.mywrite_item += list
+            // })
+            // // 나눔장터
+            // StoreDataService.getMy().then(resolveData => {
+            //     let res = resolveData.data
+            //     let list = []
+
+            //     for (let i = 0; i < res.length; i++) {
+            //         if(this.user.studentno == res[i].writerStudentNo){
+            //             list.push({})
+            //             list[i].no = res[i].id
+            //             list[i].title = res[i].title
+            //             list[i].date = res[i].date
+            //         }
+            //     }
+            //     this.mywrite_item += list
+            // })
+            // // 분실물
+            // LostDataService.getMy().then(resolveData => {
+            //     let res = resolveData.data
+            //     let list = []
+
+            //     for (let i = 0; i < res.length; i++) {
+            //         if(this.user.studentno == res[i].writerStudentNo){
+            //             list.push({})
+            //             list[i].no = res[i].id
+            //             list[i].title = res[i].title
+            //             list[i].date = res[i].date
+            //         }
+            //     }
+            //     this.mywrite_item += list
+            // })
+
             // 사용자 외박 정보 가져오기
             UserInfoDataService.getSleepout(this.user.studentno).then(sleepooutData => {
                 let res = sleepooutData.data
@@ -329,30 +349,30 @@ export default {
                 let res = item.data
                 let list = [], studyIndex = 0
 
-                for (let i=0; i<res.length; i++) {
-                    if(res[i].studentNo==this.user.studentno){
+                for (let i = 0; i < res.length; i++) {
+                    if (res[i].studentNo == this.user.studentno) {
                         list.push({})
                         list[studyIndex].status = ''
-                        list[studyIndex].date = res[i].date.slice(0,10)
+                        list[studyIndex].date = res[i].date.slice(0, 10)
                         list[studyIndex].seat = res[i].seat
-                        if(res[i].timeslot1){
-                            if(res[i].timeslot1==1){
+                        if (res[i].timeslot1) {
+                            if (res[i].timeslot1 == 1) {
                                 list[studyIndex].status += "09:00-11:00"
-                            } else if(res[i].timeslot1==2){
+                            } else if (res[i].timeslot1 == 2) {
                                 list[studyIndex].status += "11:00-13:00"
-                            } else if(res[i].timeslot1==3){
+                            } else if (res[i].timeslot1 == 3) {
                                 list[studyIndex].status += "13:00-15:00"
-                            } else if(res[i].timeslot1==4){
+                            } else if (res[i].timeslot1 == 4) {
                                 list[studyIndex].status += "15:00-17:00"
-                            } else if(res[i].timeslot1==5){
+                            } else if (res[i].timeslot1 == 5) {
                                 list[studyIndex].status += "17:00-19:00"
-                            } else if(res[i].timeslot1==6){
+                            } else if (res[i].timeslot1 == 6) {
                                 list[studyIndex].status += "19:00-21:00"
-                            } else if(res[i].timeslot1==7){
+                            } else if (res[i].timeslot1 == 7) {
                                 list[studyIndex].status += "21:00-23:00"
                             }
-                        } if(res[i].timeslot2){
-                            if(res[i].timeslot3){
+                        } if (res[i].timeslot2) {
+                            if (res[i].timeslot3) {
                                 list[studyIndex].status += " 외 (2) 이용"
                             } else {
                                 list[studyIndex].status += " 외 (1) 이용"
@@ -371,19 +391,19 @@ export default {
                 let list = [], resindex = 0
 
                 for (let i = 0; i < res.length; i++) {
-                    if(this.user.studentno == res[i].studentNo){
-                        if(list.length==0){
+                    if (this.user.studentno == res[i].studentNo) {
+                        if (list.length == 0) {
                             list.push({})
                             list[resindex].topic = res[i].topic
-                            list[resindex].date = res[i].date.slice(0,10)
+                            list[resindex].date = res[i].date.slice(0, 10)
                             resindex++
                         } else {
-                            if(res[i].date==res[i-1].date && res[i].studentNo==res[i-1].studentNo){
+                            if (res[i].date == res[i - 1].date && res[i].studentNo == res[i - 1].studentNo) {
                                 continue
                             } else {
                                 list.push({})
                                 list[resindex].topic = res[i].topic
-                                list[resindex].date = res[i].date.slice(0,10)
+                                list[resindex].date = res[i].date.slice(0, 10)
                                 resindex++
                             }
                         }
@@ -445,7 +465,7 @@ export default {
         .profile {
             background-color: white;
             width: 31%;
-            height: 52%;
+            height: 360px;
             float: left;
             margin-bottom: 1%;
             box-shadow: 0px 0px 10px #bababa;
@@ -470,7 +490,7 @@ export default {
         .mywrite {
             background-color: #54AEAD;
             width: 67%;
-            height: 52%;
+            height: 360px;
             float: right;
             margin-bottom: 1%;
 
@@ -515,13 +535,13 @@ export default {
         .pointbox {
             background-color: #648DDD;
             width: 31%;
-            height: 55%;
+            height: 400px;
             float: left;
             margin-right: 2%;
 
             .point_box {
                 width: 95%;
-                height: 78%;
+                height: 80%;
 
                 .item {
                     display: flex;
@@ -561,17 +581,17 @@ export default {
         .reservation {
             background-color: #00B6AD;
             width: 33%;
-            height: 55%;
+            height: 400px;
             float: left;
             margin-right: 1%;
 
             .reservation_box {
                 width: 95%;
-                height: 78%;
+                height: 80%;
 
                 .reservation_minibox {
                     padding-top: 5px;
-                    height: 150px;
+                    height: 155px;
                     margin: 0 15px;
 
                     .reservationtitle {
@@ -600,17 +620,18 @@ export default {
 
                             .catetitle {
                                 display: flex;
+
                                 .date {
                                     color: #858585;
                                 }
 
-                                .seat{
+                                .seat {
                                     color: #222222;
                                     margin-left: 30px;
                                 }
                             }
 
-                            .use{
+                            .use {
                                 color: #222222;
                                 font-size: 14px;
                             }
@@ -646,12 +667,12 @@ export default {
         .night {
             background-color: #66C6C4;
             width: 33%;
-            height: 55%;
+            height: 400px;
             float: left;
 
             .night_box {
                 width: 95%;
-                height: 78%;
+                height: 80%;
 
                 .subtitle_container {
                     display: flex;

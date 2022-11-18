@@ -17,8 +17,8 @@ class NoticeDataService {
     return http.get(`/board-notice/my-notice`, studentNo);
   }
   
-  getMy1() {
-    return http.get(`/board-notice1/my-notice`);
+  getMy1(studentNo) {
+    return http.get(`/board-notice1/my-notice`, studentNo);
   }
 
   create(data) {

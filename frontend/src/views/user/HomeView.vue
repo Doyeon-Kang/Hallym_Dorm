@@ -10,7 +10,7 @@
           </div>
 
           <div class="item_list">
-            <div class="item" v-for="(item, index) in communityList" :key="index"
+            <div class="item" v-for="item in communityList_Data" :key="item"
               @click="$router.push({ path: this.$route.path + 'community/view', query: { no: item.no } })">
               <div class="title">[공지] {{ item.title }}</div>
               <div class="date">{{ item.date }}</div>
@@ -23,7 +23,7 @@
             <a href="/community/notice1">더보기 ></a>
           </div>
           <div class="item_list">
-            <div class="item" v-for="(item, index) in noticeList" :key="index"
+            <div class="item" v-for="item in noticeList_Data" :key="item"
               @click="$router.push({ path: this.$route.path + 'community/notice1/view', query: { no: item.no } })">
               <div class="title">[사생] {{ item.title }}</div>
               <div class="date">{{ item.date }}</div>
@@ -44,7 +44,7 @@
         <div class="shop_box">
           <div class="title">나눔장터</div>
           <div class="content">
-            <div class="item" v-for="(item, index) in marketList" :key="index"
+            <div class="item" v-for="item in marketList_Data" :key="item"
               @click="$router.push({ path: this.$route.path + 'community/market/view', query: { no: item.id } })">
               [나눔] {{ item.title }}
             </div>
@@ -65,7 +65,7 @@
         <div class="lost_box">
           <div class="title">분실물 게시판</div>
           <div class="content">
-            <div class="item" v-for="(item, index) in lostList" :key="index"
+            <div class="item" v-for="item in lostList_Data" :key="item"
               @click="$router.push({ path: this.$route.path + 'community/lost/view', query: { no: item.id } })">
               [분실물] {{ item.title }}
             </div>
@@ -211,7 +211,19 @@ export default {
     },
     user() {
       return this.$store.state.auth.user
-    }
+    },
+    communityList_Data() {
+            return this.communityList.slice(-5);
+        },
+        noticeList_Data() {
+            return this.noticeList.slice(-5);
+        },
+        marketList_Data() {
+            return this.marketList.slice(-3);
+        },
+        lostList_Data() {
+            return this.lostList.slice(-3);
+        },
   },
   watch: {
     loggedIn() {

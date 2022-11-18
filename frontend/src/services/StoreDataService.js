@@ -9,8 +9,8 @@ class StoreDataService {
     return http.get(`/board-store/${id}`);
   }
 
-  getMy() {
-    return http.get(`/board-store/my-store`);
+  getMy(studentNo) {
+    return http.get(`/board-store/my-store`, studentNo);
   }
 
   create(data) {

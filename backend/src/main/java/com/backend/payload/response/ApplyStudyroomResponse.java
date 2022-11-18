@@ -2,6 +2,8 @@ package com.backend.payload.response;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ApplyStudyroomResponse {
     private Long id;
 
@@ -43,6 +45,7 @@ public class ApplyStudyroomResponse {
         this.department = department;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime date;
 
     public LocalDateTime getDate() {

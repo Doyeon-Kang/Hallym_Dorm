@@ -8,6 +8,7 @@
             <div class="content_wrap">
                 <!-- 상담 및 면담신청 -->
                 <div v-if="$route.name === 'consult'" class='consult_container'>
+                    <!-- <div v-if="this.user_approved==true"> -->
                     <form action="">
                         <table class="consult_table">
                             <tr>
@@ -172,6 +173,8 @@
                             </tr>
                         </table>
                     </form>
+                    <!-- </div>
+                    <div v-else="alertMsg()"></div> -->
                 </div>
                 <!-- 스터디룸 예약 -->
                 <div v-else-if="$route.name === 'study'" class='study_container'>
@@ -678,6 +681,7 @@
 import SidebarCom from '@/components/SidebarCom.vue';
 import PageTitle from "@/components/PageTitle.vue";
 import UserService from '@/services/UserInfoDataService';
+import UserDataService from '@/services/UserDataService';
 import ApplyConsultDataService from "@/services/ApplyConsultDataService";
 import ApplyStudyroomDataService from "@/services/ApplyStudyroomDataService";
 import StudyroomScheduleGet from "@/services/StudyroomScheduleGet";
@@ -735,7 +739,7 @@ export default {
                 { time: "19:00~21:00", part:6, status: true, isActive: false },
                 { time: "21:00~23:00", part:7, status: true, isActive: false },
             ],
-            time_selected_cnt: 0,
+            time_selected_cnt: '',
             time_selected_limit: 3,
             time_selected_list: [],
             seat_no: 0,
@@ -751,6 +755,8 @@ export default {
             studyroom_status_list8: [],
             studyroom_status_list9: [],
             studyroom_status_list10: [],
+            sleepout_item: [],
+            // user_approved: false,
         }
     },
     components: { SidebarCom, PageTitle },
@@ -793,7 +799,7 @@ export default {
             }
         },
         myFilterSeat(index) {
-            for (const item in this.seat) {
+            for(const item in this.seat) {
                 this.seat[item].isActive = false;
             }
             this.seat[index].isActive = !this.seat[index].isActive;
@@ -806,7 +812,7 @@ export default {
                 this.timeslotList[index].isActive = false;
             } else {                                // 더하기
                 if(this.time_selected_cnt >= this.time_selected_limit) {
-                    alert("하루 최대 이용 시간은 6시간입니다.")
+                    alert("하루 최대 이용 시간을 초과했습니다!!")
                 } else {
                     this.time_selected_cnt++
                     this.time_selected_list.push(this.timeslotList[index].part)
@@ -814,63 +820,69 @@ export default {
                 }
             }
         },
+        alertMsg(){
+            alert("입사 신청을 먼저 해주세요!")
+        },
         // 상담 신청
         reserveConsult() {
-            let day, timeslot_value
+            let day, data
             if (this.mon_timeslot) {
                 day = "MON"
-                timeslot_value = this.mon_timeslot
-            } else if (this.tue_timeslot) {
+                data = {
+                    studentNo: this.user.studentno,
+                    dayOfWeek: day,
+                    timeslots: this.mon_timeslot,
+                    topic: this.consult_topic,
+                    subject: this.consult_subject
+                }
+                ApplyConsultDataService.create(data)
+            } if (this.tue_timeslot) {
                 day = "TUE"
-                timeslot_value = this.tue_timeslot
-            } else if (this.wed_timeslot) {
+                data = {
+                    studentNo: this.user.studentno,
+                    dayOfWeek: day,
+                    timeslots: this.tue_timeslot,
+                    topic: this.consult_topic,
+                    subject: this.consult_subject
+                }
+                ApplyConsultDataService.create(data)
+            } if (this.wed_timeslot) {
                 day = "WED"
-                timeslot_value = this.wed_timeslot
-            } else if (this.thu_timeslot) {
+                data = {
+                    studentNo: this.user.studentno,
+                    dayOfWeek: day,
+                    timeslots: this.wed_timeslot,
+                    topic: this.consult_topic,
+                    subject: this.consult_subject
+                }
+                ApplyConsultDataService.create(data)
+            } if (this.thu_timeslot) {
                 day = "THU"
-                timeslot_value = this.thu_timeslot
-            } else if (this.fri_timeslot) {
+                data = {
+                    studentNo: this.user.studentno,
+                    dayOfWeek: day,
+                    timeslots: this.thu_timeslot,
+                    topic: this.consult_topic,
+                    subject: this.consult_subject
+                }
+                ApplyConsultDataService.create(data)
+            } if (this.fri_timeslot) {
                 day = "FRI"
-                timeslot_value = this.fri_timeslot
+                data = {
+                    studentNo: this.user.studentno,
+                    dayOfWeek: day,
+                    timeslots: this.fri_timeslot,
+                    topic: this.consult_topic,
+                    subject: this.consult_subject
+                }
+                ApplyConsultDataService.create(data)
             }
-
-            let data = {
-                studentNo: this.user.studentno,
-                dayOfWeek: day,
-                timeslot: this.timeslot_value,
-                topic: this.consult_topic,
-                subject: this.consult_subject
-            }
-            ApplyConsultDataService.create(data)
             alert("신청 완료했습니다.");
             location.reload(true);
         },
         // 스터디룸 신청
         reserveStudyroom() {
-            let data
-            
-            // if(this.timeslot1){
-            //     if(this.timeslot2){
-            //         if(this.timeslot3){
-            //             data = {
-            //                 timeslot1: this.timeslot1,
-            //                 timeslot2: this.timeslot2,
-            //                 timeslot3: this.timeslot3
-            //             }
-            //         } else{
-            //             data = {
-            //                 timeslot1: this.timeslot1,
-            //                 timeslot2: this.timeslot2
-            //             }
-            //         }
-            //     } else{
-            //         data = {
-            //             timeslot1: this.timeslot1,
-            //         }
-            //     }
-            // }
-
-            data = {
+            let data = {
                 studentNo: this.user.studentno,
                 seatNo: this.seat_no,
                 timeslots: this.time_selected_list
@@ -924,26 +936,63 @@ export default {
         // 퇴사 신청
         reserveResign() {
             let data = {
+                studentNo: this.user.studentno,
                 res_date: this.res_date,
                 res_reason: this.res_reason
             }
-            ApplyResignDataService.create(this.user.studentno, data)
+            ApplyResignDataService.create(data)
             alert("신청 완료했습니다.");
             location.reload(true);
         },
         // 외박 신청
         reserveSleepout() {
-            let data = {
-                studentNo: this.user.studentno,
-                date_sleepout: this.date_sleepout,
-                reason: this.reason
+            let sameCnt = 0, lengthCnt = 0
+
+            //외박 신청한 날짜와 중복 여부
+            while(this.sleepout_item.length>lengthCnt){
+                if(this.sleepout_item[lengthCnt].outdate==this.date_sleepout){
+                    sameCnt++
+                }
+                lengthCnt++
             }
-            ApplySleepoutDataService.create(data)
-            alert("신청 완료했습니다.");
-            location.reload(true);
+
+            if(sameCnt>0){
+                alert("이미 신청한 날짜입니다!")
+            } else{
+                let data = {
+                    studentNo: this.user.studentno,
+                    date_sleepout: this.date_sleepout,
+                    reason: this.reason
+                }
+                ApplySleepoutDataService.create(data)
+                alert("신청 완료했습니다.");
+                location.reload(true);
+            }
         },
 
         init(){
+            // ApplyJoinDataService.get(this.user.id).then(item => {
+            //     let res = item.data
+
+            //     if(res.approved)
+            //         this.user_approved = res.approved
+            //     else
+            //         this.user_approved = false
+            // })
+            // UserDataService.getAll().then(item => {
+            //     let res = item.data
+            //     let userGet = {}
+                
+            //     for (let i=0; i<res.length; i++) {
+            //         userGet[i].id = res[i].id
+            //         userGet[i].studentno = res[i].studentno
+            //         userGet[i].name = res[i].name
+            //         userGet[i].email = res[i].email
+            //         userGet[i].roles = res[i].roles
+            //     }
+            // })
+
+            //사용자 정보 가져오기
             UserService.getInfo(this.user.studentno).then(item => {
                 let res = item.data
                 let getinfo = {}
@@ -969,6 +1018,31 @@ export default {
                 this.userinfo = getinfo
             })
 
+            //사용자 선택 좌석 개수 가져오기
+            ApplyStudyroomDataService.getAll().then(item => {
+                let res = item.data
+                let list = []
+
+                for (let i=0; i<res.length; i++) {
+                    if(res[i].studentNo==this.user.studentno){
+                        if(res[i].timeslot1){
+                            list.push(res[i].timeslot1)
+                        } if(res[i].timeslot2){
+                            list.push(res[i].timeslot2)
+                        } if(res[i].timeslot3){
+                            list.push(res[i].timeslot3)
+                        }
+                    }
+                }
+                
+                if(list.length>0){
+                    this.time_selected_cnt = list.length
+                } else {
+                    this.time_selected_cnt = 0
+                }
+            })
+
+            //현재 스터디룸 좌석 정보 가져오기
             StudyroomScheduleGet.getAll().then(item => {
                 let res = item.data
                 let list = []
@@ -1067,6 +1141,20 @@ export default {
                     }
                 }
                 this.studyschedulelist = list
+            })
+
+            UserService.getSleepout(this.user.studentno).then(sleepooutData => {
+                let res = sleepooutData.data
+                let list = []
+
+                for (let i=0; i<res.length; i++) {
+                    list.push({})
+                    list[i].no = res[i].id
+                    list[i].reason = res[i].reason
+                    list[i].outdate = res[i].date_sleepout
+                    list[i].approved = res[i].approved
+                }
+                this.sleepout_item = list
             })
         }
     },

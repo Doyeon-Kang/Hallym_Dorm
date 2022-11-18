@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper_list">
         <div class="top">
-            <span v-show="$route.name !== 'adminlife'">전체 사용자 {{this.listItem.length}}명</span>
+            <span v-show="$route.name !== 'adminlife'">Total: {{this.listItem.length}}</span>
             <span v-show="$route.name === 'adminlife'">선택한 일정 {{this.selectList.length}}개</span>
             <!-- <span>정렬
                 <button @click="sortName()" v-show="
@@ -273,7 +273,7 @@ export default {
         span {
             line-height: 20px;
             display: flex;
-            padding: 13px 0px 13px 40px;
+            padding: 13px 0px 13px 30px;
 
             button{
                 color: #fff;

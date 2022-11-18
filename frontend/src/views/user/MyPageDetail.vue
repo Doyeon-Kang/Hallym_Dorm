@@ -5,31 +5,12 @@
     </div>
     <div class="right_container">
       <PageTitle :title="title"></PageTitle>
-      <BoardList
-        v-if="$route.name === 'myassey'"
-        :listItem="asseyList"
-        :listTitle="asseyTitle"
-      ></BoardList>
-      <BoardList
-        v-else-if="$route.name === 'myconsulting'"
-        :listItem="consultList"
-        :listTitle="consultTitle"
-      ></BoardList>
-      <BoardList
-        v-else-if="$route.name === 'mystudy'"
-        :listItem="studyList"
-        :listTitle="studyTitle"
-      ></BoardList>
-      <BoardList
-        v-else-if="$route.name === 'mysleep'"
-        :listItem="sleepList"
-        :listTitle="sleepTitle"
-      ></BoardList>
-      <BoardList
-        v-else-if="$route.name === 'mypoint'"
-        :listItem="pointList"
-        :listTitle="pointTitle"
-      ></BoardList>
+      <BoardList v-if="$route.name === 'myassey'" :listItem="asseyList" :listTitle="asseyTitle"></BoardList>
+      <BoardList v-else-if="$route.name === 'myconsulting'" :listItem="consultList" :listTitle="consultTitle">
+      </BoardList>
+      <BoardList v-else-if="$route.name === 'mystudy'" :listItem="studyList" :listTitle="studyTitle"></BoardList>
+      <BoardList v-else-if="$route.name === 'mysleep'" :listItem="sleepList" :listTitle="sleepTitle"></BoardList>
+      <BoardList v-else-if="$route.name === 'mypoint'" :listItem="pointList" :listTitle="pointTitle"></BoardList>
     </div>
   </div>
 </template>
@@ -38,6 +19,7 @@
 import PageTitle from "@/components/PageTitle.vue";
 import SidebarCom from "../../components/SidebarCom.vue";
 import BoardList from "../../components/BoardList.vue";
+import UserInfoDataService from "@/services/UserInfoDataService";
 
 export default {
   data() {
@@ -122,7 +104,7 @@ export default {
       ],
       studyList: [{}],
       sleepTitle: ["번호", "글제목", "진행상태", "처리일자"],
-      sleepList: [{}],
+      sleepList: [],
       pointTitle: [
         "번호",
         "년도-학기",
@@ -142,6 +124,12 @@ export default {
   },
   created() {
     this.routeCheck();
+    this.init();
+  },
+  computed: {
+    user() {
+      return this.$store.state.auth.user;
+    },
   },
   methods: {
     routeCheck() {
@@ -171,6 +159,50 @@ export default {
         this.side[i].active = false;
       }
     },
+    init() {
+      UserInfoDataService.getInfo(this.user.studentno).then(item => {
+        let res = item.data
+        let getinfo = {}
+
+        getinfo.english_name = res.english_name
+        getinfo.chinese_name = res.chinese_name
+        getinfo.grade = res.grade
+        getinfo.gender = res.gender
+        getinfo.nationality = res.nationality
+        getinfo.department = res.department
+        getinfo.major = res.major
+        getinfo.student_status = res.student_status
+        getinfo.phone = res.phone
+        getinfo.address = res.address
+        getinfo.guardian_name = res.guardian_name
+        getinfo.guardian_relation = res.guardian_relation
+        getinfo.guardian_phone = res.guardian_phone
+        getinfo.landline = res.landline
+        getinfo.point = res.point
+        getinfo.res_fac = res.res_fac
+        getinfo.res_room = res.res_room
+
+        this.userinfo = getinfo
+      })
+
+      UserInfoDataService.getSleepout(this.user.studentno).then(sleepooutData => {
+        let res = sleepooutData.data
+        let list = []
+
+        for (let i = 0; i < res.length; i++) {
+          list.push({})
+          list[i].no = res[i].id
+          list[i].reason = res[i].reason
+          if (res[i].approved) {
+            list[i].approved = "승인 완료"
+          } else {
+            list[i].approved = "승인 중"
+          }
+        }
+        this.sleepList = list
+      })
+    }
+
   },
   watch: {
     $route() {
@@ -184,9 +216,11 @@ export default {
 .wrapper {
   margin: 100px 0 300px;
   display: flex;
+
   .left_container {
     width: 18%;
   }
+
   .right_container {
     width: 82%;
   }

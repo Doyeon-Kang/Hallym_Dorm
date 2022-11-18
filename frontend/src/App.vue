@@ -15,7 +15,8 @@
         $route.name !== 'adminconsulting' &&
         $route.name !== 'adminlife' &&
         $route.name !== 'adminlogout' && 
-        $route.name !== 'admindetail'
+        $route.name !== 'admindetail' && 
+        $route.name !== 'consultdetail'
       "></Navbar>
     </div>
     <div class="banner" v-show="$route.name === 'home'">
@@ -45,6 +46,7 @@
       $route.name !== 'adminconsulting' &&
       $route.name !== 'adminlife' &&
       $route.name !== 'admindetail' &&
+      $route.name !== 'consultdetail' &&
       $route.name !== 'adminlogout'
     "></div>
 
@@ -58,7 +60,8 @@
         this.$route.name === 'admininout' ||
         this.$route.name === 'adminconsulting' ||
         this.$route.name === 'adminlife' ||
-        this.$route.name === 'admindetail'">
+        this.$route.name === 'admindetail' ||
+        this.$route.name === 'consultdetail'">
       <router-view />
     </div>
 

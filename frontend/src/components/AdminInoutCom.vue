@@ -84,9 +84,6 @@
     
 <script>
 export default {
-    created() {
-        console.log('yeah', this.listItemin)
-    },
     data() {
         return {
             checkListin: [],

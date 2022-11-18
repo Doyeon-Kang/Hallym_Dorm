@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.User;
 import com.backend.model.UserMember;
 import com.backend.model.apply.ApplySleepout;
 import com.backend.payload.request.ApplySleepoutRequest;
-import com.backend.payload.request.BoardRequest;
 import com.backend.payload.response.ApplySleepoutResponse;
 import com.backend.repository.UserMemberRepository;
 import com.backend.repository.UserRepository;
@@ -92,9 +92,9 @@ public class ApplySleepoutController {
     }
 
     @GetMapping(path="/apply-sleepout/my-sleepout")
-    public ResponseEntity<List<ApplySleepoutResponse>> getMySleepout(@RequestBody BoardRequest boardRequest) {
+    public ResponseEntity<List<ApplySleepoutResponse>> getMySleepout(@RequestParam("studentNo") String studentNo) {
       try {
-        Optional<User> _userData = userRepository.findByStudentno(boardRequest.getStudentNo());
+        Optional<User> _userData = userRepository.findByStudentno(studentNo);
         if(_userData.isPresent()) {
           User _user = _userData.get();
           Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());

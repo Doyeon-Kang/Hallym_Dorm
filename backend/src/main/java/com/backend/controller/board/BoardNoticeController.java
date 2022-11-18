@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardNotice;
-import com.backend.payload.request.BoardRequest;
 import com.backend.repository.board.BoardNoticeRepository;
 
 @RestController
@@ -73,9 +73,9 @@ public class BoardNoticeController {
     }
 
     @GetMapping("/board-notice/my-notice")
-    public ResponseEntity<List<BoardNotice>> getMyBoardNotice (@RequestBody BoardRequest boardRequest) {
+    public ResponseEntity<List<BoardNotice>> getMyBoardNotice (@RequestParam("studentNo") String studentNo) {
       try{
-        List <BoardNotice> myNotices = boardNoticeRepository.findByWriterStudentNoAndNotice1False(boardRequest.getStudentNo());
+        List <BoardNotice> myNotices = boardNoticeRepository.findByWriterStudentNoAndNotice1False(studentNo);
 
         if(myNotices.isEmpty()){
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -87,9 +87,9 @@ public class BoardNoticeController {
     }
 
     @GetMapping("/board-notice1/my-notice")
-    public ResponseEntity<List<BoardNotice>> getMyBoardNotice1 (@RequestBody BoardRequest boardRequest) {
+    public ResponseEntity<List<BoardNotice>> getMyBoardNotice1 (@RequestParam("studentNo") String studentNo) {
       try{
-        List <BoardNotice> myNotices = boardNoticeRepository.findByWriterStudentNoAndNotice1True(boardRequest.getStudentNo());
+        List <BoardNotice> myNotices = boardNoticeRepository.findByWriterStudentNoAndNotice1True(studentNo);
 
         if(myNotices.isEmpty()){
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -99,7 +99,6 @@ public class BoardNoticeController {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }    
-
 
     @PostMapping("/board-notice")
     public ResponseEntity<BoardNotice> createBoardNotice(@RequestBody BoardNotice boardNotice) {

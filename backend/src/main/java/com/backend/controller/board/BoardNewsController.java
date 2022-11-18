@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardNews;
-import com.backend.payload.request.BoardRequest;
 import com.backend.repository.board.BoardNewsRepository;
 
 @RestController
@@ -57,9 +57,9 @@ public class BoardNewsController {
     }
 
     @GetMapping("/board-news/my-news")
-    public ResponseEntity<List<BoardNews>> getMyBoardNews (@RequestBody BoardRequest boardRequest) {
+    public ResponseEntity<List<BoardNews>> getMyBoardNews (@RequestParam("studentNo") String studentNo) {
       try{
-        List <BoardNews> myNewss = boardNewsRepository.findByWriterStudentNo(boardRequest.getStudentNo());
+        List <BoardNews> myNewss = boardNewsRepository.findByWriterStudentNo(studentNo);
 
         if(myNewss.isEmpty()){
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);

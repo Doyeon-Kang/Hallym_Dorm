@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardRepair;
-import com.backend.payload.request.BoardRequest;
 import com.backend.repository.board.BoardRepairRepository;
 
 @RestController
@@ -57,9 +57,9 @@ public class BoardRepairController {
     }
 
     @GetMapping("/board-repair/my-repair")
-    public ResponseEntity<List<BoardRepair>> getMyBoardRepair (@RequestBody BoardRequest boardRequest) {
+    public ResponseEntity<List<BoardRepair>> getMyBoardRepair (@RequestParam("studentNo") String studentNo) {
       try{
-        List <BoardRepair> myRepairs = boardRepairRepository.findByWriterStudentNo(boardRequest.getStudentNo());
+        List <BoardRepair> myRepairs = boardRepairRepository.findByWriterStudentNo(studentNo);
 
         if(myRepairs.isEmpty()){
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);

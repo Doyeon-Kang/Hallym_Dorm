@@ -11,21 +11,20 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.Point;
 import com.backend.model.User;
 import com.backend.model.UserMember;
-import com.backend.payload.request.BoardRequest;
 import com.backend.payload.request.PointRequest;
 import com.backend.payload.response.PointResponse;
 import com.backend.repository.PointRepository;
 import com.backend.repository.UserMemberRepository;
 import com.backend.repository.UserRepository;
 import com.backend.security.services.UserMemberManagement;
-
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(path="/api/point")
@@ -88,9 +87,9 @@ public class PointController {
     }
 
     @GetMapping(path="/my-point")
-    public ResponseEntity<List<PointResponse>> getMyPoints(@RequestBody BoardRequest boardRequest) {
+    public ResponseEntity<List<PointResponse>> getMyPoints(@RequestParam("studentNo") String studentNo) {
         try {
-            Optional<User> _userData = userRepository.findByStudentno(boardRequest.getStudentNo());
+            Optional<User> _userData = userRepository.findByStudentno(studentNo);
             if(_userData.isPresent()) {
                 User _user = _userData.get();
                 Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());

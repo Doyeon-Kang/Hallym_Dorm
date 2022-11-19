@@ -25,7 +25,7 @@
                     <div class="item" v-for="item in mywrite_Data" :key="item">
 
                         <div class="catetitle">
-                            <div class="category">{{ item.category }}</div>
+                            <div class="category">[{{ item.category }}]</div>
                             <div class="title">{{ item.title }}</div>
                         </div>
                         <div class="date">{{ item.date }}</div>
@@ -214,7 +214,7 @@ export default {
 
                 for (let i = 0; i < res.length; i++) {
                     list.push({})
-                    list[i].category = "[공지사항]"
+                    list[i].category = "공지사항"
                     list[i].no = res[i].id
                     list[i].title = res[i].title
                     list[i].date = res[i].date
@@ -232,7 +232,7 @@ export default {
 
                 for (let i = 0; i < res.length; i++) {
                     list.push({})
-                    list[i].category = "[사생자치회]"
+                    list[i].category = "사생자치회"
                     list[i].no = res[i].id
                     list[i].title = res[i].title
                     list[i].date = res[i].date
@@ -249,7 +249,7 @@ export default {
 
                 for (let i = 0; i < res.length; i++) {
                     list.push({})
-                    list[i].category = "[불편/수리]"
+                    list[i].category = "불편/수리"
                     list[i].no = res[i].id
                     list[i].title = res[i].title
                     list[i].date = res[i].date
@@ -266,7 +266,7 @@ export default {
 
                 for (let i = 0; i < res.length; i++) {
                     list.push({})
-                    list[i].category = "[나눔장터]"
+                    list[i].category = "나눔장터"
                     list[i].no = res[i].id
                     list[i].title = res[i].title
                     list[i].date = res[i].date
@@ -283,7 +283,7 @@ export default {
 
                 for (let i = 0; i < res.length; i++) {
                     list.push({})
-                    list[i].category = "[분실물]"
+                    list[i].category = "분실물"
                     list[i].no = res[i].id
                     list[i].title = res[i].title
                     list[i].date = res[i].date
@@ -311,50 +311,6 @@ export default {
                 }
 
                 this.point_item = list
-            })
-
-
-            // 사용자 외박 정보 가져오기
-            UserInfoDataService.getSleepout(this.user.studentno).then(sleepooutData => {
-                let res = sleepooutData.data
-                let list = []
-
-                for (let i = 0; i < res.length; i++) {
-                    list.push({})
-                    list[i].no = res[i].id
-                    list[i].reason = res[i].reason
-                    list[i].outdate = res[i].date_sleepout
-
-                    //들어올 날에 하루 더하기
-                    let sleepout_intdate = new Date(res[i].date_sleepout)
-                    let year = sleepout_intdate.getFullYear();
-                    let month = sleepout_intdate.getMonth() + 1;
-                    let day = sleepout_intdate.getDate() + 1;
-                    if (month == 12 && day > 31) {
-                        year = sleepout_intdate.getFullYear() + 1;
-                        month = 1;
-                        day = 1;
-                    } else {
-                        if (((month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) && day > 31) || (month == 4 || month == 6 || month == 9 || month == 11) && day > 30) {
-                            month = sleepout_intdate.getMonth() + 2;
-                            day = 1;
-                        } else {
-                            month = sleepout_intdate.getMonth() + 1;
-                            day = sleepout_intdate.getDate() + 1;
-                        }
-                    }
-                    if (month < 10) month = '0' + month;
-                    if (day < 10) day = '0' + day;
-
-                    list[i].indate = year + '-' + month + '-' + day
-
-                    if (res[i].approved) {
-                        list[i].approved = "승인 완료"
-                    } else {
-                        list[i].approved = "승인 대기"
-                    }
-                }
-                this.sleepout_item = list
             })
 
             //사용자 사용 중인 스터디룸 정보 가져오기
@@ -424,6 +380,49 @@ export default {
                     }
                 }
                 this.consult_item = list
+            })
+
+            // 사용자 외박 정보 가져오기
+            UserInfoDataService.getSleepout(this.user.studentno).then(sleepooutData => {
+                let res = sleepooutData.data
+                let list = []
+
+                for (let i = 0; i < res.length; i++) {
+                    list.push({})
+                    list[i].no = res[i].id
+                    list[i].reason = res[i].reason
+                    list[i].outdate = res[i].date_sleepout
+
+                    //들어올 날에 하루 더하기
+                    let sleepout_intdate = new Date(res[i].date_sleepout)
+                    let year = sleepout_intdate.getFullYear();
+                    let month = sleepout_intdate.getMonth() + 1;
+                    let day = sleepout_intdate.getDate() + 1;
+                    if (month == 12 && day > 31) {
+                        year = sleepout_intdate.getFullYear() + 1;
+                        month = 1;
+                        day = 1;
+                    } else {
+                        if (((month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) && day > 31) || (month == 4 || month == 6 || month == 9 || month == 11) && day > 30) {
+                            month = sleepout_intdate.getMonth() + 2;
+                            day = 1;
+                        } else {
+                            month = sleepout_intdate.getMonth() + 1;
+                            day = sleepout_intdate.getDate() + 1;
+                        }
+                    }
+                    if (month < 10) month = '0' + month;
+                    if (day < 10) day = '0' + day;
+
+                    list[i].indate = year + '-' + month + '-' + day
+
+                    if (res[i].approved) {
+                        list[i].approved = "승인 완료"
+                    } else {
+                        list[i].approved = "승인 대기"
+                    }
+                }
+                this.sleepout_item = list
             })
         }
     }

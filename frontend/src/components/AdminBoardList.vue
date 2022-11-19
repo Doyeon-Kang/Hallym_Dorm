@@ -58,16 +58,24 @@
                                 {{ text }}
                             </td>
                             <td v-show="$route.name === 'adminuser' ||
-                            $route.name === 'adminuseradd' ||
-                            $route.name === 'adminpoint' ||
-                            $route.name === 'adminpointadd'" @click="$router.push({
+                            $route.name === 'adminuseradd'" @click="$router.push({
                                 name: 'admindetail',
                                 query: { studentno: item.no, role: item.auth},
-                            })"><input v-show="item.auth !== 'ROLE_ADMIN'" type="button" value="자세히" /></td>
-                            <td v-show="$route.name === 'adminconsulting'"><input type="button" value="자세히" @click="$router.push({
-                                name: 'consultdetail',
-                                query: { id: item.id}
-                            })"/></td>
+                            })">
+                                <input v-show="item.auth !== 'ROLE_ADMIN'" type="button" value="자세히" />
+                            </td>
+                            <td v-show="$route.name === 'adminpoint'">
+                                <input type="button" value="자세히" @click="$router.push({
+                                    name: 'pointdetail',
+                                    query: { id: item.id}
+                                })"/>
+                            </td>
+                            <td v-show="$route.name === 'adminconsulting'">
+                                <input type="button" value="자세히" @click="$router.push({
+                                    name: 'consultdetail',
+                                    query: { id: item.id}
+                                })"/>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

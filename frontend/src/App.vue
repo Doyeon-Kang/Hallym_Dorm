@@ -17,7 +17,8 @@
         $route.name !== 'adminlogout' && 
         $route.name !== 'admindetail' && 
         $route.name !== 'consultdetail' && 
-        $route.name !== 'inoutdetail'
+        $route.name !== 'inoutdetail' && 
+        $route.name !== 'pointdetail'
       "></Navbar>
     </div>
     <div class="banner" v-show="$route.name === 'home'">
@@ -49,6 +50,7 @@
       $route.name !== 'admindetail' &&
       $route.name !== 'consultdetail' &&
       $route.name !== 'inoutdetail'&&
+      $route.name !== 'pointdetail'&&
       $route.name !== 'adminlogout'
     "></div>
 
@@ -64,7 +66,8 @@
         this.$route.name === 'adminlife' ||
         this.$route.name === 'admindetail' ||
         this.$route.name === 'consultdetail' || 
-        this.$route.name === 'inoutdetail'">
+        this.$route.name === 'inoutdetail' || 
+        this.$route.name === 'pointdetail'">
       <router-view />
     </div>
 

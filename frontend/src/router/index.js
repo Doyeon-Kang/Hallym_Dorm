@@ -83,6 +83,11 @@ const routes = [
     component: () => import("../views/admin/AdminPage.vue")
   },
   {
+    path: "/admin/point/detail",
+    name: "pointdetail",
+    component: () => import("../views/admin/AdminPage.vue"),
+  },
+  {
     path: "/admin/user/add",
     name: "adminuseradd",
     component: () => import("../views/admin/AdminPage.vue"),

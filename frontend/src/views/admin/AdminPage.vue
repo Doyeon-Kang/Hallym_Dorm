@@ -16,7 +16,7 @@
           @click="approveList(selectList)">{{ sleepApprove }}</button>
 
           <!--삭제 버튼-->
-          <button class="del" v-if="$route.name !== 'adminpoint' && this.$route.name !== 'adminpointadd' && this.$route.name !== 'adminuseradd' && this.$route.name !== 'admininout' && this.$route.name !== 'adminconsulting' && this.$route.name !== 'inoutdetail' && this.$route.name !== 'admindetail' && this.$route.name !== 'consultdetail'" @click="deleteUser(selectList)">삭제</button>
+          <button class="del" v-if="$route.name !== 'adminpoint' && this.$route.name !== 'adminpointadd' && this.$route.name !== 'adminuseradd' && this.$route.name !== 'admininout' && this.$route.name !== 'adminconsulting' && this.$route.name !== 'inoutdetail' && this.$route.name !== 'admindetail' && this.$route.name !== 'consultdetail' && this.$route.name !== 'pointdetail'" @click="deleteUser(selectList)">삭제</button>
           <button class="del" v-else-if="$route.name === 'adminconsulting'">삭제</button>
           <button class="del" v-else-if="$route.name === 'admininout' && this.selectListIn.length !== 0" @click="deleteIn(selectListIn)">삭제</button>
           <button class="del" v-else-if="$route.name === 'admininout' && this.selectListOut.length !== 0" @click="deleteOut(selectListOut)">삭제</button>
@@ -29,7 +29,7 @@
       <Addbox v-else-if="this.$route.name === 'adminpointadd'" :con_title="point_con_title" :listTitle="pointTitle"></Addbox>
       <Addbox v-else-if="this.$route.name === 'adminlife'" :con_title="life_con_title" :listTitle="lifeTitle"></Addbox>
 
-      <AdminDetailBox v-if="this.$route.name === 'admindetail' || this.$route.name === 'consultdetail' || this.$route.name === 'inoutdetail'"></AdminDetailBox>
+      <AdminDetailBox v-if="this.$route.name === 'admindetail' || this.$route.name === 'pointdetail'  || this.$route.name === 'consultdetail' || this.$route.name === 'inoutdetail'"></AdminDetailBox>
       
       <!-- 리스트 컴포넌트 -->
       <BoardList v-if="this.$route.name === 'adminuser'" :listItem="userList" :listTitle="userTitle" @setList="setList" :key="componentKey">

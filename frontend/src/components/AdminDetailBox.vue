@@ -14,6 +14,20 @@
                 </div>
             </div>
         </div>
+        <!--상벌점 내역 자세히-->
+        <div v-else-if="$route.path === '/admin/point/detail'" class="con_box">
+            <div class="con_box_cont">
+                <div class="con_title">상벌점 내역</div>
+                <div class="container out">
+                    <table>
+                        <tr v-for="(info, index) in point" :key="index">
+                            <th>{{ index }}</th>
+                            <td>{{ info }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
         <!--상담 신청 현황 자세히-->
         <div v-else-if="$route.path === '/admin/consulting/detail'" class="con_box">
             <div class="con_box_cont">
@@ -50,6 +64,7 @@
     
     <script>
     import UserInfoDataService from "@/services/UserInfoDataService"
+    import UserPointDataService from "@/services/UserPointDataService";
     import ApplyConsultDataService from "@/services/ApplyConsultDataService"
     import ApplyJoinDataService from "@/services/ApplyJoinDataService";
     import ApplyResignDataService from "@/services/ApplyResignDataService";
@@ -64,6 +79,7 @@
                 id: "",
                 status: true,
                 user: {},
+                point: {},
                 consult: {},
                 inout: {}
             }
@@ -80,10 +96,16 @@
                     this.status = false
                 }
             },
-            consultInit() {
-                ApplyConsultDataService.get(this.id).then(data => {
+            pointInit() {
+                UserPointDataService.get(this.id).then(data => {
                     console.log(data)
                     console.log('id', this.id)
+                    let res = data.data
+                    this.point = res
+                })
+            },
+            consultInit() {
+                ApplyConsultDataService.get(this.id).then(data => {
                     let res = data.data
                     this.consult = res
                 })
@@ -103,10 +125,14 @@
             }
         },  
         created() {
+            console.log(this.$route.name)
             if(this.$route.name === 'admindetail') {
                 this.studentno = this.$route.query.studentno
                 this.role = this.$route.query.role
                 this.userInit()
+            } else if(this.$route.name === 'pointdetail') {
+                this.id = this.$route.query.id
+                this.pointInit()
             } else if(this.$route.name === 'consultdetail') {
                 this.id = this.$route.query.id
                 this.consultInit()
@@ -144,7 +170,7 @@
                 }
                 &.out {
                     padding: 100px 70px;
-                    margin-bottom: 700px;
+                    margin-bottom: 250px;
                 }
                 &.consult {
                     padding: 100px 70px;

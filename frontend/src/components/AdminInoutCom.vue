@@ -147,7 +147,6 @@ export default {
     mounted() {
         if (this.listItemin) this.checkListin = this.listItemin.map(item => item.no);
         if (this.listItemout) this.checkListout = this.listItemout.map(item => item.no);
-        console.log('item',this.listSearchin)
     },
     methods: {
         async approveJoin(list) {
@@ -158,7 +157,6 @@ export default {
             } else {
                 for(let i=0; i<list.length; i++) {
                     await ApplyJoinDataService.updateApprove(list[i]).then(res => {
-                        console.log(res)
                         ++cnt
                     })
                 }
@@ -178,7 +176,6 @@ export default {
             } else {
                 for(let i=0; i<list.length; i++) {
                     await ApplyResignDataService.updateApprove(list[i]).then(res => {
-                        console.log(res)
                         cnt++
                     })
                 }

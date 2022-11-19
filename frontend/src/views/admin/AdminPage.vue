@@ -34,15 +34,12 @@
       <!-- 리스트 컴포넌트 -->
       <BoardList v-if="this.$route.name === 'adminuser'" :listItem="userList" :listTitle="userTitle" @setList="setList" :key="componentKey">
       </BoardList>
-      <BoardList v-else-if="$route.name === 'adminstudy'" :listItem="studyList" :listTitle="studyTitle"
-      @setList="setList" :key="componentKey1">
-      </BoardList>
+      <BoardList v-else-if="$route.name === 'admin'" :listItem="studyList" :listTitle="studyTitle"
+      @setList="setList" :key="0"></BoardList>
       <MiniBoardList v-if="this.$route.name === 'adminuseradd'" :listItem="userList" :listTitle="userTitle" :key="componentKey">
       </MiniBoardList>
-      <BoardList v-else-if="this.$route.name === 'adminpoint'" :listItem="pointList" :listTitle="pointTitle" @setList="setList" >
+      <BoardList v-else-if="this.$route.name === 'adminstudy'" :listItem="studyList" :listTitle="studyTitle" @setList="setList" :key="componentKey1">
       </BoardList>
-      <MiniBoardList v-if="this.$route.name === 'adminpointadd'" :listItem="pointList" :listTitle="pointTitle" >
-      </MiniBoardList>
       <BoardList v-else-if="$route.name === 'adminsleep'" :listItem="sleepList" :listTitle="sleepTitle"
       @setList="setList" :key="componentKey2" >
       </BoardList>
@@ -51,6 +48,10 @@
       </BoardList>
       <MiniBoardList v-else-if="$route.name === 'adminlife'" :listItem="lifeList" :listTitle="lifeTitle"
         :totallife="totallife">
+      </MiniBoardList>
+      <BoardList v-else-if="this.$route.name === 'adminpoint'" :listItem="pointList" :listTitle="pointTitle" @setList="setList" :key="componentKey6">
+      </BoardList>
+      <MiniBoardList v-if="this.$route.name === 'adminpointadd'" :listItem="pointList" :listTitle="pointTitle" >
       </MiniBoardList>
       <InoutCom v-show="$route.name === 'admininout'" :listItemin="joinList" :listTitlein="inTitle" :listItemout="outList" :listTitleout="outTitle"
         :title_in="title_in" :title_out="title_out" :key="componentKey4" @setListIn="setListIn" @setListOut="setListOut">
@@ -74,6 +75,7 @@ import ApplyJoinDataService from "@/services/ApplyJoinDataService";
 import ApplyResignDataService from "@/services/ApplyResignDataService";
 import ApplyConsultDataService from "@/services/ApplyConsultDataService";
 import UserInfoDataService from "@/services/UserInfoDataService";
+import UserPointDataService from "@/services/UserPointDataService";
 import InoutCom from "../../components/AdminInoutCom.vue";
 
 export default {
@@ -98,6 +100,7 @@ export default {
       componentKey3: 0,
       componentKey4: 0,
       componentKey5: 0,
+      componentKey6: 0,
       userManagement: "사용자 추가",
       useradd: "생성",
 
@@ -115,17 +118,8 @@ export default {
       userTitle: ["번호", "학번", "이름", "소속학과", "거주 기숙사", "사용자 권한"],
       userList: [],
 
-      pointTitle: ["학번", "이름", "소속학과", "상벌점", "상벌점 추가내역", "거주 기숙사"],
-      pointList: [
-        // {
-        //   no: "20201234",
-        //   name: "홍길동",
-        //   dep: "전자공학과",
-        //   point: "5",
-        //   addpoint: "-",
-        //   live: "2관",
-        // }
-      ],
+      pointTitle: ["번호", "학번", "이름", "소속학과", "상벌점 추가내역"],
+      pointList: [],
 
       studyTitle: ["번호", "학번", "이름", "소속학과", "예약날짜", "예약시간", "선택좌석"],
       studyList: [],
@@ -373,6 +367,27 @@ export default {
         }
         this.studyList = list
         this.componentKey1 += 1
+      })
+      await UserPointDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].id = res[i].id
+          list[i].no = res[i].studentNo
+          list[i].name = res[i].name
+          list[i].dep = res[i].department
+
+          if(res[i].plusPoint !== 0) {
+            list[i].addpoint = res[i].plusPoint
+          } else {
+            list[i].addpoint = res[i].minusPoint * (-1)
+          }
+          this.componentKey6 += 1
+        }
+        this.pointList = list
+        this.componentKey6 += 1
       })
       await ApplySleepoutDataService.getAll().then(resolveData => {
         let res = resolveData.data

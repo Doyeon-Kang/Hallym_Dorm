@@ -158,6 +158,7 @@ export default {
                 for(let i=0; i<list.length; i++) {
                     await ApplyJoinDataService.updateApprove(list[i]).then(res => {
                         ++cnt
+                        console.log(res)
                     })
                 }
                 if(cnt === 0) {
@@ -177,6 +178,7 @@ export default {
                 for(let i=0; i<list.length; i++) {
                     await ApplyResignDataService.updateApprove(list[i]).then(res => {
                         cnt++
+                        console.log(res)
                     })
                 }
                 if(cnt === 0) {

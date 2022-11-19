@@ -17,7 +17,7 @@
 
           <!--삭제 버튼-->
           <button class="del" v-if="$route.name !== 'adminpoint' && this.$route.name !== 'adminpointadd' && this.$route.name !== 'adminuseradd' && this.$route.name !== 'admininout' && this.$route.name !== 'adminconsulting' && this.$route.name !== 'inoutdetail' && this.$route.name !== 'admindetail' && this.$route.name !== 'consultdetail' && this.$route.name !== 'pointdetail'" @click="deleteUser(selectList)">삭제</button>
-          <button class="del" v-else-if="$route.name === 'adminconsulting'">삭제</button>
+          <button class="del" v-else-if="$route.name === 'adminconsulting'" @click="deleteConsult(selectList)">삭제</button>
           <button class="del" v-else-if="$route.name === 'admininout' && this.selectListIn.length !== 0" @click="deleteIn(selectListIn)">삭제</button>
           <button class="del" v-else-if="$route.name === 'admininout' && this.selectListOut.length !== 0" @click="deleteOut(selectListOut)">삭제</button>
           <button class="del" v-if="$route.name === 'admininout' && this.selectListIn.length === 0 && this.selectListOut.length === 0">삭제</button>
@@ -179,6 +179,7 @@ export default {
   methods: {
     setList(data) {
       this.selectList = data
+      console.log(this.selectList)
     },
     setListIn(data) {
       this.selectListIn = data
@@ -244,6 +245,19 @@ export default {
       } else { // 리스트 행 있는 경우 
         for (let i=0; i<list.length; i++) {
           ApplyResignDataService.delete(list[i]).then(res => {    
+                console.log(res)
+          })
+        }
+        alert('삭제 완료되었습니다.')
+        window.location.reload(true)
+      }
+    },
+    deleteConsult(list) {
+      if (list.length == 0) { // 리스트 행 없을 경우
+        alert("삭제할 리스트 행을 선택해주세요.")
+      } else { // 리스트 행 있는 경우 
+        for (let i=0; i<list.length; i++) {
+          ApplyConsultDataService.delete(list[i].id).then(res => {    
                 console.log(res)
           })
         }

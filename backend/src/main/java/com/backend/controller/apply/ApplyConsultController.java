@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.User;
@@ -90,6 +91,42 @@ public class ApplyConsultController {
         return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
+    }
+
+    @GetMapping("/apply-consult/my-consult")
+    public ResponseEntity<List<ApplyConsultResponse>> getAllConsultTimes(@RequestParam("studentNo") String studentNo) {
+      try {
+        Optional<User> _userData = userRepository.findByStudentno(studentNo);
+        if(_userData.isPresent()) {
+          User _user = _userData.get();
+          Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+          if(_userMemberData.isPresent()) {
+            UserMember _userMember = _userMemberData.get(); 
+            List<ApplyConsult> consults = applyConsultRepository.findAllByUserMemberId(_userMember.getId());
+            if(consults.isEmpty()) {
+              return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+              List<ApplyConsultResponse> consultResponses = new ArrayList<ApplyConsultResponse>();
+              consults.forEach(_applyConsult -> {
+                consultResponses.add(new ApplyConsultResponse(_applyConsult.getId(), _user.getStudentno(),
+                              _user.getName(), _userMember.getDepartment(), _applyConsult.getDay_of_week(),
+                              _applyConsult.isTimeslot1_okay(), _applyConsult.isTimeslot2_okay(), _applyConsult.isTimeslot3_okay(),
+                              _applyConsult.isTimeslot4_okay(), _applyConsult.isTimeslot5_okay(), _applyConsult.isTimeslot6_okay(),
+                              _applyConsult.isTimeslot7_okay(), _applyConsult.isTimeslot8_okay(), _applyConsult.getTopic(), 
+                              _applyConsult.getSubject(), _applyConsult.getDate()));
+              });
+              return new ResponseEntity<List<ApplyConsultResponse>>(consultResponses, HttpStatus.OK);
+            }
+          } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+          }
+        } else {
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
 

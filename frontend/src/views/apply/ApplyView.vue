@@ -814,7 +814,7 @@ export default {
                 this.timeslotList[index].isActive = false;
             } else {                                // 더하기
                 if(this.time_selected_cnt >= this.time_selected_limit) {
-                    alert("하루 최대 이용 시간을 초과했습니다!!")
+                    alert("하루 최대 이용 시간을 초과했습니다!")
                 } else {
                     this.time_selected_cnt++
                     this.time_selected_list.push(this.timeslotList[index].part)

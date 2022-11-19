@@ -33,7 +33,10 @@
                             <td v-for="(text, index) in objectKey(item)" :key="index">
                                 {{ text }}
                             </td>
-                            <td><input type="button" value="자세히" /></td>
+                            <td><input type="button" value="자세히" @click="$router.push({
+                                name: 'inoutdetail',
+                                query: { id: item.id, category: 'in'}
+                            })"/></td>
                         </tr>
                     </tbody>
                 </table>
@@ -72,7 +75,10 @@
                             <td v-for="(text, index) in objectKey(item)" :key="index">
                                 {{ text }}
                             </td>
-                            <td><input type="button" value="자세히" /></td>
+                            <td><input type="button" value="자세히" @click="$router.push({
+                                name: 'inoutdetail',
+                                query: { id: item.id, category: 'out'}
+                            })"/></td>
                         </tr>
                     </tbody>
                 </table>
@@ -141,6 +147,7 @@ export default {
     mounted() {
         if (this.listItemin) this.checkListin = this.listItemin.map(item => item.no);
         if (this.listItemout) this.checkListout = this.listItemout.map(item => item.no);
+        console.log('item',this.listSearchin)
     },
     methods: {
         async approveJoin(list) {

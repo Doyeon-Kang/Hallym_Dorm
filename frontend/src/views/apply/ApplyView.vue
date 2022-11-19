@@ -744,7 +744,7 @@ export default {
             time_selected_cnt: '',
             time_selected_limit: 3,
             time_selected_list: [],
-            seat_no: 0,
+            seat_no: 1,
             userinfo: {},
             studyschedulelist: [],
             studyroom_status_list1: [],

@@ -25,7 +25,7 @@
                     <div class="item" v-for="item in mywrite_Data" :key="item">
 
                         <div class="catetitle">
-                            <!-- <div class="category">{{ item.category }}</div> -->
+                            <div class="category">{{ item.category }}</div>
                             <div class="title">{{ item.title }}</div>
                         </div>
                         <div class="date">{{ item.date }}</div>
@@ -46,7 +46,8 @@
                     <div class="item" v-for="item in point_Data" :key="item">
 
                         <div class="catetitle">
-                            <div class="point">{{ item.point }}</div>
+                            <div v-if="item.point>0" class="point pluspoint">{{ item.point }}점</div>
+                            <div v-else class="point minuspoint">{{ item.point }}점</div>
                             <div class="title">{{ item.title }}</div>
                         </div>
                         <div class="date">{{ item.date }}</div>
@@ -126,6 +127,7 @@
 
 <script>
 import UserInfoDataService from "@/services/UserInfoDataService";
+import UserPointDataService from "@/services/UserPointDataService";
 import NoticeDataService from "@/services/NoticeDataService";
 import RepairDataService from "@/services/RepairDataService";
 import StoreDataService from "@/services/StoreDataService";
@@ -138,43 +140,7 @@ export default {
     data() {
         return {
             mywrite_item: [],
-            point_item: [
-                {
-                    point: "+3",
-                    title: "프로그램 참가",
-                    date: "2022.07.21",
-                },
-                {
-                    point: "-2",
-                    title: "무단 외박",
-                    date: "2022.07.01",
-                },
-                {
-                    point: "+2",
-                    title: "프로그램 참가",
-                    date: "2022.05.21",
-                },
-                {
-                    point: "+3",
-                    title: "프로그램 참가",
-                    date: "2022.05.10",
-                },
-                {
-                    point: "+3",
-                    title: "프로그램 참가",
-                    date: "2022.05.10",
-                },
-                {
-                    point: "+3",
-                    title: "프로그램 참가",
-                    date: "2022.05.10",
-                },
-                {
-                    point: "+3",
-                    title: "프로그램 참가",
-                    date: "2022.05.10",
-                },
-            ],
+            point_item: [],
             studyroom_item: [],
             consult_item: [],
             sleepout_item: [],
@@ -242,81 +208,111 @@ export default {
             })
 
             // 공지사항
-            NoticeDataService.getMy(this.user.studentno).then(resolveData => {
-                let res = resolveData.data
+            NoticeDataService.getMy(this.user.studentno).then(item => {
+                let res = item.data
                 let list = []
 
                 for (let i = 0; i < res.length; i++) {
-                    if(this.user.studentno == res[i].writerStudentNo){
-                        list.push({})
-                        list[i].no = res[i].id
-                        list[i].title = res[i].title
-                        list[i].date = res[i].date
-                    }
+                    list.push({})
+                    list[i].category = "[공지사항]"
+                    list[i].no = res[i].id
+                    list[i].title = res[i].title
+                    list[i].date = res[i].date
                 }
-                this.mywrite_item += list
+
+                for (let i = 0; i < list.length; i++) {
+                    this.mywrite_item.push(list[i])
+                }
             })
-            
+
             // 사생자치회
-            NoticeDataService.getMy1(this.user.studentno).then(resolveData => {
-                let res = resolveData.data
+            NoticeDataService.getMy1(this.user.studentno).then(item => {
+                let res = item.data
                 let list = []
 
                 for (let i = 0; i < res.length; i++) {
-                    if(this.user.studentno == res[i].writerStudentNo){
-                        list.push({})
-                        list[i].no = res[i].id
-                        list[i].title = res[i].title
-                        list[i].date = res[i].date
-                    }
+                    list.push({})
+                    list[i].category = "[사생자치회]"
+                    list[i].no = res[i].id
+                    list[i].title = res[i].title
+                    list[i].date = res[i].date
                 }
-                this.mywrite_item += list
+
+                for (let i = 0; i < list.length; i++) {
+                    this.mywrite_item.push(list[i])
+                }
             })
             // 불편/수리
-            RepairDataService.getMy(this.user.studentno).then(resolveData => {
-                let res = resolveData.data
+            RepairDataService.getMy(this.user.studentno).then(item => {
+                let res = item.data
                 let list = []
 
                 for (let i = 0; i < res.length; i++) {
-                    if(this.user.studentno == res[i].writerStudentNo){
-                        list.push({})
-                        list[i].no = res[i].id
-                        list[i].title = res[i].title
-                        list[i].date = res[i].date
-                    }
+                    list.push({})
+                    list[i].category = "[불편/수리]"
+                    list[i].no = res[i].id
+                    list[i].title = res[i].title
+                    list[i].date = res[i].date
                 }
-                this.mywrite_item += list
+
+                for (let i = 0; i < list.length; i++) {
+                    this.mywrite_item.push(list[i])
+                }
             })
             // 나눔장터
-            StoreDataService.getMy(this.user.studentno).then(resolveData => {
-                let res = resolveData.data
+            StoreDataService.getMy(this.user.studentno).then(item => {
+                let res = item.data
                 let list = []
 
                 for (let i = 0; i < res.length; i++) {
-                    if(this.user.studentno == res[i].writerStudentNo){
-                        list.push({})
-                        list[i].no = res[i].id
-                        list[i].title = res[i].title
-                        list[i].date = res[i].date
-                    }
+                    list.push({})
+                    list[i].category = "[나눔장터]"
+                    list[i].no = res[i].id
+                    list[i].title = res[i].title
+                    list[i].date = res[i].date
                 }
-                this.mywrite_item += list
+
+                for (let i = 0; i < list.length; i++) {
+                    this.mywrite_item.push(list[i])
+                }
             })
             // 분실물
-            LostDataService.getMy(this.user.studentno).then(resolveData => {
-                let res = resolveData.data
+            LostDataService.getMy(this.user.studentno).then(item => {
+                let res = item.data
                 let list = []
 
                 for (let i = 0; i < res.length; i++) {
-                    if(this.user.studentno == res[i].writerStudentNo){
-                        list.push({})
-                        list[i].no = res[i].id
-                        list[i].title = res[i].title
-                        list[i].date = res[i].date
-                    }
+                    list.push({})
+                    list[i].category = "[분실물]"
+                    list[i].no = res[i].id
+                    list[i].title = res[i].title
+                    list[i].date = res[i].date
                 }
-                this.mywrite_item += list
+
+                for (let i = 0; i < list.length; i++) {
+                    this.mywrite_item.push(list[i])
+                }
             })
+
+            // 사용자 상벌점 가죠오기
+            UserPointDataService.getAll().then(item => {
+                let res = item.data
+                let list = []
+
+                for (let i = 0; i < res.length; i++) {
+                    list.push({})
+                    if (res[i].plusPoint > 0) {
+                        list[i].point = res[i].plusPoint
+                    } else if (res[i].minusPoint > 0) {
+                        list[i].point = res[i].minusPoint * -1
+                    }
+                    list[i].title = res[i].reason
+                    list[i].date = res[i].date
+                }
+
+                this.point_item = list
+            })
+
 
             // 사용자 외박 정보 가져오기
             UserInfoDataService.getSleepout(this.user.studentno).then(sleepooutData => {
@@ -388,8 +384,8 @@ export default {
                             } else if (res[i].timeslot1 == 7) {
                                 list[studyIndex].status += "21:00-23:00"
                             }
-                        } if(res[i].timeslot2){
-                            if(res[i].timeslot3){
+                        } if (res[i].timeslot2) {
+                            if (res[i].timeslot3) {
                                 list[studyIndex].status += " 외 2건"
                             } else {
                                 list[studyIndex].status += " 외 1건"
@@ -407,7 +403,7 @@ export default {
                 let res = consultData.data
                 let list = [], resindex = 0
 
-                for (let i = 0; i < res.length; i+=5) {
+                for (let i = 0; i < res.length; i += 5) {
                     if (this.user.studentno == res[i].studentNo) {
                         if (list.length == 0) {
                             list.push({})
@@ -416,7 +412,7 @@ export default {
                             resindex++
                         } else {
                             if (res[i].date == res[i - 1].date && res[i].studentNo == res[i - 1].studentNo
-                            && res[i].topic == res[i - 1].topic && res[i].subject == res[i - 1].subject) {
+                                && res[i].topic == res[i - 1].topic && res[i].subject == res[i - 1].subject) {
                                 continue
                             } else {
                                 list.push({})
@@ -571,15 +567,19 @@ export default {
                         display: flex;
 
                         .point {
+                            width: 30px;
                             padding: 2px 10px;
+                            text-align: center;
                             color: white;
-                            background-color: #648DDD;
-                            border-radius: 10px;
+                            border-radius: 20px;
+                            margin-left: 5px;
                         }
 
-                        .point {
-                            color: white;
-                            margin-left: 5px;
+                        .pluspoint{
+                            background-color: #648DDD;
+                        }
+                        .minuspoint{
+                            background-color: #DD6464;
                         }
 
                         .title {

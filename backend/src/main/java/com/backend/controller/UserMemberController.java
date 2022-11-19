@@ -18,6 +18,7 @@ import com.backend.model.apply.ApplySleepout;
 import com.backend.repository.UserMemberRepository;
 import com.backend.repository.UserRepository;
 import com.backend.repository.apply.ApplySleepoutRepository;
+import com.backend.security.services.UserMemberManagement;
 
 @RestController
 @RequestMapping("/api/user-member")
@@ -30,6 +31,9 @@ public class UserMemberController {
     
     @Autowired
     ApplySleepoutRepository applySleepoutRepository;
+
+    @Autowired
+    UserMemberManagement userMemberManagement;
 
     @GetMapping(path="/info")
     public ResponseEntity<List<UserMember>> getAllUserMember() {
@@ -53,9 +57,13 @@ public class UserMemberController {
         Optional<User> _userData = userRepository.findByStudentno(studentNo);
         if(_userData.isPresent()) {
             User _user = _userData.get();
-            Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
-            if(_userMemberData.isPresent()) {
-                return new ResponseEntity<>(_userMemberData.get(), HttpStatus.OK);
+            if(userMemberManagement.userMemberExists(_user)) {
+                Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+                if(_userMemberData.isPresent()) {
+                    return new ResponseEntity<>(_userMemberData.get(), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                }
             } else {
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             }

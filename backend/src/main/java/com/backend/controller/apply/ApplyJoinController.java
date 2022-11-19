@@ -22,6 +22,7 @@ import com.backend.payload.request.ApplyJoinRequest;
 import com.backend.payload.response.ApplyJoinResponse;
 import com.backend.repository.UserRepository;
 import com.backend.repository.apply.ApplyJoinRepository;
+import com.backend.security.services.UserMemberManagement;
 
 @RestController
 @RequestMapping(path="/api")
@@ -31,6 +32,9 @@ public class ApplyJoinController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserMemberManagement userMemberManagement;
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path="/apply-join")
@@ -166,6 +170,8 @@ public class ApplyJoinController {
         applyJoinRepository.save(_applyJoin);
 
         User _user = _applyJoin.getUser();
+        userMemberManagement.userMemberExists(_user);
+        
         ApplyJoinResponse response = new ApplyJoinResponse(_applyJoin.getId(), _user.getStudentno(), _user.getName(), 
                                                 _applyJoin.getDepartment(), _applyJoin.getEnglish_name(), _applyJoin.getChinese_name(), 
                                                 _applyJoin.getGrade(), _applyJoin.getGender(), _applyJoin.getNationality(), 
@@ -193,6 +199,8 @@ public class ApplyJoinController {
         applyJoinRepository.save(_applyJoin);
 
         User _user = _applyJoin.getUser();
+        userMemberManagement.userMemberExists(_user);
+
         ApplyJoinResponse response = new ApplyJoinResponse(_applyJoin.getId(), _user.getStudentno(), _user.getName(), 
                                                 _applyJoin.getDepartment(), _applyJoin.getEnglish_name(), _applyJoin.getChinese_name(), 
                                                 _applyJoin.getGrade(), _applyJoin.getGender(), _applyJoin.getNationality(), 

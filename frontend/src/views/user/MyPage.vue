@@ -388,11 +388,11 @@ export default {
                             } else if (res[i].timeslot1 == 7) {
                                 list[studyIndex].status += "21:00-23:00"
                             }
-                        } if (res[i].timeslot2) {
-                            if (res[i].timeslot3) {
-                                list[studyIndex].status += " 외 (2) 이용"
+                        } if(res[i].timeslot2){
+                            if(res[i].timeslot3){
+                                list[studyIndex].status += " 외 2건"
                             } else {
-                                list[studyIndex].status += " 외 (1) 이용"
+                                list[studyIndex].status += " 외 1건"
                             }
                         }
                         studyIndex++

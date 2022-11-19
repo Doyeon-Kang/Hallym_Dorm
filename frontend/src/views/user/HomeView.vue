@@ -330,21 +330,21 @@ export default {
           let res = sleepooutData.data
           let list = []
 
-          for (let i = 0; i < res.length; i++) {
-            list.push({})
-            list[i].no = res[i].id
-            list[i].reason = res[i].reason
-            list[i].outdate = res[i].date_sleepout
-            list[i].date = res[i].date
-            if (res[i].approved) {
-              list[i].approved = "승인 완료"
-            } else {
-              list[i].approved = "승인 중"
-            }
+        for (let i = 0; i < res.length; i++) {
+          list.push({})
+          list[i].no = res[i].id
+          list[i].reason = res[i].reason
+          list[i].outdate = res[i].date_sleepout
+          list[i].date = res[i].date
+          if (res[i].approved) {
+            list[i].approved = "승인 완료"
+          } else {
+            list[i].approved = "승인 대기"
           }
-
-          this.lastSleepout = list[res.length - 1].date
-        })
+        }
+        
+        this.lastSleepout = list[res.length - 1].date
+      })
 
         // 사용자 상담 정보 가져오기
         ApplyConsultDataService.getAll().then(consultData => {

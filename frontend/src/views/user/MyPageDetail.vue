@@ -242,7 +242,11 @@ export default {
         for (let i = 0; i < res.length; i++) {
           list.push({})
           list[i].no = res[i].id
-          list[i].year = res[i].date.slice(0,4) + "년도"
+          if(res[i].date.slice(5,7)=="10"||res[i].date.slice(5,7)=="11"||res[i].date.slice(5,7)=="12"){
+            list[i].year = res[i].date.slice(0,4) + "년도 2학기"
+          } else {
+            list[i].year = res[i].date.slice(0,4) + "년도 1학기"
+          }
           list[i].empty = ''
           if (res[i].plusPoint > 0) {
             list[i].point = res[i].plusPoint

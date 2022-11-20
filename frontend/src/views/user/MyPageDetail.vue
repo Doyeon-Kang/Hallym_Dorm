@@ -5,12 +5,12 @@
     </div>
     <div class="right_container">
       <PageTitle :title="title"></PageTitle>
-      <BoardList v-if="$route.name === 'myassey'" :listItem="mywrite_Data" :listTitle="asseyTitle"></BoardList>
-      <BoardList v-else-if="$route.name === 'myconsulting'" :listItem="consult_Data" :listTitle="consultTitle">
+      <BoardList v-if="$route.name === 'myassey'" :listItem="asseyList" :listTitle="asseyTitle"></BoardList>
+      <BoardList v-else-if="$route.name === 'myconsulting'" :listItem="consultList" :listTitle="consultTitle">
       </BoardList>
-      <BoardList v-else-if="$route.name === 'mystudy'" :listItem="studyroom_Data" :listTitle="studyTitle"></BoardList>
-      <BoardList v-else-if="$route.name === 'mysleep'" :listItem="sleepout_Data" :listTitle="sleepTitle"></BoardList>
-      <BoardList v-else-if="$route.name === 'mypoint'" :listItem="point_Data" :listTitle="pointTitle"></BoardList>
+      <BoardList v-else-if="$route.name === 'mystudy'" :listItem="studyList" :listTitle="studyTitle"></BoardList>
+      <BoardList v-else-if="$route.name === 'mysleep'" :listItem="sleepList" :listTitle="sleepTitle"></BoardList>
+      <BoardList v-else-if="$route.name === 'mypoint'" :listItem="pointList" :listTitle="pointTitle"></BoardList>
     </div>
   </div>
 </template>
@@ -90,21 +90,6 @@ export default {
   computed: {
     user() {
       return this.$store.state.auth.user;
-    },
-    mywrite_Data() {
-      return this.asseyList.slice(-5);
-    },
-    point_Data() {
-      return this.pointList.slice(-5);
-    },
-    studyroom_Data() {
-      return this.studyList.slice(-5);
-    },
-    consult_Data() {
-      return this.consultList.slice(-5);
-    },
-    sleepout_Data() {
-      return this.sleepList.slice(-5);
     },
   },
   methods: {

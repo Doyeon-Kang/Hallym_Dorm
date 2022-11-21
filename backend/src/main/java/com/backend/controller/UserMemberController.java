@@ -1,6 +1,5 @@
 package com.backend.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,14 +37,19 @@ public class UserMemberController {
     @GetMapping(path="/info")
     public ResponseEntity<List<UserMember>> getAllUserMember() {
         try {
-          List<UserMember> userMember = new ArrayList<UserMember>();
-
-          userMemberRepository.findAll().forEach(userMember::add);
-          if(userMember.isEmpty()) {
+          List<UserMember> userMembers = userMemberRepository.findAll();
+          if(userMembers.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           }
 
-          return new ResponseEntity<>(userMember, HttpStatus.OK);
+          for(UserMember _userMember : userMembers) {
+            User _user = _userMember.getUser();
+            userMemberManagement.userMemberExists(_user);
+          }
+
+          userMembers = userMemberRepository.findAll();
+
+          return new ResponseEntity<>(userMembers, HttpStatus.OK);
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -1,6 +1,5 @@
 package com.backend.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.User;
 import com.backend.repository.UserRepository;
+import com.backend.security.services.UserMemberManagement;
 
 @RestController
 @RequestMapping("/api/users")
@@ -21,15 +21,20 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    UserMemberManagement userMemberManager;
+
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path="")
     public ResponseEntity<List<User>> getAllUsers() {
         try {
-            List<User> users = new ArrayList<User>();
-  
-            userRepository.findAll().forEach(users::add);
+            List<User> users = userRepository.findAll();
             if(users.isEmpty()) {
               return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            for(User _user : users) {
+              userMemberManager.userMemberExists(_user);
             }
   
             return new ResponseEntity<>(users, HttpStatus.OK);

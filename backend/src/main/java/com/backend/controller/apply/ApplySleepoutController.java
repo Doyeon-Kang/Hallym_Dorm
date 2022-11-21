@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.User;
 import com.backend.model.UserMember;
 import com.backend.model.apply.ApplySleepout;
+import com.backend.payload.request.ApplySleepoutRequest;
+import com.backend.payload.response.ApplySleepoutResponse;
 import com.backend.repository.UserMemberRepository;
 import com.backend.repository.UserRepository;
 import com.backend.repository.apply.ApplySleepoutRepository;
@@ -39,46 +42,110 @@ public class ApplySleepoutController {
     @Autowired
     UserMemberManagement userMemberManager;
 
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path="/apply-sleepout")
-    public ResponseEntity<List<ApplySleepout>> getAllApplySleepout() {
+    public ResponseEntity<List<ApplySleepoutResponse>> getAllApplySleepout() {
         try {
-          List<ApplySleepout> applySleepouts = new ArrayList<ApplySleepout>();
+          List<ApplySleepout> applySleepouts = applySleepoutRepository.findAll();
+          List<ApplySleepoutResponse> sleepoutResponses = new ArrayList<ApplySleepoutResponse>();
 
-          applySleepoutRepository.findAll().forEach(applySleepouts::add);
+
+          for(ApplySleepout _applySleepout : applySleepouts) {
+            // find user and user_member connected to each apply_sleepout
+            UserMember _userMember = _applySleepout.getUserMember();
+            User _user = _userMember.getUser();
+            sleepoutResponses.add(new ApplySleepoutResponse(_applySleepout.getId(),
+                                  _user.getStudentno(), _user.getName(), _userMember.getDepartment(),
+                                  _applySleepout.getDate_sleepout(), _applySleepout.getReason(), _applySleepout.getDate(),
+                                  _applySleepout.isApproved()));
+          }
+
           if(applySleepouts.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           }
 
-          return new ResponseEntity<>(applySleepouts, HttpStatus.OK);
+          return new ResponseEntity<>(sleepoutResponses, HttpStatus.OK);
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/apply-sleepout/{id}")
-    public ResponseEntity<ApplySleepout> getApplySleepoutById(@PathVariable("id") long id) {
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(path="/apply-sleepout/{id}")
+    public ResponseEntity<ApplySleepoutResponse> getApplySleepoutById(@PathVariable("id") long id) {
       Optional<ApplySleepout> sleepoutData = applySleepoutRepository.findById(id);
 
       if(sleepoutData.isPresent()) {
         ApplySleepout _applySleepout = sleepoutData.get();
+
+        UserMember _userMember = _applySleepout.getUserMember();
+        User _user = _userMember.getUser();
+        ApplySleepoutResponse response = new ApplySleepoutResponse(_applySleepout.getId(),
+                                  _user.getStudentno(), _user.getName(), _userMember.getDepartment(),
+                                  _applySleepout.getDate_sleepout(), _applySleepout.getReason(), _applySleepout.getDate(),
+                                  _applySleepout.isApproved());
         
-        return new ResponseEntity<>(applySleepoutRepository.save(_applySleepout), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
-    @PostMapping("/apply-sleepout/{studentNo}")
-    public ResponseEntity<ApplySleepout> createApplySleepout(@PathVariable(name="studentNo") String studentNo, @RequestBody ApplySleepout applySleepout) {
+    @GetMapping(path="/apply-sleepout/my-sleepout")
+    public ResponseEntity<List<ApplySleepoutResponse>> getMySleepout(@RequestParam("studentNo") String studentNo) {
       try {
         Optional<User> _userData = userRepository.findByStudentno(studentNo);
+        if(_userData.isPresent()) {
+          User _user = _userData.get();
+          Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+          if(_userMemberData.isPresent()) {
+            UserMember _userMember = _userMemberData.get();
+
+            List<ApplySleepout> sleepouts = applySleepoutRepository.findByUserMemberId(_userMember.getId());
+            
+            if(sleepouts.isEmpty()) {
+              return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            }
+
+            List<ApplySleepoutResponse> sleepoutResponses = new ArrayList<ApplySleepoutResponse>();
+            
+            sleepouts.forEach(_applySleepout -> {
+              sleepoutResponses.add(new ApplySleepoutResponse(_applySleepout.getId(),
+                                  _user.getStudentno(), _user.getName(), _userMember.getDepartment(),
+                                  _applySleepout.getDate_sleepout(), _applySleepout.getReason(), _applySleepout.getDate(),
+                                  _applySleepout.isApproved()));
+            });
+
+            return new ResponseEntity<List<ApplySleepoutResponse>>(sleepoutResponses, HttpStatus.OK);  
+          } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+          }
+        } else {
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
+
+    @PostMapping(path="/apply-sleepout")
+    public ResponseEntity<ApplySleepoutResponse> createApplySleepout(@RequestBody ApplySleepoutRequest applySleepout) {
+      try {
+        Optional<User> _userData = userRepository.findByStudentno(applySleepout.getStudentNo());
         if(_userData.isPresent()) {
           User _user = _userData.get();
           if(userMemberManager.userMemberExists(_user)) {
             ApplySleepout _applySleepout = new ApplySleepout(applySleepout.getDate_sleepout(), applySleepout.getReason());
             Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+            UserMember _userMember = _userMemberData.get();
             _applySleepout.setUserMember(_userMemberData.get());
-            return new ResponseEntity<>(applySleepoutRepository.save(_applySleepout), HttpStatus.CREATED);
+            applySleepoutRepository.save(_applySleepout);
+
+            ApplySleepoutResponse response = new ApplySleepoutResponse(_applySleepout.getId(),
+                                              _user.getStudentno(), _user.getName(), _userMember.getDepartment(),
+                                              _applySleepout.getDate_sleepout(), _applySleepout.getReason(), _applySleepout.getDate(),
+                                              _applySleepout.isApproved());
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
           } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
           }
@@ -90,45 +157,68 @@ public class ApplySleepoutController {
       }
     }
 
-    @PutMapping("/apply-sleepout/{id}")
-    public ResponseEntity<ApplySleepout> updateApplySleepout(@PathVariable("id") long id, @RequestBody ApplySleepout applySleepout) {
-      Optional<ApplySleepout> sleepoutData = applySleepoutRepository.findById(id);
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping(path="/apply-sleepout/{sleepoutId}")
+    public ResponseEntity<ApplySleepoutResponse> updateApplySleepout(@PathVariable("sleepoutId") long sleepoutId, @RequestBody ApplySleepout applySleepout) {
+      Optional<ApplySleepout> sleepoutData = applySleepoutRepository.findById(sleepoutId);
       if (sleepoutData.isPresent()) {
         ApplySleepout _applySleepout = sleepoutData.get();
         _applySleepout.setDate_sleepout(applySleepout.getDate_sleepout());
         _applySleepout.setReason(applySleepout.getReason());
         _applySleepout.setApproved(applySleepout.isApproved());
-        return new ResponseEntity<>(applySleepoutRepository.save(_applySleepout), HttpStatus.OK);
+        applySleepoutRepository.save(_applySleepout);
+
+        // find user and user_member connected to apply_sleepout
+        UserMember _userMember = _applySleepout.getUserMember();
+        User _user = _userMember.getUser();
+
+        ApplySleepoutResponse response = new ApplySleepoutResponse(_applySleepout.getId(),
+                                              _user.getStudentno(), _user.getName(), _userMember.getDepartment(),
+                                              _applySleepout.getDate_sleepout(), _applySleepout.getReason(), _applySleepout.getDate(),
+                                              _applySleepout.isApproved());
+        return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
-    @PutMapping("/apply-sleepout/{sleepoutId}/approve")
-    public ResponseEntity<ApplySleepout> approveApplySleepout(@PathVariable(name="sleepoutId") Long sleepoutId) {
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping(path="/apply-sleepout/{sleepoutId}/approve")
+    public ResponseEntity<ApplySleepoutResponse> approveApplySleepout(@PathVariable(name="sleepoutId") Long sleepoutId) {
       Optional<ApplySleepout> sleepoutData = applySleepoutRepository.findById(sleepoutId);
 
       if (sleepoutData.isPresent()) {
         ApplySleepout _applySleepout = sleepoutData.get();
         _applySleepout.setApproved(true);
         applySleepoutRepository.save(_applySleepout);
-        return new ResponseEntity<>(_applySleepout, HttpStatus.OK);
+
+        // find user and user_member connected to apply_sleepout
+        UserMember _userMember = _applySleepout.getUserMember();
+        User _user = _userMember.getUser();
+
+        ApplySleepoutResponse response = new ApplySleepoutResponse(_applySleepout.getId(),
+                                              _user.getStudentno(), _user.getName(), _userMember.getDepartment(),
+                                              _applySleepout.getDate_sleepout(), _applySleepout.getReason(), _applySleepout.getDate(),
+                                              _applySleepout.isApproved());
+        return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
-    @DeleteMapping("/apply-sleepout/{id}")
-    public ResponseEntity<HttpStatus> deleteApplySleepout(@PathVariable("id") long id) {
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping(path="/apply-sleepout/{sleepoutId}")
+    public ResponseEntity<HttpStatus> deleteApplySleepout(@PathVariable("sleepoutId") long sleepoutId) {
       try {
-        applySleepoutRepository.deleteById(id);
+        applySleepoutRepository.deleteById(sleepoutId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       } catch (Exception e) {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
 
-    @DeleteMapping("/apply-sleepout")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping(path="/apply-sleepout")
     public ResponseEntity<HttpStatus> deleteAllApplySleepouts() {
       try {
         applySleepoutRepository.deleteAll();
@@ -138,6 +228,4 @@ public class ApplySleepoutController {
       }
 
     }
-
-
 }

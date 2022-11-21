@@ -1,8 +1,8 @@
 <template>
   <div class="photo_list">
     <div v-for="(item, index) in paginatedData" :key="index" class="photo_item">
-      <div class="photo">
-        <img :src="require(`@/assets/${item.photo}`)" alt="미리보기" />
+      <div class="photo" @click="$router.push({path:this.$route.path + '/view', query: { no: item.id }})">
+        <img :src="item.photo" alt="미리보기" />
       </div>
       <div class="first_line">
         <div class="title">{{ item.title }}</div>
@@ -35,7 +35,7 @@ export default {
     return {
       pageNum: 0,
     };
-  },
+  }, 
   props: {
     photoList: {
       type: Array,
@@ -105,6 +105,9 @@ export default {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+      }
+      .comment_cnt {
+        color:#336eb4
       }
     }
     .second_line {

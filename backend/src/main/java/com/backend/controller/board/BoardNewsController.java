@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardNews;
+import com.backend.payload.response.BoardResponse;
 import com.backend.repository.board.BoardNewsRepository;
 
 @RestController
@@ -26,7 +28,7 @@ public class BoardNewsController {
     BoardNewsRepository boardNewsRepository;
 
     @GetMapping(path="/board-news")
-    public ResponseEntity<List<BoardNews>> getAllBoardNews() {
+    public ResponseEntity<List<BoardResponse>> getAllBoardNews() {
         try {
           List<BoardNews> boardNews = new ArrayList<BoardNews>();
 
@@ -35,31 +37,68 @@ public class BoardNewsController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           }
 
-          return new ResponseEntity<>(boardNews, HttpStatus.OK);
+          List<BoardResponse> responses = new ArrayList<BoardResponse>();
+
+          for(BoardNews _boardNews : boardNews) {
+            responses.add(new BoardResponse(_boardNews.getId(), _boardNews.getWriterStudentNo(),
+                  _boardNews.getWriter_name(), _boardNews.getTitle(), _boardNews.getContent(),
+                  _boardNews.getViews(), _boardNews.getDate(), "news"));
+          }
+  
+          return new ResponseEntity<>(responses, HttpStatus.OK);
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/board-news/{id}")
-    public ResponseEntity<BoardNews> getBoardNewsById(@PathVariable("id") long id) {
+    public ResponseEntity<BoardResponse> getBoardNewsById(@PathVariable("id") long id) {
       Optional<BoardNews> newsData = boardNewsRepository.findById(id);
 
       if(newsData.isPresent()) {
         BoardNews _boardNews = newsData.get();
         int views = _boardNews.getViews() + 1;
         _boardNews.setViews(views);
-        return new ResponseEntity<>(boardNewsRepository.save(_boardNews), HttpStatus.OK);
+        boardNewsRepository.save(_boardNews);
+
+        BoardResponse response = new BoardResponse(_boardNews.getId(), _boardNews.getWriterStudentNo(),
+        _boardNews.getWriter_name(), _boardNews.getTitle(), _boardNews.getContent(),
+        _boardNews.getViews(), _boardNews.getDate(), "news");
+        return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
+    @GetMapping("/board-news/my-news")
+    public ResponseEntity<List<BoardResponse>> getMyBoardNews (@RequestParam("studentNo") String studentNo) {
+      try{
+        List <BoardNews> myNews = boardNewsRepository.findByWriterStudentNo(studentNo);
+
+        if(myNews.isEmpty()){
+          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        List<BoardResponse> responses = new ArrayList<BoardResponse>();
+
+        for(BoardNews _boardNews : myNews) {
+          responses.add(new BoardResponse(_boardNews.getId(), _boardNews.getWriterStudentNo(),
+                _boardNews.getWriter_name(), _boardNews.getTitle(), _boardNews.getContent(),
+                _boardNews.getViews(), _boardNews.getDate(), "news"));
+        }
+
+        return new ResponseEntity<>(responses, HttpStatus.OK);
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }        
+
+
     @PostMapping("/board-news")
     public ResponseEntity<BoardNews> createBoardNews(@RequestBody BoardNews boardNews) {
       try {
         BoardNews _boardNews = boardNewsRepository
-                    .save(new BoardNews(boardNews.getWriter_studentno(), boardNews.getWriter_name(), boardNews.getTitle(), boardNews.getContent()));
+                    .save(new BoardNews(boardNews.getWriterStudentNo(), boardNews.getWriter_name(), boardNews.getTitle(), boardNews.getContent()));
         return new ResponseEntity<>(_boardNews, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -71,7 +110,7 @@ public class BoardNewsController {
 
       if (newsData.isPresent()) {
         BoardNews _boardNews = newsData.get();
-        _boardNews.setWriter_studentno(boardNews.getWriter_studentno());
+        _boardNews.setWriterStudentNo(boardNews.getWriterStudentNo());
         _boardNews.setWriter_name(boardNews.getWriter_name());
         _boardNews.setTitle(boardNews.getTitle());
         _boardNews.setContent(boardNews.getContent());

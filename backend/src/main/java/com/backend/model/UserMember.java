@@ -187,18 +187,29 @@ public class UserMember {
     }
 
 //   `point` INT NULL COMMENT '상/벌점',
-    @Column(name="point")
-    private int point;
+    @Column(name="plusPoint")
+    private int plusPoint;
 
-    public int getPoint() {
-        return point;
+    public int getPlusPoint() {
+        return plusPoint;
     }
 
-    public void setPoint(int point) {
-        this.point = point;
+    public void setPlusPoint(int plusPoint) {
+        this.plusPoint = plusPoint;
     }
 
-//   `res_fac` INT NULL COMMENT '거주관',
+    @Column(name="minusPoint")
+    private int minusPoint;
+
+    public int getMinusPoint() {
+        return minusPoint;
+    }
+
+    public void setMinusPoint(int minusPoint) {
+        this.minusPoint = minusPoint;
+    }
+
+    //   `res_fac` INT NULL COMMENT '거주관',
     @Column(name="res_fac")
     private int res_fac;
 

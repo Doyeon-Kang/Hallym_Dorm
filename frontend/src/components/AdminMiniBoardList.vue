@@ -1,9 +1,9 @@
 <template>
     <div class="wrapper_list">
         <div class="top">
-            <span v-show="$route.name !== 'adminlife'">전체 사용자 {{this.checkList.length}}명</span>
+            <span v-show="$route.name !== 'adminlife'">Total: {{this.listItem.length}}</span>
             <span v-show="$route.name === 'adminlife'">선택한 일정 {{this.selectList.length}}개</span>
-            <span>정렬
+            <!-- <span>정렬
                 <button @click="sortName()" v-show="
                 $route.name === 'adminpointadd'">이름순</button>
                 <button @click="sortNo()" v-show="
@@ -22,31 +22,33 @@
                 $route.name === 'adminlife'">시작일자순</button>
                 <button @click="sortEnd()" v-show="
                 $route.name === 'adminlife'">종료일자순</button>
-            </span>
+            </span> -->
         </div>
-        <table>
-            <thead>
-                <th><input type="checkbox" v-model="checkAll" value="all" /></th>
-                <th v-for="(title, index) in listTitle" :key="index">
-                    {{ title }}
-                </th>
-                <th></th>
-            </thead>
-            <tbody>
-                <tr v-for="item in listItem" :key="item.no" @click="this.$router.push(item.url)">
-                    <td><input type="checkbox" class="check" :value="item.no" v-model="selectList" /></td>
+        <div style="height: 92%; overflow: auto">
+            <table>
+                <thead>
+                    <th><input type="checkbox" v-model="checkAll" value="all" /></th>
+                    <th v-for="(title, index) in listTitle" :key="index">
+                        {{ title }}
+                    </th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr v-for="item in listItem" :key="item.no" @click="this.$router.push(item.url)">
+                        <td><input type="checkbox" class="check" :value="item.no" v-model="selectList" /></td>
 
-                    <td v-for="(text, index) in objectKey(item)" :key="index">
-                        {{ text }}
-                    </td>
-                    <td><input type="button" value="자세히" v-show="$route.name === 'adminuser' ||
-                    $route.name === 'adminuseradd' ||
-                    $route.name === 'adminpoint' ||
-                    $route.name === 'adminpointadd' ||
-                    $route.name === 'admininout'" /></td>
-                </tr>
-            </tbody>
-        </table>
+                        <td v-for="(text, index) in objectKey(item)" :key="index">
+                            {{ text }}
+                        </td>
+                        <td><input type="button" value="자세히" v-show="$route.name === 'adminuser' ||
+                        $route.name === 'adminuseradd' ||
+                        $route.name === 'adminpoint' ||
+                        $route.name === 'adminpointadd' ||
+                        $route.name === 'admininout'" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
     
@@ -82,7 +84,8 @@ export default {
         },
     },
     mounted() {
-        if (this.listItem) this.checkList = this.listItem.map(item => item.no);
+        if (this.listItem) 
+            this.checkList = this.listItem.map(item => item.no);
     },
     methods: {
         objectKey(ob) {
@@ -126,7 +129,7 @@ export default {
                 return this.checkList.length === this.selectList.length;
             },
             set: function (e) {
-                this.selectList = e ? this.checkList : [];
+                this.selectList = e ? this.listItem : [];
             }
         }
     },
@@ -262,6 +265,7 @@ export default {
     .top {
         display: flex;
         width: 100%;
+        height: 8%;
         color: #fff;
         font-size: 80%;
         background-color: #336EB4;
@@ -269,7 +273,7 @@ export default {
         span {
             line-height: 20px;
             display: flex;
-            padding: 13px 0px 13px 40px;
+            padding: 13px 0px 13px 30px;
 
             button{
                 color: #fff;
@@ -288,10 +292,10 @@ export default {
     table {
         width: 100%;
         font-size: 80%;
-
+        height: 92%;
         thead {
             background-color: #447EC3;
-
+            position: sticky;
             th {
                 color: #fff;
                 padding: 10px;
@@ -299,14 +303,22 @@ export default {
         }
 
         tbody {
+            //display: inline-block;
+            width: 100%;
+            overflow-y: scroll;
+            
             tr {
+                //display: block;
                 border-bottom: 1px solid #858585;
-
+                //height: 20px; 
+                //width: 100%;
                 td {
                     text-align: center;
                     padding: 20px 15px;
                     color: #222;
                     font-size: 100%;
+                    //display: inline-block;
+                    height: 20px;
 
                     input {
                         border: 0;

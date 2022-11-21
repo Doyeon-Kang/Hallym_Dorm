@@ -19,13 +19,13 @@
                 </div>
                 <div class="detail_cont" v-html="writerinfo.cont"></div>
                 <div class="btn_list">
-                    <input v-if="writerinfo.writer === user.name" class="modify" type="button" value="수정" @click="updateArticle()" />
-                    <input v-if="writerinfo.writer === user.name" class="delete" type="button" value="삭제" @click="deleteArticle()"/>
+                    <input v-if="writerinfo.writer === user.name || this.user.roles[0] === 'ROLE_ADMIN'" class="modify" type="button" value="수정" @click="updateArticle()" />
+                    <input v-if="writerinfo.writer === user.name || this.user.roles[0] === 'ROLE_ADMIN'" class="delete" type="button" value="삭제" @click="deleteArticle()"/>
                     <input class="writelist" type="button" value="글목록" @click="$router.push('/community')" />
                 </div>
-                <div class="comments">
+                <div class="comments" v-if="this.$route.name !== 'repairNo'">
                     <div class="comments_input">
-                        <div class="comments_title" >댓글</div>
+                        <div class="comments_title">댓글</div>
                         <div class="comments_box">
                             <textarea class="comments_cont" v-model="newComment"></textarea>
                             <input class="comments_btn" type="button" value="등록" @click="createComment()"/>
@@ -153,6 +153,8 @@ export default {
             }
         },
         init() {
+            console.log('user',this.user)
+            console.log('user',this.user.roles[0])
             if (this.$route.name === 'communityNo' || this.$route.name === 'notice1No') {
                 NoticeDataService.get(this.no).then(data => {
                     let res = data.data

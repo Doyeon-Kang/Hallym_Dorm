@@ -297,8 +297,16 @@ export default {
           list[i].name = res[i].name // 이름
           list[i].dep = "-" // 학과
           list[i].live = "-" // 거주 기숙사
-          list[i].auth = res[i].roles[0].name // 사용자 권한
-
+          
+          // 사용자 권한
+          if(res[i].roles.length === 1) {
+            list[i].auth = res[i].roles[0].name
+          } else {
+            for(let j=0; j<res[i].roles.length; j++) {
+              if(res[i].roles[j].id === 2)
+                list[i].auth = res[i].roles[j].name 
+            }
+          }
           // USER_MEMBER일 경우(이후 ADMIN 조건은 제거!)
           if(list[i].auth === "ROLE_USER_MEMBER") {
             UserInfoDataService.getInfo(res[i].studentno).then(res => {

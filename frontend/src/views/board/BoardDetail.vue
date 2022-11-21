@@ -40,8 +40,12 @@
       <div v-else-if="$route.name === 'modify-article'">
         <ModifyArticle></ModifyArticle>
       </div>
-      <a v-show="$route.name !== 'faq' && $route.name !== 'article' && $route.name !== 'modify-article' && loggedIn"
-      class="create_btn" href="/community/create-article">글쓰기</a>
+      <!--로그인 버튼-->
+      <div v-if="$route.name !== 'faq' && $route.name !== 'article' && $route.name !== 'modify-article' && loggedIn"> 
+        <a v-show= "this.role === 'user' && ($route.name === 'market' || $route.name === 'lost')" class="create_btn" href="/community/create-article">글쓰기</a>
+        <a v-show= "this.role === 'member' && ($route.name === 'repair' || $route.name === 'market' || $route.name === 'lost')" class="create_btn" href="/community/create-article">글쓰기</a>
+        <a v-show= "this.role === 'admin'" class="create_btn" href="/community/create-article">글쓰기</a>
+      </div>
     </div>
   </div>
 </template>
@@ -99,6 +103,7 @@ export default {
       repairList: [],
       marketList: [],
       lostList: [],
+      role: ""
     };
   },
   components: {
@@ -112,9 +117,21 @@ export default {
   },
   created() {
     this.routeCheck();
+    this.rolesCheck()
     this.init()
   },
   methods: {
+    rolesCheck() {
+      if(this.user.roles.length === 1) {
+        if(this.user.roles[0] === 'ROLE_ADMIN') { // admin일 경우
+          this.role = 'admin'
+        } else { // user일 경우
+          this.role = 'user'
+        } 
+      } else { // user_member일 경우
+        this.role = 'member'
+      }
+    },
     routeCheck() {
       this.activeReset();
       this.side[0].semi = false;
@@ -273,6 +290,9 @@ export default {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn
     },
+    user() {
+        return this.$store.state.auth.user
+    }
   },
   watch: {
     $route(to) {

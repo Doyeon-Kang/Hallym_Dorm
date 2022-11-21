@@ -232,27 +232,30 @@ export default {
         }
       })
 
-      // 사용자 상벌점 가죠오기
+      // 사용자 상벌점 가져오기
       UserPointDataService.getAll().then(item => {
         let res = item.data
         let list = []
 
         for (let i = 0; i < res.length; i++) {
-          list.push({})
-          list[i].no = res[i].id
-          if(res[i].date.slice(5,7)=="10"||res[i].date.slice(5,7)=="11"||res[i].date.slice(5,7)=="12"){
-            list[i].year = res[i].date.slice(0,4) + "년도 2학기"
-          } else {
-            list[i].year = res[i].date.slice(0,4) + "년도 1학기"
+
+          if (this.user.studentno == res[i].studentNo) {
+            list.push({})
+            list[i].no = res[i].id
+            if (res[i].date.slice(5, 7) == "10" || res[i].date.slice(5, 7) == "11" || res[i].date.slice(5, 7) == "12") {
+              list[i].year = res[i].date.slice(0, 4) + "년도 2학기"
+            } else {
+              list[i].year = res[i].date.slice(0, 4) + "년도 1학기"
+            }
+            if (res[i].plusPoint > 0) {
+              list[i].point = res[i].plusPoint
+            } else if (res[i].minusPoint > 0) {
+              list[i].point = res[i].minusPoint * -1
+            }
+            list[i].title = res[i].reason
+            list[i].date_receive = res[i].date_receive
+            list[i].date = res[i].date
           }
-          if (res[i].plusPoint > 0) {
-            list[i].point = res[i].plusPoint
-          } else if (res[i].minusPoint > 0) {
-            list[i].point = res[i].minusPoint * -1
-          }
-          list[i].title = res[i].reason
-          list[i].date_receive = res[i].date_receive
-          list[i].date = res[i].date
         }
 
         this.pointList = list

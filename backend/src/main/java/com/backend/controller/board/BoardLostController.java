@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardLost;
-import com.backend.payload.request.BoardRequest;
 import com.backend.repository.board.BoardLostRepository;
 
 @RestController
@@ -58,9 +58,9 @@ public class BoardLostController {
     }
 
     @GetMapping("/board-lost/my-lost")
-    public ResponseEntity<List<BoardLost>> getMyBoardLost (@RequestBody BoardRequest boardRequest) {
+    public ResponseEntity<List<BoardLost>> getMyBoardLost (@RequestParam("studentNo") String studentNo) {
       try{
-        List <BoardLost> myLosts = boardLostRepository.findByWriterStudentNo(boardRequest.getStudentNo());
+        List <BoardLost> myLosts = boardLostRepository.findByWriterStudentNo(studentNo);
 
         if(myLosts.isEmpty()){
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);

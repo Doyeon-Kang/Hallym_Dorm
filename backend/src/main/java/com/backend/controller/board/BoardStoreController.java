@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardStore;
-import com.backend.payload.request.BoardRequest;
 import com.backend.repository.board.BoardStoreRepository;
 
 
@@ -59,9 +59,9 @@ public class BoardStoreController {
     }
 
     @GetMapping("/board-store/my-store")
-    public ResponseEntity<List<BoardStore>> getMyBoardStore (@RequestBody BoardRequest boardRequest) {
+    public ResponseEntity<List<BoardStore>> getMyBoardStore (@RequestParam("studentNo") String studentNo) {
       try{
-        List <BoardStore> myStores = boardStoreRepository.findByWriterStudentNo(boardRequest.getStudentNo());
+        List <BoardStore> myStores = boardStoreRepository.findByWriterStudentNo(studentNo);
 
         if(myStores.isEmpty()){
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);

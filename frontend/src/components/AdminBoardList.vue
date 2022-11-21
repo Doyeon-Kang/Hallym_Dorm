@@ -6,10 +6,10 @@
                 <input type="text" v-model="keyword" placeholder="전체 사용자 검색"/>
             </div>
         </div>
-        <!-- <button @click="deleteUser(this.selectList)">삭제</button> -->
+        
         <div class="container">
             <div class="top">
-                <span>전체 사용자 {{this.checkList.length}}명</span>
+                <span>Total: {{this.checkList.length}}</span>
                 <span>정렬
                     <button @click="sortName()">이름순</button>
                     <button @click="sortNo()">학번순</button>
@@ -52,18 +52,30 @@
                     </thead>
                     <tbody>
                         <tr v-for="item in listSearch" :key="item.no" @click="this.$router.push(item.url)">
-                            <td><input type="checkbox" class="check" :value="item.id" v-model="selectList"/></td>
+                            <td><input type="checkbox" class="check" :value="item" v-model="selectList"/></td>
 
                             <td v-for="(text, index) in objectKey(item)" :key="index">
                                 {{ text }}
                             </td>
-                            <td><input type="button" value="자세히" v-show="$route.name === 'adminuser' ||
-                            $route.name === 'adminuseradd' ||
-                            $route.name === 'adminpoint' ||
-                            $route.name === 'adminpointadd'" @click="$router.push({
+                            <td v-show="$route.name === 'adminuser' ||
+                            $route.name === 'adminuseradd'" @click="$router.push({
                                 name: 'admindetail',
                                 query: { studentno: item.no, role: item.auth},
-                            })"/></td>
+                            })">
+                                <input v-show="item.auth !== 'ROLE_ADMIN'" type="button" value="자세히" />
+                            </td>
+                            <td v-show="$route.name === 'adminpoint'">
+                                <input type="button" value="자세히" @click="$router.push({
+                                    name: 'pointdetail',
+                                    query: { id: item.id}
+                                })"/>
+                            </td>
+                            <td v-show="$route.name === 'adminconsulting'">
+                                <input type="button" value="자세히" @click="$router.push({
+                                    name: 'consultdetail',
+                                    query: { id: item.id}
+                                })"/>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -73,7 +85,6 @@
 </template>
     
 <script>
-import UserDataService from '@/services/UserDataService';
 export default {
     data() {
         return {
@@ -172,19 +183,7 @@ export default {
         sortEnd() {
             this.sortedEnd = 0
         },
-        deleteUser(list) {
-            if (list.length == 0) {
-                alert("삭제할 리스트 행을 선택해주세요.")
-            } else {
-                for (const id in list) {
-                    UserDataService.delete(id).then(res => {    
-                        console.log(res)
-                    })
-                }
-                alert('삭제 완료되었습니다.')
-                window.reload(true)
-            }
-        }
+        
     },
     computed: {
         checkAll: {
@@ -202,8 +201,9 @@ export default {
         },
     },
     watch: {
-        selectList() {
-            console.log(this.selectList)    
+        selectList() { 
+            this.$emit("setList", this.selectList); 
+            console.log(this.selectList)
         },  
         sortedName() {
             this.listArray.sort(function (a, b) {
@@ -568,7 +568,7 @@ export default {
         span {
             line-height: 20px;
             display: flex;
-            padding: 13px 0px 13px 40px;
+            padding: 13px 0px 13px 30px;
 
             button{
                 color: #fff;

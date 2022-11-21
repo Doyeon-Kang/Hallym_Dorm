@@ -3,69 +3,70 @@
     <div class="left_container">
       <SidebarCom :pageName="pageName" :listItem="side"></SidebarCom>
     </div>
-    <div class="right_container">
-      <PageTitle v-if="this.$route.name === 'adminuser' || this.$route.name === 'admindetail'" :title="title" :add="userManagement">
-      </PageTitle>
-      <PageTitle v-else-if="this.$route.name === 'adminuseradd'" :title="title" :add="useradd">
-      </PageTitle>
-      <PageTitle v-else-if="this.$route.name === 'adminpoint'" :title="title" :add="pointManagement">
-      </PageTitle>
-      <PageTitle v-else-if="this.$route.name === 'adminpointadd'" :title="title" :add="pointadd">
-      </PageTitle>
-      <PageTitle v-else-if="this.$route.name === 'adminstudy' ||
-      this.$route.name === 'adminsleep' ||
-      this.$route.name === 'admininout' ||
-      this.$route.name === 'adminconsulting' ||
-      this.$route.name === 'adminlife'" :title="title">
-      </PageTitle>
+    <div class="right_container" :key="componentKey0">
+      <div class="titlebox">
+        <h1>{{ title }}</h1>
+        <div class="btn">
+          <!--승인 및 관리 버튼-->
+          <button class="add" v-if="this.$route.name === 'adminuser'"
+          @click="this.$router.push('/admin/user/add')">{{ userManagement }}</button>
+          <button class="add" v-else-if="this.$route.name === 'adminpoint'"
+          @click="this.$router.push('/admin/point/add')">{{ pointManagement }}</button>
+          <button class="add" v-else-if="this.$route.name === 'adminsleep'"
+          @click="approveList(selectList)">{{ sleepApprove }}</button>
+
+          <!--삭제 버튼-->
+          <button class="del" v-if="$route.name !== 'adminpoint' && this.$route.name !== 'adminpointadd' && this.$route.name !== 'adminuseradd' && this.$route.name !== 'admininout' && this.$route.name !== 'adminconsulting' && this.$route.name !== 'inoutdetail' && this.$route.name !== 'admindetail' && this.$route.name !== 'consultdetail' && this.$route.name !== 'pointdetail'" @click="deleteUser(selectList)">삭제</button>
+          <button class="del" v-else-if="$route.name === 'adminconsulting'" @click="deleteConsult(selectList)">삭제</button>
+          <button class="del" v-else-if="$route.name === 'admininout' && this.selectListIn.length !== 0" @click="deleteIn(selectListIn)">삭제</button>
+          <button class="del" v-else-if="$route.name === 'admininout' && this.selectListOut.length !== 0" @click="deleteOut(selectListOut)">삭제</button>
+          <button class="del" v-if="$route.name === 'admininout' && this.selectListIn.length === 0 && this.selectListOut.length === 0">삭제</button>
+        </div>
+      </div>
 
       <!-- 추가 박스 컴포넌트 -->
       <Addbox v-if="this.$route.name === 'adminuseradd'" :con_title="point_con_title" :listTitle="pointTitle"></Addbox>
       <Addbox v-else-if="this.$route.name === 'adminpointadd'" :con_title="point_con_title" :listTitle="pointTitle"></Addbox>
       <Addbox v-else-if="this.$route.name === 'adminlife'" :con_title="life_con_title" :listTitle="lifeTitle"></Addbox>
 
-      <AdminDetailBox v-if="this.$route.name === 'admindetail'"></AdminDetailBox>
+      <AdminDetailBox v-if="this.$route.name === 'admindetail' || this.$route.name === 'pointdetail'  || this.$route.name === 'consultdetail' || this.$route.name === 'inoutdetail'"></AdminDetailBox>
       
       <!-- 리스트 컴포넌트 -->
-      <BoardList v-if="this.$route.name === 'adminuser'" :listItem="userList"
-        :listTitle="userTitle">
+      <BoardList v-if="this.$route.name === 'adminuser'" :listItem="userList" :listTitle="userTitle" @setList="setList" :key="componentKey">
       </BoardList>
-      <MiniBoardList v-if="this.$route.name === 'adminuseradd'" :listItem="userList" :listTitle="userTitle"
-      >
+      <BoardList v-else-if="$route.name === 'admin'" :listItem="studyList" :listTitle="studyTitle"
+      @setList="setList" :key="0"></BoardList>
+      <MiniBoardList v-if="this.$route.name === 'adminuseradd'" :listItem="userList" :listTitle="userTitle" :key="componentKey">
       </MiniBoardList>
-      <BoardList v-else-if="this.$route.name === 'adminpoint'" :listItem="pointList" :listTitle="pointTitle"
-      >
-      </BoardList>
-      <MiniBoardList v-if="this.$route.name === 'adminpointadd'" :listItem="pointList" :listTitle="pointTitle"
-      >
-      </MiniBoardList>
-      <BoardList v-else-if="$route.name === 'adminstudy'" :listItem="studyList" :listTitle="studyTitle"
-      >
+      <BoardList v-else-if="this.$route.name === 'adminstudy'" :listItem="studyList" :listTitle="studyTitle" @setList="setList" :key="componentKey1">
       </BoardList>
       <BoardList v-else-if="$route.name === 'adminsleep'" :listItem="sleepList" :listTitle="sleepTitle"
-      >
+      @setList="setList" :key="componentKey2" >
       </BoardList>
       <BoardList v-else-if="$route.name === 'adminconsulting'" :listItem="consultingList" :listTitle="consultingTitle"
-      >
+      @setList="setList" :key="componentKey3">
       </BoardList>
       <MiniBoardList v-else-if="$route.name === 'adminlife'" :listItem="lifeList" :listTitle="lifeTitle"
         :totallife="totallife">
       </MiniBoardList>
-      <InoutCom v-show="$route.name === 'admininout'" :listItemin="this.joinList" :listTitlein="inTitle" :listItemout="outList" :listTitleout="outTitle"
-        :title_in="title_in" :title_out="title_out">
+      <BoardList v-else-if="this.$route.name === 'adminpoint'" :listItem="pointList" :listTitle="pointTitle" @setList="setList" :key="componentKey6">
+      </BoardList>
+      <MiniBoardList v-if="this.$route.name === 'adminpointadd'" :listItem="pointList" :listTitle="pointTitle" >
+      </MiniBoardList>
+      <InoutCom v-show="$route.name === 'admininout'" :listItemin="joinList" :listTitlein="inTitle" :listItemout="outList" :listTitleout="outTitle"
+        :title_in="title_in" :title_out="title_out" :key="componentKey4" @setListIn="setListIn" @setListOut="setListOut">
       </InoutCom>
     </div>
   </div>
 </template>
   
 <script>
-import PageTitle from "@/components/AdminPageTitle.vue";
 import SidebarCom from "../../components/AdminSidebarCom.vue";
 import Addbox from "../../components/AdminAddBoxCom.vue";
 import BoardList from "../../components/AdminBoardList.vue";
 import MiniBoardList from "../../components/AdminMiniBoardList.vue";
-import InoutCom from "../../components/AdminInoutCom.vue";
 import AdminDetailBox from "@/components/AdminDetailBox.vue";
+
 
 import UserDataService from "@/services/UserDataService"
 import ApplyStudyroomDataService from "@/services/ApplyStudyroomDataService";
@@ -74,7 +75,8 @@ import ApplyJoinDataService from "@/services/ApplyJoinDataService";
 import ApplyResignDataService from "@/services/ApplyResignDataService";
 import ApplyConsultDataService from "@/services/ApplyConsultDataService";
 import UserInfoDataService from "@/services/UserInfoDataService";
-
+import UserPointDataService from "@/services/UserPointDataService";
+import InoutCom from "../../components/AdminInoutCom.vue";
 
 export default {
   data() {
@@ -91,11 +93,21 @@ export default {
         // { img: require("@/assets/admin_schedule.png"), title: "생활 일정 관리", path: "/admin/life" },
         { img: require("@/assets/admin_logout.png"), title: "로그아웃", path: "/logout" },
       ],
+      componentKey0: 0,
+      componentKey: 0,
+      componentKey1: 0,
+      componentKey2: 0,
+      componentKey3: 0,
+      componentKey4: 0,
+      componentKey5: 0,
+      componentKey6: 0,
       userManagement: "사용자 추가",
       useradd: "생성",
 
       pointManagement: "점수 관리",
       pointadd: "점수 부여",
+
+      sleepApprove: "승인",
 
       searchtotal: "전체 사용자 검색",
       searchtitle: "제목 검색",
@@ -106,30 +118,22 @@ export default {
       userTitle: ["번호", "학번", "이름", "소속학과", "거주 기숙사", "사용자 권한"],
       userList: [],
 
-      pointTitle: ["학번", "이름", "소속학과", "상벌점", "상벌점 추가내역", "거주 기숙사"],
-      pointList: [
-        // {
-        //   no: "20201234",
-        //   name: "홍길동",
-        //   dep: "전자공학과",
-        //   point: "5",
-        //   addpoint: "-",
-        //   live: "2관",
-        // }
-      ],
+      pointTitle: ["번호", "학번", "이름", "소속학과", "상벌점 추가내역"],
+      pointList: [],
 
-      studyTitle: ["학번", "이름", "소속학과", "예약날짜", "예약시간", "선택좌석"],
+      studyTitle: ["번호", "학번", "이름", "소속학과", "예약날짜", "예약시간", "선택좌석"],
       studyList: [],
-      sleepTitle: ["학번", "이름", "소속학과", "신청날짜", "외박 기간", "신청 사유", "승인 상태"],
+
+      sleepTitle: ["번호", "학번", "이름", "소속학과", "신청날짜", "외박 기간", "신청 사유", "승인 상태"],
       sleepList: [],
 
-      inTitle: ["학번", "학년", "이름", "소속학과", "희망 1순위"],
+      inTitle: ["번호", "학번", "학년", "이름", "소속학과", "희망 1순위", "승인여부"],
       joinList: [],
 
-      outTitle: ["학번", "이름", "소속학과", "거주 기숙사", "승인여부"],
+      outTitle: ["번호", "학번", "이름", "소속학과", "승인여부"],
       outList: [],
 
-      consultingTitle: ["학번", "이름", "상담분야", "신청일자", "전화번호"],
+      consultingTitle: ["번호", "학번", "이름", "상담분야", "신청일자", "전화번호"],
       consultingList: [
       ],
 
@@ -155,10 +159,12 @@ export default {
           end: "2022-02-22",
         },
       ],
+      selectList: [],
+      selectListIn: [],
+      selectListOut: []
     };
   },
   components: {
-    PageTitle,
     SidebarCom,
     Addbox,
     BoardList,
@@ -171,14 +177,121 @@ export default {
     this.init();
   },
   methods: {
-    init() {
-      UserDataService.getAll().then(resolveData => {
+    setList(data) {
+      this.selectList = data
+      console.log(this.selectList)
+    },
+    setListIn(data) {
+      this.selectListIn = data
+    },
+    setListOut(data) {
+      this.selectListOut = data
+    },  
+    deleteUser(list) {
+      if (list.length == 0) { // 리스트 행 없을 경우
+          alert("삭제할 리스트 행을 선택해주세요.")
+      } else { // 리스트 행 있는 경우
+        if(this.$route.name === 'adminuser') { // 사용자 관리
+          for (let i=0; i<list.length; i++) {
+              UserDataService.delete(list[i].id).then(res => {    
+                  console.log(res)
+              })
+          }
+          alert('삭제 완료되었습니다.')
+          window.location.reload(true)
+        } else if(this.$route.name === 'adminstudy') { // 스터디룸 예약
+          for (let i=0; i<list.length; i++) {
+                ApplyStudyroomDataService.delete(list[i].id).then(res => {   
+                    console.log(res)
+                })
+            }
+            alert('삭제 완료되었습니다.')
+            window.location.reload(true)
+          } else if(this.$route.name === 'adminsleep') { // 외박 신청
+          for (let i=0; i<list.length; i++) {
+            ApplySleepoutDataService.delete(list[i].id).then(res => {   
+                    console.log(res)
+                })
+            }
+            alert('삭제 완료되었습니다.')
+            window.location.reload(true)
+        } else if(this.$route.name === 'adminconsulting') { // 상담 신청
+          for (let i=0; i<list.length; i++) {
+            ApplyConsultDataService.delete(list[i].id).then(res => {   
+                    console.log(res)
+                })
+            }
+            alert('삭제 완료되었습니다.')
+            window.location.reload(true)
+        }
+      }    
+    },
+    deleteIn(list) {
+      if (list.length == 0) { // 리스트 행 없을 경우
+        alert("삭제할 리스트 행을 선택해주세요.")
+      } else { // 리스트 행 있는 경우 
+        for (let i=0; i<list.length; i++) {
+          ApplyJoinDataService.delete(list[i]).then(res => {    
+                console.log(res)
+          })
+        }
+        alert('삭제 완료되었습니다.')
+        window.location.reload(true)
+      }
+    },
+    deleteOut(list) {
+      if (list.length == 0) { // 리스트 행 없을 경우
+        alert("삭제할 리스트 행을 선택해주세요.")
+      } else { // 리스트 행 있는 경우 
+        for (let i=0; i<list.length; i++) {
+          ApplyResignDataService.delete(list[i]).then(res => {    
+                console.log(res)
+          })
+        }
+        alert('삭제 완료되었습니다.')
+        window.location.reload(true)
+      }
+    },
+    deleteConsult(list) {
+      if (list.length == 0) { // 리스트 행 없을 경우
+        alert("삭제할 리스트 행을 선택해주세요.")
+      } else { // 리스트 행 있는 경우 
+        for (let i=0; i<list.length; i++) {
+          ApplyConsultDataService.delete(list[i].id).then(res => {    
+                console.log(res)
+          })
+        }
+        alert('삭제 완료되었습니다.')
+        window.location.reload(true)
+      }
+    },
+    approveList(list) {
+      let cnt = 0;
+
+      if (list.length == 0) { // 리스트 행 없을 경우
+          alert("승인할 리스트 행을 선택해주세요.")
+      } else {
+        for(let i=0; i<list.length; i++) {
+          ApplySleepoutDataService.updateApprove(list[i].id).then(res => {
+            console.log(res)
+            cnt++
+          })
+        }
+        if(cnt == 0) {
+          alert('이미 모두 승인 처리되어 있습니다.')
+        } else {
+          alert(cnt+'건이 승인 처리되었습니다.')
+          window.location.reload(true)
+        }
+      }
+    },
+    async init() {
+      await UserDataService.getAll().then(resolveData => {
         let res = resolveData.data
         let list = []
 
         for (let i=0; i<res.length; i++) {
           list.push({})
-          console.log(res[i])
           list[i].id = res[i].id
           list[i].no = res[i].studentno // 학번
           list[i].name = res[i].name // 이름
@@ -187,21 +300,25 @@ export default {
           list[i].auth = res[i].roles[0].name // 사용자 권한
 
           // USER_MEMBER일 경우(이후 ADMIN 조건은 제거!)
-          if(list[i].auth === "ROLE_USER_MEMBER" || list[i].auth === "ROLE_ADMIN") {
+          if(list[i].auth === "ROLE_USER_MEMBER") {
             UserInfoDataService.getInfo(res[i].studentno).then(res => {
               list[i].dep = res.data.department
               list[i].live = res.data.res_fac + "관 " +res.data.res_room +"호실"
+              this.componentKey += 1
             })
           }
+          this.componentKey += 1
         }
         this.userList = list
+        this.componentKey += 1
       })
-      ApplyStudyroomDataService.getAll().then(resolveData => {
+      await ApplyStudyroomDataService.getAll().then(resolveData => {
         let res = resolveData.data
         let list = []
 
         for (let i=0; i<res.length; i++) {
           list.push({})
+          list[i].id = res[i].id // 번호
           list[i].no = res[i].studentNo // 학번
           list[i].name = res[i].name // 이름
           list[i].dep = res[i].department // 학과
@@ -263,70 +380,99 @@ export default {
           list[i].seat = res[i].seat +"번 좌석" // 좌석
         }
         this.studyList = list
+        this.componentKey1 += 1
       })
-      ApplySleepoutDataService.getAll().then(resolveData => {
+      await UserPointDataService.getAll().then(resolveData => {
         let res = resolveData.data
         let list = []
 
         for (let i=0; i<res.length; i++) {
           list.push({})
+          list[i].id = res[i].id
+          list[i].no = res[i].studentNo
+          list[i].name = res[i].name
+          list[i].dep = res[i].department
+
+          if(res[i].plusPoint !== 0) {
+            list[i].addpoint = res[i].plusPoint
+          } else {
+            list[i].addpoint = res[i].minusPoint * (-1)
+          }
+          this.componentKey6 += 1
+        }
+        this.pointList = list
+        this.componentKey6 += 1
+      })
+      await ApplySleepoutDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].id = res[i].id
           list[i].no = res[i].studentNo
           list[i].name = res[i].name
           list[i].dep = res[i].department
           list[i].date = res[i].date
           list[i].term = res[i].date_sleepout
           list[i].reason = res[i].reason
-          if (res[i].approved === true) {
+          if (res[i].approved === true) { 
             list[i].status = "승인"
           } else {
             list[i].status = "미승인"
           }
         }
         this.sleepList = list
+        this.componentKey2 += 1
       })
-      ApplyJoinDataService.getAll().then(resolveData => {
+      await ApplyJoinDataService.getAll().then(resolveData => {
         let res = resolveData.data
-        console.log("in: ", res)
         let list = []
 
         for (let i=0; i<res.length; i++) {
           list.push({})
+          list[i].id = res[i].id
           list[i].no = res[i].studentNo
           list[i].grade = res[i].grade
           list[i].name = res[i].name
           list[i].dep = res[i].department
-          //list[i].point = "-"
           list[i].hope = res[i].hope_fac_1
-        }
-        this.joinList = list
-      })
-      ApplyResignDataService.getAll().then(resolveData => {
-        let res = resolveData.data
-        console.log("out: ", res)
-        let list = []
-
-        for (let i=0; i<res.length; i++) {
-          list.push({})
-          list[i].no = "-"
-          list[i].name = "-"
-          list[i].dep = "-"
-          list[i].live = "-"
           if (res[i].approved === true) {
             list[i].status = "승인"
           } else {
-            list[i].status = "대기중"
+            list[i].status = "미승인"
           }
         }
-        this.outList = list
-        console.log(this.outList)
+        this.joinList = list
+        this.componentKey4 += 1
       })
-      ApplyConsultDataService.getAll().then(resolveData => {
+      await ApplyResignDataService.getAll().then(resolveData => {
         let res = resolveData.data
-        console.log("con", res)
         let list = []
 
         for (let i=0; i<res.length; i++) {
           list.push({})
+          list[i].id = res[i].id
+          list[i].no = res[i].studentNo
+          list[i].name = res[i].name
+          list[i].dep = res[i].department
+          //list[i].live = "-"
+          if (res[i].approved === true) {
+            list[i].status = "승인"
+          } else {
+            list[i].status = "미승인"
+          }
+        }
+        this.outList = list
+        this.componentKey4 += 1
+      })
+      await ApplyConsultDataService.getAll().then(resolveData => {
+        let res = resolveData.data
+        let list = []
+
+        for (let i=0; i<res.length; i++) {
+          list.push({})
+          list[i].id = res[i].id // 번호
           list[i].no = res[i].studentNo // 학번
           list[i].name = res[i].name // 이름
           list[i].find = res[i].subject // 상담분야
@@ -334,6 +480,7 @@ export default {
           list[i].phone = "-" // 전화번호
         }
         this.consultingList = list
+        this.componentKey3 += 1
       })
     },
     routeCheck() {
@@ -398,7 +545,7 @@ export default {
         this.side[5].img = require("@/assets/admin_counseling.png");
         this.side[6].img = require("@/assets/admin_schedule.png");
         this.side[3].active = true;
-      } else if (this.$route.name === "admininout") {
+      } else if (this.$route.name === "admininout" || this.$route.name === 'inoutdetail') {
         this.title = "관리자페이지 > 입사/퇴사 관리";
         this.side[0].img = require("@/assets/admin_user.png");
         this.side[1].img = require("@/assets/admin_point.png");
@@ -408,7 +555,7 @@ export default {
         this.side[5].img = require("@/assets/admin_counseling.png");
         this.side[6].img = require("@/assets/admin_schedule.png");
         this.side[4].active = true;
-      } else if (this.$route.name === "adminconsulting") {
+      } else if (this.$route.name === "adminconsulting" || this.$route.name === 'consultdetail') {
         this.title = "관리자페이지 > 상담 신청 현황";
         this.side[0].img = require("@/assets/admin_user.png");
         this.side[1].img = require("@/assets/admin_point.png");
@@ -463,5 +610,48 @@ export default {
     z-index: 1;
     width: 100%;
   }
+}
+
+.titlebox {
+  justify-content: space-between;
+  display: flex;
+  border-bottom: solid 2px #e2e2e2;
+
+  h1 {
+    margin: 0;
+    color: #222;
+    padding: 17px 30px;
+    font-size: 22px;
+  }
+
+  .btn {
+    margin: auto 0;
+
+    button {
+      font-size: 15px;
+      border: 0;
+      color: #fff;
+      padding: 8px 10px;
+    }
+
+    .add {
+      background-color: #00B6AD;
+      margin-right: 20px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .del {
+      margin-right: 10px;
+      background-color: #DD6464;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
 }
 </style>

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.Point;
@@ -23,8 +25,6 @@ import com.backend.repository.PointRepository;
 import com.backend.repository.UserMemberRepository;
 import com.backend.repository.UserRepository;
 import com.backend.security.services.UserMemberManagement;
-
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(path="/api/point")
@@ -78,6 +78,42 @@ public class PointController {
                 _userMember.getDepartment(), point.getReason(), point.getDate_receive(), point.getDate(), point.getPlusPoint(), point.getMinusPoint());
 
                 return new ResponseEntity<PointResponse>(response, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(path="/my-point")
+    public ResponseEntity<List<PointResponse>> getMyPoints(@RequestParam("studentNo") String studentNo) {
+        try {
+            Optional<User> _userData = userRepository.findByStudentno(studentNo);
+            if(_userData.isPresent()) {
+                User _user = _userData.get();
+                Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+                if(_userMemberData.isPresent()) {
+                    UserMember _userMember = _userMemberData.get();
+
+                    List<Point> myPoints = pointRepository.findByUserMemberId(_userMember.getId());
+
+                    if(myPoints.isEmpty()) {
+                        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+                    }
+
+                    List<PointResponse> responses = new ArrayList<PointResponse>();
+
+                    myPoints.forEach(point -> {
+                        responses.add(new PointResponse(point.getId(), _user.getStudentno(), _user.getName(), 
+                        _userMember.getDepartment(), point.getReason(), point.getDate_receive(), point.getDate(), 
+                        point.getPlusPoint(), point.getMinusPoint()));
+                    });
+
+                    return new ResponseEntity<List<PointResponse>>(responses, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                }
             } else {
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             }

@@ -3,6 +3,8 @@ package com.backend.payload.response;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class PointResponse {
     private Long id;
 
@@ -65,6 +67,7 @@ public class PointResponse {
         this.date_receive = date_receive;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime date;
 
     public LocalDateTime getDate() {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.User;
@@ -87,6 +88,43 @@ public class ApplySleepoutController {
         return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
+    }
+
+    @GetMapping(path="/apply-sleepout/my-sleepout")
+    public ResponseEntity<List<ApplySleepoutResponse>> getMySleepout(@RequestParam("studentNo") String studentNo) {
+      try {
+        Optional<User> _userData = userRepository.findByStudentno(studentNo);
+        if(_userData.isPresent()) {
+          User _user = _userData.get();
+          Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+          if(_userMemberData.isPresent()) {
+            UserMember _userMember = _userMemberData.get();
+
+            List<ApplySleepout> sleepouts = applySleepoutRepository.findByUserMemberId(_userMember.getId());
+            
+            if(sleepouts.isEmpty()) {
+              return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            }
+
+            List<ApplySleepoutResponse> sleepoutResponses = new ArrayList<ApplySleepoutResponse>();
+            
+            sleepouts.forEach(_applySleepout -> {
+              sleepoutResponses.add(new ApplySleepoutResponse(_applySleepout.getId(),
+                                  _user.getStudentno(), _user.getName(), _userMember.getDepartment(),
+                                  _applySleepout.getDate_sleepout(), _applySleepout.getReason(), _applySleepout.getDate(),
+                                  _applySleepout.isApproved()));
+            });
+
+            return new ResponseEntity<List<ApplySleepoutResponse>>(sleepoutResponses, HttpStatus.OK);  
+          } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+          }
+        } else {
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
 

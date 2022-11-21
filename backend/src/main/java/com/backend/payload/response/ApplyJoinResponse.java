@@ -3,6 +3,8 @@ package com.backend.payload.response;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ApplyJoinResponse {
 
     private Long id;
@@ -175,6 +177,7 @@ public class ApplyJoinResponse {
         this.landline = landline;
     }    
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime date;
 
     public LocalDateTime getDate() {

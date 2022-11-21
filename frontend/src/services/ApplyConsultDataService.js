@@ -12,16 +12,16 @@ class ApplyConsultDataService {
     return http.post(`/apply-consult`, data);
   }
 
-  update(joinId, data) {
-    return http.put(`/apply-consult/${joinId}`, data);
+  update(id, data) {
+    return http.put(`/apply-consult/${id}`, data);
   }
 
-  updateApprove(joinId, data) {
-    return http.put(`/apply-consult/${joinId}/approve`, data);
+  updateApprove(id, data) {
+    return http.put(`/apply-consult/${id}/approve`, data);
   }
 
-  delete(joinId) {
-    return http.delete(`/apply-consult/${joinId}`);
+  delete(id) {
+    return http.delete(`/apply-consult/${id}`);
   }
 
   deleteAll() {

@@ -51,6 +51,7 @@ public class Point {
     }
 
     @Column(name="date_receive")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate date_receive;
     public LocalDate getDate_receive() {
         return date_receive;

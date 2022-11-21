@@ -190,7 +190,7 @@
                         <div class="title">
                             이용시간
                             <p>(하루 최대 이용 시간은 6시간입니다.)</p>
-                            <strong style="margin-left: 50px;">TODAY : {{today}}</strong>
+                            <strong style="margin-left: 50px;">TODAY : {{ today }}</strong>
                         </div>
 
                         <div v-if="this.seat[0].isActive == true">
@@ -366,6 +366,10 @@
                     <div class="division"></div>
                     <PageTitle title="입사 신청" style="margin: 0 0 20px"></PageTitle>
                     <form action="" id="in_apply">
+                        <div class="hope_date">
+                            <div class="title">입사 희망 일자</div>
+                            <div><input type="date" v-model="date_join" /></div>
+                        </div>
                         <div class="boxes1">
                             <div class="box">
                                 <div class="title">희망시설1</div>
@@ -458,11 +462,10 @@
                             <div class="box">
                                 <div class="title">사용기간</div>
                                 <select name="" id="" v-model="period">
-                                    <option value="1">1개월</option>
-                                    <option value="2">2개월</option>
-                                    <option value="3">3개월</option>
-                                    <option value="6">6개월</option>
-                                    <option value="12">12개월</option>
+                                    <option value="4 month">4개월</option>
+                                    <option value="6 month">6개월</option>
+                                    <option value="8 month">8개월</option>
+                                    <option value="12 month">12개월</option>
                                 </select>
                             </div>
                             <div class="box">
@@ -733,13 +736,13 @@ export default {
             consult_subject: "",
             consult_topic: "",
             timeslotList: [
-                { time: "09:00~11:00", part:1, status: true, isActive: false },
-                { time: "11:00~13:00", part:2, status: true, isActive: false },
-                { time: "13:00~15:00", part:3, status: true, isActive: false },
-                { time: "15:00~17:00", part:4, status: true, isActive: false },
-                { time: "17:00~19:00", part:5, status: true, isActive: false },
-                { time: "19:00~21:00", part:6, status: true, isActive: false },
-                { time: "21:00~23:00", part:7, status: true, isActive: false },
+                { time: "09:00~11:00", part: 1, status: true, isActive: false },
+                { time: "11:00~13:00", part: 2, status: true, isActive: false },
+                { time: "13:00~15:00", part: 3, status: true, isActive: false },
+                { time: "15:00~17:00", part: 4, status: true, isActive: false },
+                { time: "17:00~19:00", part: 5, status: true, isActive: false },
+                { time: "19:00~21:00", part: 6, status: true, isActive: false },
+                { time: "21:00~23:00", part: 7, status: true, isActive: false },
             ],
             time_selected_cnt: '',
             time_selected_limit: 3,
@@ -801,7 +804,7 @@ export default {
             }
         },
         myFilterSeat(index) {
-            for(const item in this.seat) {
+            for (const item in this.seat) {
                 this.seat[item].isActive = false;
             }
             this.seat[index].isActive = !this.seat[index].isActive;
@@ -813,7 +816,7 @@ export default {
                 this.time_selected_list = this.time_selected_list.filter(item => item !== this.timeslotList[index].part) || []
                 this.timeslotList[index].isActive = false;
             } else {                                // 더하기
-                if(this.time_selected_cnt >= this.time_selected_limit) {
+                if (this.time_selected_cnt >= this.time_selected_limit) {
                     alert("하루 최대 이용 시간을 초과했습니다!")
                 } else {
                     this.time_selected_cnt++
@@ -822,7 +825,7 @@ export default {
                 }
             }
         },
-        alertMsg(){
+        alertMsg() {
             alert("입사 신청을 먼저 해주세요!")
         },
         // 상담 신청
@@ -918,18 +921,19 @@ export default {
                 hope_fac_5: this.hope_fac_5,
                 hope_fac_6: this.hope_fac_6,
                 period: this.period,
+                date_join: this.date_join,
                 single_yn: this.single_yn,
                 pri_ent: this.pri_ent,
                 fgn_mate: this.fgn_mate,
                 accpm_ent: this.accpm_ent,
                 par_mes_yn: this.par_mes_yn
             }
-            if(this.hope_fac_1 == this.hope_fac_2 || this.hope_fac_1 == this.hope_fac_3 || this.hope_fac_1 == this.hope_fac_4 || this.hope_fac_1 == this.hope_fac_5
-            || this.hope_fac_1 == this.hope_fac_6 || this.hope_fac_2 == this.hope_fac_3 || this.hope_fac_2 == this.hope_fac_4 || this.hope_fac_2 == this.hope_fac_5
-            || this.hope_fac_2 == this.hope_fac_6 || this.hope_fac_3 == this.hope_fac_4 || this.hope_fac_3 == this.hope_fac_5 || this.hope_fac_3 == this.hope_fac_6
-            || this.hope_fac_4 == this.hope_fac_5 || this.hope_fac_4 == this.hope_fac_6 || this.hope_fac_5 == this.hope_fac_6){
+            if (this.hope_fac_1 == this.hope_fac_2 || this.hope_fac_1 == this.hope_fac_3 || this.hope_fac_1 == this.hope_fac_4 || this.hope_fac_1 == this.hope_fac_5
+                || this.hope_fac_1 == this.hope_fac_6 || this.hope_fac_2 == this.hope_fac_3 || this.hope_fac_2 == this.hope_fac_4 || this.hope_fac_2 == this.hope_fac_5
+                || this.hope_fac_2 == this.hope_fac_6 || this.hope_fac_3 == this.hope_fac_4 || this.hope_fac_3 == this.hope_fac_5 || this.hope_fac_3 == this.hope_fac_6
+                || this.hope_fac_4 == this.hope_fac_5 || this.hope_fac_4 == this.hope_fac_6 || this.hope_fac_5 == this.hope_fac_6) {
                 alert("희망 시설이 중복되었습니다.")
-            } else{
+            } else {
                 ApplyJoinDataService.create(data)
                 alert("신청 완료했습니다.");
                 location.reload(true);
@@ -951,16 +955,16 @@ export default {
             let sameCnt = 0, lengthCnt = 0
 
             //외박 신청한 날짜와 중복 여부
-            while(this.sleepout_item.length>lengthCnt){
-                if(this.sleepout_item[lengthCnt].outdate==this.date_sleepout){
+            while (this.sleepout_item.length > lengthCnt) {
+                if (this.sleepout_item[lengthCnt].outdate == this.date_sleepout) {
                     sameCnt++
                 }
                 lengthCnt++
             }
 
-            if(sameCnt>0){
+            if (sameCnt > 0) {
                 alert("이미 신청한 날짜입니다!")
-            } else{
+            } else {
                 let data = {
                     studentNo: this.user.studentno,
                     date_sleepout: this.date_sleepout,
@@ -972,7 +976,7 @@ export default {
             }
         },
 
-        init(){
+        init() {
             //사용자 정보 가져오기
             UserService.getInfo(this.user.studentno).then(item => {
                 let res = item.data
@@ -1004,19 +1008,19 @@ export default {
                 let res = item.data
                 let list = []
 
-                for (let i=0; i<res.length; i++) {
-                    if(res[i].studentNo==this.user.studentno){
-                        if(res[i].timeslot1){
+                for (let i = 0; i < res.length; i++) {
+                    if (res[i].studentNo == this.user.studentno) {
+                        if (res[i].timeslot1) {
                             list.push(res[i].timeslot1)
-                        } if(res[i].timeslot2){
+                        } if (res[i].timeslot2) {
                             list.push(res[i].timeslot2)
-                        } if(res[i].timeslot3){
+                        } if (res[i].timeslot3) {
                             list.push(res[i].timeslot3)
                         }
                     }
                 }
-                
-                if(list.length>0){
+
+                if (list.length > 0) {
                     this.time_selected_cnt = list.length
                 } else {
                     this.time_selected_cnt = 0
@@ -1028,7 +1032,7 @@ export default {
                 let res = item.data
                 let list = []
 
-                for (let i=0; i<res.length; i++) {
+                for (let i = 0; i < res.length; i++) {
                     list.push({})
                     list[i].no = res[i].id
                     list[i].seat = res[i].seat
@@ -1039,7 +1043,7 @@ export default {
                     list[i].timeslot5_taken = res[i].timeslot5_taken
                     list[i].timeslot6_taken = res[i].timeslot6_taken
                     list[i].timeslot7_taken = res[i].timeslot7_taken
-                    if(i==0){
+                    if (i == 0) {
                         this.studyroom_status_list1.push(res[i].timeslot1_taken)
                         this.studyroom_status_list1.push(res[i].timeslot2_taken)
                         this.studyroom_status_list1.push(res[i].timeslot3_taken)
@@ -1047,7 +1051,7 @@ export default {
                         this.studyroom_status_list1.push(res[i].timeslot5_taken)
                         this.studyroom_status_list1.push(res[i].timeslot6_taken)
                         this.studyroom_status_list1.push(res[i].timeslot7_taken)
-                    } else if(i==1){
+                    } else if (i == 1) {
                         this.studyroom_status_list2.push(res[i].timeslot1_taken)
                         this.studyroom_status_list2.push(res[i].timeslot2_taken)
                         this.studyroom_status_list2.push(res[i].timeslot3_taken)
@@ -1055,7 +1059,7 @@ export default {
                         this.studyroom_status_list2.push(res[i].timeslot5_taken)
                         this.studyroom_status_list2.push(res[i].timeslot6_taken)
                         this.studyroom_status_list2.push(res[i].timeslot7_taken)
-                    } else if(i==2){
+                    } else if (i == 2) {
                         this.studyroom_status_list3.push(res[i].timeslot1_taken)
                         this.studyroom_status_list3.push(res[i].timeslot2_taken)
                         this.studyroom_status_list3.push(res[i].timeslot3_taken)
@@ -1063,7 +1067,7 @@ export default {
                         this.studyroom_status_list3.push(res[i].timeslot5_taken)
                         this.studyroom_status_list3.push(res[i].timeslot6_taken)
                         this.studyroom_status_list3.push(res[i].timeslot7_taken)
-                    } else if(i==3){
+                    } else if (i == 3) {
                         this.studyroom_status_list4.push(res[i].timeslot1_taken)
                         this.studyroom_status_list4.push(res[i].timeslot2_taken)
                         this.studyroom_status_list4.push(res[i].timeslot3_taken)
@@ -1071,7 +1075,7 @@ export default {
                         this.studyroom_status_list4.push(res[i].timeslot5_taken)
                         this.studyroom_status_list4.push(res[i].timeslot6_taken)
                         this.studyroom_status_list4.push(res[i].timeslot7_taken)
-                    } else if(i==4){
+                    } else if (i == 4) {
                         this.studyroom_status_list5.push(res[i].timeslot1_taken)
                         this.studyroom_status_list5.push(res[i].timeslot2_taken)
                         this.studyroom_status_list5.push(res[i].timeslot3_taken)
@@ -1079,7 +1083,7 @@ export default {
                         this.studyroom_status_list5.push(res[i].timeslot5_taken)
                         this.studyroom_status_list5.push(res[i].timeslot6_taken)
                         this.studyroom_status_list5.push(res[i].timeslot7_taken)
-                    } else if(i==5){
+                    } else if (i == 5) {
                         this.studyroom_status_list6.push(res[i].timeslot1_taken)
                         this.studyroom_status_list6.push(res[i].timeslot2_taken)
                         this.studyroom_status_list6.push(res[i].timeslot3_taken)
@@ -1087,7 +1091,7 @@ export default {
                         this.studyroom_status_list6.push(res[i].timeslot5_taken)
                         this.studyroom_status_list6.push(res[i].timeslot6_taken)
                         this.studyroom_status_list6.push(res[i].timeslot7_taken)
-                    } else if(i==6){
+                    } else if (i == 6) {
                         this.studyroom_status_list7.push(res[i].timeslot1_taken)
                         this.studyroom_status_list7.push(res[i].timeslot2_taken)
                         this.studyroom_status_list7.push(res[i].timeslot3_taken)
@@ -1095,7 +1099,7 @@ export default {
                         this.studyroom_status_list7.push(res[i].timeslot5_taken)
                         this.studyroom_status_list7.push(res[i].timeslot6_taken)
                         this.studyroom_status_list7.push(res[i].timeslot7_taken)
-                    } else if(i==7){
+                    } else if (i == 7) {
                         this.studyroom_status_list8.push(res[i].timeslot1_taken)
                         this.studyroom_status_list8.push(res[i].timeslot2_taken)
                         this.studyroom_status_list8.push(res[i].timeslot3_taken)
@@ -1103,7 +1107,7 @@ export default {
                         this.studyroom_status_list8.push(res[i].timeslot5_taken)
                         this.studyroom_status_list8.push(res[i].timeslot6_taken)
                         this.studyroom_status_list8.push(res[i].timeslot7_taken)
-                    } else if(i==8){
+                    } else if (i == 8) {
                         this.studyroom_status_list9.push(res[i].timeslot1_taken)
                         this.studyroom_status_list9.push(res[i].timeslot2_taken)
                         this.studyroom_status_list9.push(res[i].timeslot3_taken)
@@ -1128,7 +1132,7 @@ export default {
                 let res = sleepooutData.data
                 let list = []
 
-                for (let i=0; i<res.length; i++) {
+                for (let i = 0; i < res.length; i++) {
                     list.push({})
                     list[i].no = res[i].id
                     list[i].reason = res[i].reason
@@ -1153,7 +1157,7 @@ export default {
             }
             return no
         },
-        selectedTime(){
+        selectedTime() {
             let time = []
             for (const item in this.timeslotList) {
                 if (this.timeslotList[item].isActive == true) {
@@ -1400,6 +1404,28 @@ export default {
 
                 #in_apply {
                     margin-bottom: 100px;
+
+                    .hope_date {
+                        width: 100%;
+                        margin-bottom: 20px;
+                        display: flex;
+
+                        .title {
+                            width: 15%;
+                            line-height: 55px;
+                            text-align: center;
+                            font-weight: bold;
+                            background-color: #336EB4;
+                            color: #fff;
+                        }
+
+                        input[type=date] {
+                            width: 100%;
+                            margin-left: 15px;
+                            line-height: 50px;
+                        }
+
+                    }
 
                     .boxes1 {
                         display: flex;

@@ -179,7 +179,7 @@ export default {
                         console.log(res)
                     })
                 }
-                if(cnt === 0) {
+                if(cnt == 0) {
                     alert('이미 모두 승인 처리되어 있습니다.')
                 } else {
                     alert('입사 신청 ' + cnt+'건이 승인 처리되었습니다.')
@@ -195,7 +195,7 @@ export default {
             } else {
                 for(let i=0; i<list.length; i++) {
                     await ApplyResignDataService.updateApprove(list[i]).then(res => {
-                        cnt++
+                        cnt = 1
                         console.log(res)
                     })
                 }

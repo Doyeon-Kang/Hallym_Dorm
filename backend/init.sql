@@ -289,6 +289,19 @@ INSERT INTO apply_studyroom_schedule(seat) VALUES(7);
 INSERT INTO apply_studyroom_schedule(seat) VALUES(8);
 INSERT INTO apply_studyroom_schedule(seat) VALUES(9);
 
+create event clear_schedule
+	on schedule
+		EVERY 1 DAY
+    STARTS (TIMESTAMP(CURRENT_DATE) + INTERVAL 1 DAY)
+	do 
+		UPDATE apply_studyroom_schedule SET timeslot1_taken = 0;
+		UPDATE apply_studyroom_schedule SET timeslot2_taken = 0;
+		UPDATE apply_studyroom_schedule SET timeslot3_taken = 0;
+		UPDATE apply_studyroom_schedule SET timeslot4_taken = 0;
+		UPDATE apply_studyroom_schedule SET timeslot5_taken = 0;
+		UPDATE apply_studyroom_schedule SET timeslot6_taken = 0;
+		UPDATE apply_studyroom_schedule SET timeslot7_taken = 0;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

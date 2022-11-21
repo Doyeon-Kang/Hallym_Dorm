@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardRepair;
+import com.backend.payload.response.BoardResponse;
 import com.backend.repository.board.BoardRepairRepository;
 
 @RestController
@@ -27,7 +28,7 @@ public class BoardRepairController {
     BoardRepairRepository boardRepairRepository;
 
     @GetMapping(path="/board-repair")
-    public ResponseEntity<List<BoardRepair>> getAllBoardRepair() {
+    public ResponseEntity<List<BoardResponse>> getAllBoardRepair() {
         try {
           List<BoardRepair> boardRepairs = new ArrayList<BoardRepair>();
 
@@ -36,35 +37,59 @@ public class BoardRepairController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           }
 
-          return new ResponseEntity<>(boardRepairs, HttpStatus.OK);
+          List<BoardResponse> responses = new ArrayList<BoardResponse>();
+
+          for(BoardRepair _boardRepair : boardRepairs) {
+            responses.add(new BoardResponse(_boardRepair.getId(), _boardRepair.getWriterStudentNo(),
+            _boardRepair.getWriter_name(), _boardRepair.getTitle(), _boardRepair.getContent(),
+            _boardRepair.getViews(), _boardRepair.getDate(), "repair"));
+          }
+
+          return new ResponseEntity<>(responses, HttpStatus.OK);
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/board-repair/{id}")
-    public ResponseEntity<BoardRepair> getBoardRepairById(@PathVariable("id") long id) {
+    public ResponseEntity<BoardResponse> getBoardRepairById(@PathVariable("id") long id) {
       Optional<BoardRepair> repairData = boardRepairRepository.findById(id);
 
       if(repairData.isPresent()) {
         BoardRepair _boardRepair = repairData.get();
         int views = _boardRepair.getViews() + 1;
         _boardRepair.setViews(views);
-        return new ResponseEntity<>(boardRepairRepository.save(_boardRepair), HttpStatus.OK);
+        boardRepairRepository.save(_boardRepair);
+
+        BoardResponse response = new BoardResponse(_boardRepair.getId(), _boardRepair.getWriterStudentNo(),
+                                _boardRepair.getWriter_name(), _boardRepair.getTitle(), _boardRepair.getContent(),
+                                _boardRepair.getViews(), _boardRepair.getDate(), "repair");
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
     @GetMapping("/board-repair/my-repair")
-    public ResponseEntity<List<BoardRepair>> getMyBoardRepair (@RequestParam("studentNo") String studentNo) {
+    public ResponseEntity<List<BoardResponse>> getMyBoardRepair (@RequestParam("studentNo") String studentNo) {
       try{
         List <BoardRepair> myRepairs = boardRepairRepository.findByWriterStudentNo(studentNo);
 
         if(myRepairs.isEmpty()){
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(myRepairs, HttpStatus.OK);
+        
+        List<BoardResponse> responses = new ArrayList<BoardResponse>();
+
+        for(BoardRepair _boardRepair : myRepairs) {
+          responses.add(new BoardResponse(_boardRepair.getId(), _boardRepair.getWriterStudentNo(),
+          _boardRepair.getWriter_name(), _boardRepair.getTitle(), _boardRepair.getContent(),
+          _boardRepair.getViews(), _boardRepair.getDate(), "repair"));
+        }
+
+        return new ResponseEntity<>(responses, HttpStatus.OK);
+
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }

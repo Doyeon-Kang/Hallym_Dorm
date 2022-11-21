@@ -300,14 +300,16 @@ export default {
                 let list = []
 
                 for (let i = 0; i < res.length; i++) {
-                    list.push({})
-                    if (res[i].plusPoint > 0) {
-                        list[i].point = res[i].plusPoint
-                    } else if (res[i].minusPoint > 0) {
-                        list[i].point = res[i].minusPoint * -1
+                    if(this.user.studentno == res[i].studentNo){
+                        list.push({})
+                        if (res[i].plusPoint > 0) {
+                            list[i].point = res[i].plusPoint
+                        } else if (res[i].minusPoint > 0) {
+                            list[i].point = res[i].minusPoint * -1
+                        }
+                        list[i].title = res[i].reason
+                        list[i].date = res[i].date
                     }
-                    list[i].title = res[i].reason
-                    list[i].date = res[i].date
                 }
 
                 this.point_item = list

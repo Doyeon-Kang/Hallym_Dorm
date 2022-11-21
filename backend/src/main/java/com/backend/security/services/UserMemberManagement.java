@@ -98,6 +98,16 @@ public class UserMemberManagement {
                 } else return false; 
             }
         } else { // no user_member yet
+            
+            Optional<ApplyResign> _applyResignData = applyResignRepository.findByUserId(user.getId());
+            if(_applyResignData.isPresent()) {
+                ApplyResign _applyResign = _applyResignData.get();
+                if((_applyResign.getRes_date().isBefore(LocalDate.now()) || _applyResign.getRes_date().isEqual(LocalDate.now()))
+                    && (_applyResign.isApproved())) {
+                        return false;
+                    }
+                }
+
             Optional<ApplyJoin> _applyJoinData = applyJoinRepository.findByUserId(user.getId());
             if(_applyJoinData.isPresent()) {
                 ApplyJoin _applyJoin = _applyJoinData.get();

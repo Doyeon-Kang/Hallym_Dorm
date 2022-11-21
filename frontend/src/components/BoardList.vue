@@ -1,12 +1,37 @@
 <template>
   <div class="wrapper_list">
-    <table>
+    <table v-if="this.$route.name === 'community' || this.$route.name === 'notice1' || 
+      this.$route.name === 'data' || this.$route.name === 'faq' || 
+      this.$route.name === 'repair' || this.$route.name === 'market' || 
+      this.$route.name === 'lost'">
       <thead>
         <th v-for="(title, index) in listTitle" :key="index">{{ title }}</th>
       </thead>
       <tbody>
         <tr v-for="item in paginatedData" :key="item.no" @click="this.$router.push(item.url)">
           <td v-for="(text, index) in objectKey(item)" :key="index" @click="$router.push({path:this.$route.path + '/view', query: { no: item.no }})">
+            {{ text }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <table v-if="this.$route.name === 'myassey' || this.$route.name === 'myconsulting' || 
+      this.$route.name === 'mystudy' || this.$route.name === 'mysleep' || 
+      this.$route.name === 'mypoint'">
+      <thead>
+        <th v-for="(title, index) in listTitle" :key="index">{{ title }}</th>
+      </thead>
+      <tbody v-if="this.$route.name === 'myassey'">
+        <tr v-for="item in paginatedData" :key="item.no" @click="this.$router.push(item.url)">
+          <td v-for="(text, index) in objectKey(item)" :key="index" @click="$router.push({path: `/community${item.type}` + '/view', query: { no: item.no }})">
+            {{ text }}
+          </td>
+        </tr>
+      </tbody>
+      <tbody v-else>
+        <tr v-for="item in paginatedData" :key="item.no">
+          <td v-for="(text, index) in objectKey(item)" :key="index">
             {{ text }}
           </td>
         </tr>

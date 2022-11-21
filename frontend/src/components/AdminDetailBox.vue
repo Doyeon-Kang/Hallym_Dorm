@@ -7,7 +7,7 @@
                 <div class="container" :class="{'status': !status}">
                     <table>
                         <tr v-for="(info, index) in user" :key="index">
-                            <th>{{ index }}</th>
+                            <th>{{ toKoreanUser(index) }} </th>
                             <td>{{ info }}</td>
                         </tr>
                     </table>
@@ -21,7 +21,7 @@
                 <div class="container out">
                     <table>
                         <tr v-for="(info, index) in point" :key="index">
-                            <th>{{ index }}</th>
+                            <th>{{ toKoreanPoint(index) }}</th>
                             <td>{{ info }}</td>
                         </tr>
                     </table>
@@ -52,7 +52,7 @@
                 <div class="container" :class="{out: this.$route.query.category === 'out'}">
                     <table>
                         <tr v-for="(info, index) in inout" :key="index">
-                            <th>{{ index }}</th>
+                            <th>{{ toKoreanJoinResign(index) }}</th>
                             <td>{{ info }}</td>
                         </tr>
                     </table>
@@ -122,6 +122,77 @@
                         this.inout = res
                     })
                 }
+            }, toKoreanUser(entry) {
+                if(entry === "id") return "아이디"
+                else if (entry === "english_name") return "영문이름"
+                else if (entry === "chinese_name") return "한자이름"
+                else if (entry === "grade") return "학년"
+                else if (entry === "gender") return "성별"
+                else if (entry === "nationality") return "국적"
+                else if (entry === "department") return "대학"
+                else if (entry === "major") return "학과"
+                else if (entry === "student_status") return "학적상태"
+                else if (entry === "address") return "주소"
+                else if (entry === "phone") return "연락처"
+                else if (entry === "guardian_name") return "보호자 성명"
+                else if (entry === "guardian_relation") return "보호자 관계"
+                else if (entry === "guardian_phone") return "보호자 연락처"
+                else if (entry === "landline") return "자택 전화"
+                else if (entry === "plusPoint") return "상점"
+                else if (entry === "minusPoint") return "벌점"
+                else if (entry === "res_fac") return "거주관"
+                else if (entry === "res_room") return "거주호실"
+                else return entry
+            }, toKoreanPoint(entry) {
+                if(entry === "id") return "아이디"
+                else if(entry === "studentNo") return "학번"
+                else if(entry === "name") return "이름"
+                else if(entry === "department") return "소속학과"
+                else if(entry === "reason") return "상/벌점 사유"
+                else if(entry === "date_receive") return "입력날짜"
+                else if(entry === "date") return "처리날짜"
+                else if(entry === "plusPoint") return "상점"
+                else if(entry === "minusPoint") return "벌점"
+                else return entry
+            }, toKoreanJoinResign(entry) {
+                if(entry === "id") return "아이디"
+                else if(entry === "studentNo") return "학번"
+                else if(entry === "name") return "이름"
+                else if(entry === "department") return "소속학과"
+                else if (entry === "english_name") return "영문이름"
+                else if (entry === "chinese_name") return "한자이름"
+                else if (entry === "grade") return "학년"
+                else if (entry === "gender") return "성별"
+                else if (entry === "nationality") return "국적"
+                else if (entry === "major") return "학과"
+                else if (entry === "student_status") return "학적상태"
+                else if (entry === "address") return "주소"
+                else if (entry === "phone") return "연락처"
+                else if (entry === "guardian_name") return "보호자 성명"
+                else if (entry === "guardian_relation") return "보호자 관계"
+                else if (entry === "guardian_phone") return "보호자 연락처"
+                else if (entry === "landline") return "자택 전화"
+                else if (entry === "date") return "입력날짜"
+                else if (entry === "hope_fac_1") return "희망시설1"
+                else if (entry === "hope_fac_2") return "희망시설2"
+                else if (entry === "hope_fac_3") return "희망시설3"
+                else if (entry === "hope_fac_4") return "희망시설4"
+                else if (entry === "hope_fac_5") return "희망시설5"
+                else if (entry === "hope_fac_6") return "희망시설6"
+                else if (entry === "period") return "사용기간"
+                else if (entry === "date_join") return "입사 날짜"
+                else if (entry === "res_date") return "퇴사 날짜"
+                else if (entry === "res_reason") return "퇴사 사유"
+                else if (entry === "single_yn") return "1인실 사용신청"
+                else if (entry === "pri_ent") return "우선입사 대상자"
+                else if (entry === "fgn_mate") return "외국인 룸메이트"
+                else if (entry === "accpm_ent") return "동반 입실자"
+                else if (entry === "par_mes_yn") return "보호자 문자 수신사항"
+                else if (entry === "approved") return "승인"
+                else if (entry === "res_fac") return "거주관"
+                else if (entry === "res_room") return "거주호실"
+
+                else return entry
             }
         },  
         created() {

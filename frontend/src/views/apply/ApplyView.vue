@@ -29,7 +29,7 @@
                                 <td>상담분야</td>
                                 <td>
                                     <select name="" id="" v-model="consult_topic">
-                                        <option value="교우관계">교우관계</option>
+                                        <option value="교우관계" selected>교우관계</option>
                                         <option value="학업">학업</option>
                                         <option value="경제">경제</option>
                                     </select>
@@ -744,7 +744,7 @@ export default {
             time_selected_cnt: '',
             time_selected_limit: 3,
             time_selected_list: [],
-            seat_no: 0,
+            seat_no: 1,
             userinfo: {},
             studyschedulelist: [],
             studyroom_status_list1: [],

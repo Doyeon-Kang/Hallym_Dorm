@@ -10,7 +10,7 @@ class RepairDataService {
   }
 
   getMy(studentNo) {
-    return http.get(`/board-repair/my-repair?studentNo=`, studentNo);
+    return http.get(`/board-repair/my-repair?studentNo=${studentNo}`);
   }
 
   create(data) {

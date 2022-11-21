@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.User;
-import com.backend.model.UserMember;
 import com.backend.model.apply.ApplyResign;
 import com.backend.payload.request.ApplyResignRequest;
 import com.backend.payload.response.ApplyResignResponse;
@@ -49,17 +48,11 @@ public class ApplyResignController {
 
           for(ApplyResign _applyResign : applyResigns) {
             User _user = _applyResign.getUser();
-            Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
-            if(_userMemberData.isPresent()) {
-              UserMember _userMember = _userMemberData.get();
-              responses.add(new ApplyResignResponse(_applyResign.getId(), _user.getStudentno(), _user.getName(),
-                                                    _userMember.getDepartment(), _applyResign.getRes_date(), _applyResign.getRes_reason(),
+            // Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+            responses.add(new ApplyResignResponse(_applyResign.getId(), _user.getStudentno(), _user.getName(),
+                                                     _applyResign.getRes_date(), _applyResign.getRes_reason(),
                                                     _applyResign.getDate(), _applyResign.isApproved()));
-            } else {
-              return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
           }
-
           return new ResponseEntity<>(responses, HttpStatus.OK);
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -76,16 +69,16 @@ public class ApplyResignController {
 
         ApplyResignResponse response;
         User _user = _applyResign.getUser();
-        Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
-        if(_userMemberData.isPresent()) {
-          UserMember _userMember = _userMemberData.get();
+        // Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+        // if(_userMemberData.isPresent()) {
+          // UserMember _userMember = _userMemberData.get();
           response = new ApplyResignResponse(_applyResign.getId(), _user.getStudentno(), _user.getName(),
-                                                _userMember.getDepartment(), _applyResign.getRes_date(), _applyResign.getRes_reason(),
+                                                _applyResign.getRes_date(), _applyResign.getRes_reason(),
                                                 _applyResign.getDate(), _applyResign.isApproved());
           return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        // } else {
+        //   return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        // }
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
@@ -104,16 +97,16 @@ public class ApplyResignController {
                 applyResignRepository.save(_applyResign);
 
                 ApplyResignResponse response;
-                Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
-                if(_userMemberData.isPresent()) {
-                  UserMember _userMember = _userMemberData.get();
+                // Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+                // if(_userMemberData.isPresent()) {
+                  // UserMember _userMember = _userMemberData.get();
                   response = new ApplyResignResponse(_applyResign.getId(), _user.getStudentno(), _user.getName(),
-                                                        _userMember.getDepartment(), _applyResign.getRes_date(), _applyResign.getRes_reason(),
+                                                        _applyResign.getRes_date(), _applyResign.getRes_reason(),
                                                         _applyResign.getDate(), _applyResign.isApproved());
                   return new ResponseEntity<>(response, HttpStatus.OK);
-                } else {
-                  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-                }
+                // } else {
+                //   return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                // }
             } else {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -135,16 +128,16 @@ public class ApplyResignController {
 
         ApplyResignResponse response;
         User _user = _applyResign.getUser();
-        Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
-        if(_userMemberData.isPresent()) {
-          UserMember _userMember = _userMemberData.get();
+        // Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+        // if(_userMemberData.isPresent()) {
+          // UserMember _userMember = _userMemberData.get();
           response = new ApplyResignResponse(_applyResign.getId(), _user.getStudentno(), _user.getName(),
-                                                _userMember.getDepartment(), _applyResign.getRes_date(), _applyResign.getRes_reason(),
+                                                _applyResign.getRes_date(), _applyResign.getRes_reason(),
                                                 _applyResign.getDate(), _applyResign.isApproved());
           return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        // } else {
+        //   return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        // }
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
@@ -162,16 +155,16 @@ public class ApplyResignController {
 
         ApplyResignResponse response;
         User _user = _applyResign.getUser();
-        Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
-        if(_userMemberData.isPresent()) {
-          UserMember _userMember = _userMemberData.get();
+        // Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+        // if(_userMemberData.isPresent()) {
+          // UserMember _userMember = _userMemberData.get();
           response = new ApplyResignResponse(_applyResign.getId(), _user.getStudentno(), _user.getName(),
-                                                _userMember.getDepartment(), _applyResign.getRes_date(), _applyResign.getRes_reason(),
+                                                _applyResign.getRes_date(), _applyResign.getRes_reason(),
                                                 _applyResign.getDate(), _applyResign.isApproved());
           return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        // } else {
+        //   return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        // }
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }

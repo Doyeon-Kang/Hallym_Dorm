@@ -22,6 +22,7 @@ import BoardList from "../../components/BoardList.vue";
 import UserInfoDataService from "@/services/UserInfoDataService";
 import UserPointDataService from "@/services/UserPointDataService";
 import NoticeDataService from "@/services/NoticeDataService";
+import NewsDataService from "@/services/NewsDataService";
 import RepairDataService from "@/services/RepairDataService";
 import StoreDataService from "@/services/StoreDataService";
 import LostDataService from "@/services/LostDataService";
@@ -155,7 +156,7 @@ export default {
           list[i].no = res[i].id
           list[i].title = res[i].title
           list[i].date = res[i].date
-          list[i].category = "공지사항"
+          list[i].type = ""
         }
 
         for (let i = 0; i < list.length; i++) {
@@ -173,7 +174,24 @@ export default {
           list[i].no = res[i].id
           list[i].title = res[i].title
           list[i].date = res[i].date
-          list[i].category = "사생자치회"
+          list[i].type = "/"+res[i].type
+        }
+
+        for (let i = 0; i < list.length; i++) {
+          this.asseyList.push(list[i])
+        }
+      })
+      // 서식자료실
+      NewsDataService.getMy(this.user.studentno).then(item => {
+        let res = item.data
+        let list = []
+
+        for (let i = 0; i < res.length; i++) {
+          list.push({})
+          list[i].no = res[i].id
+          list[i].title = res[i].title
+          list[i].date = res[i].date
+          list[i].type = "/data"
         }
 
         for (let i = 0; i < list.length; i++) {
@@ -190,7 +208,7 @@ export default {
           list[i].no = res[i].id
           list[i].title = res[i].title
           list[i].date = res[i].date
-          list[i].category = "불편/수리"
+          list[i].type = "/" + res[i].type
         }
 
         for (let i = 0; i < list.length; i++) {
@@ -207,7 +225,7 @@ export default {
           list[i].no = res[i].id
           list[i].title = res[i].title
           list[i].date = res[i].date
-          list[i].category = "나눔장터"
+          list[i].type = "/market"
         }
 
         for (let i = 0; i < list.length; i++) {
@@ -224,7 +242,7 @@ export default {
           list[i].no = res[i].id
           list[i].title = res[i].title
           list[i].date = res[i].date
-          list[i].category = "분실물"
+          list[i].type ="/"+ res[i].type
         }
 
         for (let i = 0; i < list.length; i++) {

@@ -36,15 +36,15 @@ public class ApplyResignResponse {
         this.name = name;
     }
 
-    private String department;
+    // private String department;
 
-    public String getDepartment() {
-        return department;
-    }
+    // public String getDepartment() {
+    //     return department;
+    // }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
+    // public void setDepartment(String department) {
+    //     this.department = department;
+    // }
 
     private LocalDate res_date;
 
@@ -87,12 +87,12 @@ public class ApplyResignResponse {
         this.approved = approved;
     }
 
-    public ApplyResignResponse(Long id, String studentNo, String name, String department,
+    public ApplyResignResponse(Long id, String studentNo, String name,
                                 LocalDate res_date, String res_reason, LocalDateTime date, Boolean approved) {
         this.id = id;
         this.studentNo = studentNo;
         this.name = name;
-        this.department = department;
+        // this.department = department;
         this.res_date = res_date;
         this.res_reason = res_reason;
         this.date = date;

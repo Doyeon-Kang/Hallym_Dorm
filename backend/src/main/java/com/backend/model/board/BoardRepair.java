@@ -30,14 +30,14 @@ public class BoardRepair {
     }
 
     @Column(name="writer_studentno")
-    private String writer_studentno;
+    private String writerStudentNo;
 
-    public String getWriter_studentno() {
-        return writer_studentno;
+    public String getWriterStudentNo() {
+        return writerStudentNo;
     }
 
-    public void setWriter_studentno(String writer_studentno) {
-        this.writer_studentno = writer_studentno;
+    public void setWriterStudentNo(String writerStudentNo) {
+        this.writerStudentNo = writerStudentNo;
     }
 
     @Column(name="writer_name")
@@ -103,8 +103,8 @@ public class BoardRepair {
 
     }
 
-    public BoardRepair(String writer_studentno, String writer_name, String title, String content) {
-        this.writer_studentno = writer_studentno;
+    public BoardRepair(String writerStudentNo, String writer_name, String title, String content) {
+        this.writerStudentNo = writerStudentNo;
         this.writer_name = writer_name;
         this.title = title;
         this.content = content;

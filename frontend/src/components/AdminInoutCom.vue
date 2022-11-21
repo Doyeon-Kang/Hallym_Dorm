@@ -28,18 +28,33 @@
                     </thead>
                     <tbody>
                         <tr v-for="item in listSearchin" :key="item.no" @click="this.$router.push(item.url)">
-                            <td><input type="checkbox" class="check" :value="item.no" v-model="selectListin" /></td>
+                            <td><input type="checkbox" class="check" :value="item.id" v-model="selectListin" /></td>
 
                             <td v-for="(text, index) in objectKey(item)" :key="index">
                                 {{ text }}
                             </td>
-
-                            <td><input type="button" value="자세히" /></td>
+                            <td>
+                                <select name="" id="" v-model="res_fac">
+                                    <option value="1">1관</option>
+                                    <option value="2">2관</option>
+                                    <option value="3">3관</option>
+                                    <option value="4">4관</option>
+                                    <option value="5">5관</option>
+                                    <option value="6">6관</option>
+                                    <option value="7">7관</option>
+                                    <option value="8">8관</option>
+                                </select>
+                            </td>
+                            <td><input type="text" v-model="res_room" class="res_room_input"/></td>
+                            <td><input type="button" value="자세히" @click="$router.push({
+                                name: 'inoutdetail',
+                                query: { id: item.id, category: 'in'}
+                            })"/></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <button class="approvalbtn">승인하기</button>
+            <button class="approvalbtn" @click="approveJoin(selectListin)">승인하기</button>
         </div>
 
         <div class="container">
@@ -49,7 +64,7 @@
                     <button @click="sortNameout()">이름순</button>
                     <button @click="sortNoout()">학번순</button>
                     <button @click="sortDepout()">소속학과순</button>
-                    <button @click="sortLiveout()">거주 기숙사순</button>
+                    <!-- <button @click="sortLiveout()">거주 기숙사순</button> -->
                 </span>
                 <div class="searchbar">
                     <div class="search_input">
@@ -68,21 +83,28 @@
                     </thead>
                     <tbody>
                         <tr v-for="item in listSearchout" :key="item.no" @click="this.$router.push(item.url)">
-                            <td><input type="checkbox" class="check" :value="item.no" v-model="selectListout" /></td>
+                            <td><input type="checkbox" class="check" :value="item.id" v-model="selectListout" /></td>
 
                             <td v-for="(text, index) in objectKey(item)" :key="index">
                                 {{ text }}
                             </td>
+                            <td><input type="button" value="자세히" @click="$router.push({
+                                name: 'inoutdetail',
+                                query: { id: item.id, category: 'out'}
+                            })"/></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <button class="approvalbtn">승인하기</button>
+            <button class="approvalbtn" @click="approveResign(selectListout)">승인하기</button>
         </div>
     </div>
 </template>
     
 <script>
+import ApplyJoinDataService from "@/services/ApplyJoinDataService";
+import ApplyResignDataService from "@/services/ApplyResignDataService";
+
 export default {
     data() {
         return {
@@ -140,6 +162,51 @@ export default {
         if (this.listItemout) this.checkListout = this.listItemout.map(item => item.no);
     },
     methods: {
+        async approveJoin(list) {
+            let cnt = 0;
+
+            if (list.length == 0) { // 리스트 행 없을 경우
+                alert("승인할 리스트 행을 선택해주세요.")
+            } else {
+                for(let i=0; i<list.length; i++) {
+                    let data = {
+                        res_fac: this.res_fac,
+                        res_room: this.res_room,
+                        approved: true
+                    }
+                    await ApplyJoinDataService.update(list[i], data).then(res => {
+                        ++cnt
+                        console.log(res)
+                    })
+                }
+                if(cnt == 0) {
+                    alert('이미 모두 승인 처리되어 있습니다.')
+                } else {
+                    alert('입사 신청 ' + cnt+'건이 승인 처리되었습니다.')
+                    window.location.reload(true)
+                }
+            }
+        },
+        async approveResign(list) {
+            let cnt = 0;
+
+            if (list.length == 0) { // 리스트 행 없을 경우
+                alert("승인할 리스트 행을 선택해주세요.")
+            } else {
+                for(let i=0; i<list.length; i++) {
+                    await ApplyResignDataService.updateApprove(list[i]).then(res => {
+                        cnt = 1
+                        console.log(res)
+                    })
+                }
+                if(cnt === 0) {
+                    alert('이미 모두 승인 처리되어 있습니다.')
+                } else {
+                    alert('퇴사 신청 ' + cnt+'건이 승인 처리되었습니다.')
+                    window.location.reload(true)
+                }
+            }
+        },
         objectKey(ob) {
             let array = [];
             for (let key in ob) {
@@ -210,6 +277,20 @@ export default {
         },
     },
     watch: {
+        selectListin() {
+            this.$emit("setListIn", this.selectListin); 
+            if(this.selectListin.length !== 0 && this.selectListout.length !== 0) {
+                alert("입사/퇴사 중 한 종목의 체크박스만 선택해주세요.")
+                this.selectListout = []
+            }
+        },  
+        selectListout() {
+            this.$emit("setListOut", this.selectListout); 
+            if(this.selectListin.length !== 0 && this.selectListout.length !== 0) {
+                alert("입사/퇴사 중 한 종목의 체크박스만 선택해주세요.")
+                this.selectListin = []
+            }
+        }, 
         sortedNamein() {
             this.listArrayin.sort(function (a, b) {
                 return a.name.localeCompare(b.name)
@@ -405,7 +486,16 @@ export default {
                             color: #222;
                             font-size: 100%;
 
-                            input {
+                            input[type="text"] {
+                                border: solid 0.5px #222;
+                                width: 50px;
+                                height: 3px;
+                                background-color: #fff;
+                                color: #222;
+                                padding: 8px 12px;
+                            }
+
+                            input[type="button"] {
                                 border: 0;
                                 background-color: #336EB4;
                                 color: #fff;

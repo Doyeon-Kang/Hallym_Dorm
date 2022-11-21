@@ -1,7 +1,3 @@
-<!-- 
-    Vuetify
-    https://vuetifyjs.com/en/components/data-tables/#custom-filter
- -->
 <template>
     <div class="wrapper_list">
         <div class="searchbar">
@@ -10,9 +6,10 @@
                 <input type="text" v-model="keyword" placeholder="전체 사용자 검색"/>
             </div>
         </div>
+        
         <div class="container">
             <div class="top">
-                <span>전체 사용자 {{this.checkList.length}}명</span>
+                <span>Total: {{this.checkList.length}}</span>
                 <span>정렬
                     <button @click="sortName()">이름순</button>
                     <button @click="sortNo()">학번순</button>
@@ -51,19 +48,34 @@
                         <th v-for="(title, index) in listTitle" :key="index">
                             {{ title }}
                         </th>
-                        <th></th>
+                        <th></th>   
                     </thead>
                     <tbody>
                         <tr v-for="item in listSearch" :key="item.no" @click="this.$router.push(item.url)">
-                            <td><input type="checkbox" class="check" :value="item.no" v-model="selectList" /></td>
+                            <td><input type="checkbox" class="check" :value="item" v-model="selectList"/></td>
 
                             <td v-for="(text, index) in objectKey(item)" :key="index">
                                 {{ text }}
                             </td>
-                            <td><input type="button" value="자세히" v-show="$route.name === 'adminuser' ||
-                            $route.name === 'adminuseradd' ||
-                            $route.name === 'adminpoint' ||
-                            $route.name === 'adminpointadd'" /></td>
+                            <td v-show="$route.name === 'adminuser' ||
+                            $route.name === 'adminuseradd'" @click="$router.push({
+                                name: 'admindetail',
+                                query: { studentno: item.no, role: item.auth},
+                            })">
+                                <input v-show="item.auth !== 'ROLE_ADMIN'" type="button" value="자세히" />
+                            </td>
+                            <td v-show="$route.name === 'adminpoint'">
+                                <input type="button" value="자세히" @click="$router.push({
+                                    name: 'pointdetail',
+                                    query: { id: item.id}
+                                })"/>
+                            </td>
+                            <td v-show="$route.name === 'adminconsulting'">
+                                <input type="button" value="자세히" @click="$router.push({
+                                    name: 'consultdetail',
+                                    query: { id: item.id}
+                                })"/>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -77,7 +89,7 @@ export default {
     data() {
         return {
             checkList: [],
-            selectList: [],
+            selectList: [],  
             listArray: this.listItem,
             listItemFilter: this.listItem,
             keyword: '',
@@ -114,11 +126,11 @@ export default {
     },
     mounted() {
         if (this.listItem) this.checkList = this.listItem.map(item => item.no);
-    },
+    },  
     methods: {
         objectKey(ob) {
             let array = [];
-            for (let key in ob) {
+            for (const key in ob) {
                 if (key !== "url") array.push(ob[key]);
             }
             return array;
@@ -171,6 +183,7 @@ export default {
         sortEnd() {
             this.sortedEnd = 0
         },
+        
     },
     computed: {
         checkAll: {
@@ -188,6 +201,10 @@ export default {
         },
     },
     watch: {
+        selectList() { 
+            this.$emit("setList", this.selectList); 
+            console.log(this.selectList)
+        },  
         sortedName() {
             this.listArray.sort(function (a, b) {
                 return a.name.localeCompare(b.name)
@@ -551,7 +568,7 @@ export default {
         span {
             line-height: 20px;
             display: flex;
-            padding: 13px 0px 13px 40px;
+            padding: 13px 0px 13px 30px;
 
             button{
                 color: #fff;

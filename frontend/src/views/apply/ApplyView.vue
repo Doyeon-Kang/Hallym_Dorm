@@ -462,11 +462,10 @@
                             <div class="box">
                                 <div class="title">사용기간</div>
                                 <select name="" id="" v-model="period">
-                                    <option value="1">1개월</option>
-                                    <option value="2">2개월</option>
-                                    <option value="3">3개월</option>
-                                    <option value="6">6개월</option>
-                                    <option value="12">12개월</option>
+                                    <option value="4 month">4개월</option>
+                                    <option value="6 month">6개월</option>
+                                    <option value="8 month">8개월</option>
+                                    <option value="12 month">12개월</option>
                                 </select>
                             </div>
                             <div class="box">

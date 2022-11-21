@@ -57,7 +57,6 @@ export default {
         "신청날짜",
         "신청시간",
         "진행상태",
-        "비고",
       ],
       studyList: [],
       sleepTitle: [
@@ -69,7 +68,6 @@ export default {
       pointTitle: [
         "번호",
         "년도-학기",
-        "구분",
         "점수",
         "사유",
         "발생일",
@@ -247,7 +245,6 @@ export default {
           } else {
             list[i].year = res[i].date.slice(0,4) + "년도 1학기"
           }
-          list[i].empty = ''
           if (res[i].plusPoint > 0) {
             list[i].point = res[i].plusPoint
           } else if (res[i].minusPoint > 0) {

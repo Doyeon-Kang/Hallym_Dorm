@@ -294,7 +294,7 @@ export default {
                 }
             })
 
-            // 사용자 상벌점 가죠오기
+            // 사용자 상벌점 가져오기
             UserPointDataService.getAll().then(item => {
                 let res = item.data
                 let list = []

@@ -127,7 +127,7 @@ export default {
       sleepTitle: ["번호", "학번", "이름", "소속학과", "신청날짜", "외박 기간", "신청 사유", "승인 상태"],
       sleepList: [],
 
-      inTitle: ["번호", "학번", "학년", "이름", "소속학과", "희망 1순위", "승인여부"],
+      inTitle: ["번호", "학번", "학년", "이름", "소속학과", "희망 1순위", "승인여부","관","호실"],
       joinList: [],
 
       outTitle: ["번호", "학번", "이름", "소속학과", "승인여부"],
@@ -265,18 +265,20 @@ export default {
         window.location.reload(true)
       }
     },
-    approveList(list) {
+    async approveList(list) {
       let cnt = 0;
 
       if (list.length == 0) { // 리스트 행 없을 경우
           alert("승인할 리스트 행을 선택해주세요.")
       } else {
         for(let i=0; i<list.length; i++) {
-          ApplySleepoutDataService.updateApprove(list[i].id).then(res => {
+          await ApplySleepoutDataService.updateApprove(list[i].id).then(res => {
             console.log(res)
-            cnt++
+            ++cnt
+            console.log('1', cnt)
           })
         }
+        console.log('2', cnt)
         if(cnt == 0) {
           alert('이미 모두 승인 처리되어 있습니다.')
         } else {

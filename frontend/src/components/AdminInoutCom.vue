@@ -33,6 +33,19 @@
                             <td v-for="(text, index) in objectKey(item)" :key="index">
                                 {{ text }}
                             </td>
+                            <td>
+                                <select name="" id="" v-model="res_fac">
+                                    <option value="1">1관</option>
+                                    <option value="2">2관</option>
+                                    <option value="3">3관</option>
+                                    <option value="4">4관</option>
+                                    <option value="5">5관</option>
+                                    <option value="6">6관</option>
+                                    <option value="7">7관</option>
+                                    <option value="8">8관</option>
+                                </select>
+                            </td>
+                            <td><input type="text" v-model="res_room" class="res_room_input"/></td>
                             <td><input type="button" value="자세히" @click="$router.push({
                                 name: 'inoutdetail',
                                 query: { id: item.id, category: 'in'}
@@ -156,12 +169,17 @@ export default {
                 alert("승인할 리스트 행을 선택해주세요.")
             } else {
                 for(let i=0; i<list.length; i++) {
-                    await ApplyJoinDataService.updateApprove(list[i]).then(res => {
+                    let data = {
+                        res_fac: this.res_fac,
+                        res_room: this.res_room,
+                        approved: true
+                    }
+                    await ApplyJoinDataService.update(list[i], data).then(res => {
                         ++cnt
                         console.log(res)
                     })
                 }
-                if(cnt === 0) {
+                if(cnt == 0) {
                     alert('이미 모두 승인 처리되어 있습니다.')
                 } else {
                     alert('입사 신청 ' + cnt+'건이 승인 처리되었습니다.')
@@ -177,7 +195,7 @@ export default {
             } else {
                 for(let i=0; i<list.length; i++) {
                     await ApplyResignDataService.updateApprove(list[i]).then(res => {
-                        cnt++
+                        cnt = 1
                         console.log(res)
                     })
                 }
@@ -468,7 +486,16 @@ export default {
                             color: #222;
                             font-size: 100%;
 
-                            input {
+                            input[type="text"] {
+                                border: solid 0.5px #222;
+                                width: 50px;
+                                height: 3px;
+                                background-color: #fff;
+                                color: #222;
+                                padding: 8px 12px;
+                            }
+
+                            input[type="button"] {
                                 border: 0;
                                 background-color: #336EB4;
                                 color: #fff;

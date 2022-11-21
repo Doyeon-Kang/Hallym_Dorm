@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardLost;
+import com.backend.payload.response.BoardResponse;
 import com.backend.repository.board.BoardLostRepository;
 
 @RestController
@@ -27,7 +28,7 @@ public class BoardLostController {
     BoardLostRepository boardLostRepository;
 
     @GetMapping(path="/board-lost")
-    public ResponseEntity<List<BoardLost>> getAllBoardLost() {
+    public ResponseEntity<List<BoardResponse>> getAllBoardLost() {
         try {
           List<BoardLost> boardLosts = new ArrayList<BoardLost>();
 
@@ -37,35 +38,58 @@ public class BoardLostController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           }
 
-          return new ResponseEntity<>(boardLosts, HttpStatus.OK);
+          List<BoardResponse> responses = new ArrayList<BoardResponse>();
+
+          for(BoardLost _boardLost : boardLosts) {
+            responses.add(new BoardResponse(_boardLost.getId(), _boardLost.getWriterStudentNo(),
+            _boardLost.getWriter_name(), _boardLost.getTitle(), _boardLost.getContent(),
+            _boardLost.getViews(), _boardLost.getDate(), "lost"));
+          }
+
+          return new ResponseEntity<>(responses, HttpStatus.OK);
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/board-lost/{id}")
-    public ResponseEntity<BoardLost> getBoardLostById(@PathVariable("id") long id) {
+    public ResponseEntity<BoardResponse> getBoardLostById(@PathVariable("id") long id) {
       Optional<BoardLost> lostData = boardLostRepository.findById(id);
 
       if(lostData.isPresent()) {
         BoardLost _boardLost = lostData.get();
         int views = _boardLost.getViews() + 1;
         _boardLost.setViews(views);
-        return new ResponseEntity<>(boardLostRepository.save(_boardLost), HttpStatus.OK);
+        boardLostRepository.save(_boardLost);
+
+        BoardResponse response = new BoardResponse(_boardLost.getId(), _boardLost.getWriterStudentNo(),
+                                _boardLost.getWriter_name(), _boardLost.getTitle(), _boardLost.getContent(),
+                                _boardLost.getViews(), _boardLost.getDate(), "lost");
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
     @GetMapping("/board-lost/my-lost")
-    public ResponseEntity<List<BoardLost>> getMyBoardLost (@RequestParam("studentNo") String studentNo) {
+    public ResponseEntity<List<BoardResponse>> getMyBoardLost (@RequestParam("studentNo") String studentNo) {
       try{
         List <BoardLost> myLosts = boardLostRepository.findByWriterStudentNo(studentNo);
 
         if(myLosts.isEmpty()){
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(myLosts, HttpStatus.OK);
+
+        List<BoardResponse> responses = new ArrayList<BoardResponse>();
+
+        for(BoardLost _boardLost : myLosts) {
+          responses.add(new BoardResponse(_boardLost.getId(), _boardLost.getWriterStudentNo(),
+          _boardLost.getWriter_name(), _boardLost.getTitle(), _boardLost.getContent(),
+          _boardLost.getViews(), _boardLost.getDate(), "lost"));
+        }
+
+        return new ResponseEntity<>(responses, HttpStatus.OK);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }

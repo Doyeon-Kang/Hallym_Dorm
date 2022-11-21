@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardNotice;
+import com.backend.payload.response.BoardResponse;
 import com.backend.repository.board.BoardNoticeRepository;
 
 @RestController
@@ -27,7 +28,7 @@ public class BoardNoticeController {
     BoardNoticeRepository boardNoticeRepository;
 
     @GetMapping(path="/board-notice")
-    public ResponseEntity<List<BoardNotice>> getAllBoardNotice() {
+    public ResponseEntity<List<BoardResponse>> getAllBoardNotice() {
         try {
           List<BoardNotice> boardNotices = new ArrayList<BoardNotice>();
 
@@ -36,14 +37,23 @@ public class BoardNoticeController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           }
 
-          return new ResponseEntity<>(boardNotices, HttpStatus.OK);
+          List<BoardResponse> responses = new ArrayList<BoardResponse>();
+
+          for(BoardNotice _boardNotice : boardNotices) {
+            responses.add(new BoardResponse(_boardNotice.getId(), _boardNotice.getWriterStudentNo(),
+            _boardNotice.getWriter_name(), _boardNotice.getTitle(), _boardNotice.getContent(),
+            _boardNotice.getViews(), _boardNotice.getDate(), "notice"));
+          }
+  
+          return new ResponseEntity<>(responses, HttpStatus.OK);
+
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping(path="/board-notice1")
-    public ResponseEntity<List<BoardNotice>> getAllBoardNotice1() {
+    public ResponseEntity<List<BoardResponse>> getAllBoardNotice1() {
       try {
         List<BoardNotice> boardNotices = new ArrayList<BoardNotice>();
 
@@ -52,49 +62,84 @@ public class BoardNoticeController {
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(boardNotices, HttpStatus.OK);
+        List<BoardResponse> responses = new ArrayList<BoardResponse>();
+
+        for(BoardNotice _boardNotice : boardNotices) {
+          responses.add(new BoardResponse(_boardNotice.getId(), _boardNotice.getWriterStudentNo(),
+          _boardNotice.getWriter_name(), _boardNotice.getTitle(), _boardNotice.getContent(),
+          _boardNotice.getViews(), _boardNotice.getDate(), "notice1"));
+        }
+
+        return new ResponseEntity<>(responses, HttpStatus.OK);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
 
     @GetMapping("/board-notice/{id}")
-    public ResponseEntity<BoardNotice> getBoardNoticeById(@PathVariable("id") long id) {
+    public ResponseEntity<BoardResponse> getBoardNoticeById(@PathVariable("id") long id) {
       Optional<BoardNotice> noticeData = boardNoticeRepository.findById(id);
 
       if(noticeData.isPresent()) {
         BoardNotice _boardNotice = noticeData.get();
         int views = _boardNotice.getViews() + 1;
         _boardNotice.setViews(views);
-        return new ResponseEntity<>(boardNoticeRepository.save(_boardNotice), HttpStatus.OK);
+        boardNoticeRepository.save(_boardNotice);
+
+        String type = "";
+        if(_boardNotice.isNotice1()) type = "notice1";
+        else type = "notice";
+
+        BoardResponse response = new BoardResponse(_boardNotice.getId(), _boardNotice.getWriterStudentNo(),
+                                  _boardNotice.getWriter_name(), _boardNotice.getTitle(), _boardNotice.getContent(),
+                                  _boardNotice.getViews(), _boardNotice.getDate(), type);
+        return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
     @GetMapping("/board-notice/my-notice")
-    public ResponseEntity<List<BoardNotice>> getMyBoardNotice (@RequestParam("studentNo") String studentNo) {
+    public ResponseEntity<List<BoardResponse>> getMyBoardNotice (@RequestParam("studentNo") String studentNo) {
       try{
         List <BoardNotice> myNotices = boardNoticeRepository.findByWriterStudentNoAndNotice1False(studentNo);
 
         if(myNotices.isEmpty()){
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(myNotices, HttpStatus.OK);
+
+        List<BoardResponse> responses = new ArrayList<BoardResponse>();
+
+        for(BoardNotice _boardNotice : myNotices) {
+          responses.add(new BoardResponse(_boardNotice.getId(), _boardNotice.getWriterStudentNo(),
+          _boardNotice.getWriter_name(), _boardNotice.getTitle(), _boardNotice.getContent(),
+          _boardNotice.getViews(), _boardNotice.getDate(), "notice"));
+        }
+
+        return new ResponseEntity<>(responses, HttpStatus.OK);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
 
     @GetMapping("/board-notice1/my-notice")
-    public ResponseEntity<List<BoardNotice>> getMyBoardNotice1 (@RequestParam("studentNo") String studentNo) {
+    public ResponseEntity<List<BoardResponse>> getMyBoardNotice1 (@RequestParam("studentNo") String studentNo) {
       try{
         List <BoardNotice> myNotices = boardNoticeRepository.findByWriterStudentNoAndNotice1True(studentNo);
 
         if(myNotices.isEmpty()){
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(myNotices, HttpStatus.OK);
+
+        List<BoardResponse> responses = new ArrayList<BoardResponse>();
+
+        for(BoardNotice _boardNotice : myNotices) {
+          responses.add(new BoardResponse(_boardNotice.getId(), _boardNotice.getWriterStudentNo(),
+          _boardNotice.getWriter_name(), _boardNotice.getTitle(), _boardNotice.getContent(),
+          _boardNotice.getViews(), _boardNotice.getDate(), "notice1"));
+        }
+
+        return new ResponseEntity<>(responses, HttpStatus.OK);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }

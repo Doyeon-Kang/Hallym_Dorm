@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardStore;
+import com.backend.payload.response.BoardResponse;
 import com.backend.repository.board.BoardStoreRepository;
 
 
@@ -28,7 +29,7 @@ public class BoardStoreController {
     BoardStoreRepository boardStoreRepository;
 
     @GetMapping(path="/board-store")
-    public ResponseEntity<List<BoardStore>> getAllBoardStore() {
+    public ResponseEntity<List<BoardResponse>> getAllBoardStore() {
         try {
           List<BoardStore> boardStores = new ArrayList<BoardStore>();
 
@@ -38,35 +39,58 @@ public class BoardStoreController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           }
 
-          return new ResponseEntity<>(boardStores, HttpStatus.OK);
+          List<BoardResponse> responses = new ArrayList<BoardResponse>();
+
+          for(BoardStore _boardStore : boardStores) {
+            responses.add(new BoardResponse(_boardStore.getId(), _boardStore.getWriterStudentNo(),
+            _boardStore.getWriter_name(), _boardStore.getTitle(), _boardStore.getContent(),
+            _boardStore.getViews(), _boardStore.getDate(), "store"));
+          }
+
+          return new ResponseEntity<>(responses, HttpStatus.OK);
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/board-store/{id}")
-    public ResponseEntity<BoardStore> getBoardStoreById(@PathVariable("id") long id) {
+    public ResponseEntity<BoardResponse> getBoardStoreById(@PathVariable("id") long id) {
       Optional<BoardStore> storeData = boardStoreRepository.findById(id);
 
       if(storeData.isPresent()) {
         BoardStore _boardStore = storeData.get();
         int views = _boardStore.getViews() + 1;
         _boardStore.setViews(views);
-        return new ResponseEntity<>(boardStoreRepository.save(_boardStore), HttpStatus.OK);
+        boardStoreRepository.save(_boardStore);
+
+        BoardResponse response = new BoardResponse(_boardStore.getId(), _boardStore.getWriterStudentNo(),
+                                _boardStore.getWriter_name(), _boardStore.getTitle(), _boardStore.getContent(),
+                                _boardStore.getViews(), _boardStore.getDate(), "store");
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
     @GetMapping("/board-store/my-store")
-    public ResponseEntity<List<BoardStore>> getMyBoardStore (@RequestParam("studentNo") String studentNo) {
+    public ResponseEntity<List<BoardResponse>> getMyBoardStore (@RequestParam("studentNo") String studentNo) {
       try{
         List <BoardStore> myStores = boardStoreRepository.findByWriterStudentNo(studentNo);
 
         if(myStores.isEmpty()){
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(myStores, HttpStatus.OK);
+
+        List<BoardResponse> responses = new ArrayList<BoardResponse>();
+
+        for(BoardStore _boardStore : myStores) {
+          responses.add(new BoardResponse(_boardStore.getId(), _boardStore.getWriterStudentNo(),
+          _boardStore.getWriter_name(), _boardStore.getTitle(), _boardStore.getContent(),
+          _boardStore.getViews(), _boardStore.getDate(), "store"));
+        }
+
+        return new ResponseEntity<>(responses, HttpStatus.OK);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }

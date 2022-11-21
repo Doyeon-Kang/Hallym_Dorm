@@ -9,6 +9,10 @@ class NewsDataService {
     return http.get(`/board-news/${id}`);
   }
 
+  getMy(studentNo) {
+    return http.get(`/board-news/my-news?studentNo=${studentNo}`);
+  }
+
   create(data) {
     return http.post("/board-news", data);
   }

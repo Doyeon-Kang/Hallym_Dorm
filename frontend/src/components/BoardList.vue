@@ -24,7 +24,7 @@
       </thead>
       <tbody v-if="this.$route.name === 'myassey'">
         <tr v-for="item in paginatedData" :key="item.no" @click="this.$router.push(item.url)">
-          <td v-for="(text, index) in objectKey(item)" :key="index" @click="$router.push({path:this.$route.path + '/view', query: { no: item.no }})">
+          <td v-for="(text, index) in objectKey(item)" :key="index" @click="$router.push({path: `/community${item.type}` + '/view', query: { no: item.no }})">
             {{ text }}
           </td>
         </tr>

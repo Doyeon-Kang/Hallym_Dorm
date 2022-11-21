@@ -129,6 +129,7 @@
 import UserInfoDataService from "@/services/UserInfoDataService";
 import UserPointDataService from "@/services/UserPointDataService";
 import NoticeDataService from "@/services/NoticeDataService";
+import NewsDataService from "@/services/NewsDataService";
 import RepairDataService from "@/services/RepairDataService";
 import StoreDataService from "@/services/StoreDataService";
 import LostDataService from "@/services/LostDataService";
@@ -233,6 +234,24 @@ export default {
                 for (let i = 0; i < res.length; i++) {
                     list.push({})
                     list[i].category = "사생자치회"
+                    list[i].no = res[i].id
+                    list[i].title = res[i].title
+                    list[i].date = res[i].date
+                }
+
+                for (let i = 0; i < list.length; i++) {
+                    this.mywrite_item.push(list[i])
+                }
+            })
+
+            // 서식자료실
+            NewsDataService.getMy(this.user.studentno).then(item => {
+                let res = item.data
+                let list = []
+
+                for (let i = 0; i < res.length; i++) {
+                    list.push({})
+                    list[i].category = "서식자료실"
                     list[i].no = res[i].id
                     list[i].title = res[i].title
                     list[i].date = res[i].date

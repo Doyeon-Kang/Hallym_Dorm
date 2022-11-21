@@ -105,7 +105,7 @@ public class ApplyStudyroom {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "applyStudyroomSchedule", nullable = false)
-    // @OnDelete(action = OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     ApplyStudyroomSchedule applyStudyroomSchedule;
 

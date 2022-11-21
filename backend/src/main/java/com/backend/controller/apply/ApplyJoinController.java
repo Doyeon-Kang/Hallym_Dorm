@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.User;
 import com.backend.model.apply.ApplyJoin;
+import com.backend.payload.request.ApplyJoinRequest;
+import com.backend.payload.response.ApplyJoinResponse;
 import com.backend.repository.UserRepository;
 import com.backend.repository.apply.ApplyJoinRepository;
+import com.backend.security.services.UserMemberManagement;
 
 @RestController
 @RequestMapping(path="/api")
@@ -31,18 +33,34 @@ public class ApplyJoinController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    UserMemberManagement userMemberManagement;
+
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path="/apply-join")
-    public ResponseEntity<List<ApplyJoin>> getAllApplyJoin() {
+    public ResponseEntity<List<ApplyJoinResponse>> getAllApplyJoin() {
         try {
-          List<ApplyJoin> applyJoins = new ArrayList<ApplyJoin>();
-
-          applyJoinRepository.findAll().forEach(applyJoins::add);
+          List<ApplyJoin> applyJoins = applyJoinRepository.findAll();
           if(applyJoins.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           }
+          List<ApplyJoinResponse> responses = new ArrayList<ApplyJoinResponse>();
 
-          return new ResponseEntity<>(applyJoins, HttpStatus.OK);
+          for(ApplyJoin _applyJoin : applyJoins) {
+            User _user = _applyJoin.getUser();
+            responses.add(new ApplyJoinResponse(_applyJoin.getId(), _user.getStudentno(), _user.getName(), 
+                                                _applyJoin.getDepartment(), _applyJoin.getEnglish_name(), _applyJoin.getChinese_name(), 
+                                                _applyJoin.getGrade(), _applyJoin.getGender(), _applyJoin.getNationality(), 
+                                                _applyJoin.getMajor(), _applyJoin.getStudent_status(), _applyJoin.getPhone(), 
+                                                _applyJoin.getAddress(), _applyJoin.getGuardian_name(), _applyJoin.getGuardian_relation(), 
+                                                _applyJoin.getGuardian_phone(), _applyJoin.getLandline(), _applyJoin.getDate(), _applyJoin.getHope_fac_1(), 
+                                                _applyJoin.getHope_fac_2(), _applyJoin.getHope_fac_3(), _applyJoin.getHope_fac_4(), _applyJoin.getHope_fac_5(), 
+                                                _applyJoin.getHope_fac_6(), _applyJoin.getPeriod(), _applyJoin.getDate_join(), _applyJoin.isSingle_yn(),
+                                                _applyJoin.isPri_ent(), _applyJoin.isFgn_mate(), _applyJoin.getAccpm_ent(), _applyJoin.isPar_mes_yn(),
+                                                _applyJoin.isApproved(), _applyJoin.getRes_fac(), _applyJoin.getRes_room()));
+          }
+
+          return new ResponseEntity<>(responses, HttpStatus.OK);
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -50,22 +68,34 @@ public class ApplyJoinController {
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/apply-join/{id}")
-    public ResponseEntity<ApplyJoin> getApplyJoinById(@PathVariable("id") long id) {
+    public ResponseEntity<ApplyJoinResponse> getApplyJoinById(@PathVariable("id") long id) {
       Optional<ApplyJoin> joinData = applyJoinRepository.findById(id);
 
       if(joinData.isPresent()) {
         ApplyJoin _applyJoin = joinData.get();
+
+        User _user = _applyJoin.getUser();
+        ApplyJoinResponse response = new ApplyJoinResponse(_applyJoin.getId(), _user.getStudentno(), _user.getName(), 
+                                                _applyJoin.getDepartment(), _applyJoin.getEnglish_name(), _applyJoin.getChinese_name(), 
+                                                _applyJoin.getGrade(), _applyJoin.getGender(), _applyJoin.getNationality(), 
+                                                _applyJoin.getMajor(), _applyJoin.getStudent_status(), _applyJoin.getPhone(), 
+                                                _applyJoin.getAddress(), _applyJoin.getGuardian_name(), _applyJoin.getGuardian_relation(), 
+                                                _applyJoin.getGuardian_phone(), _applyJoin.getLandline(), _applyJoin.getDate(), _applyJoin.getHope_fac_1(), 
+                                                _applyJoin.getHope_fac_2(), _applyJoin.getHope_fac_3(), _applyJoin.getHope_fac_4(), _applyJoin.getHope_fac_5(), 
+                                                _applyJoin.getHope_fac_6(), _applyJoin.getPeriod(), _applyJoin.getDate_join(), _applyJoin.isSingle_yn(),
+                                                _applyJoin.isPri_ent(), _applyJoin.isFgn_mate(), _applyJoin.getAccpm_ent(), _applyJoin.isPar_mes_yn(), 
+                                                _applyJoin.isApproved(), _applyJoin.getRes_fac(), _applyJoin.getRes_room());
         
-        return new ResponseEntity<>(applyJoinRepository.save(_applyJoin), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
-    @PostMapping("/apply-join/{studentNo}")
-    public ResponseEntity<ApplyJoin> createApplyJoin(@PathVariable(name="studentNo") String studentNo, @RequestBody ApplyJoin applyJoin) {
+    @PostMapping("/apply-join")
+    public ResponseEntity<ApplyJoinResponse> createApplyJoin(@RequestBody ApplyJoinRequest applyJoin) {
       try {
-        Optional<User> _userData = userRepository.findByStudentno(studentNo);
+        Optional<User> _userData = userRepository.findByStudentno(applyJoin.getStudentNo());
         if(_userData.isPresent()) {
             User _user = _userData.get();
             ApplyJoin _applyJoin = new ApplyJoin(applyJoin.getEnglish_name(), applyJoin.getChinese_name(),
@@ -74,12 +104,24 @@ public class ApplyJoinController {
                         applyJoin.getPhone(), applyJoin.getAddress(), applyJoin.getGuardian_name(), applyJoin.getGuardian_relation(),
                         applyJoin.getGuardian_phone(), applyJoin.getLandline(), applyJoin.getHope_fac_1(),
                         applyJoin.getHope_fac_2(), applyJoin.getHope_fac_3(), applyJoin.getHope_fac_4(), applyJoin.getHope_fac_5(),
-                        applyJoin.getHope_fac_6(), applyJoin.getPeriod(), applyJoin.getDate_join(), applyJoin.isSingle_yn(), 
-                        applyJoin.isPri_ent(), applyJoin.isFgn_mate(), applyJoin.getAccpm_ent(), applyJoin.isPar_mes_yn());
+                        applyJoin.getHope_fac_6(), applyJoin.getPeriod(), applyJoin.getDate_join(), applyJoin.getSingle_yn(),
+                        applyJoin.getPri_ent(), applyJoin.getFgn_mate(), applyJoin.getAccpm_ent(), applyJoin.getPar_mes_yn());
             _applyJoin.setUser(_user);
             _applyJoin.setApproved(applyJoin.isApproved());
             applyJoinRepository.save(_applyJoin);
-            return new ResponseEntity<>(_applyJoin, HttpStatus.CREATED);
+
+            ApplyJoinResponse response = new ApplyJoinResponse(_applyJoin.getId(), _user.getStudentno(), _user.getName(), 
+                                                _applyJoin.getDepartment(), _applyJoin.getEnglish_name(), _applyJoin.getChinese_name(), 
+                                                _applyJoin.getGrade(), _applyJoin.getGender(), _applyJoin.getNationality(), 
+                                                _applyJoin.getMajor(), _applyJoin.getStudent_status(), _applyJoin.getPhone(), 
+                                                _applyJoin.getAddress(), _applyJoin.getGuardian_name(), _applyJoin.getGuardian_relation(), 
+                                                _applyJoin.getGuardian_phone(), _applyJoin.getLandline(), _applyJoin.getDate(), _applyJoin.getHope_fac_1(), 
+                                                _applyJoin.getHope_fac_2(), _applyJoin.getHope_fac_3(), _applyJoin.getHope_fac_4(), _applyJoin.getHope_fac_5(), 
+                                                _applyJoin.getHope_fac_6(), _applyJoin.getPeriod(), _applyJoin.getDate_join(), _applyJoin.isSingle_yn(),
+                                                _applyJoin.isPri_ent(), _applyJoin.isFgn_mate(), _applyJoin.getAccpm_ent(), _applyJoin.isPar_mes_yn(), 
+                                                _applyJoin.isApproved(), _applyJoin.getRes_fac(), _applyJoin.getRes_room());
+            
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -90,7 +132,7 @@ public class ApplyJoinController {
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/apply-join/{joinId}")
-    public ResponseEntity<ApplyJoin> updateApplyJoin(@PathVariable("joinId") long joinId, @RequestBody ApplyJoin applyJoin) {
+    public ResponseEntity<ApplyJoinResponse> updateApplyJoin(@PathVariable("joinId") long joinId, @RequestBody ApplyJoinRequest applyJoin) {
       Optional<ApplyJoin> joinData = applyJoinRepository.findById(joinId);
       if (joinData.isPresent()) {
         ApplyJoin _applyJoin = joinData.get();
@@ -125,7 +167,22 @@ public class ApplyJoinController {
         _applyJoin.setRes_room(applyJoin.getRes_room());
 
         _applyJoin.setApproved(applyJoin.isApproved());
-        return new ResponseEntity<>(applyJoinRepository.save(_applyJoin), HttpStatus.OK);
+        applyJoinRepository.save(_applyJoin);
+
+        User _user = _applyJoin.getUser();
+        userMemberManagement.userMemberExists(_user);
+        
+        ApplyJoinResponse response = new ApplyJoinResponse(_applyJoin.getId(), _user.getStudentno(), _user.getName(), 
+                                                _applyJoin.getDepartment(), _applyJoin.getEnglish_name(), _applyJoin.getChinese_name(), 
+                                                _applyJoin.getGrade(), _applyJoin.getGender(), _applyJoin.getNationality(), 
+                                                _applyJoin.getMajor(), _applyJoin.getStudent_status(), _applyJoin.getPhone(), 
+                                                _applyJoin.getAddress(), _applyJoin.getGuardian_name(), _applyJoin.getGuardian_relation(), 
+                                                _applyJoin.getGuardian_phone(), _applyJoin.getLandline(), _applyJoin.getDate(), _applyJoin.getHope_fac_1(), 
+                                                _applyJoin.getHope_fac_2(), _applyJoin.getHope_fac_3(), _applyJoin.getHope_fac_4(), _applyJoin.getHope_fac_5(), 
+                                                _applyJoin.getHope_fac_6(), _applyJoin.getPeriod(), _applyJoin.getDate_join(), _applyJoin.isSingle_yn(),
+                                                _applyJoin.isPri_ent(), _applyJoin.isFgn_mate(), _applyJoin.getAccpm_ent(), _applyJoin.isPar_mes_yn(), 
+                                                _applyJoin.isApproved(), _applyJoin.getRes_fac(), _applyJoin.getRes_room());
+        return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
@@ -133,14 +190,28 @@ public class ApplyJoinController {
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/apply-join/{joinId}/approve")
-    public ResponseEntity<ApplyJoin> approveApplyJoin(@PathVariable(name="joinId") Long joinId) {
+    public ResponseEntity<ApplyJoinResponse> approveApplyJoin(@PathVariable(name="joinId") Long joinId) {
       Optional<ApplyJoin> joinData = applyJoinRepository.findById(joinId);
 
       if (joinData.isPresent()) {
         ApplyJoin _applyJoin = joinData.get();
         _applyJoin.setApproved(true);
         applyJoinRepository.save(_applyJoin);
-        return new ResponseEntity<>(_applyJoin, HttpStatus.OK);
+
+        User _user = _applyJoin.getUser();
+        userMemberManagement.userMemberExists(_user);
+
+        ApplyJoinResponse response = new ApplyJoinResponse(_applyJoin.getId(), _user.getStudentno(), _user.getName(), 
+                                                _applyJoin.getDepartment(), _applyJoin.getEnglish_name(), _applyJoin.getChinese_name(), 
+                                                _applyJoin.getGrade(), _applyJoin.getGender(), _applyJoin.getNationality(), 
+                                                _applyJoin.getMajor(), _applyJoin.getStudent_status(), _applyJoin.getPhone(), 
+                                                _applyJoin.getAddress(), _applyJoin.getGuardian_name(), _applyJoin.getGuardian_relation(), 
+                                                _applyJoin.getGuardian_phone(), _applyJoin.getLandline(), _applyJoin.getDate(), _applyJoin.getHope_fac_1(), 
+                                                _applyJoin.getHope_fac_2(), _applyJoin.getHope_fac_3(), _applyJoin.getHope_fac_4(), _applyJoin.getHope_fac_5(), 
+                                                _applyJoin.getHope_fac_6(), _applyJoin.getPeriod(), _applyJoin.getDate_join(), _applyJoin.isSingle_yn(),
+                                                _applyJoin.isPri_ent(), _applyJoin.isFgn_mate(), _applyJoin.getAccpm_ent(), _applyJoin.isPar_mes_yn(), 
+                                                _applyJoin.isApproved(), _applyJoin.getRes_fac(), _applyJoin.getRes_room());
+        return new ResponseEntity<>(response, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }

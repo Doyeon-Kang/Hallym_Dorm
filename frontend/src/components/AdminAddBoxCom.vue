@@ -1,32 +1,66 @@
 <template>
+<div>
+    <div class="con_box" v-show="$route.name === 'adminuseradd'">
+        <div class="con_box_cont">
+            <div class="con_title">{{con_title}}사용자 추가</div>
+            <div class="container">
+                <table>
+                    <tr>
+                        <th>이름</th>
+                        <td><input type="text" v-model="user.name" placeholder="Ex) 홍길동"></td>
+                    </tr>
+                    <tr>
+                        <th>아이디</th>
+                        <td><input type="text" v-model="user.studentno" placeholder="Ex) 20221234"></td>
+                    </tr>
+                    <tr>
+                        <th>비밀번호</th>
+                        <td><input type="text" v-model="user.password" placeholder="비밀번호는 8자리 이상"></td>
+                    </tr>
+                    <tr>
+                        <th>이메일</th>
+                        <td><input type="text" v-model="user.email" placeholder="a@naver.com"></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td><input type="submit" value="생성하기" @click="addUser(user)"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
     <div class="con_box" v-show="$route.name === 'adminpointadd'">
         <div class="con_box_cont">
             <div class="con_title">{{con_title}}상벌점 입력</div>
             <div class="container">
                 <table>
                     <tr>
+                        <th>학생 학번</th>
+                        <td><input type="text" v-model="point.studentNo" placeholder="20221234"></td>
+                    </tr>
+                    <tr>
                         <th>상/벌점 사유</th>
-                        <td><input type="text" placeholder="Ex) 프로그램 참여, 무단 외박"></td>
+                        <td><input type="text" v-model="point.reason" placeholder="Ex) 프로그램 참여, 무단 외박"></td>
                     </tr>
                     <tr>
                         <th>입력 날짜</th>
-                        <td><input type="date"></td>
+                        <td><input type="date" v-model="point.date_receive"></td>
                     </tr>
                     <tr>
                         <th>상/벌점 점수</th>
                         <td>
                             <form>
-                                <select name="pointadd">
+                                <select name="pointadd" v-model="point_category">
                                     <option value="상점" selected>상점</option>
                                     <option value="벌점">벌점</option>
                                 </select>
-                                <input type="text" class="smallbox" placeholder="점수 입력 Ex) 2">
+                                <input type="text" class="smallbox" placeholder="점수 입력 Ex) 2" v-model="point_score">
                             </form>
                         </td>
                     </tr>
                     <tr>
                         <th></th>
-                        <td><input type="submit" value="입력하기"></td>
+                        <td><input type="submit" value="입력하기" @click="addPoint(point)"></td>
                     </tr>
                 </table>
             </div>
@@ -67,10 +101,81 @@
             </div>
         </div>
     </div>
+</div>
 </template>
 
 <script>
+import UserPointDataService from '@/services/UserPointDataService'
 
+export default {
+    data() {
+        return {
+            user: {
+                studentno: "",
+                name: "",
+                password: "",
+                email: ""
+            },
+            point: {
+                studentNo: "", // 학번
+                reason : "", // 사유
+                date_receive : "", // 입력 날짜
+                plusPoint: 0, // 상점
+                minusPoint: 0 // 벌점
+            },
+            point_category: "",
+            point_score: 0
+        }
+    },
+    methods: {
+        addUser(user) {
+            console.log(user)
+            this.message = ''
+            this.successful = false
+            this.loading = true
+
+            this.$store.dispatch("auth/register", user).then(
+                (data) => {
+                    this.message = data.message
+                    this.successful = true
+                    this.loading = false
+                    alert("정상적으로 추가되었습니다.")
+                    this.$router.go("")
+                },
+                (error) => {
+                    this.message =
+                        (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                        error.message ||
+                        error.toString()
+                    this.successful = false
+                    this.loading = false
+                }
+            )
+        },
+        addPoint(point) {
+            if(this.point_category == "") {
+                alert("상벌점 여부를 선택해주세요.")
+            } else {
+                if(this.point_category == "상점") {
+                    this.point.plusPoint = parseInt(this.point_score)
+                    this.point.minusPoint = 0
+                } else {
+                    this.point.minusPoint = parseInt(this.point_score)
+                    this.point.plusPoint = 0
+                }
+                UserPointDataService.create(point).then(res => {
+                    console.log(res)
+                })
+                alert('입력 완료되었습니다.')
+                window.location.reload(true)
+            }
+            
+
+        }
+    },
+}
 </script>
 
 <style lang="less" scoped>

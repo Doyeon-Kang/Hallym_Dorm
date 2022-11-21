@@ -8,9 +8,8 @@ class ApplyResignDataService {
   get(id) {
     return http.get(`/apply-resign/${id}`);
   }
-
-  create(studentNo, data) {
-    return http.post(`/apply-resign/${studentNo}`, data);
+  create(data) {
+    return http.post(`/apply-resign`, data);
   }
 
   update(resignId, data) {

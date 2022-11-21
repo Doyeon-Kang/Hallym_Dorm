@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.User;
+import com.backend.model.UserMember;
 import com.backend.model.apply.ApplyResign;
+import com.backend.payload.request.ApplyResignRequest;
+import com.backend.payload.response.ApplyResignResponse;
+import com.backend.repository.UserMemberRepository;
 import com.backend.repository.UserRepository;
 import com.backend.repository.apply.ApplyResignRepository;
 
@@ -31,18 +34,33 @@ public class ApplyResignController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    UserMemberRepository userMemberRepository;
+
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path="/apply-resign")
-    public ResponseEntity<List<ApplyResign>> getAllApplyResign() {
+    public ResponseEntity<List<ApplyResignResponse>> getAllApplyResign() {
         try {
-          List<ApplyResign> applyResigns = new ArrayList<ApplyResign>();
-
-          applyResignRepository.findAll().forEach(applyResigns::add);
+          List<ApplyResign> applyResigns = applyResignRepository.findAll();
           if(applyResigns.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
           }
+          List<ApplyResignResponse> responses = new ArrayList<ApplyResignResponse>();
 
-          return new ResponseEntity<>(applyResigns, HttpStatus.OK);
+          for(ApplyResign _applyResign : applyResigns) {
+            User _user = _applyResign.getUser();
+            Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+            if(_userMemberData.isPresent()) {
+              UserMember _userMember = _userMemberData.get();
+              responses.add(new ApplyResignResponse(_applyResign.getId(), _user.getStudentno(), _user.getName(),
+                                                    _userMember.getDepartment(), _applyResign.getRes_date(), _applyResign.getRes_reason(),
+                                                    _applyResign.getDate(), _applyResign.isApproved()));
+            } else {
+              return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+          }
+
+          return new ResponseEntity<>(responses, HttpStatus.OK);
         } catch (Exception e) {
           return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -50,22 +68,33 @@ public class ApplyResignController {
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/apply-resign/{id}")
-    public ResponseEntity<ApplyResign> getApplyResignById(@PathVariable("id") long id) {
+    public ResponseEntity<ApplyResignResponse> getApplyResignById(@PathVariable("id") long id) {
       Optional<ApplyResign> resignData = applyResignRepository.findById(id);
 
       if(resignData.isPresent()) {
         ApplyResign _applyResign = resignData.get();
-        
-        return new ResponseEntity<>(applyResignRepository.save(_applyResign), HttpStatus.OK);
+
+        ApplyResignResponse response;
+        User _user = _applyResign.getUser();
+        Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+        if(_userMemberData.isPresent()) {
+          UserMember _userMember = _userMemberData.get();
+          response = new ApplyResignResponse(_applyResign.getId(), _user.getStudentno(), _user.getName(),
+                                                _userMember.getDepartment(), _applyResign.getRes_date(), _applyResign.getRes_reason(),
+                                                _applyResign.getDate(), _applyResign.isApproved());
+          return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 
-    @PostMapping("/apply-resign/{studentNo}")
-    public ResponseEntity<ApplyResign> createApplyResign(@PathVariable(name="studentNo") String studentNo, @RequestBody ApplyResign applyResign) {
+    @PostMapping("/apply-resign")
+    public ResponseEntity<ApplyResignResponse> createApplyResign(@RequestBody ApplyResignRequest applyResign) {
         try {
-            Optional<User> _userData = userRepository.findByStudentno(studentNo);
+            Optional<User> _userData = userRepository.findByStudentno(applyResign.getStudentNo());
             if(_userData.isPresent()) {
                 User _user = _userData.get();
                 ApplyResign _applyResign = new ApplyResign(applyResign.getRes_date(), applyResign.getRes_reason());
@@ -73,7 +102,18 @@ public class ApplyResignController {
                 _applyResign.setUser(_user);
                 // _applyResign.setApproved(applyResign.isApproved());
                 applyResignRepository.save(_applyResign);
-                return new ResponseEntity<>(_applyResign, HttpStatus.CREATED);
+
+                ApplyResignResponse response;
+                Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+                if(_userMemberData.isPresent()) {
+                  UserMember _userMember = _userMemberData.get();
+                  response = new ApplyResignResponse(_applyResign.getId(), _user.getStudentno(), _user.getName(),
+                                                        _userMember.getDepartment(), _applyResign.getRes_date(), _applyResign.getRes_reason(),
+                                                        _applyResign.getDate(), _applyResign.isApproved());
+                  return new ResponseEntity<>(response, HttpStatus.OK);
+                } else {
+                  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
             } else {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -85,14 +125,26 @@ public class ApplyResignController {
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/apply-resign/{resignId}")
-    public ResponseEntity<ApplyResign> updateApplyResign(@PathVariable("resignId") long resignId, @RequestBody ApplyResign applyResign) {
+    public ResponseEntity<ApplyResignResponse> updateApplyResign(@PathVariable("resignId") long resignId, @RequestBody ApplyResignRequest applyResign) {
       Optional<ApplyResign> resignData = applyResignRepository.findById(resignId);
       if (resignData.isPresent()) {
         ApplyResign _applyResign = resignData.get();
         _applyResign.setRes_date(applyResign.getRes_date());
         _applyResign.setRes_reason(applyResign.getRes_reason());
         _applyResign.setApproved(applyResign.isApproved());
-        return new ResponseEntity<>(applyResignRepository.save(_applyResign), HttpStatus.OK);
+
+        ApplyResignResponse response;
+        User _user = _applyResign.getUser();
+        Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+        if(_userMemberData.isPresent()) {
+          UserMember _userMember = _userMemberData.get();
+          response = new ApplyResignResponse(_applyResign.getId(), _user.getStudentno(), _user.getName(),
+                                                _userMember.getDepartment(), _applyResign.getRes_date(), _applyResign.getRes_reason(),
+                                                _applyResign.getDate(), _applyResign.isApproved());
+          return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
@@ -100,14 +152,26 @@ public class ApplyResignController {
 
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/apply-resign/{resignId}/approve")
-    public ResponseEntity<ApplyResign> approveApplyResign(@PathVariable(name="resignId") Long resignId) {
+    public ResponseEntity<ApplyResignResponse> approveApplyResign(@PathVariable(name="resignId") Long resignId) {
       Optional<ApplyResign> resignData = applyResignRepository.findById(resignId);
 
       if (resignData.isPresent()) {
         ApplyResign _applyResign = resignData.get();
         _applyResign.setApproved(true);
         applyResignRepository.save(_applyResign);
-        return new ResponseEntity<>(_applyResign, HttpStatus.OK);
+
+        ApplyResignResponse response;
+        User _user = _applyResign.getUser();
+        Optional<UserMember> _userMemberData = userMemberRepository.findByUserId(_user.getId());
+        if(_userMemberData.isPresent()) {
+          UserMember _userMember = _userMemberData.get();
+          response = new ApplyResignResponse(_applyResign.getId(), _user.getStudentno(), _user.getName(),
+                                                _userMember.getDepartment(), _applyResign.getRes_date(), _applyResign.getRes_reason(),
+                                                _applyResign.getDate(), _applyResign.isApproved());
+          return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }

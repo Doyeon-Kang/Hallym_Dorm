@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardNotice;
@@ -71,11 +72,39 @@ public class BoardNoticeController {
       }
     }
 
+    @GetMapping("/board-notice/my-notice")
+    public ResponseEntity<List<BoardNotice>> getMyBoardNotice (@RequestParam("studentNo") String studentNo) {
+      try{
+        List <BoardNotice> myNotices = boardNoticeRepository.findByWriterStudentNoAndNotice1False(studentNo);
+
+        if(myNotices.isEmpty()){
+          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(myNotices, HttpStatus.OK);
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
+
+    @GetMapping("/board-notice1/my-notice")
+    public ResponseEntity<List<BoardNotice>> getMyBoardNotice1 (@RequestParam("studentNo") String studentNo) {
+      try{
+        List <BoardNotice> myNotices = boardNoticeRepository.findByWriterStudentNoAndNotice1True(studentNo);
+
+        if(myNotices.isEmpty()){
+          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(myNotices, HttpStatus.OK);
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }    
+
     @PostMapping("/board-notice")
     public ResponseEntity<BoardNotice> createBoardNotice(@RequestBody BoardNotice boardNotice) {
       try {
         BoardNotice _boardNotice = boardNoticeRepository
-                    .save(new BoardNotice(boardNotice.getWriter_studentno(), boardNotice.getWriter_name(), boardNotice.getTitle(), boardNotice.getContent(), boardNotice.isNotice1()));
+                    .save(new BoardNotice(boardNotice.getWriterStudentNo(), boardNotice.getWriter_name(), boardNotice.getTitle(), boardNotice.getContent(), boardNotice.isNotice1()));
         return new ResponseEntity<>(_boardNotice, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -87,7 +116,7 @@ public class BoardNoticeController {
 
       if (noticeData.isPresent()) {
         BoardNotice _boardNotice = noticeData.get();
-        _boardNotice.setWriter_studentno(boardNotice.getWriter_studentno());
+        _boardNotice.setWriterStudentNo(boardNotice.getWriterStudentNo());
         _boardNotice.setWriter_name(boardNotice.getWriter_name());
         _boardNotice.setTitle(boardNotice.getTitle());
         _boardNotice.setContent(boardNotice.getContent());

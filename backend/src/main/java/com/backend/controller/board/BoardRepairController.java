@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.board.BoardRepair;
@@ -55,11 +56,26 @@ public class BoardRepairController {
       }
     }
 
+    @GetMapping("/board-repair/my-repair")
+    public ResponseEntity<List<BoardRepair>> getMyBoardRepair (@RequestParam("studentNo") String studentNo) {
+      try{
+        List <BoardRepair> myRepairs = boardRepairRepository.findByWriterStudentNo(studentNo);
+
+        if(myRepairs.isEmpty()){
+          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(myRepairs, HttpStatus.OK);
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }        
+
+
     @PostMapping("/board-repair")
     public ResponseEntity<BoardRepair> createBoardRepair(@RequestBody BoardRepair boardRepair) {
       try {
         BoardRepair _boardRepair = boardRepairRepository
-                    .save(new BoardRepair(boardRepair.getWriter_studentno(), boardRepair.getWriter_name(), boardRepair.getTitle(), boardRepair.getContent()));
+                    .save(new BoardRepair(boardRepair.getWriterStudentNo(), boardRepair.getWriter_name(), boardRepair.getTitle(), boardRepair.getContent()));
         return new ResponseEntity<>(_boardRepair, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -71,7 +87,7 @@ public class BoardRepairController {
 
       if (repairData.isPresent()) {
         BoardRepair _boardRepair = repairData.get();
-        _boardRepair.setWriter_studentno(boardRepair.getWriter_studentno());
+        _boardRepair.setWriterStudentNo(boardRepair.getWriterStudentNo());
         _boardRepair.setWriter_name(boardRepair.getWriter_name());
         _boardRepair.setTitle(boardRepair.getTitle());
         _boardRepair.setContent(boardRepair.getContent());

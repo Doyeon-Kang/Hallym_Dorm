@@ -289,6 +289,7 @@ public class ApplyJoin {
     }
 
     @Column(name="date_join")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate date_join;
     public LocalDate getDate_join() {
         return date_join;

@@ -7,7 +7,7 @@
                 <div class="container" :class="{'status': !status}">
                     <table>
                         <tr v-for="(info, index) in user" :key="index">
-                            <th>{{ index }}</th>
+                            <th>{{ toKorean(index) }} </th>
                             <td>{{ info }}</td>
                         </tr>
                     </table>
@@ -122,6 +122,46 @@
                         this.inout = res
                     })
                 }
+            }, toKorean(entry) {
+//                 `id` INT NOT NULL AUTO_INCREMENT,
+                //   `english_name` VARCHAR(50) COMMENT '영문이름',
+                //   `chinese_name` VARCHAR(10) COMMENT '한자이름',
+                //   `grade` INT NULL COMMENT '학년',
+                //   `gender` VARCHAR(1) NULL COMMENT '성별',
+                //   `nationality` VARCHAR(50) NULL COMMENT '국적',
+                //   `department` VARCHAR(50) NULL COMMENT '대학',
+                //   `major` VARCHAR(50) NULL COMMENT '학과',
+                //   `student_status` VARCHAR(20) NULL COMMENT '학적상태',
+                //   `address` VARCHAR(200) NULL COMMENT '주소',
+                //   `phone` VARCHAR(20) NULL COMMENT '연락처',
+                //   `guardian_name` VARCHAR(50) COMMENT '보호자 성명',
+                //   `guardian_relation` VARCHAR(15) COMMENT '보호자 관계',
+                //   `guardian_phone` VARCHAR(20) COMMENT '보호자 연락처',
+                //   `landline` VARCHAR(20) COMMENT '자택 전화',
+                //   `plusPoint` INT NULL COMMENT '상점',
+                //   `minusPoint` INT NULL COMMENT '벌점',
+                //   `res_fac` INT NULL COMMENT '거주관',
+                //   `res_room` INT NULL COMMENT '거주호실',
+                if(entry === "id") return "아이디"
+                else if (entry === "english_name") return "영문이름"
+                else if (entry === "chinese_name") return "한자이름"
+                else if (entry === "grade") return "학년"
+                else if (entry === "gender") return "성별"
+                else if (entry === "nationality") return "국적"
+                else if (entry === "department") return "대학"
+                else if (entry === "major") return "학과"
+                else if (entry === "student_status") return "학적상태"
+                else if (entry === "address") return "주소"
+                else if (entry === "phone") return "연락처"
+                else if (entry === "guardian_name") return "보호자 성명"
+                else if (entry === "guardian_relation") return "보호자 관계"
+                else if (entry === "guardian_phone") return "보호자 연락처"
+                else if (entry === "landline") return "자택 전화"
+                else if (entry === "plusPoint") return "상점"
+                else if (entry === "minusPoint") return "벌점"
+                else if (entry === "res_fac") return "거주관"
+                else if (entry === "res_room") return "거주호실"
+                else return entry
             }
         },  
         created() {

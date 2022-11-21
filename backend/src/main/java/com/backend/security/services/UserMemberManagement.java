@@ -48,7 +48,7 @@ public class UserMemberManagement {
                 ApplyResign _applyResign = _applyResignData.get();
                 if((_applyResign.getRes_date().isBefore(LocalDate.now()) || _applyResign.getRes_date().isEqual(LocalDate.now()))
                     && (_applyResign.isApproved())) {
-                        userMemberRepository.deleteById(_userMember.getId());
+                        // userMemberRepository.deleteById(_userMember.getId());
                         // detele user_member from roles
 
                         Set<Role> roles = user.getRoles();
